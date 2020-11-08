@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>框架标签，注意没有body标签了</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <!-- frameset是将网页分为n个部分，可以横切用rows、竖切用cols，每个部分可以加载网页，注意各个区域相互不影响
+        属性：
+            rows：按照行进行切分页面；
+            cols：按列切分；
+        子标签：
+            frame：进行切分区域的点位，一个frame可以单独加载网页资源；
+                属性：
+                    src：资源路径；
+                    name：区域名，结合超链接使用
+    -->
+    <frameset rows="10%,*,10%">
+        <frame src="testFrameset/top.html" >
+        <frameset cols="10%,*">
+            <frame src="testFrameset/left.html">
+            <frame src="testFrameset/right.html" name="rightFrame">
+        </frameset>
+    </frameset>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

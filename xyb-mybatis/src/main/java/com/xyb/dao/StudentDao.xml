@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 指定约束文件，mybatis-3-mapper是约束文件名称 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    mapper：必须是根标签
+        namespace属性：命名空间，唯一值，可以是自定义的字符串，尽量使用dao接口的全限定名。
+    select：查询操作
+        id属性：要执行的sql语法的唯一标识，mybatis会使用这个id值来找到要执行的sql，可以
+            自定义，但要求使用接口中的方法名称；
+        resultType属性：表示结果类型的，是sql语句执行后得到ResultSet，遍历这个ResultSet得
+            到java对象的类型，即返回的类型，如果返回list，则是list的元素的类型，用全限定名；
+        parameterType属性：接口中方法参数的数据类型，值是java中的数据类型的全限定名，有别名，从
+            mybatis的官网查询，如parameterType="java.util.Integer"，或"int"，
+            注意，这个属性不是必须写的，mybatis通过反射机制能够发现接口参数的数据类型
+
+    insert：插入操作
+        用#{属性名}，可以取到参数的对应的属性的值。
+
+     -->
+<mapper namespace="com.xyb.dao.StudentDao">
+
+    <!-- sql代码片段，就是复用一些语法，用include标签引用 -->
+    <sql id="colSql">
+        id, name, email, age
+    </sql>
+
+    <select id="getAllStu" resultType="com.xyb.entity.Student">
+        SELECT
+        <include refid="colSql"/>
+        FROM student
+        ORDER BY id
+    </select>
+
+    <select id="getNextMaxId" resultType="int">
+      SELECT MAX(id) + 1
+      FROM student
+    </select>
+
+    <insert id="insertStu" parameterType="com.xyb.entity.Student">
+      INSERT INTO student
+      VALUE(#{id}, #{name}, #{email}, #{age})
+    </insert>
+
+    <!-- 测试if标签，其中方法参数为对象，注意参数不能加@Param注解 -->
+    <select id="testIfWhereParamIsObject" parameterType="com.xyb.entity.Student" resultType="com.xyb.entity.Student">
+        SELECT id, name, email, age
+        FROM student
+        WHERE 1=1
+        <if test="name != null and name != ''">
+            AND name = #{name}
+        </if>
+        <if test="id != null and id != ''">
+            AND id = #{id}
+        </if>
+    </select>
+
+    <!--
+        测试where标签，其中方法参数为对象，注意参数不能加@Param注解，这个和if很相似，哪个属性有，则保留哪个，
+        但会将无效的字符去掉，如and、or等。
+        比如name有值，id无值，则应该是SELECT * FROM student WHERE name = '5'
+        比如name无值，id有值，则会将无效字符去掉，SELECT * FROM student WHERE id = 5
+    -->
+    <select id="testWhereParamIsObject" parameterType="com.xyb.entity.Student" resultType="com.xyb.entity.Student">
+        SELECT id, name, email, age
+        FROM student
+        <where>
+            <if test="name != null and name != ''">
+                AND name = #{name}
+            </if>
+            <if test="id != null and id != ''">
+                OR id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <!--
+        测试foreach标签，集合中是简单类型
+        foreach：
+            collection属性：表示接口中的方法参数的类型，如果是数组则为array，
+                如果是list则为list；
+            item：自定义的，表示和集合成员的变量；
+            open：循环开始时的字符；
+            close：循环结束时的字符；
+            separator：集合成员之间的分隔符。
+    -->
+    <select id="testForeach1" resultType="com.xyb.entity.Student">
+        SELECT id, name, email, age
+        FROM student
+        WHERE id IN
+        <foreach collection="list" item="myId" open="(" close=")" separator=",">
+            #{myId}
+        </foreach>
+    </select>
+
+    <!--
+        测试foreach标签，集合中不是简单类型
+    -->
+    <select id="testForeach2" resultType="com.xyb.entity.Student">
+        SELECT id, name, email, age
+        FROM student
+        WHERE id IN
+        <foreach collection="list" item="stu" open="(" close=")" separator=",">
+            #{stu.id}
+        </foreach>
+    </select>
+
+
+</mapper>

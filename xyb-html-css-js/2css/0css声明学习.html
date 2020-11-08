@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>css声明学习</title>
+        <meta charset="UTF-8"/>
+        <!--
+            为什么需要css？
+                html是负责展示数据，对数据的样式操作并不方便，所以有了css。
+            什么是css？
+                层叠样式表，用于给网页进行样式的开发，给网页布局。
+            css的使用：
+                css声明、选择器、常用样式、盒子模型、定位、布局。
+
+            css声明：这3个的优先级，是根据哪个代码后运行，显示哪个，当声明全部在head中，
+                可以理解为就近原则，标签离谁近，就使用谁的。
+                1、在具体标签上使用style属性进行声明，此声明会将css样式直接作用于
+                    当前标签。
+                2、在head标签中使用style标签声明，此声明一般声明当前网页的公共样式
+                    或者给某个标签的单独样式。
+                3、在head标签中使用link标签引入外部声明好的css文件，相当于调用，解决
+                    了不同网页间样式重复使用的问题，一次声明，各处使用。
+         -->
+
+        <link rel="stylesheet" type="text/css" href="cssFiles/myCss.css" />
+
+        <!-- 在head标签中使用style标签声明 -->
+        <style type="text/css">
+            hr{
+                width: 50%;
+                height: 20px;
+                color: red;
+                background-color: green;
+            }
+        </style>
+    </head>
+    <body>
+        <h3>css的声明学习</h3>
+        <hr />
+        <!-- 在具体标签上使用style属性进行声明 -->
+        <hr style="background-color: red"/>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

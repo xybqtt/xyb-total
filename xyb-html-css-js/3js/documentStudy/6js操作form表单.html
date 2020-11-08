@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>js操作form表单</title>
+        <meta charset="UTF-8" />
+        <!--
+            js操作form表单：
+                获取form表单对象：
+                    1、使用id；
+                    2、使用name属性：直接通过document.form表单name，var frm = document.frm;
+                获取form表单下所有表单元素对象集合：
+                    fm.elements;
+                form表单的常用方法：
+                    fm.submit(); 提交表单
+                    fm.reset(); 重置表单
+                    fm.action = "路径"; 更改提交地址
+                    fm.method = "get"; 更改提交方式
+
+            js操作表单元素的通用属性：
+                设置表单元素只读：
+                    元素对象.readOnly = true; // 不可更改，但可提交，注意是js中的属性是readOnly，不是readonly
+                设置表单元素不可用：
+                    元素对象.disabled = true; // 不可进行任何操作，不可提交
+
+         -->
+        <script type="text/javascript">
+            
+            function testForm(event) {
+                var fm = document.getElementById("fm");
+
+                // 获取form表单的特殊操作，直接通过document.form表单name
+                var frm = document.frm;
+
+                switch (event.id){
+                    case "btn0":
+                        alert(fm.elements.length);
+                        break;
+                    case "submitBtn":
+                        // 1、提交form表单，而不是使用submit按钮
+                        fm.submit();
+                        break;
+                    case "resetBtn":
+                        // 2、重置表单
+                        fm.reset();
+                        break;
+                    case "changeUrlBtn":
+                        // 3、更改提交路径
+                        if(fm.action != "http://www.baidu.com/")
+                            fm.action = "http://www.baidu.com/";
+                        else
+                            fm.action = "http://www.taobao.com/";
+                        console.log("fm.action=" + fm.action);
+                        break;
+                    case "changeGPBtn":
+                        // 4、更改提交方式
+                        if(fm.method == "get")
+                            fm.method = "post";
+                        else
+                            fm.method = "get";
+                        console.log("fm.method=" + fm.method);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
+        </script>
+    </head>
+    <body>
+        <h3>js操作form表单</h3>
+        <input type="button" name="" id="btn0" value="获取表单元素个数" onclick="return testForm(this);" />
+        <input type="button" name="" id="submitBtn" value="使用js提交表单" onclick="return testForm(this);" />
+        <input type="button" name="" id="resetBtn" value="使用js重置表单" onclick="return testForm(this);" />
+        <input type="button" name="" id="changeUrlBtn" value="使用js更改表单提交地址" onclick="return testForm(this);" />
+        <input type="button" name="" id="changeGPBtn" value="使用js更改表单提交方式" onclick="return testForm(this);" />
+        <hr />
+        <form id="fm" name="frm" action="#" method="get">
+            用户名：<input type="text" name="uname" id="uname" value="" readonly="readonly" disabled="disabled" /><br />
+            密码：<input type="password" name="pwd" id="pwd" value="" /><br />
+            <input type="submit" name="" id="" value="登陆" />
+        </form>
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

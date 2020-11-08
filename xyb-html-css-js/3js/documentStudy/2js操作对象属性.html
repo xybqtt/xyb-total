@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>js操作doc对象属性</title>
+        <meta charset="UTF-8" />
+        <!--
+            操作html元素对象的属性
+         -->
+        <script type="text/javascript">
+
+            // 获取固有和自定义元素属性的值
+            function getUserField() {
+                var user = document.getElementById("inId");
+                console.log("用户名的固有属性值获取：type=" + user.type + ", id=" + user.id + ", " +
+                    "name=" + user.name + ", value=" + user.value);
+
+                // 注意，使用获取自定义属性值的方式来获取固有属性的内容值时，value属性获取的是默认值，不是实时值。
+                var myField = user.getAttribute("abc");
+                console.log("用户名的自定义属性值获取：abc=" + myField);
+                console.log();
+            }
+
+            // 修改元素固有属性值、和自定义属性值
+            function modifyUserField() {
+                var user = document.getElementById("inId");
+                // 修改固有属性值
+                user.value = new Date().getTime();
+
+                // 修改自定义属性值
+                user.setAttribute("abc", "这是修改后的abc的值");
+                console.log("用户名修改自定义属性abc后的值：" + user.getAttribute("abc"));
+                console.log();
+
+            }
+
+        </script>
+    </head>
+    <body>
+        用户名：<input type="text" id="inId" name="inName" value="张三" abc="这是自定义属性abc" /><br />
+        <hr />
+        <input type="button" onclick="return getUserField();" value="获取用户名控件属性" />
+        <input type="button" onclick="return modifyUserField();" value="修改用户名控件属性" />
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

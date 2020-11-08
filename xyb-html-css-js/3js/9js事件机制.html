@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>js事件机制</title>
+        <meta charset="UTF-8"/>
+        <!--
+            一个html标签的事件可以触发多个方法，用;隔开即可，对于事件如何想取消需要
+            返回false，注意不仅方法要返回false，还要OnClick="return fn()";要在事件调用时
+            用return。
+        -->
+        <script type="text/javascript">
+
+            function testOnClick(event){
+                console.log("我是单击，这样可以获取控件信息：" + event.type);
+            }
+
+            function testOndblclick() {
+                console.log("我是双击");
+            }
+            function testOnmouseover() {
+                console.log("鼠标悬停");
+            }
+            function testOnmouseleave() {
+                console.log("鼠标离开");
+            }
+            function testOnmousemove() {
+                console.log("鼠标移动");
+            }
+            function testOnkeyup() {
+                console.log("键盘弹起");
+            }
+            function testOnkeydown() {
+                console.log("键盘落下");
+            }
+            function testOnfocus() {
+                console.log("获得焦点");
+            }
+            function testOnblur() {
+                console.log("失去焦点");
+            }
+
+            function testOnload() {
+                alert("页面加载事件，写在body的onload属性中，是在页面刚加载的时候就运行。");
+            }
+            function testOnchange() {
+                alert("内容改变且失去焦点时出现");
+            }
+            function testRefuse() {
+                alert("测试事件阻断，当事件调用的js函数返回false时，并且html标签return 这个false返回值，html本身的功能会被阻断掉，像跳转网页就会被阻断。");
+                return false;
+            }
+        </script>
+    </head>
+    <body onload="testOnload();">
+        <input type="button" name="" id="1" value="测试单击" onclick="testOnClick(this);testOnload();" />
+        <input type="button" name="" id="2" value="测试双击" ondblclick="testOndblclick();" />
+        <input type="button" name="" id="3" value="测试鼠标悬停" onmouseover="testOnmouseover();" onmouseleave="testOnmouseleave();"  onmousemove="testOnmousemove();"/>
+        <hr />
+        键盘事件学习：<input type="text" name="" id="4" onkeyup="testOnkeyup();" value="键盘弹起" /><br />
+        <input type="text" name="" id="5" onkeydown="testOnkeydown();" value="键盘下压" />
+        <hr />
+        <input type="text" onfocus="testOnfocus();" value="获得焦点" /><br />
+        <input type="text" onblur="testOnblur();" value="失去焦点" /><br />
+        <hr />
+        <select name="" id="6" onchange="testOnchange();">
+            <option>北京</option>
+            <option>上海</option>
+            <option>深圳</option>
+        </select>
+        <a href="http://www.baidu.com" onclick="return testRefuse();" target="_blank">百度一下(测试事件阻断)</a>
+        <a href="http://www.baidu.com" onclick="javascript:return testRefuse();" target="_blank">用超链接调用js函数</a>
+        <a href="http://www.baidu.com" onclick="javascript:testRefuse();" target="_blank">用超链接调用js函数2</a>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

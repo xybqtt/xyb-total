@@ -1,0 +1,74 @@
+<!--
+    html4、5声明方式不一样：
+    html5：<!DOCTYPE html>
+    html4.01：
+        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01
+        Transitional//EN""http://www/w3.org/TR/html4/loose.dtd" >
+    XHTML1.0:
+        <!DOCTYPE html PUBLIC" -//W3C//DTD XHTML 1.0 Transitional//
+        EN""http://www/w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+
+    html元素：<p>11</p>这个整体代表一个html元素。
+    html元素内容：<p>11</p>中的11就是元素内容。
+    所有html元素通用属性：
+        class：规定元素的类名；
+        id：规定元素唯一id；
+        style：规定元素的样式；
+        title：规定元素的额外信息。
+ -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- 告诉浏览器使用什么标题显示网页 -->
+        <title>标题</title>
+
+        <!-- html5设置指定编码格式 -->
+        <meta charset="UTF-8"/>
+
+        <!-- html4设置指定编码格式 -->
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+
+        <!-- 网页关键字，提升搜索引擎的搜索概率 -->
+        <meta name="keywords" content="HTML,许亚彪"/>
+
+        <!-- 网页描述 -->
+        <meta name="description" content="网页描述"/>
+
+        <!-- 网页作者 -->
+        <meta name="author" content="许老师"/>
+
+        <!-- 设置打开网页后，n秒跳转到相关页面 -->
+        <!--<meta http-equiv="refresh" content="5;url=http://www.baidu.com" />-->
+
+
+    </head>
+    <!-- background：设置背景图片。bgcolor：设置背景色。 -->
+    <body background="" bgcolor="#faebd7">
+        <!-- h1-h6，align属性：左left、中center、右right -->
+        <h1 align="center">h1最大，h6最小，块级元素</h1>
+        <hr width="50%" size="20" color="red"/> <!-- 水平线 -->
+        <p>p标签会将一段数据作为整体显示，主要是进行css和js操作方便，会自动换行，块级元素</p>
+        <p><b>加黑</b><i>变斜</i><u>下划线</u>
+            <del>中划线</del>
+        </p>
+        <hr/>
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

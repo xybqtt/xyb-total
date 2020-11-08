@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- mybatis的主配置文件：主要定义了数据库的配置信息，sql映射文件位置 -->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 读取properties文件，用${key}取值 -->
+    <properties resource="config/jdbc.properties"></properties>
+
+    <!-- settings：控制mybatis全局行为 -->
+    <settings>
+        <!-- name=logImpl value=STDOUT_LOGGING 用来显示mybatis日志。-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!-- 起别名，两种方式，但建议不是用全限定名 -->
+    <typeAliases>
+        <!-- 1)一个一个起别名 -->
+        <typeAlias type="com.xyb.entity.FnResult" alias="fnResult"/>
+        <!-- 2)将包名下的所有类型的全限定名的别名起为类名，不区分大小写 -->
+        <package name="com.xyb.entity"/>
+    </typeAliases>
+    
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>
+    </plugins>
+
+    <!--
+        environments：多个环境配置
+            default属性：默认用哪个环境，值为environment标签的id值。
+    -->
+    <environments default="development">
+        <!-- id属性：一个唯一值，自定义，表示环境的名称。 -->
+        <environment id="development">
+            <!--
+                transactionManager：mybatis提交事务，回滚事务的方式
+                    type属性：事务处理的类型
+                        1)JDBC：表示mybatis底层是调用jdbc中的connection对象的commit、rollbck；
+                        2)MANAGED：把mybatis的事务处理委托给其它的窗口(服务器软件、框架等)。
+                    property：
+                        name属性：driver、url、username、password这四个值是mybatis用来配置数据
+                            库的，不可更改。
+             -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--
+                dataSource：表示数据源，java体系中，规定实现了javax.sql.DataSource接口的都是数据源，
+                    数据源表示Connection对象。
+                    type属性：指定数据源的类型
+                        1)POOLED：使用连接池，mybatis会创建PooledDataSource类；
+                        2)UPOOLED：不使用连接池，在每次执行sql语句，先创建连接，执行sql，关闭连接，
+                            mybatis会创建一个UnPooledDataSource，管理Connection。
+                        3)JDNI：java命名和目录服务，使用少。
+             -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.pwd}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- mappers：指定sql映射文件的位置 -->
+    <mappers>
+        <!--
+            读取mapper.xml文件的第1种方式，
+            resource属性：从类路径开始的路径信息，从编译后的class目录的下一级开始。
+                记得打开pom.xml下的builc.resource的内容，不然不能在
+            源代码中搜到xml文件。
+        -->
+        <mapper resource="com/xyb/dao/StudentDao.xml"/>
+        <mapper resource="com/xyb/dao/FnParamDao.xml"/>
+        <mapper resource="com/xyb/dao/FnResultDao.xml"/>
+
+        <!--
+            第2种方式，读取这个包下的mapper.xml文件，
+            注意，
+                1)mapper.xml文件和接口必须在同一包下，
+                2)mapper.xml和mapper.java的文件名必须一致(除了后缀),
+                3)要使用mybatis代理
+                4)还要记得打开pom.xml下的builc.resource的内容，不然不能在
+            源代码中搜到xml文件。
+         -->
+        <!--<package name="com.xyb.dao"/>-->
+    </mappers>
+
+
+</configuration>

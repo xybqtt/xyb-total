@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>js操作文档结构</title>
+        <meta charset="UTF-8" />
+        <!--
+            操作文档结构2：
+                创建元素对象：
+                    document.getElementById("标签名")；
+                添加元素子对象：
+                    元素对象.append(子元素对象);
+                删除子元素对象：
+                    元素对象.removeChild(子元素对象);
+         -->
+        <script type="text/javascript">
+
+            function addOneRow() {
+
+                var div = document.getElementById("showDiv");
+
+                // 创建元素
+                var inp = document.createElement("input");
+                inp.type = "file";
+
+                var br = document.createElement("br");
+
+                var btn = document.createElement("input");
+                btn.type = "button";
+                btn.value = "删除";
+                btn.onclick = function (ev) {
+                    div.removeChild(inp);
+                    div.removeChild(br);
+                    div.removeChild(btn);
+                };
+
+                div.appendChild(inp);
+                div.appendChild(btn);
+                div.appendChild(br);
+            }
+        </script>
+    </head>
+    <body>
+        <h3>js操作文档结构</h3>
+        <input type="button" id="btn1" name="" value="添加1行" onclick="return addOneRow();" /><br />
+        <hr />
+        <div id="showDiv" style="border: solid 2px cornflowerblue;">
+
+        </div>
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>表单</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <!--
+            form：
+                作用：收集并提交用户数据给指定服务器；注意，只会提交表单域中的数据，即input标签内，且有name属性的的东西。
+                注意：form标签会收集其标签内部的数据
+                属性：
+                    action：收集的数据提交地址，即url
+                    method：收集数据的提交方式
+                        get显式提交或post隐式提交
+            form表单域标签：给用户提供可以进行数据书写或选择的标签，表单数据提交的是value值
+                input：
+                    属性：
+                        type：
+                            text：收集少量的文本数据；
+                            password：密码类型；
+                            radio：单选框，name属性相同的input，属于同一个选择；
+                            checkbox：多选框；
+                            button：普通按钮；
+                            hidden：隐藏；
+                            submit：提交数据到form.action的url，这个不需要name属性；
+                        name：如果想要提交数据，则name必须有，否则后台不能取，是以键值对提交的
+                        value：默认值；
+                        cheched：使用此属性的单选框或多选框默认是选择状态；
+                        id：唯一标识；
+                select：下拉框
+                    属性：
+                        name：
+                    子标签：
+                        option：下拉选择项
+                            属性：
+                                value：下拉选项值；
+                                selected：默认选择的下拉选项；
+                textarea：声明一个可以书写大量文字的
+                    属性：
+                        name：数据提交的键名，js和css也会使用；
+                        rows：文本域的行数；
+                        cols：列数；
+         -->
+        <form action="#" method="get">
+            <table border="0px" cellspacing="0" cellpadding="2px">
+                <tbody>
+                    <tr height="60px">
+                        <td  width="100px">用户名：</td>
+                        <td width="200px">
+                            <input type="text" name="userName" value="123" id="userName" />
+                        </td>
+                    </tr>
+                    <tr height="60px">
+                        <td>年龄：</td>
+                        <td>
+                            <input type="number" name="userAge" />
+                        </td>
+                    </tr>
+                    <tr height="60px">
+                        <td>性别：</td>
+                        <td>
+                            男<input type="radio" name="sex" value="1" checked="checked" />
+                            女<input type="radio" name="sex" value="0" />
+                        </td>
+                    </tr>
+                    <tr height="60px">
+                        <td>爱好：</td>
+                        <td>
+                            吃饭<input type="checkbox" name="fav" value="1" checked="checked" /><br />
+                            睡觉<input type="checkbox" name="fav" value="2" /><br />
+                            打豆豆<input type="checkbox" name="fav" value="3" /><br />
+                        </td>
+                    </tr>
+                    <tr height="60px">
+                        <td>籍贯：</td>
+                        <td>
+                            <select name="address">
+                                <option value="">---请选择---</option>
+                                <option value="1">上海</option>
+                                <option value="2">北京</option>
+                                <option value="3" selected="selected">运城</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr height="60px">
+                        <td>
+                            <input type="submit" value="登陆">
+                        </td>
+                        <td>
+                            <input type="button" name="simpleButton" value="普通按钮"/>
+                            <input type="hidden" name="hiddenData" value="隐藏标签"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <tr height="60px">
+                <td>文本域：</td>
+                <td>
+                    <textarea name="intro" rows="5" cols="8">不能在td中显示</textarea>
+                </td>
+            </tr>
+        </form>
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>jQuery的闭包原理</title>
+        <meta charset="UTF-8"/>
+        <!-- js在html中的两种声明方式，引用外部文件和内部自己写js代码 -->
+        <script type="text/javascript">
+            var a = 5;
+
+            /**
+             * 全局变量无法保存值，因为只要有全局变量名，那我们就可以更改它的变量值，无法使值常驻内存，
+             * 所以，我们想让1个值常驻内存，必然不能有变量名。
+             */
+            function changeVarA() {
+                console.log("改变前a的类型=" + typeof(a) + "，值=" + a);
+                a = "123";
+                console.log("改变后a的类型=" + typeof(a) + "，值=" + a);
+            }
+
+            // function Person1(name, age){
+            //     this.name = name;
+            //     this.age = age;
+            //     this.address;
+            //     this.test = function () {
+            //         return "这是person.test方法";
+            //     }
+            // }
+
+            function outer(){
+
+                // var b = new Person1("张三", 15);
+                let c = 5;
+                return function () {
+                    // console.log("b" + b.name);
+                    console.log("c=" + c);
+                };
+            }
+
+            a = outer();
+            console.log(a());
+
+            function setCNull() {
+                console.log("setCNull:" + c[0].name);
+                c = null;
+            }
+
+            // function f1() {
+            //     console.log("f1");
+            //     let a = 5;
+            //     f2();
+            // }
+            //
+            // function f2() {
+            //     console.log("f2");
+            //     let b = 5;
+            //     f3();
+            // }
+            //
+            // function f3() {
+            //     let c = 5;
+            //     console.log("f3");
+            // }
+            //
+            // f1();
+
+
+
+
+
+            
+
+        </script>
+    </head>
+    <body>
+        <h3>jQuery的闭包原理</h3>
+        <hr />
+        <div>
+            <h1>我们想让一个值(不是变量)常驻内存需要解决哪几个问题？</h1>
+            1、不能有明确的变量指向此值所在的地址，不然，我们就可以通过给此变量重新赋值，从而没有东西指向此地址，此值会被gc收走；<br />
+            2、必须有东西指向这个值所在的地址，即保持引用，不然会被gc收走。<br />
+
+            如何解决问题1？
+            方法外部是无法访问方法内部的变量的
+            <ul>
+                <li>
+                    <input type="button" value="测试全局变量无法使值常驻内存" onclick="return changeVarA();">
+                </li>
+                <li>
+                    <input type="button" value="2222222" onclick="return setCNull();">
+                </li>
+
+            </ul>
+
+        </div>
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

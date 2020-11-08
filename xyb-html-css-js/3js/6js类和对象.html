@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>js类和对象</title>
+        <meta charset="UTF-8"/>
+        <script type="text/javascript">
+            /**
+             * 1、类的声明--person，注意，每声明一个类的对象，其中的方法都会占用内存，所以建议将方法写在类的prototype中，如2.1所示
+             * 类似java的静态方法，只占用1份内存。
+             * 类只会声明公共的地方，更像java中的父类，子类有什么需要，单独声明即可，声明方式person.newField = "";
+             */
+            function Person(name, age){
+                this.name = name;
+                this.age = age;
+                this.address;
+                this.test = function () {
+                    return "这是person.test方法";
+                }
+            }
+
+            /**
+            * 2、方法的重写，js类的prototype类似java中的静态方法区和静态变量区，但js不能直接调用静态方法和属性，必须通过对象来调用。
+             * 可用下面两种方式重写，
+            * */
+            // 2.1使用prototype给类添加方法，这方法类似java静态方法
+            Person.prototype.personProFn1 = function () {
+                return "这是Person.prototype.personProFn1静态方法";
+            }
+            // 2.2重写toString方法，注意不能重写类声明中的方法，因为重写了，不知道要调用哪个
+            Person.prototype.toString = function () {
+                console.log(this.name + "，" + this.age + ", " + this.address);
+            }
+
+            // 可以用prototype给此类添加别的类的对象如a1，那么就可以使用a1的类的方法和属性，如果a1再用prototype添加了a3类，则可以调用a3的相关方法和属性
+            function User(userName, password){
+                this.userName = userName;
+                this.password = password;
+                this.userFn1 = function () {
+                    return "这是user.userFn1";
+                }
+            }
+            User.prototype.userProFn1 = function(){
+                return "这是User.prototype.userProFn1静态方法";
+            }
+
+            /**
+             * 注意，User静态方法区的地址和'Person.prototype.user = new User()的user'的静态方法区地址一样。
+             * 同样，User静态方法区的地址和'Person.prototype = new User()'中的User的静态方法区地址也一样。
+             * */
+
+
+            console.log("当Person.prototype.user = new User()时，即给new User()引用变量user时：");
+            Person.prototype.user = new User("userName", 111);
+            var person = new Person("111", 111)
+            console.log("  User的静态方法和user的方法、属性，都不可以直接使用'person.'调用，必须使用'person.user.'调用，严格来说，是'Person.prototype.user'的内容。如");
+            console.log("    1、person.userName(会变为undefined，因为只声明未定义，即使Person中无userName属性) = " + person.userName);
+            // console.log("    2、person.userFn1(会报错，因为没有这个方法) = " + person.userFn1());
+            // console.log("    3、person.userProFn1(会报错，因为没有这个方法) = " + person.userProFn1());
+            console.log("    4、person.user.userFn1 = " + person.user.userName);
+            console.log("    5、person.user.userProFn1() = " + person.user.userFn1());
+            console.log("    6、person.user.userProFn1() = " + person.user.userProFn1());
+            var isEqual = (person.user.userProFn1 === new User("1", 1).userProFn1);
+            console.log("  比较person.user.userProFn1方法和User.userProFn1方法是否是同一个对象：person.user.userProFn1 === new User(\"1\", 1).userProFn1 为 " + isEqual + "" +
+                "，是，因为它们指向同一块内存区域。");
+            console.log("  既然是属于'person.user.'的，那就可以对这些属性和方法进行重写，如：")
+            person.user.userFn1 = function () {
+                return "这是用person.user.userFn1将user.userFn1()重写后的方法";
+            }
+            person.user.userProFn1 = function () {
+                return "这是用person.user.userProFn1将User.userProFn1()重写后的方法";
+            }
+            isEqual = (person.user.userProFn1 == new User("1", 1).userProFn1);
+            console.log("    7、person.user.userFn1() = " + person.user.userFn1());
+            console.log("    8、person.user.userProFn1() = " + person.user.userProFn1());
+            console.log("  再次比较person.user.userProFn1方法和User.userProFn1方法是否是同一个对象：person.user.userProFn1 == new User(\"1\", 1).userProFn1 为 " + isEqual + "" +
+                "，否，因为person.user.userProFn1被重新赋值了一个新的function对象，指向了另一块区域(可以在重写前，将func对象赋值给另一个变量，用作对比)。");
+
+
+            person = null;
+
+            console.log("\\");
+            console.log("当Person.prototype = new User()时，不给new User()引用变量时");
+            Person.prototype = new User("noUserName", 111);
+            var person = new Person("123", 123);
+            console.log("  User的静态方法和user的方法、属性，都可以直接使用'person.'调用，即user的属性方法、静态方法都属于person实例，严格来说，是属于'Person.prototype'的：");
+            console.log("    1、person.userName = " + person.userName);
+            console.log("    2、person.userFn1() = " + person.userFn1());
+            console.log("    3、person.userProFn1() = " + person.userProFn1());
+            console.log("  既然是属于'person.'的，那就可以对这些属性和方法进行重写，如：")
+            person.userFn1 = function () {
+                return "这是用person.userFn1重写user.userFn1()";
+            }
+            person.userProFn1 = function () {
+                return "这是用person.userProFn1重写User.userProFn1()";
+            }
+            console.log("    4、person.userFn1() = " + person.userFn1());
+            console.log("    5、person.userProFn1() = " + person.userProFn1());
+
+
+
+
+            /**
+             * 3、类的使用，js中的类，只包含了共有的属性和方法，即我再用p1.add2 = "5";也不会报错，而且会给p1对象创建1个add2属性。
+             * */
+            var p1 = new Person("张三", 32);
+            p1.address = "123";
+            p1.add2 = "456";
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>js操作元素内容</title>
+        <meta charset="UTF-8" />
+        <style type="text/css">
+            #div01{
+                width: 200px;
+                height: 200px;
+                border: solid 1px orange;
+            }
+        </style>
+        <!--
+            操作元素内容：
+                获取元素对象：
+                    获取：
+                        元素对象名.innerHTML // 返回当前元素对象的所有内容，包括html标签；
+                        元素对象名.innerText // 返回当前元素对象的所有文本内容，不包括html标签；
+                    修改：
+                        元素对象名.innerHTML = "新的值" // 会将原有的值覆盖，可以使用div.innerHTML = div.innerHTML + "新的值" 就是追加了；
+                        元素对象名.innerText = "新的值" // 会将原有的值覆盖，可以使用div.innerText = div.innerText + "新的值" 就是追加了，
+                            但是会将原来的html内容，也变成文本，不建议使用；
+         -->
+        <script type="text/javascript">
+            // 获取元素的内容
+            function getEleInnerHTML() {
+                var div = document.getElementById("div01");
+                console.log("div01的html内容(会将html标签内容打印出来)：" + div.innerHTML);
+                console.log("div01的html文本内容(不会将html标签内容打印出来)：" + div.innerText);
+                console.log();
+            }
+
+            // 修改元素的内容
+            function updateEleInnerHTML(event) {
+                var div = document.getElementById("div01");
+                if(event.id == "in2")
+                    div.innerHTML = "<b>" + new Date().getTime() + "</b><br />";
+                if(event.id == "in3")
+                    div.innerText = new Date().getTime();
+                if(event.id == "in4")
+                    div.innerText = div.innerText + "，" + new Date().getTime();
+            }
+
+        </script>
+    </head>
+    <body>
+        <h3>js操作元素内容学习</h3>
+        <input type="button" id="in1" name="" value="获取元素的html内容" onclick="return getEleInnerHTML();" />
+        <input type="button" id="in2" name="" value="修改元素的html内容-innerHTML" onclick="return updateEleInnerHTML(this);" />
+        <input type="button" id="in3" name="" value="修改元素的text内容-innerText" onclick="return updateEleInnerHTML(this);" />
+        <input type="button" id="in4" name="" value="追加元素的text(html同理)内容" onclick="return updateEleInnerHTML(this);" />
+        <hr />
+        <div id="div01">
+            <b>基基本基基基本基基</b>
+        </div>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

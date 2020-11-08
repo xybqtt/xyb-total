@@ -1,0 +1,66 @@
+0、设置提交代码时的用户信息：
+    git config --global user.name 'runoob'
+    git config --global user.email test@runoob.com
+
+
+1、git clone <repo> [<directory>]：git克隆远程仓库到具体目录，例git clone git@github.com:xybqtt/xyb-total.git D:/java/idea200101/topWorkspace
+    注意，本地目录不能存在。
+2、git init：初始化仓库。
+
+3、工作区：
+    1)git checkout：此命令用来放弃掉所有还没有加入到缓存区（就是 git add 命令）的修改：内容修改与整个文件删除，
+        但是此命令不会删除掉刚新建的文件。因为刚新建的文件还没已有加入到 git 的管理系统中。所以对于git是未知
+        的。自己手动删除就好了。
+
+        git checkout -- filepathname：放弃单个文件修改,注意不要忘记中间的"--",不写就成了检出分支了!
+        git checkout . :放弃所有的文件修改。
+
+4、暂存区：已经进行git add 操作的
+    1)git add：添加工作区文件到暂存区，
+        git add [file1] [file2] ...：添加多个文件到暂存区；
+        git add [dir]：添加指定目录到暂存区，包括子目录；
+        git add .：添加当前目录下的所有文件到暂存区。
+        
+    2)git rm：用于删除文件，
+        git rm <file>：将文件从暂存区和工作区中删除(文件从磁盘上不见了)；
+        git rm -f <file>：如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f(文件从磁盘上不见了)；
+        git rm --cached <file>：如果想把文件从暂存区域移除，但仍然希望保留在当前工作目录中，
+            换句话说，仅是从跟踪清单中删除，使用--cached选项即可(文件还在，但是不被git跟踪了)。
+        git rm –r *：可以递归删除，即如果后面跟的是一个目录做为参数，则会递归删除整个目录中的所有子目录和文件，
+            进入某个目录中，执行此语句，会删除该目录下的所有文件和子目录。
+        
+    3)git reset：命令用于回退已提交到暂存区版本，可以指定退回某一次提交的版本，即取消git add的添加(注意，要放弃修改，还需要git checkout)，
+        git reset [--soft | --mixed | --hard] [HEAD]：
+            --mixed 为默认，可以不用带该参数，用于重置暂存区的文件与上一次的提交(commit)保持一致，工作区文件内容保持不变；
+            --soft参数用于回退到某个版本；
+            --hard参数撤销工作区中所有未提交的修改内容，将暂存区与工作区都回到上一次版本，并删除之前的所有信息提交。
+            HEAD 说明：
+                HEAD 表示当前版本
+                HEAD^ 上一个版本
+                HEAD^^ 上上一个版本
+                HEAD^^^ 上上上一个版本
+                以此类推...
+                可以使用 ～数字表示
+                HEAD~0 表示当前版本
+                HEAD~1 上一个版本
+                HEAD^2 上上一个版本
+                HEAD^3 上上上一个版本
+        git reset HEAD^            # 回退所有内容到上一个版本  
+        git reset HEAD^ hello.php  # 回退 hello.php 文件的版本到上一个版本  
+        git reset 052e             # 回退到指定版本
+        git reset --soft HEAD
+        git reset --soft HEAD~3 # 回退上上上一个版本
+        git reset –hard HEAD~3  # 回退上上上一个版本  
+        git reset –hard bae128  # 回退到某个版本回退点之前的所有信息。 
+        git reset --hard origin/master    # 将本地的状态回退到和远程的一样 
+
+5、本地仓库：已经进行git commit操作的
+    1)git commit：将暂存区内容添加到本地仓库中，
+        git commit -m [message]：提交暂存区到本地仓库中，[message] 可以是一些备注信息；
+        git commit [file1] [file2] ... -m [message]：提交暂存区的指定文件到仓库区；
+        git commit -a： 参数设置修改文件后不需要执行 git add 命令，直接来提交。
+    2)git reset --hard commitid **：此命令可以用来回退到任意版本。
+    3)git commit --amend -m"说明"：修改commit说明
+    
+6、
+    

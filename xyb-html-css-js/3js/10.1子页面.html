@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>测试子页面</title>
+        <meta charset="UTF-8" />
+        <script type="text/javascript">
+            function f1() {
+                window.setInterval(function () {
+                    var span = document.getElementById("spanId");
+                    span.innerHTML = span.innerHTML - 1;
+                    if(span.innerHTML == 0)
+                        // window.close()只能关闭window.open()打开的页面
+                        window.close();
+                }, 1000);
+            }
+
+            // 测试调用父页面方法
+            function testCallFatherFn() {
+                window.opener.fn2();
+            }
+        </script>
+    </head>
+    <body onload="f1();">
+        子页面，<span id="spanId">5</span>秒后页面关闭
+        <input type="button" onclick="testCallFatherFn();" value="测试调用父页面的方法" />
+        
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 指定约束文件，mybatis-3-mapper是约束文件名称 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    测试转换mybatis的返回结果为java对象
+    resultType属性：指的是sql语句执行完毕后，数据转为java对象，
+        处理方式：
+            1)mybatis执行sql语句，然后mybatis调用类的无参构造方法，创建对象；
+            2)mybatis把ResultSet指定的列值赋给同名的属性。
+        如果返回结果是个list，则填的是list的元素的全限定名。
+        注意，这个类型只要属性名中含有数据库返回结果的一条数据的全部属性名即可，
+            不要求数据库和java对象是相对应的。
+        结果有两种：类型的全限定名、类型的别名。需要在mybatis的主配置文件中定义。
+-->
+<mapper namespace="com.xyb.dao.FnResultDao">
+
+    <!-- 获取简单类型的返回值 -->
+    <select id="getSimpleTypeById" resultType="java.lang.String">
+      SELECT value
+      FROM fnResult
+      WHERE id = #{id}
+    </select>
+
+    <!-- 获取引用类型的返回值 -->
+    <select id="getDataById" resultType="com.xyb.entity.FnResult">
+      SELECT *
+      FROM fnResult
+      WHERE id = #{id}
+    </select>
+
+
+    <!-- 获取map类型的返回值，注意只能返回一行，key是属性名，value是属性值-->
+    <select id="getMapById" resultType="java.util.HashMap">
+      SELECT id, value
+      FROM fnResult
+      WHERE id = #{id}
+    </select>
+
+    <!--
+        resultMap的使用：结果映射，指定列名和java对象的属性对应关系，和resultType 2选1使用，
+            一个mapper.xml中可以有多个resultMap，因为id不同
+            1)自定义列值赋值给哪个属性；
+            2)当列名和属性名不一样时，一定使用resultMap，例使用聚合函数时
+                将无法将结果转换为此对象，此时就需要resultMap
+            id属性：自定义名称，表示你定义的这个resultMap；
+            type：java类型的全限定名。
+
+        数据库使用列别名可以达到同样的效果。
+     -->
+    <resultMap id="studentMap" type="com.xyb.entity.FnResult">
+        <!-- 列名和java属性关系 -->
+        <!-- 主键使用id标签，column列名，property是java类型属性名 -->
+        <id column="nums" property="id"/>
+        <result column="value" property="value"/>
+    </resultMap>
+    <!-- resultMap="resultMap.id"，即告诉mybatis，映射关系由resultMap决定-->
+    <select id="useResultMap" resultMap="studentMap">
+      SELECT value, COUNT(1) nums
+      FROM fnResult
+      WHERE value = #{value}
+    </select>
+</mapper>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>js操作form表单元素</title>
+        <meta charset="UTF-8" />
+        <!--
+            js操作表单元素的通用属性：
+                设置表单元素只读：
+                    元素对象.readOnly = true; // 不可更改，但可提交，注意是js中的属性是readOnly，不是readonly
+                设置表单元素不可用：
+                    元素对象.disabled = true; // 不可进行任何操作，不可提交
+
+            js操作多选框、单选框：
+                被选中状态下js中的checked为true，否则为false；
+
+            js操作下拉框：
+                被选择的option对象在js中的selected属性值为true，否则为false；
+
+         -->
+        <script type="text/javascript">
+            
+            function testForm(event) {
+                var fm = document.getElementById("fm");
+
+                switch (event.id){
+                    case "setReadOnlyBtn":
+                       var inp = document.getElementById("uname");
+                       console.log(inp.readOnly);
+                       console.log(typeof inp.readOnly);
+                       if(inp.readOnly == true)
+                           inp.readOnly = false;
+                       else
+                           inp.readOnly = true; // inp.readonly = true;
+                        break;
+                    case "setDisabledBtn":
+                        var inp = document.getElementById("uname");
+                        if(inp.disabled == true)
+                            inp.disabled = false;
+                        else
+                            inp.disabled = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
+            // 多选框操作
+            function testCheckBox() {
+                var favs = document.getElementsByName("fav");
+                // 遍历被勾选的多选框
+                for(var i = 0; i < favs.length; i++)
+                    console.log(i + ":" + favs[i].checked);
+            }
+
+            // 多选框全选
+            function allChecked() {
+                var favs = document.getElementsByName("fav");
+                for(var i = 0; i < favs.length; i++)
+                    favs[i].checked = true;
+            }
+
+            function fanXuan() {
+                var favs = document.getElementsByName("fav");
+                for(var i = 0; i < favs.length; i++)
+                    favs[i].checked = !favs[i].checked;
+            }
+
+
+            // 下拉框操作
+            function testSel() {
+                var sel = document.getElementById("address");
+                // 获取下拉框集合
+                var ops = sel.options;
+                console.log("所有下拉框选项：")
+                for(var i = 0; i < ops.length; i++)
+                    console.log("  " + i + "：" + ops[i].value + "，" + ops[i].innerText);
+
+                console.log("");
+                console.log("当前被选择的下拉框选项：")
+                for(var i = 0; i < ops.length; i++) {
+                    if(ops[i].selected)
+                        console.log("  " + i + "：" + ops[i].value + "，" + ops[i].innerText);
+                }
+
+                console.log("");
+                console.log("下拉框的当前选项：" + sel.value);
+
+
+            }
+            
+        </script>
+    </head>
+    <body>
+        <h3>js操作form表单元素</h3>
+        <input type="button" name="" id="setReadOnlyBtn" value="更改表单元素只读模式" onclick="return testForm(this);" />
+        <input type="button" name="" id="setDisabledBtn" value="更改表单元素不可用模式" onclick="return testForm(this);" />
+
+        <hr />
+        <form id="fm" name="frm" action="#" method="get">
+            用户名：<input type="text" name="uname" id="uname" value="" readonly="readonly" disabled="disabled" /><br />
+            密码：<input type="password" name="pwd" id="pwd" value="" /><br />
+            <input type="submit" name="" id="inp1" value="登陆" />
+        </form>
+        <hr />
+        <p>操作多选框</p>
+        <div style="border: solid 3px green">
+            <input type="checkbox" name="fav" id="fav1" value="11" />11<br />
+            <input type="checkbox" name="fav" id="fav2" value="22" />22<br />
+            <input type="checkbox" name="fav" id="fav3" value="33" />33<br />
+            <input type="checkbox" name="fav" id="fav4" value="44" />44<br />
+            <input type="button" name="" id="inp2" value="提交" onclick="return testCheckBox();" />
+            <input type="button" name="" id="inp3" value="全选" onclick="return allChecked();" />
+            <input type="button" name="" id="inp4" value="反选" onclick="return fanXuan();" />
+        </div>
+        <hr />
+        <div style="border: solid 3px orange">
+            <select name="" id="address" onchange="return testSel();">
+                <option value="0">---请选择---</option>
+                <option value="1">北京</option>
+                <option value="2">上海</option>
+                <option value="3">广州</option>
+            </select>
+        </div>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
