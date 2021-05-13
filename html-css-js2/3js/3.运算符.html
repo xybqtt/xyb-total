@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>3.运算符.html</title>
+        <meta charset="UTF-8"/>
+        <!--
+            关系运算符：
+                ==：是做简单的字面值比较；
+                ===：在==的基础上，还会比较2个变量的数据类型是否一致。
+
+            逻辑运算符：在js中所有的变量都可以做为一个boolean类型的变量去使用，
+            0、null、undefined、""都认为是false
+                &&：且运算，有2种情况
+                    1、当表达式全为真时，返回最后一个表达式的值(不一定是true，有可以是abc)；
+                    2、当表达式中，有一个为假时，返回第1个为假的表达式的值。
+                ||：或运算；有2种情况
+                    1、当表达式全为假时，返回最后一个表达式的值(不一定是false，有可以是null)；
+                    2、当表达式中，有一个为真时，返回第1个为真的表达式的值。
+                !：取反运算。
+        -->
+
+        <script type="text/javascript">
+            // 1、验证==和===的区别
+            var a = 12;
+            var b = "12";
+            console.log(a == b);
+            console.log(a === b);
+
+            // 2、逻辑运算符测试
+            a = 0;
+            b = null;
+            var c;
+            var d = "";
+            if(a || b || c || d)
+                console.log("a、b、c、d有不为false的");
+            else
+                console.log("abcd全为false")
+
+            // 2.1、&&运算，||运算同埋，不再展示
+            a = 1;
+            b = 6;
+            console.log("验证&&全不为false运算1：" + (a && b));
+            console.log("验证&&全不为false运算2：" + (b && a));
+
+
+            a = null;
+            b = undefined;
+            console.log("验证&&有false运算1：" + (a && b))
+            console.log("验证&&有false运算2：" + (b && a))
+
+
+
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

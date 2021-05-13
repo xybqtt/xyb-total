@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>10.表单标签-重要.html</title>
+    </head>
+    <body>
+        <!--
+            表单：就是html页面中，用来收集用户信息的所有元素集合，然后把这些信息发送给服务器。
+            form标签：就是表单
+                action属性：设置提交的服务器地址；
+                method属性：设置提交的方式GET(默认值)或POST
+                    get请求特点：
+                        1、浏览器地址栏中的地址是"action属性[?请求参数]"，请求参数的格式是"name=value&name=value"；
+                        2、不安全；
+                        3、有数据长度的限制；
+                    post请求特点：
+                        1、浏览器地址栏中的地址是"action属性"；
+                        2、相对于get请求安全；
+                        3、理论上没有数据长度限制；
+
+                表单提交时，数据没有提交给后台的情况：
+                    1、表单项没有name；
+                    2、单选、复选、下拉列表中的option标签都需要value属性，要不然传到后台的是name属性的值；
+                    3、表单项不在form表单中。
+
+                input标签：
+                    type属性 = text值 --- 文本输入框；value属性 --- 默认值；
+                    type属性 = password --- 密码输入框；value属性 --- 默认值；
+                    type属性 = radio --- 单选框；name属性 --- 可以对其进行分组；checked属性 = checked，默认选中此单选按钮；
+                    type属性 = checkbox --- 复选框；checked属性 = checked，默认选中此复选按钮；
+                    type属性 = reset --- 重置按钮；value属性，更改按钮的名字；
+                    type属性 = submit --- 提交按钮；value属性，更改按钮的名字；
+                    type属性 = button --- 按钮；value属性，更改按钮的名字；
+                    type属性 = hidden --- 隐藏域(当我们要发送某些信息，但这些不需要用户参与，就可以使用隐藏域，提交的时候同时发送给服务器)
+                select标签：
+                    option标签：是select的子标签，选项标签
+                        selected属性 = "selected"，默认选中，如果所有的标签都没有这个属性，则默认显示第1个option；
+                        value属性：没有这个属性，则传送给后台的就是标签文本；
+                    name属性：没有此属性，不能提交后台；
+                textarea标签：表示多选文本输入框(没有默认值属性，不过标签的文本可以写内容，就是默认值)
+                    cols属性：显示多少字符宽度；
+                    rows属性：显示多少行；
+
+
+         -->
+        <form action="http://localhost:8080" method="get">
+            <h1 align="center">用户注册</h1>
+            <table align="center">
+                <tr>
+                    <td>用户名称：</td>
+                    <td><input type="text" value="默认值" name="username"/></td>
+                </tr>
+                <tr>
+                    <td>用户密码：</td>
+                    <td><input type="password" value="abc" name="password"/></td>
+                </tr>
+                <tr>
+                    <td>确认密码：</td>
+                    <td><input type="password" value="abc" name="confirmpwd"/></td>
+                </tr>
+                <tr>
+                    <td>性别：</td>
+                    <td>
+                        <input type="radio" name="sex" checked="checked" value="boy"/>男
+                        <input type="radio" name="sex" value="girl"/>女
+                    </td>
+                </tr>
+                <tr>
+                    <td>兴趣爱好：</td>
+                    <td>
+                        <input name="hobby" type="checkbox"/>js
+                        <input name="hobby" type="checkbox" checked="checked"/>java
+                        <input name="hobby" type="checkbox">play plane
+                    </td>
+                </tr>
+                <tr>
+                    <td>国籍：</td>
+                    <td>
+                        <select name="country">
+                            <option value="none">---请选择国籍</option>
+                            <option selected="selected" value="cn">中国</option>
+                            <option value="usa">美国</option>
+                            <option value="jp">日本</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>自我评价：</td>
+                    <td><textarea rows="10" cols="20" name="desc">我才是默认值</textarea></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="reset" value="重置按钮"/>
+                    </td>
+                    <td>
+                        <input type="submit" value="提交按钮"/>
+                        <input type="button" value="按钮"/>
+                        <input type="hidden" value="这是隐藏域" name="abc"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

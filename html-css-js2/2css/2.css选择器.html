@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>2.css选择器.html</title>
+        <meta charset="UTF-8"/>
+        <!--
+            标签名选择器：可以决定哪些标签被动使用这个样式。
+         -->
+        <!-- 在head标签中使用style标签声明，style中都是js的代码，缺点：无法在多个文件中复用 -->
+        <style type="text/css">
+            /*标签名选择器*/
+            div {
+                border: 1px solid yellow;
+                color: darkgreen;
+                font-size: 30px;
+            }
+
+            span {
+                border: 5px dashed blue;
+                color: black;
+                font-size: 30px;
+            }
+
+            /*id选择器：可以让我们通过id属性去选择样式*/
+            #id001 {
+                color: red;
+                font-size: 20px;
+                border: 5px blue dotted;
+            }
+
+
+            /*类选择器：可以通过class属性有效选择样式*/
+            .class01{
+                color: blue;
+                font-size: 20px;
+                border: 1px dashed red;
+            }
+
+            /*组合选择器：可以通过让多个选择器共用同一个代码*/
+            .class02, #id002{
+                color: blue;
+                font-size: 20px;
+                border: 1px yellow solid;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h3>标签选择器测试</h3>
+        <div>div选择器测试1</div>
+        <div>div选择器测试2</div>
+        <span>span选择器测试1</span>
+        <span>span选择器测试2</span>
+        <hr/>
+        <h3>id选择器测试</h3>
+        <div id="id001">测试id选择器</div>
+        <hr/>
+        <h3>类选择器测试</h3>
+        <div class="class01">类选择器测试</div>
+        <hr/>
+        <h3>组合选择器测试</h3>
+        <div class="class02">组合选择器测试1</div>
+        <div id="id002">组合选择器测试2</div>
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
