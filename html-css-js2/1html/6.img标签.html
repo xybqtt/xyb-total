@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>6.img标签.html</title>
+    </head>
+    <body>
+        <!--
+            img标签：图片标签，用来显示图片
+                src属性---可以设置图片的路径；
+                width属性---设置图片的宽；
+                height属性---设置高；
+                border属性---设置边框大小；
+                alt属性---设置当前资源找不到时，显示此值。
+
+            在javase中路径分为相对路径和绝对路径，
+                相对路径：从工程名开始算；
+                绝对路径：c:img；
+
+            在web中路径分为相对路径和绝对路径，
+                相对路径：
+                    .        表示当前文件所在的目录；
+                    ..       表示当前文件所在的上一级目录；
+                    文件名    表示当前文件所在目录的文件；
+                绝对路径：
+                    正确格式是：http://ip:port/工程名/资源路径
+
+
+         -->
+        <p>相对路径图片</p>
+        <img src="../images/bilibili.png" width="220" height="105" border="1" alt="找不到此图片">
+        <hr/>
+
+        <p>绝对路径图片</p>
+        <img src="">
+
+
+    </body>
+</html>

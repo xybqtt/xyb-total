@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>7.表格.html</title>
+    </head>
+    <body>
+        <!--
+            table标签：表格标签
+                border属性---设置表格标签；
+                width---设置表格宽度；
+                height---设置表格高度；
+                align属性---设置表格相对于页面的对齐方式
+                    center、right、left；
+                cellspacing属性---单元格之间的间距；
+
+
+            tr标签：表格的行标签；
+            th标签：表头标签；
+            td标签：单元格标签：
+                align属性---设置单元格对齐方式；
+                colspan属性---设置几列单元格合并，如果设置为2，则需要把此td的下一个td标签删除；
+                rowspan属性---设置几行单元格合并，如果第n个单元格设置为2，则需要把此tr的下一个tr的对应的第n个td标签删除；
+
+
+         -->
+        <table border="1" width="300" height="200" align="center" cellspacing="2">
+            <tr>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+            </tr>
+            <tr>
+                <td colspan="2">4</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td rowspan="2">7</td>
+                <td colspan="2" rowspan="2">8</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>12</td>
+            </tr>
+        </table>
+
+
+    </body>
+</html>
