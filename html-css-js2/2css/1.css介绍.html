@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>1.css介绍.html</title>
+        <meta charset="UTF-8"/>
+        <!--
+            css：层叠样式表单，是用于控制网页样式并允许将样式信息与网页内容分离的一种标记性语言。
+            语法规则：
+                1、选择器：浏览器根据"选择器"决定受css样式影响标签的HTML元素(标签)；
+                2、属性：要改变的样式名，并且每个属性都有一个值。属性和值用冒号分开，由{}包围；
+                3、多个声明：如果要定义不止一个声明，则多个属性用分号隔开。
+         -->
+        <!-- link标签用来引入css代码 -->
+        <link rel="stylesheet" type="text/css" href="cssFiles/myCss.css" />
+
+        <!-- 在head标签中使用style标签声明，style中都是js的代码，缺点：无法在多个文件中复用 -->
+        <style type="text/css">
+            p {
+                background-color: green;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 在具体标签上使用style属性进行声明，缺点：可读性差，不可复用 -->
+        <div style="background-color: red; border: 1px solid darkgreen;">第1种css和html结合的方式</div>
+        <p name="type2">第2种css和html结合的方式</p>
+        <span>第3种结合方式</span>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
