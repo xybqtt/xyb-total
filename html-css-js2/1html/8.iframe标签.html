@@ -8,17 +8,21 @@
         <!--
             iframe标签：可以在页面上开辟一个小区域或显示一个单独的页面
                 iframe不能使用<iframe />关闭；
+                iframe和a标签组合使用的步骤：
+                    1、在iframe的标签中使用name属性定义一个名称；
+                    2、在a标签的target属性上设置iframe的name的属性值；
 
          -->
-        <iframe src="./testFrameset/top.html" width="500" height="400"></iframe>
+        <iframe src="./testFrameset/top.html" width="500" height="400" name="abc"></iframe>
         <br/>
         <br/>
         <hr/>
+        <p>点击超超链接，使超链接内容在上面的iframe显示</p>
         <ul>
-            <li><a href="1.Html结构介绍.html">1.Html结构介绍.html</a></li>
-            <li><a href="2.font标签.html">2.font标签.html</a></li>
-            <li><a href="3.标题标签.html">3.标题标签.html</a></li>
-            <li><a href="4.超链接.html">4.超链接.html</a></li>
+            <li><a href="1.Html结构介绍.html" target="abc">1.Html结构介绍.html</a></li>
+            <li><a href="2.font标签.html" target="abc">2.font标签.html</a></li>
+            <li><a href="3.标题标签.html" target="abc">3.标题标签.html</a></li>
+            <li><a href="4.超链接.html" target="abc">4.超链接.html</a></li>
 
         </ul>
 
