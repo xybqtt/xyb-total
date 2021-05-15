@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>8.正则表达式.html</title>
+        <meta charset="UTF-8"/>
+        <script type="text/javascript">
+
+            /*
+            * 正则表达式：中间如果不测试空格，不要加空格
+            */
+
+            // 2种书写方式都可以
+            var patt = new RegExp("e");
+            patt = /e/; // 也是正则表达式对象
+            // alert(patt.test("abced"));
+
+            // 表示要求字符串中，是否包含字母a-z
+            patt = /[a-z]/;
+
+            // 表示要求字符串中，是否包含字母A-Z
+            patt = /[A-Z]/;
+
+            // 表示要求字符串中，是否包含字母0-9
+            patt = /[0-9]/;
+
+            // \w表示"字母、数字、下划线"，\W与\w相反
+            patt = /\w/;
+
+            // +表示至少包含1个；表示要求字符串是否包含至少一个a
+            patt = /a+/;
+
+            // *表示可以包含多个；表示要求字符串中是否包含任意个a
+            patt = /a*/;
+
+            // ?表示最多1个；表示要求字符串中是否包0个或1个a；
+            patt = /a?/;
+
+            // {n}表示需要连续n个；表示要求字符串中是否包含连续的3个a
+            patt = /a{3}/;
+
+            // {n, m}表示需要连续最少n个连续字符；表示要求字符串中是否包含最少连续的3个a
+            patt = /a{3,5}/;
+
+            // {n,}表示要求最少n个连续；表示最少包含连续的3个a
+            patt = /a{3,}/;
+
+            // $表示结尾；表示是否以a结尾
+            patt = /a$/;
+
+            // ^表示开关；表示要求以a开头；
+            patt = /^a/;
+
+
+        </script>
+    </head>
+    <body>
+        用户名：<input type="test" id="username" value="wgx"/>
+        <button onclick="onclickFun()">校验</button>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

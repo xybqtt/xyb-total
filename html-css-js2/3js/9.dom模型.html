@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>9.dom模型.html</title>
+        <meta charset="UTF-8"/>
+        <script type="text/javascript">
+
+            /*
+            * html页面的加载顺序，是从上往下进行加载的，所有在js中直接获取标签的时候，获取不到，因为还没有加载到body，所以只有在加载完成后，在方法内部获取标签。
+            *
+            * dom全称是Document Object Model文档对象模型，即把文档中的标签、标签的属性、标签的文本转换为对象来管理。
+            * Document对象的理解：
+            *   1、Document管理了所有HTML文档内容；
+            *   2、Document是一种树结构的文档，有层级关系；
+            *   3、让我们把所有的标签都对象化；
+            *   4、可以通过Document访问所有的标签对象。
+            * 3种获取标签的方式：一定是在页面加载完成后，才能查询到对象标签
+            *   document.getgetElementById("");document.getElementsByName("");document.getElementsByTagName("");
+            */
+
+            // 通过id获取标签对象
+            function onclickFun() {
+                // 1、获取要操作的标签的对象
+                var usernameObj = document.getElementById("username");
+                console.log("usernameObj：id = " + usernameObj.id + "，type = " + usernameObj.type + "，value = " + usernameObj.value);
+
+                // 2、获取标签的值
+                var usernameValue = usernameObj.value;
+
+                var usernameSpanObj = document.getElementById("span01");
+
+
+                var patt = /^\w{5, 12}$/;
+                if(patt.test(usernameValue))
+                    usernameSpanObj.innerHTML = "用户名合法";
+                else
+                    usernameSpanObj.innerHTML = "用户名不合法";
+            }
+
+            // 通过name获取标签对象，返回的是一个数组
+            function checkAll(event) {
+                var hobbies = document.getElementsByName("hobby"); // 通过name获取标签
+                var v1 = document.getElementsByTagName("p"); // 通过标签名获取标签
+
+                for(var i = 0; i < hobbies.length; i++){
+                    hobbies[i].checked = true; // 单选、复选框的checked表示选中的意思，可读可写。
+                }
+            }
+
+        </script>
+    </head>
+    <body>
+        用户名：<input type="test" id="username" value="wgx"/>
+        <span id="span01"></span>
+        <button onclick="onclickFun()">校验</button><br/>
+
+        兴趣爱好：
+        <input type="checkbox" name="hobby" value="cpp">c++
+        <input type="checkbox" name="hobby" value="java">java
+        <input type="checkbox" name="hobby" value="js">js
+        <br/>
+        <button onclick="checkAll()" value="全选">全选</button>
+        <button onclick="checkAll()" value="全不选">全不选</button>
+        <button onclick="checkAll()" value="反选">反选</button>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

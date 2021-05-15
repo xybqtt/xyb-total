@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>1.jq介绍.html</title>
+        <meta charset="UTF-8"/>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            /**
+             * $是jQuery的核心，可以用alert($)显示此函数；
+             * $()当参数不同时，代表不同的含义：
+             *      1、传入参数为函数f1()时，相当天window.onload = f1();
+             *      2、传入参数为HTML时，jQuery会创建这个html对象，不用我们手动去获取节点，再添加子节点；
+             *      3、传入参数为"选择器字符串"时，
+             *          $("#id属性值")：id选择器，相当于document.getElementById(id)；
+             *          $("标签名")：标签名选择器，相当于document.getElementsByTagName(标签名")；
+             *          $(".class属性值")：类型选择器，根据class属性查询标签对象；
+             *          4、传入参数为"dom对象"：会把dom对象转换为jQ对象。
+             * jQ对象和dom对象的区别：
+             *     1)通过document.getXXX()查出来、或根据createElement()创建的对象是dom对象，alert显示的是"object HTMLButtonElement"
+             *     2)通过jq提供的api创建的对象、通过jq包装的dom对象、通过jq提供的api查询到的对象，alert显示的是 "object object"，即通过上面的方法
+             *     返回的对象就是jq对象。jq对象本质：dom对象数组 + jq提供的一系列功能函数。
+             *
+             * dom对象和jq对象的转换：
+             *     1)dom对象转jq对象：jq对象 = $(dom对象)；
+             *     2)jq对象转dom对象：dom对象 = jq对象[i];
+             *
+             * */
+            // 1、传入函数，表示页面加载完成之后，相当于window.onload
+            $(function () {
+                // 2、传入html，则会直接创建
+                $("<span>span1</span><span>span2</span>").appendTo("body");
+
+                // id选择器
+                var $btnObj = $("#btnObj");
+
+                $btnObj.click(function () { // 绑定单击事件
+                    alert("jQuery的单击事件");
+
+                })
+
+                // 4、传入dom对象
+                var $jqObj = $($btnObj);
+                alert($jqObj);
+
+
+            })
+
+        </script>
+
+    </head>
+    <body>
+        <button id="btnObj">按钮</button>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

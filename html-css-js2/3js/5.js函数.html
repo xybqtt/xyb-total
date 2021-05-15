@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>5.js函数.html</title>
+        <meta charset="UTF-8"/>
+        <script type="text/javascript">
+
+            /*
+            * js函数注意点：
+            *   1、js函数不能重载，方法签名相同的函数，下面会覆盖上面的；
+            *   2、隐形参数：即如果function方法是无参的，我们也可以给方法传参数，js方法中会有个"arguments"隐形参数
+            * 来获取所有参数变量，是个js数组类型，如果有参函数的参数个数与调用时传入的数量不一致，则会无视此方法的参数，
+            * 将其当作无参函数处理；
+            *   3、js参数不用写参数类型，反正都是var类型；
+            *   4、js参数不用像java一样，明确要求返回的参数类型，只要在方法中return即可；
+            *   5、函数中的this代表调用这个函数的对象。
+            */
+
+            // 2种定义函数的方式
+            // 方式1：定义一个无参函数
+            function fn1() {
+                alert("无参函数fn1()被调用");
+            }
+
+            // 定义有参函数
+            function fun2(a, b) {
+                alert("有参函数fun2()被调用，a = " + a + "，b = " + b);
+            }
+
+            // 定义有返回值的函数，js的函数只用在函数中return就可以返回
+            function fun3(a) {
+                console.log("调用有返回值的函数fun3()");
+                return a;
+            }
+
+            // 方式2
+            var fun4 = function (a, b) {
+                alert("函数的第2种定义方式，fun4()");
+                return a + b;
+            }
+
+            // 隐形参数的获取
+            function fun5() {
+                console.log("依次获取隐形参数中的所有数据：隐形参数类型为" + typeof (arguments));
+                for (var i = 0; i < arguments.length; i++) {
+                    console.log("隐形参数第" + i + "个变量：类型为" + typeof (arguments[i]) + "，值为" + arguments[i]);
+                }
+            }
+
+            fun5(1, true, "a", null, undefined, 5 / 0);
+
+
+        </script>
+    </head>
+    <body>
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
