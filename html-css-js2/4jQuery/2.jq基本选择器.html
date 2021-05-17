@@ -27,14 +27,19 @@
                     $("li").css("color", "red");
                 });
 
-                // 4、选择所有元素
+                // 4、属性选择器
                 $("#btn4").click(function () {
+                    $("[id = 'div1']").css("color", "red");
+                });
+
+                // 5、选择所有元素
+                $("#btn5").click(function () {
                     $("*").css("color", "#bbffaa");
                 });
 
-                // 5、选择class = spanCls 或 id = specSpan的标签
-                $("#btn5").click(function () {
-                    $(".spanCls, #specSpan").css("color", "#bbffaa");
+                // 6、选择class = spanCls 或 id = specSpan的标签
+                $("#btn6").click(function () {
+                    $(".spanCls,#specSpan").css("color", "#bbffaa");
                 });
 
             })
@@ -62,6 +67,8 @@
         <button id="btn3">按钮3</button>
         <button id="btn4">按钮4</button>
         <button id="btn5">按钮5</button>
+        <button id="btn6">按钮6</button>
+
 
 
 

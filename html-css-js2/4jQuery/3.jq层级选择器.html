@@ -8,10 +8,10 @@
 
             /**
              * 4种层级选择器：
-             *      1)"a b"，a标签内的所有b标签；
-             *      2)"a > b"，a标签内所有的b标签；
-             *      3)"a + b"，a标签的后面第1个标签为b标签时，才生效(兄弟标签);
-             *      4)"a ~ b"，a标签后面的所有兄弟b标签。
+             *      1)"a b"，a标签内的所有b标签，注意，"a b"标签中的空格是1种选择器，所以不要在不需要此选择器的地方乱加选择器，即不要随便加空格；
+             *      2)"a>b"，a标签内所有的b标签；
+             *      3)"a+b"，a标签的后面第1个标签为b标签时，才生效(兄弟标签);
+             *      4)"a~b"，a标签后面的所有兄弟b标签。
              * */
             $(function () {
                 // 1、body内所有的span元素
@@ -21,17 +21,17 @@
 
                 // 2、body内所有的div子元素
                 $("#btn2").click(function () {
-                    $("body > div").css("color", "#ffbbee");
+                    $("body>div").css("color", "#ffbbee");
                 });
 
                 // 3、#div2的下一个元素，且下一个元素为div标签
                 $("#btn3").click(function () {
-                    $("#div2 + div").css("backgroundColor", "yellow");
+                    $("#div2+div").css("backgroundColor", "yellow");
                 });
 
                 // 4、id为two元素后面的所有div兄弟元素
                 $("#btn4").click(function () {
-                    $("#two ~ div").css("backgroundColor", "yellow");
+                    $("#two~div").css("backgroundColor", "yellow");
                 });
 
             })

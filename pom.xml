@@ -11,5 +11,6 @@
     <name>xyb-total-project</name>
     <modules>
         <module>xyb-mybatis</module>
+        <module>webservice-3</module>
     </modules>
 </project>
