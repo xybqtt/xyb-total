@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>10.jq属性操作.html</title>
+        <meta charset="UTF-8"/>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            /**
+             * jq属性操作：jq对象.html()，不传参数是获取，传参数是设置
+             *      1)、html()：可以设置和获取起始标签和结束标签中的内容。跟dom属性innerHTML一样；
+             *      2)、text()：以设置和获取起始标签和结束标签中的文本。跟dom属性innerTEXT一样；
+             *      3)、val()：以设置和获取表单项的value值。跟dom属性value一样。
+             *      4)、attr()：可以设置和获取属性值，此方法获取一些属性时，如.attr("checked")，
+             *          如果是未选中状态，则会返回undefined，prop()方法会返回false；
+             *          如果选中状态会返回checked，prop()方法会返回true；
+             *          所以对于以下属性不推荐用attr()去操作：checked、readOnly、selected、disabled等。
+             *          而且attr("checked", "checked")，如果对单选框的2个选项都设置，就不能再用.attr()去更改选项了，因为2个都是checked。
+             *          引方法还可以操作自定义属性。
+             *          .attr("属性名")：是获取属性值；
+             *          .attr("属性名", "属性值")：是设置属性值；prop同理
+             *      5)、prop()：可以设置和获取属性值，只推荐操作checked、readOnly、selected、disabled属性。
+             * */
+            $(function () {
+
+                $("#btn1").click(function () {
+                    alert($("div").html());
+                });
+
+                $("#btn2").click(function () {
+                    alert($("div").text())
+                });
+
+                $("#btn3").click(function () {
+                    $("div").html("修改html后的div<h1>修改后div中的p标签</h1>");
+                });
+
+                $("#btn4").click(function () {
+                    $("div").text("修改text后的div<h1>text</h1>");
+                });
+
+                $("#btn5").click(function () {
+                    alert($("input").val());
+                });
+
+                $("#btn6").click(function () {
+                    $("input").val("12345");
+                });
+
+                // 设置单选选中
+                $("#clickRadio1").click(function () {
+                    $(":radio").val(["radio1"]);
+                });
+
+                // 批量设置复选框选中
+                $("#clickCheckBox1").click(function () {
+                    $(":checkbox").val(["checkbox2", "checkbox3"]);
+                });
+
+                // 批量操作多选下拉框选中状态
+                $("#clickSelect").click(function () {
+                    $("#multiple").val(["mul1", "mul2"]);
+                });
+
+                // 同时操作多个选项，且val()中的选中项不需要顺序
+                $("#all").click(function () {
+                    $("#multiple,:checkbox,:radio").val(["checkbox2","mul1","mul2","radio1"]);
+                });
+
+
+                //<button id="attrBtn1">用attr查看radio1是否被选中</button>
+            // <button id="attrBtn2">用attr设置radio1被选中</button>
+            //
+            //         <button id="propBtn1">用prop查看radio1是否被选中</button>
+            //         <button id="propBtn2">用prop设置radio1被选中</button>
+                $("#attrBtn1").click(function () {
+                    alert("attr方式：" + $("[name='radio1'][value='radio1']").attr("checked") + "\n" +
+                        "prop方式：" + $("[name='radio1'][value='radio1']").prop("checked"));
+                });
+
+                // attr设置radio1被选中，并添加abc="abcvalue"
+                $("#attrBtn2").click(function () {
+                    $("[name='radio1'][value='radio1']").attr("checked", "checked"); // 设置true也可以
+                    $("[name='radio1'][value='radio1']").attr("abc", "abcvalue"); // 设置true也可以
+
+                });
+
+                // prop设置radio1被选中
+                $("#propBtn2").click(function () {
+                    $("[name='radio1'][value='radio2']").prop("checked", true);
+                });
+
+
+
+            })
+
+        </script>
+
+    </head>
+    <body>
+        <div>
+            这是div
+            <span>这是div中的span标签</span>
+        </div>
+
+        <input type="text" name="username" id="username" />
+
+        <hr/>
+        <button id="btn1" type="button">显示html内容</button>
+        <button id="btn2" type="button">显示text内容</button>
+        <button id="btn3" type="button">更改html内容</button>
+        <button id="btn4" type="button">更改text内容</button>
+        <button id="btn5" type="button">获取input的value值</button>
+        <button id="btn6" type="button">设置input的value值</button>
+
+        <hr/>
+        <h1>val()的更多用法</h1>
+        单选：
+        <input type="radio" name="radio" value="radio1" />radio1
+        <input type="radio" name="radio" value="radio2" />radio2
+        <br/>
+
+        多选：
+        <input type="checkbox" name="checkbox" value="checkbox1" />checkbox1
+        <input type="checkbox" name="checkbox" value="checkbox2" />checkbox2
+        <input type="checkbox" name="checkbox" value="checkbox3" />checkbox3
+        <br/>
+
+        下拉多选：
+        <select id="multiple" multiple="multiple" size="4">
+            <option value="mul1">mul1</option>
+            <option value="mul2">mul2</option>
+            <option value="mul3">mul3</option>
+            <option value="mul4">mul4</option>
+            <option value="mul5">mul5</option>
+        </select>
+        <br/>
+        <button id="clickRadio1">选中radio1</button>
+        <button id="clickCheckBox1">选中checkbox2、3</button>
+        <button id="clickSelect">选中下拉框的mul1、mul2</button>
+        <button id="all">同时操作单选、复选、下拉</button>
+        <hr/>
+        <h1>attr、prop的用法</h1>
+        <input type="radio" name="radio1" value="radio1" />radio1
+        <input type="radio" name="radio1" value="radio2" />radio2
+        <br/>
+
+        <button id="attrBtn1">用attr查看radio1是否被选中</button>
+
+        <button id="attrBtn2">用attr设置radio1被选中</button>
+        <button id="propBtn2">用prop设置radio1被选中</button>
+
+
+
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
