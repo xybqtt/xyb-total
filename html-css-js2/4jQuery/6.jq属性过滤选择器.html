@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>6.jq属性过滤选择器.html</title>
+        <meta charset="UTF-8"/>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            /**
+             * 属性过滤选择器：
+             *      1)[attribute]：查找所有含有attribute属性的元素；
+             *      2)[attribute=value]：查找所有含有attribute属性，且属性值为value的元素；
+             *      3)[attribute!=value]：2种情况，不含有attribute属性，或含有attribute属性，但其attribute的值!=value；
+             *      4)[attribute^=value]：查找所有含有attribute属性，且属性值以value开头的元素；
+             *      5)[attribute$=value]：查找所有含有attribute属性，且属性值以value结尾的元素；
+             *      6)[attribute*=value]：查找所有含有attribute属性，且属性值包含value的元素；
+             *      7)[selector1][selector2][selectorN]：复合选择器，需要同时满足多个条件的元素。
+             * */
+            $(function () {
+
+                $("#btn1").click(function () {
+                    alert("input标签中查找所有含有name属性的元素：" + $("input[name]").length);
+                });
+
+                $("#btn2").click(function () {
+                    alert("查找所有含有name属性，且属性值为newsletter的元素：" + $("[name='newsletter']").length);
+                });
+
+                $("#btn3").click(function () {
+                    alert("不含有name属性，或含有name属性，但其name的值!=5：" + $("input[name!='5']").length);
+                });
+
+
+                $("#btn4").click(function () {
+                    alert("查找所有含有name属性，且属性值以news开头的元素：" + $("[name^='news']").length);
+                });
+
+                $("#btn5").click(function () {
+                    alert("查找所有含有value属性，且属性值以s结尾的元素：" + $("[value$='s']").length);
+                });
+
+                $("#btn6").click(function () {
+                    alert("查找所有含有value属性，且属性值包含E的元素：" + $("[value*='E']").length);
+                });
+
+
+                $("#btn7").click(function () {
+                    alert("查找所有含有type属性，且name='newsletter'，且value='Hot Fuzz'的元素：" + $("[type][name='newsletter'][value='Hot Fuzz']").length);
+                });
+
+            })
+            var a;
+
+        </script>
+
+    </head>
+    <body>
+        <input type="checkbox" name="newsletter" value="Hot Fuzz">
+        <input type="checkbox" name="newsletter" value="cold Fusion">
+        <input type="checkbox" value="Evil Plans">
+        <input type="aa" name="5" value="5555">
+
+        <hr/>
+        <button id="btn1">1、查找所有含有name属性的元素；</button>
+        <button id="btn2">2、查找所有含有name属性，且属性值为newsleter的元素</button>
+        <button id="btn3">3、2种情况，不含有name属性，或含有name属性，但其name的值!=5</button>
+        <button id="btn4">4、查找所有含有name属性，且属性值以news开头的元素</button>
+        <button id="btn5">5、查找所有含有value属性，且属性值以s结尾的元素</button>
+        <button id="btn6">6、查找所有含有value属性，且属性值包含E开头的元素</button>
+        <button id="btn7">7、查找所有含有type属性，且name='newsletter'，且value='Hot Fuzz'的元素</button>
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
