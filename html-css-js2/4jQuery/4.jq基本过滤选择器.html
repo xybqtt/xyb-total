@@ -8,16 +8,16 @@
 
             /**
              * 基本过滤选择器：
-             *      1):first：第1个；
-             *      2):last：最后1个；
-             *      3):not(selector)：去除与给定选择器匹配的元素；
-             *      4):even：查找偶数行，包含0行；
-             *      5):odd：查找奇数行；
-             *      6):eq(n)：查找第n行；
-             *      7):gt(n)：查找>n行的元素；
-             *      8):lt(n)：查找<n行的元素；
-             *      9):header：匹配如h1、h2、h3之类的标题元素；
-             *      10):animated：正在执行动画的元素。
+             *      1)、:first：第1个；
+             *      2)、:last：最后1个；
+             *      3)、:not(selector)：去除与给定选择器匹配的元素；
+             *      4)、:even：查找偶数行，包含0行；
+             *      5)、:odd：查找奇数行；
+             *      6)、:eq(n)：查找第n行；
+             *      7)、:gt(n)：查找>n行的元素；
+             *      8)、:lt(n)：查找<n行的元素；
+             *      9)、:header：匹配如h1、h2、h3之类的标题元素；
+             *      10)、:animated：正在执行动画的元素。
              * */
             $(function () {
 
@@ -46,7 +46,7 @@
                 });
 
                 $("#btn7").click(function () {
-                    alert("ul的子元素不要value=5的：" + $("ul :not([value = '5'])").length);
+                    alert("ul的子元素不要value=5的：" + $("ul :not([value='5'])").length);
                 });
 
                 $("#btn8").click(function () {

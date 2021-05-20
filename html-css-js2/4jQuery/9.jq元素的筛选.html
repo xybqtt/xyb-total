@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>9.jq元素的筛选.html</title>
+        <meta charset="UTF-8"/>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            /**
+             * jq对象(dom数组)：元素的筛选，jq对象.eq(n)
+             *      1)、eq(n)：获取第n个元素；
+             *      2)、first()：获取第1个元素；
+             *      3)、last()：获取最后1个元素；
+             *      4)、filter(exp)：留下匹配的元素；
+             *      5)、is(exp)：判断是否至少含有1个匹配的元素；
+             *      6)、has(exp)：返回包含有匹配选择器的元素的元素；
+             *      7)、not(exp)：返回不符合匹配选择器的元素；
+             *      8)、children(exp)：返回匹配给定选择器的子元素；
+             *      9)、find(exp)：返回匹配给定选择器后代元素；
+             *      10)、next()：返回当前元素的下一个兄弟元素；
+             *      11)、nextAll()：返回当前元素后面所有的兄弟元素；
+             *      12)、nextUntil()：返回当前元素到指定匹配的元素为止的中间兄弟元素；
+             *      13)、parent()：返回父元素；
+             *      14)、prev(exp)：返回当前元素的上一个兄弟元素，如果前1个兄弟元素不符合条件，返回undefined；
+             *      15)、prevAll()：返回当前元素前面所有的兄弟元素；
+             *      16)、prevUntil(exp)：返回当前元素到指定匹配的元素为止的前面元素；
+             *      17)、siblings(exp)：返回所有兄弟元素；
+             *      18)、add()：把add匹配的选择器的元素添加到当前jq对象中。
+             * */
+            $(function () {
+
+                $("#btn1").click(function () {
+                    alert("1、获取ul子元素的第1个文本值：" + $("ul>li").first().html());
+                    alert("2、获取ul子元素的第n=3个文本值：" + $("ul>li").eq(3).html());
+                    alert("3、获取ul子元素的最后1个文本值：" + $("ul>li").last().html());
+
+
+                });
+
+                $("#btn2").click(function () {
+                    alert("4、li中class!=\"liCls\"属性的元素个数：" + $("li").filter("[class!='liCls']").length);
+                    alert("5、li中class=\"liCls\"属性的元素是否存在：" + $("li").is(".liCls"));
+                    alert("6、返回ul元素个数，其中ul元素中必须有class=\"liCls\"属性的元素在其内：" + $("ul").has(".liCls").length);
+                });
+
+                $("#btn3").click(function () {
+                    alert("7、返回li元素中value!=\"5\"或没有value属性的元素：" + $("li").not("[value='5']").length);
+                    alert("8、返回ul子元素中class=\"liCls\"的元素：" + $("ul").children(".liCls").length);
+                    alert("9、返回div后代元素中class=\"liCls\"的元素：" + $("div").find(".liCls").length);
+
+                });
+
+                $("#btn4").click(function () {
+                    alert("10、判断id=\"span1\的下一个兄弟元素是ul：" + $("#span1").next().is("ul"));
+                    alert("11、返回id=\"li1\"的后面所有兄弟节点：" + $("#li1").nextAll().length);
+                    alert("12、返回id=\"li1\"和id=\"li7\"之间的所有兄弟节点元素：：" + $("#li1").nextUntil("#li6").length);
+
+                });
+
+                $("#btn5").click(function () {
+                    alert("13、返回li父元素：" + $("li").parent().is("ul"));
+                    alert("14、返回id=\"li7\"的前1个id=\"li6\"的兄弟元素的html()：" + $("#li7").prev("#li6").html());
+                    alert("15、返回id=\"li6\"前面的所有兄弟元素：" + $("#li6").prevAll().length);
+
+                });
+
+                // *      17)、siblings(exp)：返回所有兄弟元素；
+                // *      18)、add()：把add匹配的选择器的元素添加到当前jq对象中。
+                $("#btn6").click(function () {
+                    alert("16、返回id=\"li6\"到id=\"li1\"之间的所有元素：" + $("#li6").prevUntil("#li1").length);
+                    alert("17、返回id=\"li6\"的所有class=\"liCls\"的兄弟元素：" + $("#li6").siblings(".liCls").length);
+                    alert("18、将span标签与p标签放入一组，等待后续的操作：" + $("p").add("span").length);
+
+                });
+
+
+            })
+
+        </script>
+
+    </head>
+    <body>
+        <div id="div1" style="border: 1px solid black">
+            <p>p1111</p>
+            <span id="span1">span1</span>
+            <ul>
+                <li class="liCls" id="li1">0</li>
+                <li class="liCls">1</li>
+                <li class="liCls">2</li>
+                <li class="liCls2">3</li>
+                <li>4</li>
+                <li id="li6">5</li>
+                <li value="5" id="li7">6</li>
+                <li value="5">7</li>
+            </ul>
+            <span>span2</span>
+        </div>
+
+        <hr/>
+        <button id="btn1" type="button">1、2、3</button>
+        <button id="btn2" type="button">4、5、6</button>
+        <button id="btn3" type="button">7、8、9</button>
+        <button id="btn4" type="button">10、11、12</button>
+        <button id="btn5" type="button">13、14、15</button>
+        <button id="btn6" type="button">16、17、18</button>
+
+
+
+
+
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
