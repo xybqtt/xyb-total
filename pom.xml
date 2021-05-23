@@ -12,5 +12,6 @@
     <modules>
         <module>xyb-mybatis</module>
         <module>webservice-3</module>
+        <module>parse-combin</module>
     </modules>
 </project>

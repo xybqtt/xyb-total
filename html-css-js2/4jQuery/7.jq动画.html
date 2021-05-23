@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>7.jq动画.html</title>
+        <meta charset="UTF-8"/>
+        <style type="text/css">
+
+        </style>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            /**
+             * jq动画：
+             *      基本动画：方法都有2个可选参数，time表示show这个过程的时间，fn表示显示完成后调用的方法，即回调函数
+             *          1、show([time,][fn])：将隐藏的元素显示；
+             *          2、hide()：将元素隐藏；
+             *          3、toggle()：隐藏、显示切换；
+             *      淡入淡出动画：
+             *          1、fadeIn()：淡入；
+             *          2、fadeOut()：淡出；
+             *          3、fadeTo()：在指定时长内将透明度修改到指定的值；
+             *          4、fadeToggle()：淡入淡出切换；
+             *
+             *
+             * */
+            $(function () {
+
+                $("#showBtn").click(function () {
+                    $("#div1").show(1000, function () {
+                        console.log("显示完成");
+                    });
+                });
+
+                $("#hideBtn").click(function () {
+                    $("#div1").hide(function () {
+                        console.log("hide完成");
+                    });
+                });
+
+                $("#toggleBtn").click(function () {
+                    $("#div1").toggle(function () {
+                        console.log("toggle完成");
+                    });
+                });
+
+                $("#fadeInBtn").click(function () {
+                    $("#div1").fadeIn(1000, function () {
+                        console.log("fadeIn完成");
+                    });
+                });
+
+                $("#fadeOutBtn").click(function () {
+                    $("#div1").fadeOut(1000, function () {
+                        console.log("fadeOut完成");
+                    });
+                });
+
+                $("#fadeToBtn").click(function () {
+                    $("#div1").fadeTo(2000, 0.2, function () {
+                        console.log("fadeTo完成");
+                    });
+                });
+
+                $("#fadeToggleBtn").click(function () {
+                    $("#div1").fadeToggle(1000, function () {
+                        console.log("fadeToggle完成");
+                    });
+                });
+            })
+
+        </script>
+
+    </head>
+    <body>
+        <button id="showBtn">显示</button>
+        <button id="hideBtn">隐藏</button>
+        <button id="toggleBtn">显示隐藏切换</button>
+        <button id="fadeInBtn">淡入</button>
+        <button id="fadeOutBtn">淡出</button>
+        <button id="fadeToBtn">淡化到</button>
+        <button id="fadeToggleBtn">淡出淡入切换</button>
+
+        <div id="div1" style="border: 1px solid red; width: 50px; height: 50px;">
+            这是div
+        </div>
+
+
+
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>2.jq练习2.html</title>
+        <meta charset="UTF-8"/>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            $(function () {
+
+                // 动态添加、删除表格记录
+                $("#submit1").click(function () {
+                    var $tr = $("<tr/>");
+                    ($("<td>").text($("#name").val())).appendTo($tr);
+                    ($("<td>").text($("#email").val())).appendTo($tr);
+                    ($("<td>").text($("#salary").val())).appendTo($tr);
+                    ($("<td>").html($("<button class='delCls'>del</button>"))).appendTo($tr);
+                    $tr.appendTo($("#userTable"));
+
+                    // del的删除方法要写在此处，如果写在此方法外面，在onload之后，根本找不到.delCls类型。
+                    $(".delCls").click(function () {
+                        $(this).parent().parent().remove();
+                    });
+                });
+
+
+
+
+
+
+            })
+
+        </script>
+
+    </head>
+    <body>
+        <div style="border: 1px solid red;">
+            <table id="userTable" style="border: 1px solid green;" cellspacing="2" border="1" >
+                <tr>
+                    <th>name</th>
+                    <th>email</th>
+                    <th>salary</th>
+                    <th>opera</th>
+                </tr>
+            </table>
+        </div>
+
+        <div style="border: 1px solid black;">
+            name:<input type="text" id="name" /><br/>
+            email:<input type="text" id="email" /><br/>
+            salary:<input type="text" id="salary" /><br/>
+            <button type="submit" id="submit1">提交</button>
+        </div>
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

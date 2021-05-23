@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>8.jq事件.html</title>
+        <meta charset="UTF-8"/>
+        <style type="text/css">
+
+        </style>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            /**
+             * https://www.w3school.com.cn/jquery/jquery_ref_events.asp
+             * jq事件：事件方法会触发匹配元素的事件，或将函数绑定到所有匹配元素的某个事件。
+             *      1、.bind("事件1 事件2", fn)：为被选元素添加一个或多个事件处理程序，并规定事件发生时运行的函数，可以绑定多个事件；
+             *      19、one(fn)：与bind一样，但是所绑定的事件只能触发一次；
+             *      10、live(fn)：与bind一样，可以用来绑定选择器匹配所有元素的事件，哪怕这个元素是后面动态创建出来的；
+             *      2、.blur(fn)：失去焦点事件事件；
+             *      3、.change(fn)：文本域元素内容发生改变时触发；
+             *      4、.click(fn)：单击事件；
+             *      5、.dblclick(fn)：双击事件；
+             *      6、focus(fn)：获得焦点事件；
+             *      7、keydown(fn)：按键盘事件
+             *      8、keypress(fn)：事件
+             *      9、keyup(fn)：触事件
+             *      11、load(fn)：
+             *      12、mousedown(fn)：
+             *      13、mouseenter(fn)：
+             *      14、mouseleave(fn)：
+             *      15、mousemove(fn)：
+             *      16、mouseout(fn)：
+             *      17、mouseover(fn)：鼠标移入事件；
+             *      18、mouseup(fn)：鼠标移出事件；
+             *      20、ready(fn)：
+             *      21、resize(fn)：
+             *      22、scroll(fn)：
+             *      23、select(fn)：
+             *      24、submit(fn)：
+             *      25、toggle(fn)：
+             *      26、trigger(fn)：
+             *      27、triggerHandler(fn)：
+             *      28、unbind("事件1 事件2...")：与bind相反，可以同时解除多个事件的绑定，参数为空，则全部解除绑定；
+             *      29、undelegate(fn)：
+             *      30、unload(fn)：
+             *
+             *  $("#div1").click()是触发单击事件。
+             *  事件冒泡：
+             *      父子元素同时监听同一个事件，当触发子元素时，同一个事件也被传递到父元素的事件中去了；
+             *      可以通return false;阻止冒泡。
+             *
+             * */
+            $(function () {
+
+                $("#showBtn").bind("click mouseover", function (event) {
+                    console.log("使用bind绑定");
+                });
+
+                $("#i1").blur(function () {
+                    console.log("失去焦点了");
+                });
+
+                $("#i1").change(function (event) {
+                    console.log("内容改变了，变为了" + $(event).text());
+                });
+
+                $("#i1").mouseover(function () {
+                    console.log("鼠标移入了");
+                });
+
+                $("#i1").mouseout(function () {
+                    console.log("鼠标移出了");
+                });
+
+
+
+
+            })
+
+        </script>
+
+    </head>
+    <body>
+        <button id="showBtn">显示</button>
+
+        <input id="i1" type="text" value="111" />
+        <div id="div1" style="border: 1px solid red; width: 50px; height: 50px;">
+            这是div
+        </div>
+
+
+
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

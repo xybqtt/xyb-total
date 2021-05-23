@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    以上内容就是xml文件的声明
+    version="1.0" 表示xml的版本；
+    encoding="utf-8" 表示xml文件本身的编码
+ -->
+<books><!-- 自定义根标签，必须有 -->
+    <book sn="SN00001">
+        <name>时间简史</name>
+        <author>霍金</author>
+        <price>75</price>
+    </book>
+    <book sn="SN00002">
+        <name>java从入门到放弃</name>
+        <author>沙老师</author>
+        <price>9.9</price>
+    </book>
+</books>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>1.jq练习.html</title>
+        <meta charset="UTF-8"/>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            $(function () {
+
+                // 将选中元素删除添加到右边
+                $("#btn11").click(function () {
+                    $("#leftSel>option:selected").appendTo($("#rightSel"));
+                });
+
+                // 全部删除并添加到右边
+                $("#btn12").click(function () {
+                    $("#rightSel").append($("#leftSel>option"));
+                });
+
+                // 将选中元素删除添加到左边
+                $("#btn21").click(function () {
+                    $("#rightSel>option:selected").appendTo($("#leftSel"));
+                });
+
+                // 全部删除并添加到左边
+                $("#btn22").click(function () {
+                    $("#rightSel>option").appendTo($("#leftSel"));
+                });
+
+
+            })
+
+        </script>
+
+    </head>
+    <body>
+        <div style="border: 1px solid red; width: 500px; height: 200px; float: left;">
+            <select multiple="multiple" id="leftSel" size="9">
+                <option>选项1</option>
+                <option>选项2</option>
+                <option>选项3</option>
+                <option>选项4</option>
+                <option>选项5</option>
+                <option>选项6</option>
+                <option>选项7</option>
+                <option>选项8</option>
+                <option>选项9</option>
+            </select>
+            <br/>
+            <button id="btn11">将选中元素删除添加到右边</button>
+            <button id="btn12">全部删除并添加到右边</button>
+
+        </div>
+        <div style="border: 1px solid red; width: 500px; height: 200px; float: right;">
+            <select multiple="multiple" id="rightSel" size="9">
+
+            </select>
+            <br/>
+            <button id="btn21">将选中元素删除添加到左边</button>
+            <button id="btn22">全部删除并添加到左边</button>
+        </div>
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

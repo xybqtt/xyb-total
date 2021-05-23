@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>3.jq对dom的增删改操作.html</title>
+        <meta charset="UTF-8"/>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            /**
+             * jq对dom元素的增删改，即对文档结构的更改
+             *      注意，如果a元素如果是已有的元素，则a代表的就是此元素，而不是此元素的复制品，例1)中操作后，a就不在原来的位置了。
+             *      a、b可以是jq对象(会删除原来的对象，将对象复制到目标位置)、可以是html代码(a如果是html，需要加$())、方法
+             *      增：
+             *          在元素外部添加：
+             *              1、a.after(b)：在a元素外面的后面添加b元素；
+             *              2、a.before(b)：在a元素外面的前面添加b元素；
+             *
+             *              3、a.insertAfter(b)：每个a后面插入b；
+             *              4、a.insertBefor(b)：在b前面插入a；
+             *
+             *          在元素内部添加：
+             *              5、a.append(b)：将b插入到a元素的末尾；
+             *              6、a.appendTo(b)：将a插入到b元素的末尾；
+             *
+             *              7、a.prepend(b)：将b插入到a元素内部首位；
+             *              8、a.prependTo(b)：将a插入到b元素内部首位；
+             *
+             *          9、a.clone()：复制1份a；包含子节点、文本和属性。
+             *          10、a.wrap(b)：把每个a用每个b包裹；
+             *          11、a.wrapAll(b)：把所有匹配的a标签先移到a的后面，再用b包裹
+             *          12、a.wrapInner()：把a的内容用b包裹；
+             *
+             *      删：
+             *          1、a.detach()：DOM中删除所有匹配元素，但不会把匹配的元素从jQuery对象中删除，并且所有绑定的事件、附加的数据等都会保留下来；
+             *          2、a.remove()：从DOM中删除所有匹配的元素，返回值是一个指向已被删除的节点的引用，意思就是说，删除后还可以继续使用，可以使用append重新添加元素；
+             *          不会保留元素的 jQuery 数据。其他的比如绑定的事件、附加的数据等都会被移除
+             *          3、a.empty()：删除匹配的元素集合中所有的子节点和文本；
+             *          4、a.unwrap()：删除a的父元素；
+             *
+             *      改：
+             *          1、a.replaceAll(b)：用b元素替换所有的a元素；
+             *          2、a.replaceWith(b)：用b替换a；
+             * */
+            $(function () {
+
+                // 增
+                $("#insNotExistBtn").click(function () {
+                    // 外部
+                    $("#p1").after($("<p>外部after-1</p>"));
+                    $("#p1").before($("<p>外部before-2</p>"));
+
+                    $("<p>外部insertAfter-3</p>").insertAfter($("#p1"));
+                    $("<p>外部insertBefore-4</p>").insertBefore($("#p1"));
+
+
+                    // 内部
+                    $("#p1").append($("<b>内部append-5;</b>"));
+                    $("#p1").prepend($("<b>内部prepend-6;</b>"));
+
+                    $("<b>内部appendTo-7;</b>").appendTo($("#p1"));
+                    $("<b>内部prependTo-8;</b>").prependTo($("#p1"));
+                });
+
+                $("#insExistBtn").click(function () {
+                    // 外部
+                    $("#p1").after($("#p2"));
+                    $("#p3").insertAfter($("#p1"));
+
+                    // 内部
+                    $("#p1").append($("#b1"));
+                    $("#p1").prepend($("#b2"));
+
+                });
+
+                $("#wrapTest").click(function () {
+                    $("#p1,#p2").wrapAll("<b>wrapAll包裹在p1、p2的外面；</b>");
+                    $("#p1").wrap("<strong>wrap包裹在p1外面；</strong>");
+                    $("#p1").wrapInner("<b>wrapInner包裹p1的文本；</b>");
+                });
+
+                // 删
+                $("#delBtn").click(function () {
+                    $("#p1").detach();
+                    var $p2 = $("#p2").remove();
+                    $("#b2").after($p2);
+
+                    $("#b1").empty();
+                    $("#b2").unwrap();
+
+                });
+
+                // 改
+                $("#updBtn").click(function () {
+                    $("<span>ss</span>").replaceAll($("#div2>p"));
+
+                    $("b").replaceWith("<p>将b改为p</p>");
+
+
+                });
+            })
+
+        </script>
+
+    </head>
+    <body>
+
+        <div id="div1" style="border: 1px solid black">
+            <p id="p1" style="border: 1px solid red">基础段落</p>
+        </div>
+        <br/>
+
+        <div id="div2" style="border: 1px solid red">
+            <p id="p2">after</p>
+            <p id="p3">insertAfter</p>
+            <b id="b1">append</b><br>
+            <b id="b2">prepend</b><br>
+        </div>
+
+        <br/>
+        <button id="insNotExistBtn">1、增以前不存在的</button>
+        <button id="insExistBtn">2、增以前存在的</button>
+        <button id="wrapTest">3、查看wrap的用法</button>
+        <br/>
+        <button id="delBtn">1、删</button>
+        <button id="updBtn">2、改</button>
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

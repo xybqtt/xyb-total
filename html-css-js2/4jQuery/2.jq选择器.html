@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>2.jq选择器.html</title>
+        <meta charset="UTF-8"/>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <style type="text/css">
+            div {
+                border: 1px solid black;
+            }
+        </style>
+        <script type="text/javascript">
+
+            /**
+             * $是jQuery的核心，可以用alert($)显示此函数；
+             *
+             * jq中ready方法和js原生的onload方法比较
+             *      1、ready方法比js的onload方法先执行：
+             *      $(document|window).ready(function(){})当 DOM（文档对象模型）已经加载，会发生 ready 事件。
+             *      可以简写为$().ready(function(){})或$(function(){})
+             *      ready() 函数不应与 <body onload=""> 一起使用。
+             *      js原生的onload方法比ready更晚执行，因为onload事件会在页面并图像加载完成后立即发生。
+             *      2、js.onload只会执行最下面这个，jq的ready会有几个执行几个。
+             *
+             *
+             * 1个元素由"标签名、属性、内容、位置(层级和下标)"4部分组成，所以我们可以从4个方向来进行标签的选择
+             * jq选择器，最终是为了选择dom元素或元素数组，从大方向来说有4种选择器，
+             *      1、标签选择器；
+             *      2、属性选择器；
+             *      3、文本选择器；
+             *      4、层级、下标选择器；
+             *
+             * 1、标签选择器：根据标签名获取相关元素
+             *      li：标签选择器；
+             *
+             * 2、属性选择器：根据标签的属性获取元素
+             *      1)、[attribute]：查找所有含有attribute属性的元素；
+             *      2)、[attribute=value]：查找所有含有attribute属性，且属性值为value的元素；
+             *      3)、[attribute!=value]：2种情况，不含有attribute属性，或含有attribute属性，但其attribute的值!=value；
+             *      4)、[attribute^=value]：查找所有含有attribute属性，且属性值以value开头的元素；
+             *      5)、[attribute$=value]：查找所有含有attribute属性，且属性值以value结尾的元素；
+             *      6)、[attribute*=value]：查找所有含有attribute属性，且属性值包含value的元素；
+             *      7)、[selector1][selector2][selectorN]：复合选择器，需要同时满足多个条件的元素。
+             *
+             *      但是如果都这么写的话，对于我们常用的属性来说，写起来比较麻烦，就有了如下简化写法：
+             *          1)、#id：id选择器，例$("#div1")，相当于$("[id='#div1']")，以下同理；
+             *          2)、.class：类型选择器，例$(".cls1") = $("[class='cls1']")；
+             *
+             *      对于表单过滤选择器，简化了[type='input']的写法，用:input代替，其它同理：
+             *          1)、:input：选择所有input、textarea、button、select元素；
+             *          2)、:text：type="text"的表单元素；
+             *          3)、:password：type="password"的表单元素；
+             *          4)、:radio：type="radio"的表单元素；
+             *          5)、:checkbox：type="checkbox"的表单元素；
+             *          6)、:submit：type="submit"的表单元素，button元素默认是submit的，除非显式更改type；
+             *          7)、:image：type="image"的表单元素；
+             *          8)、:reset：type="reset"的表单元素；
+             *          9)、:button：type="button"和button元素的表单元素；
+             *          10)、:file：type="file"的表单元素；
+             *          11)、:hidden：type="hidden"的表单元素；
+             *
+             *      表单的一些属性，简化了相关写法，如用":selected"代替了[selected='selected']的写法
+             *          1)、:enabled：属性disabled="none"，或没有此属性的元素；
+             *          2)、:disabled：属性disabled="disabled"的元素；
+             *          3)、:checked：属性checked="checked"的元素，单选框或复选框选中的元素；
+             *          4)、:selected：属性selected="selected"的元素，下拉框中选中的元素；
+             *
+             * 3、文本选择器，根据标签的文本来获取相关元素
+             *      1)、:contains(text)：匹配包含给定文本的元素；
+             *      2)、:empty：匹配所有不包含子元素或或者文本为空的元素；
+             *      3)、:parent：匹配含有子元素或文本不为空的元素；
+             *      4)、:has(selector)：匹配含有"选择器所匹配的元素"的元素，举例"div :has(p)"代表返回包含p元素的div元素。
+             *
+             * 4、层级、下标选择器，当获取元素后，我们可能获取其中的某些子元素或所需下标位置的元素
+             *      获取子元素或兄弟元素集合
+             *      1)"a b"，a标签内的所有b标签，注意，"a b"标签中的空格是1种选择器，所以不要在不需要此选择器的地方乱加选择器，即不要随便加空格；
+             *      2)"a>b"，a标签内所有的子标签为b标签的元素；
+             *      3)"a+b"，查找a元素后面的b标签第1个兄弟节点，包括非直接子节点，就是查找a元素后面的第一个兄弟b节点，必须紧挨，不能有空格;
+             *      4)"a~b"，查找A元素后面的兄弟节点，不包括非直接子节点,查找A元素后面的所有兄弟B节点。
+             *
+             *      获取集合中的符合要求下标的元素
+             *      1)、:first：第1个；
+             *      2)、:last：最后1个；
+             *      3)、:not(selector)：去除与给定选择器匹配的元素；
+             *      4)、:even：查找偶数行，包含0行；
+             *      5)、:odd：查找奇数行；
+             *      6)、:eq(n)：查找第n行；
+             *      7)、:gt(n)：查找>n行的元素；
+             *      8)、:lt(n)：查找<n行的元素；
+             *      9)、:header：匹配如h1、h2、h3之类的标题元素；
+             *      10)、:animated：正在执行动画的元素。
+             *
+
+             *
+             *
+             * */
+            $(function () {
+                // 每个都在自己的div中选择
+                // 1、标签选择器
+                $("#labelBtn").click(function () {
+                    var pLabelLength = $("#div p").length;
+                    console.log("1、标签选择器，p标签共有：" + pLabelLength + "个。");
+                });
+
+                // 2、属性选择器
+                $("#attrBtn").click(function () {
+                    var i = 0;
+                    // 1、查找所有含有name属性的元素；
+                    console.log("1、查找所有含有name属性的元素：");
+                    $("#div2 [name]").each(function () {
+                        console.log("    " + i + $(this).val());
+                        i++;
+                    });
+
+                    i = 0;
+                    console.log("2、查找所有含有name属性，且属性值为newsleter的元素：");
+                    $("#div2 [name='newsletter']").each(function () {
+                        console.log("    " + i + "name：" + $(this).attr("name"));
+                        i++;
+                    });
+
+                    i = 0;
+                    console.log("3、2种情况，不含有name属性，或含有name属性，但其name的值!=5：");
+                    $("#div2 [name!='5']").each(function () {
+                        console.log("    " + i + "name属性值：" + $(this).attr("name"));
+                        i++;
+                    });
+
+                    i = 0;
+                    console.log("4、查找所有含有name属性，且属性值以news开头的元素：");
+                    $("#div2 [name^='news']").each(function () {
+                        console.log("    " + i + "name属性值：" + $(this).attr("name"));
+                        i++;
+                    });
+
+                    i = 0;
+                    console.log("5、查找所有含有value属性，且属性值以s结尾的元素：");
+                    $("#div2 [value$='news']").each(function () {
+                        console.log("    " + i + "value属性值：" + $(this).val());
+                        i++;
+                    });
+
+                    i = 0;
+                    console.log("6、查找所有含有value属性，且属性值包含E的元素：");
+                    $("#div2 [value*='E']").each(function () {
+                        console.log("    " + i + "value属性值：" + $(this).val());
+                        i++;
+                    });
+
+                    i = 0;
+                    console.log("7、查找所有含有type属性，且name='newsletter'，且value='Hot Fuzz'的元素：");
+                    $("#div2 [type][name='newsletter'][value='Hot Fuzz']").each(function () {
+                        console.log("    " + i + "type：" + $(this).attr("type") + "，name：" + $(this).attr("name") + "，value" + $(this).attr("value"));
+                        i++;
+                    });
+
+                    // 其它类似，就不演示了
+                    console.log("8、:input的表单元素：");
+                    $("#div2 :input").each(function () {
+                        console.log("    " + i + "type：" + $(this).attr("type"));
+                        i++;
+                    });
+
+                });
+
+                // 3、内容过滤选择器
+                $("#contentBtn").click(function () {
+                    console.log("div3中包含123文本的元素个数：" + $("#div3 :contains('12')").length);
+                    console.log("匹配所有不包含子元素或者文本为空的p元素：" + $("#div3 p:empty").length);
+                    console.log("匹配含有子元素或文本不为空的div元素：" + $("#div3 :parent").length);
+                    console.log("匹配含有p元素的div元素：" + $("#div3 :has(p)").length);
+                });
+
+                // 4、层级、下标选择器，当获取元素后，我们可能获取其中的某些子元素或所需下标位置的元素
+                $("#levelBtn").click(function () {
+
+                    // 层级选择器
+                    var i = 0;
+                    console.log("1、获取#div4 下的所有span标签：")
+                    $("#div4 span").each(function () {
+                        console.log("    " + i + $(this).html());
+                        i++;
+                    });
+
+                    i = 0;
+                    console.log("2、获取#div4 下的所有span子标签：")
+                    $("#div4>span").each(function () {
+                        console.log("    " + i + $(this).html());
+                        i++;
+                    });
+
+                    i = 0;
+                    console.log("3、获取#span1标签的下面的第1个兄弟节点：")
+                    $("#span1+span").each(function () {
+                        console.log("    " + i + $(this).html());
+                        i++;
+                    });
+
+                    i = 0;
+                    console.log("4、查找span元素后面的兄弟节点，不包括非直接子节点：")
+                    $("#div4>#span1~span").each(function () {
+                        console.log("    " + i + $(this).html());
+                        i++;
+                    });
+
+
+                    // 下标选择器
+                    i = 0;
+                    console.log("1、获取span集合的第1个：" + $("#div4>span:first").html())
+                    console.log("2、获取span集合的最后个：" + $("#div4>span:last").html())
+                    console.log("3、获取span集合中没有id属性的：");
+                    $("#div4>span:not([id])").each(function () {
+                        console.log("    " + (i++) + $(this).html());
+                    });
+                    i = 0;
+
+                    console.log("4、获取span集合偶数行：");
+                    $("#div4>span:odd").each(function () {
+                        console.log("    " + (i++) + $(this).html());
+                    });
+                    i = 0;
+
+                    console.log("5、获取span集合奇数行：");
+                    $("#div4>span:even").each(function () {
+                        console.log("    " + (i++) + $(this).html());
+                    });
+                    i = 0;
+
+                    console.log("6、获取span集合第3行：" + $("#div4>span:eq(2)").html());
+
+                    console.log("7、获取span集合>3行：");
+                    $("#div4>span:gt(2)").each(function () {
+                        console.log("    " + (i++) + $(this).html());
+                    });
+                    i = 0;
+
+                    console.log("8、获取span集合<3行：");
+                    $("#div4>span:lt(2)").each(function () {
+                        console.log("    " + (i++) + $(this).html());
+                    });
+                    i = 0;
+
+                    console.log("8、匹配如h1、h2、h3之类的标题元素：");
+                    $(":header").each(function () {
+                        console.log("    " + (i++) + $(this).html());
+                    });
+                    i = 0;
+                });
+
+            })
+            var a;
+
+        </script>
+
+    </head>
+    <body>
+        <h1>标签选择器</h1>
+        <div id="div1">
+            <p>span1</p>
+            <p>span1</p>
+            <p>span1</p>
+            <button id="labelBtn">查看有几个p标签</button>
+        </div>
+        <hr/>
+
+        <h1>属性选择器</h1>
+        <div id="div2">
+            <input type="checkbox" name="newsletter" value="Hot Fuzz">
+            <input type="checkbox" name="newsletter" value="cold Fusion">
+            <input type="checkbox" value="Evil Plans">
+            <input type="aa" name="5" value="5555">
+            <p name="'123'"></p>
+            <button id="attrBtn">属性选择器</button>
+        </div>
+        <hr/>
+
+        <h1>属性选择器</h1>
+        <div id="div3">
+            <div>
+                div1
+                <p>123</p>
+                <p>12</p>
+                <p>123</p>
+                <p></p>
+            </div>
+            <div>div2</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <button id="contentBtn">内容选择器</button>
+        </div>
+        <hr/>
+
+        <h1>层级下标选择器</h1>
+        <div id="div4">
+            <span id="span1">span1</span><span>span2</span><br/>
+            <span>span3</span><br/>
+            <span>span4</span><br/>
+            <span>span5</span><br/>
+            <span>span6</span><br/>
+            <span>span7</span><br/>
+            <button id="levelBtn">层级下标选择器</button>
+        </div>
+        <hr/>
+
+
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

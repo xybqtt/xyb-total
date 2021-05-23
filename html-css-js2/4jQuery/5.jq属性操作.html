@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>10.jq属性操作.html</title>
+        <title>5.jq属性操作.html</title>
         <meta charset="UTF-8"/>
         <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
         <script type="text/javascript">
 
             /**
              * jq属性操作：jq对象.html()，不传参数是获取，传参数是设置
-             *      1)、html()：可以设置和获取起始标签和结束标签中的内容。跟dom属性innerHTML一样；
-             *      2)、text()：以设置和获取起始标签和结束标签中的文本。跟dom属性innerTEXT一样；
-             *      3)、val()：以设置和获取表单项的value值。跟dom属性value一样。
-             *      4)、attr()：可以设置和获取属性值，此方法获取一些属性时，如.attr("checked")，
+             *      1、html()：可以设置和获取起始标签和结束标签中的内容。跟dom属性innerHTML一样；
+             *      2、text()：以设置和获取起始标签和结束标签中的文本。跟dom属性innerTEXT一样；
+             *      3、val()：以设置和获取表单项的value值。跟dom属性value一样。
+             *      4、attr()：可以设置和获取属性值，此方法获取一些属性时，如.attr("checked")，
              *          如果是未选中状态，则会返回undefined，prop()方法会返回false；
              *          如果选中状态会返回checked，prop()方法会返回true；
              *          所以对于以下属性不推荐用attr()去操作：checked、readOnly、selected、disabled等。
@@ -19,7 +19,14 @@
              *          引方法还可以操作自定义属性。
              *          .attr("属性名")：是获取属性值；
              *          .attr("属性名", "属性值")：是设置属性值；prop同理
-             *      5)、prop()：可以设置和获取属性值，只推荐操作checked、readOnly、selected、disabled属性。
+             *      5、prop()：可以设置和获取属性值，只推荐操作checked、readOnly、selected、disabled属性。
+             *      6、addClass()：向匹配的元素添加指定的类名。
+             *      7、hasClass()：检查匹配的元素是否拥有指定的类。
+             *      8、removeAttr()：从所有匹配的元素中移除指定的属性。
+             *      9、removeClass()：从所有匹配的元素中删除全部或者指定的类。
+             *      10、toggleClass()：从匹配的元素中添加或删除一个类，如果有这个类就删除，没有就添加
+             *
+             *
              * */
             $(function () {
 
