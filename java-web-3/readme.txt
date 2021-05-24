@@ -145,7 +145,7 @@ web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
                     Type：不可修改；
                     path：web.xml的绝对路径；
                 Web Resource Directories：
-                    Web Resource Directory：2中的web目录的绝对路径，即资源路径的绝对路径；
+                    Web Resource Directory：2中的web目录的绝对路径，即资源路径的绝对路径；被设置了这个位置的目录就是web目录，不管叫什么；
                     Path Relative to Deployment Root：要把上面的资源放到发布的根目录的什么位置，/代表就把资源放到发布目录下(Artifacts的output directory)，建议别整妖娥子，就放在这个目录下，如果不放在这个目录下，比如放在/111目录下，
                     那么，class的目录是/WEB-INF/class，资源的目录是/111/。本来资源和WEB-INF是同一级，现在资源所在的目录和WEB-INF才是同一级。
                 Source Roots：java源代码目录，选择"模块绝对路径/src"；
@@ -177,8 +177,52 @@ web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
 
 
 八、servlet
+    1、什么是servlet？
+        1)、是javaEE规范之一，规范就是接口；
+        2)、是javaWeb三大组件之一。另外2个组件是Filter过滤器、Listener监听器；
+        3)、是运行在服务器上的一个java程序，可以接收客户端发送过来的Http请求，并响应
+    数据给客户端。
+
+    2、手动实现servlet程序
+        1)、编写一个类去实现Servlet接口；
+        2)、实现service方法，处理请求，并响应数据；
+        3)、到web.xml中配置servlet程序的访问地址，
+            当我们从浏览器访问：http://ip:port/java_web_3/hello时，最终是如何访问到写
+        servlet的实现类？
+            http://ip:port/java_web_3/hello代表的含义如下
+                http：http协议；
+                ip：服务器的ip，ip唯一，可以通过ip确定访问哪个服务器；
+                port：服务器端口，1个端口只能被1个程序占用，所以根据port可以确定程序；
+                /java_web_3：工程路径，即tomcat\webapps\java_web_3；
+                /hello：资源路径，会从servlet-mapping匹配其中的url-pattern，如果匹配
+            到了，会获取其servlet-name，再根据此name从servlet标签中查找与此servlet-name
+            一致的那个servlet，再调用servlet-class所写的全限定名的类，调用其service方法。
+                <servlet>
+                    <servlet-name>HelloServlet</servlet-name>
+                    <servlet-class>com.xyb.servlet.HelloServlet</servlet-class>
+                </servlet>
+                <servlet-mapping>
+                    <servlet-name>HelloServlet</servlet-name>
+                    <url-pattern>/hello</url-pattern>
+                </servlet-mapping>
+
+                为什么url-pattern不直接写在servlet的子标签位置呢？
+                因为1个servlet实现类，可能会设置多个url-pattern。
 
 
+                配置的注意点：
+                url-pattern的内容必须以/开头，/代表http://ip:port/工程路径/；
+                servlet标签和servlet-mapping标签的子标签"的servlet-name"需保持一致。
+
+    3、servlet生命周期
+        1)、执行servlet构造器方法，会在第一次访问，创建servlet时调用，后面不会再被调用；
+        2)、执行init初始化方法，会在第一次访问，创建servlet时调用，后面不会再被调用；
+        3)、执行service方法，每次访问都会被调用；
+        4)、执行destroy销毁方法。停止web应用的时候才会被调用。
+
+    4、Servlet和HttpServlet的关系？
+        当初设计Servlet的时候，认为可能不止http一种协议，所以是现在这样设计接口的，而且对Http
+    的协议有一个HttpServlet实现，我们现在只需要
 
 
 
