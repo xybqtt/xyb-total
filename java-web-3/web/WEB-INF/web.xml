@@ -10,6 +10,19 @@
         <servlet-name>HelloServlet</servlet-name>
         <!-- servlet-class：是servlet程序的全限定名 -->
         <servlet-class>com.xyb.servlet.HelloServlet</servlet-class>
+        <!-- init-param是初始化参数，可配置多个 -->
+        <init-param>
+            <!-- 是参数名 -->
+            <param-name>url</param-name>
+            <!-- 是参数值 -->
+            <param-value>jdbc:mysql://localhost:3306/test</param-value>
+        </init-param>
+        <init-param>
+            <!-- 是参数名 -->
+            <param-name>param2</param-name>
+            <!-- 是参数值 -->
+            <param-value>value2</param-value>
+        </init-param>
     </servlet>
 
     <!-- servlet-mapping标签给servlet程序配置访问地址 -->
@@ -23,5 +36,30 @@
          -->
         <url-pattern>/hello</url-pattern>
     </servlet-mapping>
+
+
+    <!-- 访问HelloHttpServlet2 -->
+    <servlet>
+        <servlet-name>HelloHttpServlet2</servlet-name>
+        <servlet-class>com.xyb.servlet.HelloHttpServlet2</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HelloHttpServlet2</servlet-name>
+        <url-pattern>/helloHttpServlet2</url-pattern>
+    </servlet-mapping>
+
+    <!-- 这个是使用idea生成的servlet，会自动创建servlet标签，但不会创建servlet-mapping标签，因为它不知道你准备的url-pattern叫什么 -->
+    <servlet>
+        <servlet-name>IdeaGenerateServlet3</servlet-name>
+        <servlet-class>com.xyb.servlet.IdeaGenerateServlet3</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>IdeaGenerateServlet3</servlet-name>
+        <url-pattern>/ideaGenerateServlet3</url-pattern>
+    </servlet-mapping>
+
+
 
 </web-app>

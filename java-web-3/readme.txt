@@ -213,16 +213,36 @@ web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
                 配置的注意点：
                 url-pattern的内容必须以/开头，/代表http://ip:port/工程路径/；
                 servlet标签和servlet-mapping标签的子标签"的servlet-name"需保持一致。
+    3、idea生成servlet
+        想要在包A下生成，对包A：右键 -> New -> create new servlet ->
+        根据要求设置，create java EE 6 annotated class勾选会生成注解形式。
 
-    3、servlet生命周期
+
+    4、servlet生命周期
         1)、执行servlet构造器方法，会在第一次访问，创建servlet时调用，后面不会再被调用；
-        2)、执行init初始化方法，会在第一次访问，创建servlet时调用，后面不会再被调用；
-        3)、执行service方法，每次访问都会被调用；
+        2)、执行init(ServletConfig var1)初始化方法，会在第一次访问，创建servlet时调用，后面不会再被调用；
+        3)、执行service(ServletRequest var1, ServletResponse var2)方法，每次访问都会被调用；
         4)、执行destroy销毁方法。停止web应用的时候才会被调用。
 
-    4、Servlet和HttpServlet的关系？
-        当初设计Servlet的时候，认为可能不止http一种协议，所以是现在这样设计接口的，而且对Http
-    的协议有一个HttpServlet实现，我们现在只需要
+    5、Servlet和HttpServlet的关系？
+        1)、当初设计Servlet的时候，认为可能不止http一种协议，所以是现在这样设计接口的；
+    只负责定义Servlet程序的访问规范；
+        2)、GenericServlet是对Servlet的抽象实现类，这个方法重写了Servlet的接口方
+    法，但是同样有一个service(ServletRequest var1, ServletResponse var2)的抽
+    象方法。
+        做了很多空实现，并持有一个ServletConfig类的引用，对ServletConfig的使用做
+    一些方法
+        3)、HttpServlet extends GenericServlet，这个类实现service(ServletRequest var1, ServletResponse var2)
+    方法，且其中还调用了doGet()、doPost()等方法，我们只要extends这个类，重写这些方法
+    就可以，专注于业务逻辑。
+        其中doGet()、doPost()方法还可以抛出异常。
+        4)、自定义的Servlet程序
+        一般我们写Servlet只要extends HttpServlet即可，重写其中的doGet()、doPost()。
+
+    6、ServletConfig类，Servlet程序配置信息类，作用如下
+        1)、获取Servlet程序的别名servlet-name；
+        2)、获取初始化参数：init-param；
+        3)、获取ServletContext对象。
 
 
 
