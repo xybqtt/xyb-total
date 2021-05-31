@@ -17,6 +17,8 @@
                 <button type="submit">提交</button>
             </form>
             <form action="http://localhost:8080/java_web_3/hello" method="post">
+                <input type="hidden" name="hidden1" value="hdd">
+                <input type="hidden" name="hidden2" value="hdd2">
                 通过post请求访问HelloServlet
                 <button type="submit">提交</button>
             </form>
@@ -28,6 +30,22 @@
             </form>
             <form action="http://localhost:8080/java_web_3/helloHttpServlet2" method="post">
                 通过post请求访问HelloHttpServlet2
+                <button type="submit">提交</button>
+            </form>
+        </div>
+        <div>
+            <form action="http://localhost:8080/java_web_3/contextServlet4" method="get">
+                ServletContext测试
+                <button type="submit">提交</button>
+            </form>
+        </div>
+        <div>
+            <form action="http://localhost:8080/java_web_3/requestApiServlet5" method="get">
+                HttpServletRequest测试
+                用户名：<input type="text" name="username" value="用户名">
+                爱好：<input type="checkbox" name="hobby" value="java">
+                <input type="checkbox" name="hobby" value="c++" checked="checked">
+                <input type="checkbox" name="hobby" value="aaa">
                 <button type="submit">提交</button>
             </form>
         </div>

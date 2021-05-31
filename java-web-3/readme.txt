@@ -107,7 +107,7 @@ resin自身采用java开发(收费、应用多)；
     勾选Web Application、勾选Create web.xml。
 
     2、javaweb动态工程目录说明
-        工程名
+        工程名(对应开发过程中的web目录)
             src：java代码开发目录
             web：专门用来存放web工程的资源文件，如html、css、js等
                 WEB-INF：是一个受服务器保护的目录，浏览器无法直接访问到此目录内容
@@ -236,6 +236,9 @@ web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
     方法，且其中还调用了doGet()、doPost()等方法，我们只要extends这个类，重写这些方法
     就可以，专注于业务逻辑。
         其中doGet()、doPost()方法还可以抛出异常。
+        如果需要重写init(ServletConfig config)方法，一定要调用super.init，不然无法获
+    取ServletConfig对象，重写init方法，则不需要，查看GenericServlet.init(ServletConfig config)
+    即可知道原因。
         4)、自定义的Servlet程序
         一般我们写Servlet只要extends HttpServlet即可，重写其中的doGet()、doPost()。
 
@@ -243,11 +246,259 @@ web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
         1)、获取Servlet程序的别名servlet-name；
         2)、获取初始化参数：init-param；
         3)、获取ServletContext对象。
+        ServletConfig和Servlet对象都是tomcat负责创建的，我们负责使用；
+        Servlet程序默认是第一次访问的时候创建，ServletConfig是每个Servlet程序创建
+    时，就创建一个对应的ServletConfig对象。
+
+    7、ServletContext
+        是一个接口，表示Servlet上下文对象；
+        一个web工程，只有一个ServletContext对象实例，类似全局变量；
+        是一个域对象，可以像Map一样存取数据的对象；这里的域指的是存取数据的操作范围，是
+    整个web工程类似Map，我们可以用setAttribute()、getAttribute()、removeAttribute()
+    来存、取、删数据。
+        在web工程部署启动时创建，在web工程停止时销毁。
+        4个常用作用：
+            1)、获取web.xml中配置的上下文参数context-param；
+            2)、获取当前的工程路径，格式：/工程路径；
+            3)、获取工程部署后在服务器的绝对路径；
+            4)、像Map一样存储数据。
+
+    8、HttpServletRequest类
+        每次只要有请求进入Tomcat服务器，Tomcat服务器就会把请求过来的HTTP协议信息解
+    析好封装到Request对象中。然后传递到service方法(doGet、doPost)中给我们使用。我
+    们可能通过HttpServletRequest对象，获取到所有请求的信息。
+        HTTP请求有什么内容，可以查看"九、HTTP协议"。
+        接收乱码问题，查看"RequestApiServlet5"。
+
+    9、HttpServletResponse类
+        每次只要有请求进入Tomcat服务器，Tomcat都会创建一个Response对象传递给Servlet
+    程序去使用。HttpServletResponse表示所有响应的信息。
+        如果需要设置返回给客户端的信息，都可以通过HttpServletResponse对象来设置。
+        1)、2个输出流的说明
+            字节流：getOutputStream(); 常用于下载(传递二进制文件)；
+            字符流：getWriter()；常用于回传字符串；
+            两个流同时只能使用一个，强行使用2个会报错。
+            Response返回乱码问题，查看"ResponseApiServlet7"。
 
 
+        2)、往客户端回传数据
+            使用PrintWriter，具体查看ResponseApiServlet7。
 
+    10、Servlet请求转发
+        浏览器访问Servlet1，在Servlet1中对Servlet进行访问。
+        特点：
+            浏览器地址栏没有变化；
+            请求和请求转发对于浏览器来说是一次请求；
+            请求和请求转发共享Request域中的数据；
+            可以请求转发到WEB-INF目录下(通过浏览器访问是无法访问到WEB-INF目录下)。
 
+    11、Servlet请求重定向
+        是指客户端给服务器发请求，然后服务器告诉客户端说，我给你一些地址，你去新地址
+    访问。
+        响应码为302，再设置请求头的Location。
+        特点：
+            浏览器地址栏会变化；
+            2次访问Servlet是2次请求；
+            不共享Request域中的数据；
+            不能访问WEB-INF目录下(通过浏览器访问是无法访问到WEB-INF目录下)；
+            可以访问工程外的资源。
 
+    12、/的含义
+        如果被浏览器解析，则得到的地址是http://ip:port/
+            <a href="/">aaa</a>
+        如果被服务器解析，则得到的地址是http://ip:port/工程名
+            <url-pattern>/aaa</url-pattern>；
+            servletContext.getRealPath("/")；
+            request.getRequestDispatcher("/")；
+        特殊情况，如果使用重定向到"/"，把/发送给浏览器，则会得到http://ip:port/。
+
+九、HTTP协议
+    1、什么是HTTP协议
+        协议是指双方或多方相互约定好，大家都需要遵守的规则；
+        HTTP协议是指，客户端和服务端通信时，发送的数据，需要遵守的规则；
+        HTTP协议中的数据又叫报文；
+        客户端给服务器发送数据叫请求；
+        服务器给客户端回传的数据叫响应；
+        请求分为GET请求和POST请求。
+
+    2、chrome查看GET请求完整格式
+        F12 -> Network -> 在Name区域点击某个链接 -> View source即可；
+
+    3、HTTP部分说明：
+        1)、常用响应码
+           200：请求成功；
+           302：表示请求重定向；
+           404：表示请求服务器已经收到了，但是你要的数据不存在(请求地址错误)；
+           500：表示服务器已经收到请求，但是服务器内部错误(代码错误)。
+
+        2)、MIME类型说明
+            MIME的英文全称是"Multipurpost Internet Mail Extensions"，多功能
+        Internet邮件扩充服务，其格式类型是"大类型/小类型"，并与某一种文件的扩展名相
+        对应。
+            常用的MIME类型如下：
+                文本：                     后缀          MIME类型
+                超文本标记语言文本：         .html、.htm   text/html
+                普通文本：                 .txt          text/plain
+                RTF文本：                 .rtf          application/rtf
+                GIF图形：                 .gif          image/gif
+                JPEG图形：                .jpeg、.jpg   image/jpeg
+                au声音文件：               .au           audio/basic
+                MIDI音乐文件：             mid、.midi    audio/midi、audio/x-midi
+                RealDudio音乐文件：        .ra、.ram     audio/x-pn-realaudio
+                MPEG文件：                .mpg、.mpeg   video/mpeg
+                AVI文件：                 .avi          video/x-msvideo
+                GZIP文件：                .gz           application/x-gzip
+                TAR文件：                 .tar          application/x-tar
+
+    3、GET、POST请求的使用时机
+        GET：
+            form标签 method=get；
+            a标签；
+            link标签引入css；
+            script标签引入js文件；
+            img标签引入图片；
+            iframe引入html页面；
+            在浏览器地址栏输入地址后敲回车。
+
+        POST：
+            form标签 method=post。
+
+    4、GET请求
+        1)、GET请求的HTTP协议格式
+            a、请求行
+                请求的方式                   GET
+                请求的资源路径[?请求参数]
+                请求的协议版本号              HTTP/1.1
+            b、请求头
+                k:v 组成
+            c、请求参数
+                username=a&hobby=b&hobby=c
+
+        2)、GET请求实例
+            请求行
+            //1、请求方式 2、请求的资源路径 3、请求的协议和版本号
+            GET /java_web_3/contextServlet4 HTTP/1.1
+
+            请求头
+            // Host: 表示请求的服务器ip和端口号
+            Host: localhost:8080
+            // Connection：告诉服务器请求连接如何处理。keep-alive表示服务器回传数据不要马上关闭，保持一小段时间连接。closes表示马上关闭
+            Connection: keep-alive
+            sec-ch-ua: " Not A;Brand";v="99", "Chromium";v="90", "Google Chrome";v="90"
+            sec-ch-ua-mobile: ?0
+            Upgrade-Insecure-Requests: 1
+            // User-Agent: 浏览器的信息
+            User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36
+            // Accept：告诉服务器，客户端可以接收的数据类型
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-User: ?1
+            Sec-Fetch-Dest: document
+            Referer: http://localhost:8080/java_web_3/a.html
+            // Accept-Encoding: 告诉服务器，客户端可以接收的数据编码(压缩)格式
+            Accept-Encoding: gzip, deflate, br
+            // Accept-Language：告诉服务器客户端可以接收的语言类型
+            Accept-Language: zh-CN,zh;q=0.9
+            Cookie: JSESSIONID=B504D8ACD4B5972C5941BF79FFC0A34E; Idea-71feb1f0=80b67c67-bcd2-45b5-b7b1-386160294d79
+
+    5、GET响应
+        1)、GET响应的HTTP协议格式
+            a、响应行
+                响应的协议和版本号
+                响应的状态码
+                响应状态描述符
+
+            b、响应头
+                k:v
+            空行
+            c、响应体
+                就是回传给客户端的数据
+
+        2)、GET响应实例
+            响应行
+            // 响应的协议 响应的状态码 响应状态描述符
+            HTTP/1.1 200 OK
+
+            响应头
+            // Server：表示服务器的信息
+            Server: Apache-Coyote/1.1
+            // Date：请求响应的时间(格林时间)
+            Date: Sat, 29 May 2021 08:35:14 GMT
+            Accept-Ranges: bytes
+            ETag: W/"1613-1622272759059"
+            Last-Modified: Sat, 29 May 2021 07:19:19 GMT
+            // Content-Type：表示响应体的数据类型
+            Content-Type: text/html
+            // Content-Length：响应体的长度
+            Content-Length: 1613
+
+            空行
+
+            // 响应体
+            比如是一个html，则这块返回的就是这个html页面的所有内容。
+
+    6、POST请求
+        1)、POST请求的HTTP协议格式
+            a、请求行
+                请求的方式                   POST
+                请求的资源路径[?请求参数]
+                请求的协议版本号              HTTP/1.1
+            b、请求头
+                k:v
+            空行：区分请求头和请求体
+            c、请求体
+                发送给服务器的数据
+
+        2)、POST请求实例
+            请求行
+            //1、请求方式 2、请求的资源路径 3、请求的协议和版本号
+            POST /java_web_3/hello HTTP/1.1
+
+            请求头
+            Host: localhost:8080
+            Connection: keep-alive
+            // Content-Length：表示发送的数据(请求体)的长度
+            Content-Length: 24
+            // Cache-Control：表示如何控制缓存。no-cache表示不缓存。
+            Cache-Control: max-age=0
+            sec-ch-ua: " Not A;Brand";v="99", "Chromium";v="90", "Google Chrome";v="90"
+            sec-ch-ua-mobile: ?0
+            Upgrade-Insecure-Requests: 1
+            Origin: http://localhost:8080
+            // Content-Type：表示发送的数据类型。application/x-www-form-urlencoded表示提交的数据格式是name=value&name=value，然后对其进行url编码(将非英文内容转换为：%xx%xx)
+            //          multipart/form-data表示以多段的形式提交数据给服务器(以流的形式提交，用于上传)
+            Content-Type: application/x-www-form-urlencoded
+            User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            Sec-Fetch-Site: same-origin
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-User: ?1
+            Sec-Fetch-Dest: document
+            // Referer：请求发起时，浏览器地址栏中的地址(从哪来)
+            Referer: http://localhost:8080/java_web_3/a.html
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: zh-CN,zh;q=0.9
+            Cookie: Idea-71feb1f0=80b67c67-bcd2-45b5-b7b1-386160294d79
+
+            请求体
+            hidden1=hdd&hidden2=hdd2
+
+十、JavaEE项目
+    1、三层架构
+        浏览器请求服务器资源，并最终把结果展示到页面上，如Html、css、js、jq；
+        1)、Web层/视图展现层 作用
+            获取请求参数；
+            调用Service层处理业务；
+            响应数据给客户端、请求转发、重定向；
+            如Servlet、Webwork、Struts、SpringMVC；
+        2)、Service业务层 作用
+            处理业务逻辑；
+            调用持久层保存到数据库；
+            如Spring框架；
+        3)、Dao持久层 作用
+            只负责和数据库交互；
+            如Jdbc、DBUtils、JdbcTemplate、Mybatis、Hiberante、JPA；
 
 
 
