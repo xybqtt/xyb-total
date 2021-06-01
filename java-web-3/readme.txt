@@ -82,6 +82,7 @@ resin自身采用java开发(收费、应用多)；
         docBase表示工程的目录在哪里；
     但是我们访问的时候，是http://ip:port/path的值/index.html = http://ip:port/docBase的值/index.html，
     不能再用http://ip:port/工程名访问了。
+        idea将编译后的存放tomcat运行时jsp翻译为servlet源码、session钝化(序列化)的目录：查看启动时的Using CATALINA_BASE。
 
     6、在本地磁盘打开html和
         1)、手拖打开html页面到浏览器，地址为file://...，用的是file协议，表示告诉浏览器
@@ -499,6 +500,26 @@ web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
         3)、Dao持久层 作用
             只负责和数据库交互；
             如Jdbc、DBUtils、JdbcTemplate、Mybatis、Hiberante、JPA；
+
+十一、jsp
+    1、什么是jsp?
+        全称是Java Server Pages。Java的服务器页面。
+        主要作用是代替Servlet程序回传HTML页面。
+        因为Servlet程序回传html页面是一件非常烦琐的事情，开发和维护成功极高，是使用
+    流输出每一行html的内容。
+
+    2、创建jsp
+        New => jsp/jspx
+
+    3、jsp如何访问
+        和html页面一样，都存放在web目录下，和html的访问方式一样。
+
+    4、jsp的本质
+        jsp页面本质是一个Servlet程序，因为Tomcat会将jsp翻译为一个java源文件，idea
+    中将翻译后的jsp源文件存放在启动时的Using CATALINA_BASE目录，并将其编译为.class
+    字节码程序。
+        我们打开此文件，发现其extends org.apache.jasper.runtime.HttpJspBase
+    extends HttpServlet。所以jsp翻译后的java文件本质是HttpServlet的子类。
 
 
 
