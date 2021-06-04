@@ -504,9 +504,10 @@ web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
 十一、jsp
     1、什么是jsp?
         全称是Java Server Pages。Java的服务器页面。
-        主要作用是代替Servlet程序回传HTML页面。
+        主要作用是代替Servlet程序回传HTML页面！！！！！！
         因为Servlet程序回传html页面是一件非常烦琐的事情，开发和维护成功极高，是使用
     流输出每一行html的内容。
+        jsp的本质就是Servlet，我们看待jsp的时候，需要直接将它看作Servlet。
 
     2、创建jsp
         New => jsp/jspx
@@ -520,6 +521,11 @@ web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
     字节码程序。
         我们打开此文件，发现其extends org.apache.jasper.runtime.HttpJspBase
     extends HttpServlet。所以jsp翻译后的java文件本质是HttpServlet的子类。
+        既然jsp的本质是Servlet，
+
+
+    5、jsp中的声明
+
 
 
 

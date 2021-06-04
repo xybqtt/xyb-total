@@ -25,9 +25,18 @@
                 map.put("key2", "value2");
             }
 
-            public void fn1(){
+            public void _fn1(){
                 System.out.println("这是方法fn1");
             }
+
+            public void init(){
+                System.out.println("这是init");
+            }
+
+            public void _jspInit(){
+                System.out.println("jsp的_jspInit");
+            }
+
 
             public class Acls {
                 public Acls() {
@@ -52,5 +61,35 @@
         <%=12.2 %><br/>
         <%="字符串" %><br/>
         <%=map%><br/>
+        <%=request.getParameter("username")%>
+
+
+        <%--
+            代码脚本：
+                翻译之后的内容都在_jspService()方法中；
+                代码脚本由于翻译到_jspService()中，所以在_jspService()方法中的现有
+            对象都可以直接使用；
+                还可以由多个代码组合成一个完整的java语句；
+                代码脚本还可以和表达脚本一起使用，在jsp页面输出数据；
+
+            代码脚本、声明脚本、表达式脚本可以嵌套使用。
+
+        --%>
+        <%
+            // 代码脚本可以直接写代码
+            int i = 13;
+            if(i == 12){
+                System.out.println("12");
+            } else {
+                System.out.println("13");
+            }
+
+            for(i = 0; i < 13; i++){
+                System.out.println(i);
+            }
+
+            String username = request.getParameter("username");
+
+        %>
     </body>
 </html>
