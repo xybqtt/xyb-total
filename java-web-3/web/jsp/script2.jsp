@@ -1,5 +1,6 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.io.IOException" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -32,11 +33,6 @@
             public void init(){
                 System.out.println("这是init");
             }
-
-            public void _jspInit(){
-                System.out.println("jsp的_jspInit");
-            }
-
 
             public class Acls {
                 public Acls() {

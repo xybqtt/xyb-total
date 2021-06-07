@@ -1,16 +1,37 @@
+零、Html、js、css、servlet、jsp产生的条件？
+    1、为什么要学Html、js、css？
+        想要在前端页面展示一些信息，所以要学html、js、css；
+
+    2、为什么要有servlet？
+        当我们发布一个只有html代码的web项目时，我们可以通过uri直接从服务器读取这个静态
+    html页面，比如登陆页面。
+        但是有时候，我们想要显示的页面，并不是确定的，比如我想显示这个公司的所有人名单到
+    前端，由于人员一般不会一直不变，我们不可能提前知道哪个时间节点，有哪些人员还在公司，
+    所以实际的情况，我们需要查询数据库，查出相应的人员，再返回给前面页面。
+        所以servlet的主要功能是用response的输出流向前端页面写入html代码，但是这样操
+    作起来会很麻烦，因为我们需要在java代码中写html代码。
+
+    3、为什么要有jsp？
+        为了简化servlet输出html代码的操作，所以有了jsp，我们可以在html代码中写java
+    代码，虽然也很麻烦，但是总算稍微简单了一些。
+
+
 一、javaweb的概念
     1、什么是javaweb
-    javaweb是指，所有通过java语言编写可以通过浏览器访问的程序的总称；
+        javaweb是指，所有通过java语言编写可以通过浏览器访问的程序的总称；
     是基于请求和响应来开发的。
 
     2、什么是请求？
-    请求是指客户端给服务器发送数据，叫请求request。
+        请求是指客户端给服务器发送数据，叫请求request。
 
     3、什么是响应？
-    响应是指服务器给客户端回传数据，叫响应response。
+        响应是指服务器给客户端回传数据，叫响应response。
 
     4、请求和响应的关系？
-    请求和响应是成对出现的。
+        请求和响应是成对出现的。
+
+    5、javaweb的三大组件？
+        Servlet程序、Filter过滤器、Listener监听器。
 
 二、web资源分类
     按实现的技术和呈现的效果不同，分为静态资源和动态资源2种。
@@ -516,15 +537,31 @@ web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
         和html页面一样，都存放在web目录下，和html的访问方式一样。
 
     4、jsp的本质
-        jsp页面本质是一个Servlet程序，因为Tomcat会将jsp翻译为一个java源文件，idea
-    中将翻译后的jsp源文件存放在启动时的Using CATALINA_BASE目录，并将其编译为.class
-    字节码程序。
+        jsp页面本质是一个HttpServlet的子类，因为Tomcat会将jsp翻译为一个java源文件，
+    idea中将翻译后的jsp源文件存放在启动时的Using CATALINA_BASE目录，并将其编译为
+    .class字节码程序(类名_jsp.java)。
         我们打开此文件，发现其extends org.apache.jasper.runtime.HttpJspBase
     extends HttpServlet。所以jsp翻译后的java文件本质是HttpServlet的子类。
-        既然jsp的本质是Servlet，
-
 
     5、jsp中的声明
+        既然jsp的本质是Servlet，那我们自己创建的Servlet有什么功能，则tomcat将jsp
+    翻译后的Servlet应该有同样的内容。
+        jsp中的所有html代码在翻译后都会在_jspService()中，用resp.out进行输出，想
+    在service()方法中写代码，需要用"<% 代码脚本 %>"来包围，则其中的代码都会在service()
+    中；
+        想在jsp的servlet中写成员变量、静态块、内部类、方法等代码，用"<%! 声明脚本 %>"
+    包围；
+        表达式脚本：<%=值 %>，可以输出值。
+
+十二、Listener监听器
+    1、Listener是javaEE规范，就是接口，作用是监听某种事物的变化，通过回调函数，反馈给
+客户(程序)去做一些相应的处理。
+
+
+
+
+
+
 
 
 
