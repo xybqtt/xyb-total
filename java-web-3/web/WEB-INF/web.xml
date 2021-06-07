@@ -14,7 +14,7 @@
         <param-value>root</param-value>
     </context-param>
 
-
+    <!-- 一、Servlet程序 -->
     <!-- servlet标签给tomcat配置servlet -->
     <servlet>
         <!-- servlet-name：给servlet程序起一个别名 -->
@@ -122,5 +122,10 @@
     </servlet-mapping>
 
 
+    <!-- 二、Listener监听器 -->
+    <!-- 只要把监听实现类配置在这儿即可实现监听 -->
+    <listener>
+        <listener-class>com.xyb.listener2.MyServletContextListener</listener-class>
+    </listener>
 
 </web-app>

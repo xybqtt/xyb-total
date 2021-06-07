@@ -557,7 +557,13 @@ web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
     1、Listener是javaEE规范，就是接口，作用是监听某种事物的变化，通过回调函数，反馈给
 客户(程序)去做一些相应的处理。
 
+    2、ServletContextListener监听器
+        可以监听ServletContext对象的创建和销毁；
+        ServletContext对象在web工程启动的时候创建，在web工程终止的时候销毁；
+        只要实现ServletContextListener接口即可，在web.xml配置监听器；
 
+191、6:32
+192、5.00
 
 
 
