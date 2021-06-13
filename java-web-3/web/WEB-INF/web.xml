@@ -90,16 +90,6 @@
         <url-pattern>/requestApiServlet5</url-pattern>
     </servlet-mapping>
 
-    <!-- HttpServletResponse的使用 -->
-    <servlet>
-        <servlet-name>ResponseApiServlet7</servlet-name>
-        <servlet-class>com.xyb.servlet.ResponseApiServlet7</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ResponseApiServlet7</servlet-name>
-        <url-pattern>/responseApiServlet7</url-pattern>
-    </servlet-mapping>
-
 
     <!-- 测试请求转发 -->
     <servlet>
@@ -111,6 +101,17 @@
         <url-pattern>/requestForwardServlet6</url-pattern>
     </servlet-mapping>
 
+
+    <!-- HttpServletResponse的使用 -->
+    <servlet>
+        <servlet-name>ResponseApiServlet7</servlet-name>
+        <servlet-class>com.xyb.servlet.ResponseApiServlet7</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResponseApiServlet7</servlet-name>
+        <url-pattern>/responseApiServlet7</url-pattern>
+    </servlet-mapping>
+
     <!-- 测试重定向 -->
     <servlet>
         <servlet-name>RedirectServlet8</servlet-name>
@@ -119,6 +120,17 @@
     <servlet-mapping>
         <servlet-name>RedirectServlet8</servlet-name>
         <url-pattern>/redirectServlet8</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- 测试文件上传下载 -->
+    <servlet>
+        <servlet-name>FileUpdownload9</servlet-name>
+        <servlet-class>com.xyb.servlet.FileUpdownload9</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileUpdownload9</servlet-name>
+        <url-pattern>/fileUpdownload9</url-pattern>
     </servlet-mapping>
 
 

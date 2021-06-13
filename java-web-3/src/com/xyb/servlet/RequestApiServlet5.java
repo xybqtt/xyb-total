@@ -4,6 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -18,6 +19,13 @@ public class RequestApiServlet5 extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
     }
 
+    /**
+     * 通过a.html跳转过来
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 //        System.out.println("获取默认的浏览器的字符集：" + request.getCharacterEncoding());
@@ -30,6 +38,8 @@ public class RequestApiServlet5 extends HttpServlet {
         System.out.println("获取ip => " + request.getRemoteHost());
         System.out.println("获取请求头的User-Agent信息 => " + request.getHeader("User-Agent"));
         System.out.println("获取请求方式 => " + request.getMethod());
+        System.out.println("getContextPath" + request.getContextPath());
+        System.out.println("获取工程的绝对路径：" + request.getRealPath(File.separator));
 
         // 2、获取get请求的请求参数
         System.out.println("获取name=username的标签的value => " + request.getParameter("username"));
@@ -37,6 +47,6 @@ public class RequestApiServlet5 extends HttpServlet {
 
         // 3、可以自定义parameter
         request.setAttribute("key1", "value1");
-        System.out.println("获取在Servlet中自定义的属性key1 = " + request.getParameter("key1"));
+        System.out.println("获取在Servlet中自定义的属性key1 = " + request.getAttribute("key1"));
     }
 }

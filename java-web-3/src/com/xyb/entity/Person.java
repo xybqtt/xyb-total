@@ -15,6 +15,14 @@ public class Person {
 
     private Map<String, Object> map;
 
+    public Person() {
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
     public String getName() {
         return name;
     }

@@ -305,7 +305,7 @@
 | 空行 |  |
 | 响应体 |  |
 | 比如是一个html，则这块返回的就是这个html页面的所有内容。 |  |
-    
+
 ## 4.7 POST请求
 ### 4.7.1 POST请求的HTTP协议格式
 　　请求行
@@ -345,7 +345,7 @@
 | Cookie: Idea-71feb1f0=80b67c67-bcd2-45b5-b7b1-386160294d79 |  |
 | 请求体 |  |
 | hidden1=hdd&hidden2=hdd2 |  |
-            
+
 # 5 Servlet
 ## 5.1 什么是servlet？
 　　是javaEE规范之一，规范就是接口；
@@ -413,7 +413,8 @@
 　　　　3、获取工程部署后在服务器的绝对路径；
 　　　　4、像Map一样存储数据。
 
-## 5.8、HttpServletRequest类
+## 5.8 HttpServletRequest类
+
 　　每次只要有请求进入Tomcat服务器，Tomcat服务器就会把请求过来的HTTP协议信息解析好封装到Request对象中。然后传递到service方法(doGet、doPost)中给我们使用。我们可能通过HttpServletRequest对象，获取到所有请求的信息。
 　　HTTP请求有什么内容，可以查看"九、HTTP协议"。
 　　接收乱码问题，查看"RequestApiServlet5"。
@@ -421,7 +422,9 @@
 ## 5.9 HttpServletResponse类
 　　每次只要有请求进入Tomcat服务器，Tomcat都会创建一个Response对象传递给Servlet程序去使用。HttpServletResponse表示所有响应的信息。
 　　如果需要设置返回给客户端的信息，都可以通过HttpServletResponse对象来设置。
+
 ### 5.9.1 2个输出流的说明
+
 　　字节流：getOutputStream(); 常用于下载(传递二进制文件)；
 　　字符流：getWriter()；常用于回传字符串；
 　　两个流同时只能使用一个，强行使用2个会报错。

@@ -16,10 +16,10 @@ public class RedirectServlet8 extends HttpServlet {
 
         // 2、设置响应头的Location属性，说明新的地址
         System.out.println("重定向后的地址：" + request.getServletContext().getContextPath());
-        response.setHeader("Location", request.getServletContext().getContextPath() + "/a.html");
+        response.setHeader("Location", request.getServletContext().getContextPath() + "/index.html");
 
         // 请求重定向方法2，推荐使用
-        response.sendRedirect(request.getServletContext().getContextPath() + "/a.html");
+        response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
 
     }
 }
