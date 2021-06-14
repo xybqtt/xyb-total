@@ -16,9 +16,12 @@ public class ResponseApiServlet7 extends HttpServlet {
 
         System.out.println("获取默认的响应字符集：" + response.getCharacterEncoding());
 
-        // 解决乱码方案1
+        // 可以在方法内，第一步就设置，现在的方案1和方案2不能同时设置，不然不生效。
+
         // 1、先设置响应的服务器端的字符集，不然可能会乱码
         response.setCharacterEncoding("UTF-8");
+
+        // 解决乱码方案1
         // 2、通过响应头，设置浏览器也使用UTF-8
         response.setHeader("Content-type", "text/html; charset=UTF-8");
 

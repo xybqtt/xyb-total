@@ -134,6 +134,17 @@
     </servlet-mapping>
 
 
+    <!-- Cookie的使用 -->
+    <servlet>
+        <servlet-name>CookieServlet10</servlet-name>
+        <servlet-class>com.xyb.servlet.CookieServlet10</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CookieServlet10</servlet-name>
+        <url-pattern>/cookieServlet10</url-pattern>
+    </servlet-mapping>
+
+
     <!-- 二、Listener监听器 -->
     <!-- 只要把监听实现类配置在这儿即可实现监听 -->
     <listener>

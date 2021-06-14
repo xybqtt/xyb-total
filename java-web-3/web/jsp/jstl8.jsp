@@ -52,7 +52,7 @@
         <div>
             <h1>jstl核心库的使用</h1>
             <%--
-                c:set标签：给域对象设置属性，相当于 域对象.setAttribute("key", "value")
+                c:set标签：给域对象设置属性，相当于域对象.setAttribute("key", "value")
                     scope属性：表示设置保存到哪个域
                         page：PageContext域(默认值)；
                         request：Request域；

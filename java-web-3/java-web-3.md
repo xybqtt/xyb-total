@@ -58,15 +58,22 @@
 　　Dao持久层 作用
 　　　　只负责和数据库交互；
 　　　　如Jdbc、DBUtils、JdbcTemplate、Mybatis、Hiberante、JPA；
+
+## 1.8 MVC模型
+　　MVC全称：Model模型、View视图、Controller控制器，理念是将软件代码拆分为单独的组件，单独开发，组合使用(降低耦合度)。
+　　MVC最早出现在JavaEE三层的web层中，它可以有效指导web层的代码如何有效分离，单独工作；
+　　View视图：只负责数据和界面的显示，不接受任何与显示数据无关的代码，便于程序员和美工的分工合作---jsp/html；
+　　Controller控制器：只负责接收请求，调用业务层代码处理请求，然后派发页面，是一个"调度者"的角色---servlet。转到某个页面，或是重定向到某个页面；
+　　Model模型：将与业务逻辑相关的数据封装为具体的JavaBean类，其中不掺杂任何与数据处理相关的代码---JavaBean/domain/entity。
 　　
-## 1.8 常用的web服务器
+## 1.9 常用的web服务器
 　　tomcat：由apache组织提供的一种web服务器，提供对jsp和servlet的支持，是一种轻量级的javaweb窗口(服务器)，也是当前应用最广的javaweb服务器(免费)；
 　　jboss：是一个遵从javaEE规范、开放源代码的、纯java的ejb服务器，支持所有的javaEE规范(免费)；
 　　GlassFish：是oracle公司开发的一款javaweb服务器，强健、达到产品质量级(应用少)；
 　　Resin：是CAUCHO公司的产品，非常流行，对servlet和jsp提供了良好的支持，性能较好，resin自身采用java开发(收费、应用多)；
 　　WebLogin：oracle产品，是目前最广泛的web服务器，支持javaEE规范，而且不断改进产品，适合大型项目(收费、用的不多、适合大公司)。
 
-## 1.9 tomcat服务器和servlet版本的对应关系
+## 1.10 tomcat服务器和servlet版本的对应关系
 |tomcat版本|servlet/jsp版本|javaEE版本|运行环境|
 |:---|:---|:---|:---|
 |4.1 | 2.3/1.2 | 1.3  | jdk1.3 |
@@ -490,3 +497,99 @@
 　　可以监听ServletContext对象的创建和销毁；
 　　ServletContext对象在web工程启动的时候创建，在web工程终止的时候销毁；
 　　只要实现ServletContextListener接口即可，在web.xml配置监听器；
+
+# 8 Cookie和Session
+## 8.1 Cookie
+### 8.1.1 Cookie是什么
+　　Cookie是服务器通知客户端保存k-v的一种技术；
+　　客户端有了Cookie后，每次请求都发送给服务器；
+　　每个Cookie的大小不能超过4kb。
+　　查看xyb-total-project\java-web-3\src\com\xyb\servlet\CookieServlet10.java；
+
+### 8.1.2 Cookie的查看
+　　chrome：F12 -> Application -> storage -> Cookies -> http://ip:port -> 可以查看name和value值。
+　　还可以删除Cookie。
+
+### 8.1.3 Cookie的创建流程
+　　1、客户端(浏览器)一开始没有Cookied；
+　　2、服务器(Tomcat)创建Cookie对象，再通知客户端保存Cookie；
+　　3、通过响应头Set-Cookie通知客户端保存Cookie；
+　　4、客户端收到响应后，发布有Set-Cookie响应头，就去看一下，有没有这个Cookie，没有就创建，有就修改。
+
+### 8.1.4 服务器端Cookie的获取
+　　1、客户端(浏览器)有了Cookie；
+　　2、通过请求头：Cookie:key1=value，把Cookie信息发送给服务器；
+　　3、服务器(Tomcat)通过客户端发送过来的Cookie，通过getCookies()获取所有的Cookie。
+　　
+### 8.1.5 Cookie值的修改
+　　查看代码
+　　1、创建一个name相同的Cookie，再添加到response中，后面的会覆盖前面的；
+　　2、调整Cookie的setValue()方法，设置新值，再添加到response中。
+
+### 8.1.6 Cookie生命周期
+　　查看代码
+
+### 8.1.7 Cookie的有效路径path的设置
+　　Cookie的path属性可以有效设置过滤哪些Cookie可以发送给服务器，哪些不发。path属性是通过请求的地址来进行有效过滤。
+　　path表示，在此路径下的所有请求，都可以发送Cookie。可以用于免用户登陆访问，如登陆页面。
+　　例：
+　　CookieA path=/工程路径
+　　CookieB path=/工程路径/abc
+　　
+　　请求地址如下：
+　　　　http://ip:port/工程路径/a.html
+　　　　　　CookieA发送
+　　　　　　CookieB不发送
+　　　　http://ip:port/工程路径/abc/a.html
+　　　　　　CookieA发送
+　　　　　　CookieB发送
+
+## 8.2 Session
+### 8.2.1 Session是什么
+　　1、Session是一个接口(HttpSession)；
+　　2、Session就是会话，是用来维护一个客户端和服务器之间关联的一种技术；
+　　3、每个客户端都有自己的一个Session会话；
+　　4、Session会话中，我们经常用来保存用户登陆之后的信息。
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
