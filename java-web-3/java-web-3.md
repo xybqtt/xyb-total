@@ -504,14 +504,14 @@
 　　Cookie是服务器通知客户端保存k-v的一种技术；
 　　客户端有了Cookie后，每次请求都发送给服务器；
 　　每个Cookie的大小不能超过4kb。
-　　查看xyb-total-project\java-web-3\src\com\xyb\servlet\CookieServlet10.java；
+　　查看\xyb-total-project\java-web-3\web\jsp\cookie10.jsp；
 
 ### 8.1.2 Cookie的查看
 　　chrome：F12 -> Application -> storage -> Cookies -> http://ip:port -> 可以查看name和value值。
 　　还可以删除Cookie。
 
 ### 8.1.3 Cookie的创建流程
-　　1、客户端(浏览器)一开始没有Cookied；
+　　1、客户端(浏览器)一开始没有Cookie；
 　　2、服务器(Tomcat)创建Cookie对象，再通知客户端保存Cookie；
 　　3、通过响应头Set-Cookie通知客户端保存Cookie；
 　　4、客户端收到响应后，发布有Set-Cookie响应头，就去看一下，有没有这个Cookie，没有就创建，有就修改。
@@ -550,6 +550,89 @@
 　　2、Session就是会话，是用来维护一个客户端和服务器之间关联的一种技术；
 　　3、每个客户端都有自己的一个Session会话；
 　　4、Session会话中，我们经常用来保存用户登陆之后的信息。
+　　查看\xyb-total-project\java-web-3\web\jsp\session11.jsp
+
+### 8.2.3 Session的创建和获取
+　　request.getSession()：
+　　　　第一次调用是创建Session会话；
+　　　　之后调用都是：获取前面创建的Session会话对象；
+　　
+　　isNew()：判断是不是刚创建的Session会话对象，true为新创建，false则相反；
+　　
+　　getId()：获取Session的id，每个会话都有一个身份证号。也就是id值。而且这个id是唯一的。
+　　
+### 8.2.4 Session生命周期
+　　查看代码
+　　默认超时时间是30分钟，因为在Tomcat服务器配置文件web.xml中有以下配置，表示当前tomcat服务器下所有session超时配置时间为：30min。
+　　<session-config>
+　　　　<session-timeout>30</session-timeout>
+　　</session-config>
+　　也可以在web.xml自己配置。
+　　注意，session超时是指客户端再次请求服务器的最大间隔时间，比如设置1s，如果不停访问服务器，则会每次访问服务器时都重置超时时间。
+
+### 8.2.5 浏览器和Session的关联
+　　Session技术是基于Cookie技术的，流程如下：
+　　第一次请求和响应：
+　　1、客户端(没有Cookie)，发送请求；
+　　2、服务器通过request.getSession()，发现不能从Cookie中获取SessionId(唯一)，则会新创建一个Session对象，并保存到内存中；
+　　3、服务器每次创建Session时，都会创建一个Cookie{JESSIONID:SessionId的值}，处理完数据后，给客户端返回消息的前，会将此Cookie一并返回给客户端；
+　　4、客户端收到响应后，解析其中的Cookie，并创建Cookie对象；
+
+　　第二次请求和响应：
+　　5、客户端再次发送请求(此时已经有Cookie{JSSSIONID:SessionId}了)，会将上面的JSSSIONID:SessionId作为其中的一个kv，发送给服务器；
+　　6、服务器通过request.getSession()，发现可以从Cookie中获取JSSSIONID，于是根据SessionId从内存中读取对应的Session对象；
+　　7、服务器返回消息给客户端，依然会返回一个Cookie{JSSSIONID:SessionId}；
+　　8、服务器就是通过客户端的Cookie知道这是同一个Session的内容的。
+　　
+　　为什么关闭浏览器后，客户端再次请求就是一个新的Session？
+　　因为关闭浏览器后，Cookie失效，也就不会给服务器发送JESSIONID，服务器就会重新创建一个Session。
+　　
+# 9 Filter过滤器
+## 9.1 什么是过滤器
+　　Filter过滤器是JavaWeb的三大组件之一；
+　　是JavaEE的规范，也就是接口；
+　　作用是拦截请求，过滤响应；
+　　常用的拦截请求的应用场景：
+　　　　权限检查、日记操作、事务管理等。
+　　
+## 9.2 拦截流程
+　　1、客户端请求；
+　　2、服务器通过过滤器，查看是否符合规则；
+　　3、符合则接着访问原来的资源，不符合则跳转其它页面或做其它操作。
+　　
+## 9.3 代码编写流程
+　　1、需要进行过滤的代码
+　　实现javax.servlet.Filter类；
+　　
+　　2、配置过滤器
+　　在web.xml中
+　　<filter>
+　　　　<!-- 给filter起一个别名，与filter-mapping和filter-name一样 -->
+　　　　<filter-name>MyFilter</filter-name>
+　　　　<!-- 具体的拦截类 -->
+　　　　<filter-class>com.xyb.filter3.MyFilter</filter-class>
+　　</filter>
+
+　　3、配置需要对哪些路径进行过滤
+　　<filter-mapping>
+　　　　<!-- 与filter-name为此的filter匹配 -->
+　　　　<filter-name>MyFilter</filter-name>
+　　　　<!--
+　　　　　　url-pattern配置拦截路径
+　　　　　　/表示http://ip:port/工程路径 映射idea的web目录
+　　　　　　/*：表示请求地址为:http://ip:port/工程路径/*
+　　　　-->
+　　　　<url-pattern>/</url-pattern>
+　　</filter-mapping>
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+
 　　
 　　
 　　
@@ -560,9 +643,18 @@
 　　
 　　
 　　
+
 　　
 　　
 　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+
 　　
 　　
 　　
