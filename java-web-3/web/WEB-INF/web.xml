@@ -145,10 +145,41 @@
     </servlet-mapping>
 
 
+    <!-- Session的使用 -->
+    <servlet>
+        <servlet-name>SessionServlet11</servlet-name>
+        <servlet-class>com.xyb.servlet.SessionServlet11</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SessionServlet11</servlet-name>
+        <url-pattern>/sessionServlet11</url-pattern>
+    </servlet-mapping>
+
+
     <!-- 二、Listener监听器 -->
     <!-- 只要把监听实现类配置在这儿即可实现监听 -->
     <listener>
         <listener-class>com.xyb.listener2.MyServletContextListener</listener-class>
     </listener>
+
+
+    <!-- 三、Filter过滤器 -->
+    <!-- 只要把监听实现类配置在这儿即可实现监听 -->
+    <filter>
+        <!-- 给filter起一个别名，与filter-mapping和filter-name一样 -->
+        <filter-name>MyFilter</filter-name>
+        <!-- 具体的拦截类 -->
+        <filter-class>com.xyb.filter3.MyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <!-- 与filter-name为此的filter匹配 -->
+        <filter-name>MyFilter</filter-name>
+        <!--
+            url-pattern配置拦截路径
+            /表示http://ip:port/工程路径 映射idea的web目录
+            /*：表示请求地址为:http://ip:port/工程路径/*
+        -->
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
 
 </web-app>
