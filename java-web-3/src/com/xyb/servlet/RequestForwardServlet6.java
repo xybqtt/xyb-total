@@ -7,10 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class RequestForwardServlet6 extends HttpServlet {
+public class RequestForwardServlet6 extends BaseServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("访问了requestForwardServlet6的doGet方法");
+        super.doGet(req, resp);
+        write("访问了requestForwardServlet6的doGet方法<br/>");
         req.setCharacterEncoding("UTF-8");
 
         // 1、设置一个属性，看请求转发的Servlet能获取不
@@ -24,7 +25,7 @@ public class RequestForwardServlet6 extends HttpServlet {
 
         RequestDispatcher rd = req.getRequestDispatcher("/helloHttpServlet2");
 
-        System.out.println("请求转发到/helloHttpServlet2");
+        write("请求转发到/helloHttpServlet2" + "<br/>");
         // 3、进行转发
         rd.forward(req, resp);
     }

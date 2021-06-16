@@ -14,7 +14,6 @@
     </head>
     <body>
         <%
-
             Utils.addWebUriToReq(request, "webUri");
             System.out.println(request.getAttribute("webUri"));
         %>

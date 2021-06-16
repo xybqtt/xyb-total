@@ -467,6 +467,29 @@
 　　　　request.getRequestDispatcher("/")；
 　　特殊情况，如果使用重定向到"/"，把/发送给浏览器，则会得到http://ip:port/。
 
+## 5.13 乱码原因及如何解决乱码
+### 5.13.1 乱码的原因
+　　在整个Servlet访问过程中牵扯到"浏览器(gbk)、Tomcat(iso-8859-1)、Java程序(utf-8)"，造成乱码问题的原因只有一个：即客户端与服务端的字符编码不一致所导致。
+　　我们都知道，get和post请求是不一样的，当get请求时，其传递给服务器的数据是附加在URL地址之后的；而post的请求时，其传递给服务器的数据是作为请求体的一部分传递给服务器。所以两者处理乱码的方式也是不一样的。
+　　下面分别对post请求和get请乱码问题进行处理。
+
+### 5.13.2 get请求编码解码过程
+　　1、get提交url1：
+　　　　http://localhost:8080/java_web_3/responseApiServlet7?a=%中文
+
+　　2、浏览器编码：
+　　　　目的是根据网页编码或浏览器相关的编码将url中非ASCII字符转换为ASCII字符；
+　　　　URLencode(gbk、utf-8等)，编码后的形式如下url2 = "http://localhost:8080/java_web_3/responseApiServlet7?a=%%E4%B8%AD%E6%96%87"；
+　　　　
+　　3、根据iso-8859-1转换二进制：
+　　　　iso-8859-1是单字节编码，在0x00-0x7f的位置上和ASCII是一样的，在0x80-0xFF上是其自己规定的。
+　　　　将编码后的字符用iso-8859-1转换为二进制，每一个编码后的字节都会对应一个iso-8859-1的二进制，转换后将二进制发往服务器；
+　　　　url2的每个字符都在ASCII码内，为什么不直接使用将相关的二进制发送给服务器，还要进行iso-8859-1的编码？
+　　　　浏览器传送url2的时候，是根据字节来传送，不是字符，例如%9f，如果
+
+　　4、Tomcat接收到数据后，以iso-8859-1的方式解码二进制，解码后的url："http://ip:port/servlet?a=&#x676D;&#x5DDE;"
+　　5、
+
 # 6 jsp
 ## 6.1 什么是jsp?
 　　全称是Java Server Pages。Java的服务器页面。

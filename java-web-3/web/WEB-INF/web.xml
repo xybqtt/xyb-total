@@ -18,9 +18,9 @@
     <!-- servlet标签给tomcat配置servlet -->
     <servlet>
         <!-- servlet-name：给servlet程序起一个别名 -->
-        <servlet-name>HelloServlet</servlet-name>
+        <servlet-name>LifeOfServlet1</servlet-name>
         <!-- servlet-class：是servlet程序的全限定名 -->
-        <servlet-class>com.xyb.servlet.HelloServlet</servlet-class>
+        <servlet-class>com.xyb.servlet.LifeOfServlet1</servlet-class>
         <!-- init-param是初始化参数，可配置多个 -->
         <init-param>
             <!-- 是参数名 -->
@@ -38,13 +38,13 @@
     <!-- servlet-mapping标签给servlet程序配置访问地址 -->
     <servlet-mapping>
         <!-- servlet-name：此标签的作用是告诉服务器，我当前配置的地址是给哪个名叫此标签值的servlet使用 -->
-        <servlet-name>HelloServlet</servlet-name>
+        <servlet-name>LifeOfServlet1</servlet-name>
         <!--
             url-pattern：标签配置访问地址
             /：表示服务器在解析的时候，地址为http://ip:port/工程路径
             /hello：表示地址为 http://ip:port/工程路径/hello
          -->
-        <url-pattern>/hello</url-pattern>
+        <url-pattern>/lifeOfServlet1</url-pattern>
     </servlet-mapping>
 
 

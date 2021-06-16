@@ -10,27 +10,24 @@ import java.util.Map;
  * Session相关操作，
  * 不要用localhost访问，用127.0.0.1访问
  */
-public class SessionServlet11 extends HttpServlet {
+public class SessionServlet11 extends BaseServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doGet(req, resp);
 
-        // 防止输出乱码
-        response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-type", "text/html; charset=UTF-8");
-
-        switch (request.getParameter("action")){
+        switch (req.getParameter("action")){
             case "createOrGetSession":
-                createOrGetSession(request, response);
+                createOrGetSession(req, resp);
                 break;
             case "saveSessionScope":
-                saveSessionScope(request, response);
+                saveSessionScope(req, resp);
                 break;
             case "getSessionScope":
-                getSessionScope(request, response);
+                getSessionScope(req, resp);
                 break;
             case "sessionLife":
-                sessionLife(request, response);
+                sessionLife(req, resp);
                 break;
 
         }
@@ -39,52 +36,47 @@ public class SessionServlet11 extends HttpServlet {
 
     /**
      * 从Session域中获取数据
-     * @param request
-     * @param response
+     * @param req
+     * @param resp
      */
-    private void getSessionScope(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Object value1 = request.getSession().getAttribute("key1");
-        response.getWriter().write("从Session域中获取key1对应的为：" + value1);
+    private void getSessionScope(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Object value1 = req.getSession().getAttribute("key1");
+        write("从Session域中获取key1对应的为：" + value1 + "<br/>");
     }
 
     /**
      * 向Session域中保存数据
-     * @param request
-     * @param response
+     * @param req
+     * @param resp
      */
-    private void saveSessionScope(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.getSession().setAttribute("key1", "value1");
-        response.getWriter().write("已在Session域中保存了数据key1=value1");
+    private void saveSessionScope(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.getSession().setAttribute("key1", "value1");
+        write("已在Session域中保存了数据key1=value1<br/>");
     }
 
-    private void sessionLife(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void sessionLife(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         /**
          * 设置Session最大存活时间：setMaxInactiveInterval(int a)
          *      正数：设置多少秒后超时。
          *      负数：永不超时。
          */
-        HttpSession session = request.getSession();
-        switch (request.getParameter("type")){
+        HttpSession session = req.getSession();
+        switch (req.getParameter("type")){
             case "1":
-                response.getWriter().write("默认session存活时间" + session.getMaxInactiveInterval() + "s");
+                write("默认session存活时间" + session.getMaxInactiveInterval() + "s" + "<br/>");
                 break;
             case "2":
                 session.setMaxInactiveInterval(3);
-                response.getWriter().write("设置当前session 3s后超时");
+                write("设置当前session 3s后超时" + "<br/>");
                 break;
             case "3":
                 // 让当前session马上超时。
                 session.invalidate();
-                response.getWriter().write("设置当前session=马上超时(无效)");
+                write("设置当前session=马上超时(无效)" + "<br/>");
                 break;
             default:
                 break;
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
     }
 
     /**
@@ -104,7 +96,7 @@ public class SessionServlet11 extends HttpServlet {
         // 3、获取Session会话的唯一标识
         String id = session.getId();
 
-        resp.getWriter().write("此Session的id是：" + id + "，是否新创建：" + isNew);
+        write("此Session的id是：" + id + "，是否新创建：" + isNew + "<br/>");
 
     }
 }
