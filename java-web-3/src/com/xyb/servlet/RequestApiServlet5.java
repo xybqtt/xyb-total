@@ -38,7 +38,7 @@ public class RequestApiServlet5 extends BaseServlet {
 
         // 2、获取get请求的请求参数
         write("获取name=username的标签的value => " + req.getParameter("username") + "<br/>");
-        write("获取name=username的标签的value => " + URLDecoder.decode(URLEncoder.encode(req.getParameter("username"), "ISO-8859-1"), "UTF-8") + "<br/>");
+        write("获取name=username的标签的value => " + new String(req.getParameter("username").getBytes("ISO8859-1"), "UTF-8") + "<br/>");
         write("获取hobby复选框所有选中项 => " + Arrays.asList(req.getParameterValues("hobby")) + "<br/>");
 
         // 3、可以自定义parameter

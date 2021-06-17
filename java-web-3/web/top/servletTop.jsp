@@ -1,4 +1,5 @@
 <%@ page import="com.xyb.util.Utils" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -110,29 +111,6 @@
             </form>
             <hr/>
 
-
-            <h2>9、文件上传下载</h2>
-            <form action="${requestScope.webUri.concat('fileUpdownload9')}" method="get">
-                <p>访问地址：${requestScope.webUri.concat('fileUpdownload9')}</p>
-                <button type="submit">提交</button>
-            </form>
-            <hr/>
-
-
-            <h2>10、Cookie</h2>
-            <form action="${requestScope.webUri.concat('cookieServlet10')}" method="get">
-                <p>访问地址：${requestScope.webUri.concat('cookieServlet10')}</p>
-                <button type="submit">提交</button>
-            </form>
-            <hr/>
-
-
-            <h2>11、Session</h2>
-            <form action="${requestScope.webUri.concat('SessionServlet11')}" method="get">
-                <p>访问地址：${requestScope.webUri.concat('SessionServlet11')}</p>
-                <button type="submit">提交</button>
-            </form>
-            <hr/>
         </div>
     </body>
 </html>

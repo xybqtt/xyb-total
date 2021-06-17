@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
+<%@ page pageEncoding="UTF-8" %>
 <html>
     <head>
         <title>el的11个隐藏对象</title>

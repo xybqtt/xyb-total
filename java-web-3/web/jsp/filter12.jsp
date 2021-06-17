@@ -1,10 +1,5 @@
-<%@ page import="com.xyb.util.Utils" %><%--
-  Created by IntelliJ IDEA.
-  User: xuyabiao
-  Date: 2021/6/16
-  Time: 7:33
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.xyb.util.Utils" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -13,7 +8,7 @@
     <body>
         <%
             Utils.addWebUriToReq(request, "webUri");
-            System.out.println(request.getAttribute("webUri"));
+            write((String) request.getAttribute("webUri"));
         %>
         <a href="${requestScope.webUri.concat('')}" target="_self"></a>
     </body>
