@@ -1,5 +1,6 @@
 package com.xyb.entity;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ public class Person {
 
     private int age;
 
-    private String[] lovers;
+    private String[] hobby;
 
     private List<String> schoolList;
 
@@ -39,12 +40,12 @@ public class Person {
         this.age = age;
     }
 
-    public String[] getLovers() {
-        return lovers;
+    public String[] getHobby() {
+        return hobby;
     }
 
-    public void setLovers(String[] lovers) {
-        this.lovers = lovers;
+    public void setHobby(String[] hobby) {
+        this.hobby = hobby;
     }
 
     public List<String> getSchoolList() {
@@ -61,5 +62,16 @@ public class Person {
 
     public void setMap(Map<String, Object> map) {
         this.map = map;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", lovers=" + Arrays.toString(hobby) +
+                ", schoolList=" + schoolList +
+                ", map=" + map +
+                '}';
     }
 }

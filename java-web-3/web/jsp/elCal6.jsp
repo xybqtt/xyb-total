@@ -39,7 +39,7 @@
             Person p = new Person();
             p.setName("123");
             p.setAge(18);
-            p.setLovers(new String[]{"l1", "l2", "l3"});
+            p.setHobby(new String[]{"l1", "l2", "l3"});
 
             List<String> schoolList = new ArrayList<String>();
             schoolList.add("sc1");

@@ -38,9 +38,9 @@ public class BaseServlet extends HttpServlet {
      * 把内容输出到前端页面和控制台
      * @param str
      */
-    public void write(String str){
-        this.out.write(str);
-        System.out.println(str.replaceAll( "<br/>", ""));
+    public void writeln(String str){
+        this.out.write(str + "<br/>");
+        System.out.println(str);
     }
 
 }

@@ -109,9 +109,9 @@ public class CookieServlet10 extends BaseServlet {
 
     private void updCookie(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        write("原来的Cookies<br/>");
-        write("Cookie：[" + this.cookieMap.get("key1").getName() + "-" + this.cookieMap.get("key1").getValue() + "] <br/>");
-        write("Cookie：[" + this.cookieMap.get("key2").getName() + "-" + this.cookieMap.get("key2").getValue() + "] <br/>");
+        writeln("原来的Cookies");
+        writeln("Cookie：[" + this.cookieMap.get("key1").getName() + "-" + this.cookieMap.get("key1").getValue() + "] ");
+        writeln("Cookie：[" + this.cookieMap.get("key2").getName() + "-" + this.cookieMap.get("key2").getValue() + "] ");
 
         // 修改方法1，创建一个name相同的，并添加到response中，则会覆盖掉前1个
         Cookie newCookie = new Cookie(this.cookieMap.get("key1").getName(), this.cookieMap.get("key1").getValue() + "1");
@@ -123,9 +123,9 @@ public class CookieServlet10 extends BaseServlet {
         resp.addCookie(this.cookieMap.get("key2"));
 
 
-        write("修改后的Cookies");
-        write("Cookie：[" + this.cookieMap.get("key1").getName() + "-" + this.cookieMap.get("key1").getValue() + "] <br/>");
-        write("Cookie：[" + this.cookieMap.get("key2").getName() + "-" + this.cookieMap.get("key2").getValue() + "] <br/>");
+        writeln("修改后的Cookies");
+        writeln("Cookie：[" + this.cookieMap.get("key1").getName() + "-" + this.cookieMap.get("key1").getValue() + "] ");
+        writeln("Cookie：[" + this.cookieMap.get("key2").getName() + "-" + this.cookieMap.get("key2").getValue() + "] ");
 
 
         // 修改方法2
@@ -140,7 +140,7 @@ public class CookieServlet10 extends BaseServlet {
 
         // 2、查看下
         for (Cookie cookie : cookies)
-            write("Cookie：[" + cookie.getName() + "-" + cookie.getValue() + "] <br/>");
+            writeln("Cookie：[" + cookie.getName() + "-" + cookie.getValue() + "] ");
 
 
 
@@ -164,7 +164,7 @@ public class CookieServlet10 extends BaseServlet {
         resp.addCookie(cookie2);
         resp.addCookie(cookie3);
 
-        write("Cookie创建成功<br/>");
+        writeln("Cookie创建成功");
 
     }
 }

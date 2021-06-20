@@ -9,11 +9,11 @@ import java.io.IOException;
 public class IdeaGenerateServlet3 extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPost(req, resp);
-        write("这是IdeaGenerateServlet3的doPost方法");
+        writeln("这是IdeaGenerateServlet3的doPost方法");
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
-        write("这是IdeaGenerateServlet3的doGet方法");
+        writeln("这是IdeaGenerateServlet3的doGet方法");
     }
 }

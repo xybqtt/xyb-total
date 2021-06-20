@@ -58,10 +58,10 @@
             <jsp:include page="/jsp/include/footer.jsp"></jsp:include>
         </div>
         
-        <div>
-            <h1>请求转发，把这个注释掉，才能看到前2个</h1>
-            <jsp:forward page="/jsp/include/footer.jsp"></jsp:forward>
-        </div>
+<%--        <div>--%>
+<%--            <h1>请求转发，把这个注释掉，才能看到前2个</h1>--%>
+<%--            <jsp:forward page="/jsp/include/footer.jsp"></jsp:forward>--%>
+<%--        </div>--%>
 
 
     </body>

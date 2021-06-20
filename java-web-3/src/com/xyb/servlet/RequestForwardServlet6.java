@@ -11,7 +11,7 @@ public class RequestForwardServlet6 extends BaseServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doGet(req, resp);
-        write("访问了requestForwardServlet6的doGet方法<br/>");
+        writeln("访问了requestForwardServlet6的doGet方法");
         req.setCharacterEncoding("UTF-8");
 
         // 1、设置一个属性，看请求转发的Servlet能获取不
@@ -25,7 +25,7 @@ public class RequestForwardServlet6 extends BaseServlet {
 
         RequestDispatcher rd = req.getRequestDispatcher("/helloHttpServlet2");
 
-        write("请求转发到/helloHttpServlet2" + "<br/>");
+        writeln("请求转发到/helloHttpServlet2");
         // 3、进行转发
         rd.forward(req, resp);
     }

@@ -7,6 +7,7 @@
 　　问答句，答句前面加2个全角空格；
 　　注意点、特点，如果换行，前面加2个全角空格；
 　　标题和后面的内容不用空行；
+　　视频地址：https://www.bilibili.com/video/BV1Y7411K7zz?p=323&spm_id_from=pageDriver
 
 ## 0.1 为什么要学Html、js、css？
 　　想要在前端页面展示一些信息，所以要学html、js、css；
@@ -490,6 +491,26 @@
 　　4、Tomcat接收到数据后，以iso-8859-1的方式解码二进制，解码后的url："http://ip:port/servlet?a=&#x676D;&#x5DDE;"
 　　5、
 
+### 5.13.3 解决get请求乱码
+　　new String(req.getParameter("username").getBytes("tomcat/conf/server.xml/<Connector URIEncoding属性的值>"), "想要解析成什么格式")
+
+### 5.13.4 解决post请求乱码
+　　req.setCharacterEncoding("想要解析成什么格式");
+
+### 5.13.5 解决响应乱码
+　　// 1、先设置响应的服务器端的字符集，不然可能会乱码
+　　response.setCharacterEncoding("UTF-8");
+　　
+　　// 解决乱码方案1，方案1和方案2只能写1个，写2个则还有可能乱码。
+　　// 2、通过响应头，设置浏览器也使用UTF-8
+　　response.setHeader("Content-type", "text/html; charset=UTF-8");
+　　
+　　// 解决乱码方案2，它会同时设置服务器和客户端都使用UTF-8，还设置了响应头，
+　　// 此方法一定要在获取输出流之前使用，推荐使用此方法
+　　response.setContentType("text/html; charset=UTF-8");
+
+
+
 # 6 jsp
 ## 6.1 什么是jsp?
 　　全称是Java Server Pages。Java的服务器页面。
@@ -647,37 +668,147 @@
 　　　　-->
 　　　　<url-pattern>/</url-pattern>
 　　</filter-mapping>
-　　
-　　
-　　
-　　
-　　
-　　
-　　
+
+
+## 9.4 filter生命周期
+　　1、构造器方法；
+　　2、init初始化方法；
+　　　　前2步在工程启动时运行；
+　　3、doFilter过滤方法；
+　　　　在每次拦截时运行；
+　　4、destroy销毁
+　　　　停止web工程时调用。
+
+## 9.5 FilterConfig类
+　　FilterConfig类对Filter的作用，相当于ServletConfig类对Servlet的作用，都是读取filter中的所有信息。
+　　1、获取Filter的名称filter-name的内容；
+　　2、获取在Filter中配置的init-param初始化参数；
+　　3、获取ServletContext对象。
+
+## 9.6 FilterChain过滤器链
+　　在Filter的doFilter方法中调用，有2个作用：
+　　1、如果后面还有过滤器，则接着调用后面的过滤器；
+　　2、如果后面没有过滤器，则接着调用客户端请求的资源。
+　　每个filterChain.doFilter(servletRequest, servletResponse);方法都会有前置代码和后置代码，其运行顺序如下：
+　　filter1前置代码 -> filter1.filterChain.doFilter -> filter2前置代码 -> filter2.filterChain.doFilter -> 目标资源 -> filter2后置代码 -> filter1后置代码。
+　　对同一个资源的多个过滤器的过滤顺序，由其在web.xml中的配置顺序决定。
+　　FilterChain过滤器链上的所有过滤器默认是在同一个线程内依次执行的，且共用req和resp。
+
+## 9.7 过滤器拦截路径
+　　url-pattern的匹配，过滤器匹配只关心请求的url是否与url-pattern匹配，不关心此资源是否真的存在。
+### 9.7.1 精确匹配
+　　/target.jsp 这种具体到某个文件的匹配叫精确匹配，表示请求地址必须为http://ip:port/工程名/target.jsp；
+
+### 9.7.2 目录匹配
+　　/admin/*：此路径表示，请求地址必须为http://ip:port/工程名/admin/*；
+
+### 9.7.3 后缀名匹配
+　　*.html：表示请求地址，必须以.html结尾，才会拦截；
+　　这个html不是固定的，可以是自定义的，如*.do；
+　　注意后缀名匹配不能以/开头。
+
+
+# 10 JSON
+## 10.1 什么是JSON
+　　JSON(JavaScript Object Notation)是一种轻量级的数据交换格式。易于人阅读和编写。同时也易于机器解析和生成。JSON采用完全独立于语言的文本格式，而且很多语言都提供了对json的支持。使得JSON成为理想的数据交换语言。
+　　JSON是一种轻量级的数据交换格式。
+　　轻量级指的是跟xml做比较。
+　　数据交换指的是客户端和服务器之间业务数据的传递格式。
+
+## 10.2 json在js中的使用
+### 10.2.1 json的定义
+　　json是由键值对组成，并且由{}包围。每个键由引号引起来，键值之间用冒号分隔，多组键值对之间进行逗号进行分隔。
+
+### 10.2.2 json的访问
+　　json本身是一个对象；
+　　json中的key我们可能理解为是对象中的一个属性；
+　　json中的key访问就跟访问对象的属性一样：json对象.key。
+
+### 10.2.3 json的2个常用方法
+　　json的存在有2种形式。
+　　1、对象形式存在，我们称为json对象，一般在我们要操作json数据的时候使用；
+　　2、字符串形式存在，称为json字符串。一般在客户端和服务器进行数据交换时使用；
+　　JSON.stringify()：把json对象转换为json字符串；
+　　JSON.parse()：把json字符串转换为json对象。
+
+## 10.3 json在java中的使用(需要gson包)
+　　查看这个类com.xyb.servlet.JsonServlet12
 　　
 
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
+# 11 AJAX请求
+　　AJAX即"Asynchronous JavaScripte And XML"(异步JavaScript和XML)，是指一种创建交互式网页应用的网页开发技术。
+　　ajax是一种浏览器通过js异步发起请求，局部更新页面的技术。
+　　参考web\jsp\ajax14.jsp
+## 11.1 ajax特点
+　　1、ajax请求是局部更新，浏览器地址栏不会变化；
+　　2、局部更新不会舍弃原来页面的内容；
 
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
+## 11.2 ajax请求需要的参数
+　　url：访问地址；
+　　data：发送给服务器的数据，可以是a=b&c=d这种格式，也可以是{a:b, c:d}的格式(最终会转化为前一种格式)
+　　type：GET或POST请求；
+　　success：请求成功，响应的回调函数；
+　　dataType：响应的数据类型，常用的有
+　　　　text：表示纯文本；
+　　　　xml：表示xml；
+　　　　json：表示json对象。
 
+## 11.3 几种特殊的jq访问
+　　$.ajax(url, data, type, successFn, dataType);与js原生的参数一样；
+　　$.get(url, data, successFn, dataType);因为确定是使用get请求，所以省略type参数；
+　　$.post(url, data, successFn, dataType);因为确定是使用post请求，所以省略type参数；
+　　$.getJSON(url, data, successFn);因为确定是使用get请求、且返回类型是json，所以省略type、dataType参数；
+　　
+## 11.4 表单序列化
+　　使用ajax输入data时，我们需要把每个表单项和其值一一写进去，比较麻烦，使用$("表单").serialize()可以自动把所有表单项弄成a=b&c=d的形式，简化操作。
+　　
+# 12 i18n国际化(页面上选择语言的那个，以后有需要再看吧)
+　　p320 - 325
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
 　　
 　　
 　　

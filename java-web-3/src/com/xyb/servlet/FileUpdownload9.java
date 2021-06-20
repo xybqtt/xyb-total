@@ -39,7 +39,7 @@ public class FileUpdownload9 extends BaseServlet {
         ServletContext sc = getServletContext();
         // 获取文件的MIME类型
         String mimeType = sc.getMimeType(downloadFilepath);
-        write("获取的MIMEType = " + mimeType + "<br/>");
+        writeln("获取的MIMEType = " + mimeType + "");
         // 设置响应头的MIME类型
         resp.setContentType(mimeType);
         /**
@@ -94,15 +94,15 @@ public class FileUpdownload9 extends BaseServlet {
                     // 普通表单项
                     String name = fileItem.getName();
                     String value = fileItem.getString("UTF-8");
-                    write("普通表单项：" + name + " = " + value + "<br/>");
+                    writeln("普通表单项：" + name + " = " + value + "");
                 } else {
                     // 上传的文件
                     String name = fileItem.getName();
                     String value = fileItem.getString("UTF-8");
-                    write("文件项：" + name + " = " + value);
+                    writeln("文件项：" + name + " = " + value);
 
-                    String localRealPath = req.getRealPath(File.separator + "upload/" + fileItem.getName() + "<br/>");
-                    write("上载文件的路径为：" + localRealPath + "<br/>");
+                    String localRealPath = req.getRealPath(File.separator + "upload/" + fileItem.getName() + "");
+                    writeln("上载文件的路径为：" + localRealPath + "");
                     File file = new File(localRealPath);
                     if(file.exists())
                         file.delete();
@@ -125,8 +125,8 @@ public class FileUpdownload9 extends BaseServlet {
         byte[] buffer = new byte[1024000];
 
         int read = inputStream.read(buffer);
-        write("显示post请求体内容<br/>");
-        write(new String(buffer, 0, read));
+        writeln("显示post请求体内容");
+        writeln(new String(buffer, 0, read));
 
 
     }

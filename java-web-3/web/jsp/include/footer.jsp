@@ -5,7 +5,7 @@
     </head>
     <body>
         <div>
-            这是被动态导入的jsp页面，获取request.getAttribute("key") = <%=request.getAttribute("key")%>
+            这是被动态导入的footer.jsp页面，获取request.getAttribute("key") = <%=request.getAttribute("key")%>
         </div>
     </body>
 </html>

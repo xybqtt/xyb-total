@@ -41,7 +41,7 @@ public class SessionServlet11 extends BaseServlet {
      */
     private void getSessionScope(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Object value1 = req.getSession().getAttribute("key1");
-        write("从Session域中获取key1对应的为：" + value1 + "<br/>");
+        writeln("从Session域中获取key1对应的为：" + value1);
     }
 
     /**
@@ -51,7 +51,7 @@ public class SessionServlet11 extends BaseServlet {
      */
     private void saveSessionScope(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.getSession().setAttribute("key1", "value1");
-        write("已在Session域中保存了数据key1=value1<br/>");
+        writeln("已在Session域中保存了数据key1=value1");
     }
 
     private void sessionLife(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -63,16 +63,16 @@ public class SessionServlet11 extends BaseServlet {
         HttpSession session = req.getSession();
         switch (req.getParameter("type")){
             case "1":
-                write("默认session存活时间" + session.getMaxInactiveInterval() + "s" + "<br/>");
+                writeln("默认session存活时间" + session.getMaxInactiveInterval() + "s");
                 break;
             case "2":
                 session.setMaxInactiveInterval(3);
-                write("设置当前session 3s后超时" + "<br/>");
+                writeln("设置当前session 3s后超时");
                 break;
             case "3":
                 // 让当前session马上超时。
                 session.invalidate();
-                write("设置当前session=马上超时(无效)" + "<br/>");
+                writeln("设置当前session=马上超时(无效)");
                 break;
             default:
                 break;
@@ -96,7 +96,7 @@ public class SessionServlet11 extends BaseServlet {
         // 3、获取Session会话的唯一标识
         String id = session.getId();
 
-        write("此Session的id是：" + id + "，是否新创建：" + isNew + "<br/>");
+        writeln("此Session的id是：" + id + "，是否新创建：" + isNew);
 
     }
 }
