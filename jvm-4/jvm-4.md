@@ -469,7 +469,7 @@
 　　
 　　内存是非常重要的系统资源，是硬盘和CPU的中间仓库及桥梁，承载着操作系统和应用程序的实时运行JVM内存布局规定了Java在运行过程中内存申请、分配、管理的策略，保证了JVM的高效稳定运行。不同的JVM对于内存的划分方式和管理机制存在着部分差异。结合JVM虚拟机规范，来探讨一下经典的JVM内存布局。
 　　![avatar](pictures/3runningDataArea/3-2.png)
-　　每个JVM只有一个Runtime实例。即为运行时环境，相当于内存结构的中间的那个框框：运行时环境。
+　　每个JVM只有一个Runtime实例。即为运行时环境，相当于内存结构的中间的那个框框：运行时环境，可以获取JVM的堆内存大小等参数。
 
 　　经典运行时内存区包含以下部分，其中heap、method Area是所有线程数据共享的，线程中的栈、本地方法栈、程序计数器是不共享的。
 <ol>
@@ -861,12 +861,12 @@
 　　堆针对一个JVM进程来说是唯一的，也就是一个进程只有一个JVM，但是进程包含多个线程，他们是共享同一堆空间的。
 　　![avatar](pictures/6heap/6-1.png)
 　　堆的核心概述：
-　　1.Java堆区在JVM启动的时候即被创建，其空间大小也就确定了(可以设置空间大小)。是JVM管理的最大一块内存空间。
-　　2.一个JVM实例只存在一个堆内存，堆也是Java内存管理的核心区域。
-　　3.堆可以处于物理上不连续的内存空间中，但在逻辑上它应该被视为连续的。
-　　5.所有的线程共享Java堆，在这里还可以划分线程私有的缓冲区(Thread Local Allocation Buffer，TLAB)。
-　　6.所有的对象实例以及数组都应当在运行时分配在堆上。(The heap is the run-time data area from which memory for all class instances and arrays is allocated)，数组和对象可能永远不会存储在栈上，因为栈帧中保存引用，这个引用指向对象或者数组在堆中的位置。
-　　7.在方法结束后，堆中的对象不会马上被移除，仅仅在垃圾收集的时候才会被移除。
+　　1.Java堆区在JVM启动的时候即被创建，其空间大小也就确定了(可以设置空间大小)。是JVM管理的最大一块内存空间；
+　　2.一个JVM实例只存在一个堆内存，堆也是Java内存管理的核心区域；
+　　3.堆可以处于物理上不连续的内存空间中，但在逻辑上它应该被视为连续的；
+　　5.所有的线程共享Java堆，在这里还可以划分线程私有的缓冲区(Thread Local Allocation Buffer，TLAB)；
+　　6.所有的对象实例以及数组都应当在运行时分配在堆上。(The heap is the run-time data area from which memory for all class instances and arrays is allocated)，数组和对象可能永远不会存储在栈上，因为栈帧中保存引用，这个引用指向对象或者数组在堆中的位置；
+　　7.在方法结束后，堆中的对象不会马上被移除，仅仅在垃圾收集的时候才会被移除；
 　　8.堆，是GC(Garbage Collection，垃圾收集器)执行垃圾回收的重点区域。
 
 ### 6.1.1 堆内存细分
@@ -889,19 +889,70 @@
 　　**JDK8**
 　　![avatar](pictures/6heap/6-3.png)
 
+### 6.1.3 Java VisualVM的使用
+　　jvvm可以监控正在运行的java程序，在%JAVA_HOME%/bin/jvisualvm.exe打开，安装Visual GC工具，双击正在运行的jvm就可以通过Visual GC查看heap内存情况。
+　　或直接在cmd中输入：jvisualvm
+　　idea中安装jvvm插件：https://plugins.jetbrains.com/plugin/7115-visualvm-launcher/versions下载插件，安装，在idea运行的旁边就可以看到了。
+
+### 6.1.4 堆相关JVM启动参数
+　　参数中+表示启用，-表示不启用
+
+　　**设置heap初始化大小**
+　　-Xms600m：设置heap初始化大小为600m，不带单位则为byte，还可以是k、m、g；
+　　-XX:InitialHeapSize=600m，同上。
+
+　　**设置heap最大大小**
+　　-Xmx600m：设置heap最大大小为600m，不带单位则为byte，还可以是k、m、g；
+　　-XX:MaxHeapSize=600m，同上。
+
+　　**显示垃圾回收细节**
+　　-XX:+PrintGCDetails。
+
+　　**设置新生代、老年代比例**
+　　-XX:NewRatio=8：表示老年代的占比为8，新生代的占比为1。
+
+　　**设置新生代的Eden、S0、S1的比例**
+　　-XX:SurvivorRatio=3：表示Eden区占比为3，S0和S1的占比各为1。注意需要与 -XX:-UseAdaptiveSizePolicy联用。
+
+　　**设置是否采用自适应模式**
+　　-XX:-UseAdaptiveSizePolicy 不采用；
+　　-XX:+UseAdaptiveSizePolicy 采用，默认是采用。
+
+　　**设置新生代的大小**
+　　-Xmn100m：设置新生代的大小为100m，不带单位则为byte，还可以是k、m、g；这个参数的优先级高于"-XX:NewRatio"。
+
+　　**设置对象进入老年代需要经过YGC的次数**
+　　-XX:MaxTenuringThreshold=N
+
+### 6.1.5 Java相关命令行指令
+　　**查看jvm进程id**
+　　jsp
+
+　　**查看新生代、老年代占比，Eden、S0、S1占比**
+　　jinfo -flag NewRatio 进程id
+　　jinfo -flag SurvivorRatio 进程id
+
+　　**查看JVM参数**
+　　jstat -gc 进程id
+
 ## 6.2 设置堆内存大小与OOM
 ### 6.2.1 堆空间大小的设置
 　　Java堆区用于存储Java对象实例，那么堆的大小在JVM启动时就已经设定好了，大家可以通过选项"-Xmx"和"-Xms"来进行设置。
-　　1."-Xms"用于表示堆区的起始内存，等价于-XX:InitialHeapSize；
+　　1."-Xms"用于表示堆区的起始内存，等价于-XX:InitialHeapSize，大小不加单位，默认为byte，写了单位，则-Xms256m、-Xms256k；
 　　2."-Xmx"则用于表示堆区的最大内存，等价于-XX:MaxHeapSize。
-  
+　　建议Xms、Xms设置为一样，减少因内容heap扩容带来的影响。
+
 　　一旦堆区中的内存大小超过“-Xmx"所指定的最大内存时，将会抛出OutOfMemoryError异常。
 
 　　通常会将-Xms和-Xmx两个参数配置相同的值，其目的是为了能够在ava垃圾回收机制清理完堆区后不需要重新分隔计算堆区的大小，从而提高性能。
 
-　　**默认情况下**
-　　- 初始内存大小：物理电脑内存大小 / 64
-　　- 最大内存大小：物理电脑内存大小 / 4
+　　**默认情况下(使用Runtime查看)**
+　　- "-Xms"初始内存大小：物理电脑内存大小 / 64，实际会小一点，因为系统会占用一部分内存，另一个原因是计算heap内存的时候新生代的2个生存区，只计算1个，因为除了在GC的时候，2个生存区会同时有数据，其它任何情况，只会有1个生存区有数据。
+　　- "-Xmx"最大内存大小：物理电脑内存大小 / 4，实际会小一点，因为系统会占用一部分内存。
+
+　　**如何查看运行时设置的参数**
+　　1.jps获取jvm的进程id，jstat -gc 进程id：获取jvm堆内存空间大小；
+　　2.使用参数： -XX:+PrintGCDetails，显示垃圾回收细节，其中PSYoungGen的total是"新生代 - 1个生存区"的大小。
 
 ## 6.3 年轻代与老年代
 　　存储在JVM中的Java对象可以被划分为两类：
@@ -914,16 +965,20 @@
 　　下面这参数开发中一般不会调：
 　　![avatar](pictures/6heap/6-5.png)
 　　**配置新生代与老年代在堆结构的占比：**
-　　1.默认-XX:NewRatio=2，表示新生代占1，老年代占2，新生代占整个堆的1/3
-　　2.可以修改-XX:NewRatio=4，表示新生代占1，老年代占4，新生代占整个堆的1/5
+　　1.默认-XX:NewRatio=2，设置老年代的比例(新生代永远占比1)，老年代占2，新生代占整个堆的1/3；
+　　2.可以修改-XX:NewRatio=4，表示新生代占1，老年代占4，新生代占整个堆的1/5；
 
 　　在HotSpot中，Eden空间和另外两个survivor空间缺省所占的比例是8：1：1
-　　当然开发人员可以通过选项“-xx:SurvivorRatio”调整这个空间比例。比如-xx:SurvivorRatio=8
+　　当然开发人员可以通过选项"-XX:SurvivorRatio"调整这个空间比例。比如-XX:SurvivorRatio=8，表示比例为8:1:1。
 　　几乎所有的Java对象都是在Eden区被new出来的。绝大部分的Java对象的销毁都在新生代进行了。
 
 　　IBM公司的专门研究表明，新生代中80%的对象都是“朝生夕死”的。
 
-　　可以使用选项"-Xmn"设置新生代最大内存大小，这个参数一般使用默认值就可以了
+　　可以使用选项"-Xmn"设置新生代最大内存大小，这个参数一般使用默认值就可以了。
+
+　　**命令行查看新生代、生存区所占比例：**
+　　1.jinfo -flag SurvivorRatio 进程id：查看新生代Eden区所占比例；
+　　2.jinfo -flag NewRatio 进程id：查看老年代所占比例。
 
 ## 6.4 图解对象分配过程
 　　为新对象分配内存是一件非常严谨和复杂的任务，JVM的设计者们不仅需要考虑内存如何分配、在哪里分配等问题，并且由于内存分配算法与内存回收算法密切相关，所以还需要考虑GC执行完内存回收后是否会在内存空间中产生内存碎片。
@@ -932,7 +987,7 @@
 　　3.然后将伊甸园中的剩余对象移动到幸存者0区；
 　　4.如果再次触发垃圾回收，此时上次幸存下来的放到幸存者0区的，如果没有回收，就会放到幸存者1区； 
 　　5.如果再次经历垃圾回收，此时会重新放回幸存者0区，接着再去幸存者1区；
-　　6.啥时候能去养老区呢？可以设置次数。默认是15次。可以设置参数：进行设置-Xx:MaxTenuringThreshold= N；
+　　6.啥时候能去养老区呢？可以设置次数。默认是15次。可以设置参数：进行设置-XX:MaxTenuringThreshold=N；
 　　7.在养老区，相对悠闲。当养老区内存不足时，再次触发GC：Major GC，进行养老区的内存清理；
 　　8.若养老区执行了Major GC之后，发现依然无法进行对象的保存，就会产生OOM异常。java.lang.OutofMemoryError: Java heap space。
 　　![avatar](pictures/6heap/6-6.png)
