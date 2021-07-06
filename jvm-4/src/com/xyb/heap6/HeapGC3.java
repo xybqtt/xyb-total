@@ -2,17 +2,18 @@ package com.xyb.heap6;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Minor GC和Major GC测试
  *
- * jvm参数设置：-Xms40m -Xmx40m -XX:NewRatio=3 -XX:SurvivorRatio=8 -XX:-UseAdaptiveSizePolicy
+ * jvm参数设置：-Xms40m -Xmx40m -XX:NewRatio=3 -XX:SurvivorRatio=2 -XX:-UseAdaptiveSizePolicy
  */
 public class HeapGC3 {
 
     public static final int NEW_RATIO = 3;
 
-    public static final int SURVIVOR_RATIO = 1;
+    public static final int SURVIVOR_RATIO = 2;
 
     public static int youngSize;
 
@@ -24,32 +25,28 @@ public class HeapGC3 {
 
     public static List list = new ArrayList();
 
+    public static Scanner scanner = new Scanner(System.in);
+
+    public static double scanNum;
+
     public static void main(String[] args) throws InterruptedException {
 
         // 1、获取生存区、eden区的大小
-        getYoungSize();
+        getAllAreaSize();
 
-        Thread.sleep(10000);
-        System.out.println("开始执行");
-        // 2、验证0.25survivorSize大小数据分配在Eden区，且YGC后在S区
-        verifyThreeQuarSArea();
-        System.out.println("new 0.75S数据");
-        Thread.sleep(10000);
+        System.out.println("请输入想要验证的内容：1、验证0.75S在YGC时，数据是否落入S区；2、验证1.5S在YGC时，是否直接落入old区；");
+        scanNum = scanner.nextDouble();
 
+        switch ((int) scanNum){
+            case 1:
+                verifyThreeQuarterSArea();
+                break;
+            case 2:
+                break;
+            default:
+                break;
+        }
 
-
-        exeYGC(); // 数据进入S区
-        Thread.sleep(10000);
-        System.out.println("ygc执行完毕");
-        list.clear();
-        exeYGC(); // 数据从S区清除
-        exeFullGC();
-        Thread.sleep(100000);
-
-        // 3、验证当对象 > 1.0S时，YGC后应该直接分配在Old
-        verifyMulSizeGC(1.0, survivorSize);
-        exeYGC(); // 数据进入old区
-        Thread.sleep(10000);
 
 
 
@@ -58,25 +55,33 @@ public class HeapGC3 {
     /**
      * 验证当new 一个0.75S大小的数据时，是否先存入Eden区，触发YGC的时候，存入S区
      */
-    private static void verifyThreeQuarSArea() {
-    }
+    private static void verifyThreeQuarterSArea() throws InterruptedException {
 
+        while (true){
+            System.out.println("请输入在eden区想放多少M的数据：");
+            scanNum = scanner.nextDouble();
+            byte[] bytes = new byte[(int) (Math.abs(scanNum) * 1024 * 1024)];
+            if(scanNum == 0)
+                break;
+            if(scanNum > 0)
+                list.add(bytes);
+        }
+        System.out.println("添加0.75S大小的数据，输入数字，准备执行YGC，查看S区的内存情况");
 
-    /**
-     * 验证当new 1个大小小于S区的数据如何分配
-     */
-    private static void verifyMulSizeGC(double mul, int size) {
-        byte[] bytes1 = new byte[(int)(mul * size)];
-        System.out.println("new 了个对象");
-        list.add(bytes1);
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextInt();
+        exeYGC();
+        System.out.println("查看S区的情况");
+        Thread.sleep(20000);
     }
 
     /**
      * 让jvm执行一次YGC，即new 1个占用内存 > Eden区的变量。
      */
     private static void exeYGC() {
-        System.out.println("执行YGC");
-        list.add(new byte[edenSize + survivorSize]);
+        System.out.println("准备执行YGC");
+        list.add(new byte[(int) (0.9 * edenSize)]);
+        System.out.println("YGC调用完成");
     }
 
     /**
@@ -88,9 +93,9 @@ public class HeapGC3 {
 
 
     /**
-     * 新生代占1/3，eden区点8/10
+     * 获取所有区的大小
      */
-    private static void getYoungSize() {
+    private static void getAllAreaSize() {
 
         // 此最大内存只包含1个S区大小
         long maxMemory = Runtime.getRuntime().maxMemory();
