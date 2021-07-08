@@ -7,7 +7,7 @@ import java.util.Scanner;
 /**
  * Minor GC和Major GC测试
  *
- * jvm参数设置：-Xms40m -Xmx40m -XX:NewRatio=3 -XX:SurvivorRatio=2 -XX:-UseAdaptiveSizePolicy
+ * jvm参数设置：-Xms40m -Xmx40m -XX:NewRatio=3 -XX:SurvivorRatio=2 -XX:-UseAdaptiveSizePolicy -XX:+UseTLAB
  */
 public class HeapGC3 {
 
@@ -39,9 +39,7 @@ public class HeapGC3 {
 
         switch ((int) scanNum){
             case 1:
-                verifyThreeQuarterSArea();
-                break;
-            case 2:
+                verifyGC();
                 break;
             default:
                 break;
@@ -55,24 +53,17 @@ public class HeapGC3 {
     /**
      * 验证当new 一个0.75S大小的数据时，是否先存入Eden区，触发YGC的时候，存入S区
      */
-    private static void verifyThreeQuarterSArea() throws InterruptedException {
+    private static void verifyGC() throws InterruptedException {
 
         while (true){
             System.out.println("请输入在eden区想放多少M的数据：");
-            scanNum = scanner.nextDouble();
+            scanNum = scanner.nextDouble(); // 可以输入-1，只new，不引用
             byte[] bytes = new byte[(int) (Math.abs(scanNum) * 1024 * 1024)];
             if(scanNum == 0)
                 break;
             if(scanNum > 0)
                 list.add(bytes);
         }
-        System.out.println("添加0.75S大小的数据，输入数字，准备执行YGC，查看S区的内存情况");
-
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextInt();
-        exeYGC();
-        System.out.println("查看S区的情况");
-        Thread.sleep(20000);
     }
 
     /**
