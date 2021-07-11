@@ -107,6 +107,10 @@
 　　-XX:MetaspaceSize=10k：设置JDK8及以后元数据区的初始分配空间大小；
 　　-XX:MaxMetaspaceSize=-1：设置JDK8及以后元数据区的最大可分配空间大小，值为-1表示没有限制；
 
+#### 0.3.1.5 直接内存相关参数设置
+　　**设置元空间的大小**
+　　-XX:MaxDirectMemorySize=10(G|M|K|空)，如果不设置，则与-Xmx一样大小。
+
 ### 0.3.2 JAVA命令
 　　**查看jvm进程id**
 　　jps

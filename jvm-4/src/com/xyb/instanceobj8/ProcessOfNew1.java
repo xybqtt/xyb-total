@@ -11,6 +11,10 @@ package com.xyb.instanceobj8;
  */
 public class ProcessOfNew1 {
 
+    public static void main(String[] args) {
+
+    }
+
     int id = 1; // 属性显式初始化
     String name;
     Account acct;
