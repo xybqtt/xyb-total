@@ -12,13 +12,119 @@
 　　![avatar](pictures/6heap/6-1.png)
 　　每个大标题之间空2行，每个小标题之间空1行
 
-
-
 ## 0.1 推荐书
 　　《深入理解java虚拟机》
 
 ## 0.2 用到的工具
 　　JClassLib：idea插件、查看编译后的class文件；view -> show bytecode with jclasslib；对应javap -v A.class命令；
+
+## 0.3 JVM参数及Java命令
+### 0.3.1 JVM参数
+　　官网地址：https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html
+　　参数中非-(空或+)表示启用，-表示不启用。
+　　[]表示可选参数，(a|b)表示写a或b都行。
+
+#### 0.3.1.1 JVM相关属性设置
+　　**查看所有的参数的默认初始值**
+　　-XX:+PrintFlagsInitial
+
+　　**查看所有的参数的最终值(可能会存在修改，不再是初始值)**
+　　-XX:+PrintFlagsFinal
+
+　　**显示垃圾回收细节**
+　　-XX:+PrintGCDetails。
+
+#### 0.3.1.2 heap相关参数值设置
+　　**设置heap初始化大小**
+　　-Xms600m：设置heap初始化大小为600m，不带单位则为byte，还可以是k、m、g；
+　　-XX:InitialHeapSize=600m，同上。
+
+　　**设置heap最大大小**
+　　-Xmx600m：设置heap最大大小为600m，不带单位则为byte，还可以是k、m、g；
+　　-XX:MaxHeapSize=600m，同上。
+
+　　**设置新生代垃圾的最大年龄**
+　　-XX:MaxTenuringThreshold=N
+
+　　**设置新生代、老年代比例**
+　　-XX:NewRatio=8：表示老年代的占比为8，新生代的占比为1。
+
+　　**设置新生代的Eden、S0、S1的比例**
+　　-XX:SurvivorRatio=3：表示Eden区占比为3，S0和S1的占比各为1。注意需要与 -XX:-UseAdaptiveSizePolicy联用。
+
+　　**设置新生代的大小**
+　　-Xmn100m：设置新生代的大小为100m，不带单位则为byte，还可以是k、m、g；这个参数的优先级高于"-XX:NewRatio"。
+
+　　**设置TLAB占Eden区的比例**
+　　-XX:TLABWasteTargetPercent=N
+
+#### 0.3.1.3 heap相关属性设置
+　　**设置是否采用自适应模式**
+　　-XX:-UseAdaptiveSizePolicy 不采用；
+　　-XX:+UseAdaptiveSizePolicy 采用，默认是采用。
+
+　　**开启TLAB**
+　　-XX:+UseTLAB，默认开启
+
+　　**空间分配担保**
+　　-XX:HandlePromotionFailure
+　　在发生Minor GC之前，虚拟机会检查老年代最大可用的连续空间是否大于新生代所有对象的总空间。
+<ul>
+    <li>如果大于，则此次Minor GC是安全的</li>
+    <li>
+        如果小于，则虚拟机会查看-XX:HandlePromotionFailure设置值是否允担保失败。
+        <ul>
+            <li>
+                如果HandlePromotionFailure=true，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代的对象的平均大小。
+                <ul>
+                    <li>如果大于，则尝试进行一次Minor GC，但这次Minor GC依然是有风险的；</li>
+                    <li>如果小于，则改为进行一次Full GC。</li>
+                </ul> 
+            </li>
+            <li>如果HandlePromotionFailure=false，则改为进行一次Full Gc。</li>
+        </ul>
+    </li>
+</ul>
+
+　　在JDK6 Update24之后，HandlePromotionFailure参数不会再影响到虚拟机的空间分配担保策略，观察openJDK中的源码变化，虽然源码中还定义了HandlePromotionFailure参数，但是在代码中已经不会再使用它。JDK6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则将进行FullGC。
+
+　　**显式开启逃逸分析(需要-server)**
+　　-XX:+DoEscapeAnalysis
+
+　　**查看逃逸分析结果**
+　　-XX:+PrintEscapeAnalysis
+
+　　**开启标量替换(默认开启)**
+　　-XX:+EliminateAllocations
+
+　　**将打印GC日志**
+　　-XX:+PrintGC
+
+#### 0.3.1.4 方法区相关参数值设置
+　　**设置方法区大小**
+　　-XX:Permsize=10m：设置JDK7及以前永久代的初始分配空间大小；
+　　-XX:MaxPermsize=10g：设置JDK7及以前永久代的最大可分配空间大小；
+　　-XX:MetaspaceSize=10k：设置JDK8及以后元数据区的初始分配空间大小；
+　　-XX:MaxMetaspaceSize=-1：设置JDK8及以后元数据区的最大可分配空间大小，值为-1表示没有限制；
+
+### 0.3.2 JAVA命令
+　　**查看jvm进程id**
+　　jps
+
+　　**查看参数的设置值**
+　　jinfo -flag 需要查看的参数如(SurvivorRatio) 进程id；
+　　注意查看方法区大小，jdk7、jdk8不一样。
+
+　　**查看JVM参数**
+　　jstat -gc 进程id
+
+　　**查看是否启用了某参数**
+　　jinfo -flag 参数(如UseTLAB) 进程id
+
+　　**反编译class文件**
+　　javap -(verbose|v) [-p] fileName [> fileName2]
+　　-p：不加此参数，不能显示类private信息；
+　　\> fileName2：表示将反编译后的cls文件写入到fileName2中。
 
 
 # 1 JVM与Java体系结构
@@ -329,7 +435,7 @@
 　　准备(Prepare)： 
 　　1.为类变量分配内存并且设置该类变量的默认初始值，即零值；
 　　2.这里不包含用final修饰的static，因为final在编译的时候就会分配了，准备阶段会显式初始化；
-　　3.这里不会为实例变量分配初始化，类变量会分配在方法区中，而实例变量是会随着对象一起分配到Java堆中。
+　　3.这里不会为实例变量分配初始化，类变量会分配在方法区(JDK8及以后会分配在堆中)中，而实例变量是会随着对象一起分配到Java堆中。
 　　
 　　解析(Resolve)： 
 　　1.将常量池内的符号引用转换为直接引用的过程；
@@ -1055,6 +1161,7 @@
 　　一旦对象在TLAB空间分配内存失败时，JVM就会尝试着通过使用加锁机制确保数据操作的原子性，从而直接在Eden空间中分配内存。
 　　![avatar](pictures/6heap/6-11.png)
 　　
+
 ## 6.9 堆是分配对象的唯一选择么？
 　　在《深入理解Java虚拟机》中关于Java堆内存有这样一段描述：随着JIT编译期的发展与逃逸分析技术逐渐成熟，栈上分配、标量替换优化技术将会导致一些微妙的变化，所有的对象都分配到堆上也渐渐变得不那么"绝对"了。
 　　在Java虚拟机中，对象是在Java堆中分配内存的，这是一个普遍的常识。但是，有一种特殊情况，那就是如果经过逃逸分析(Escape Analysis)后发现，一个对象并没有逃逸出方法的话，那么就可能被优化成栈上分配.。这样就无需在堆上分配内存，也无须进行垃圾回收了。这也是最常见的堆外存储技术。
@@ -1122,103 +1229,6 @@
 　　老年代放置长生命周期的对象，通常都是从survivor区域筛选拷贝过来的Java对象。当然，也有特殊情况，我们知道普通的对象会被分配在TLAB上；如果对象较大，JVM会试图直接分配在Eden其他位置上；如果对象太大，完全无法在新生代找到足够长的连续空闲空间，JVM就会直接分配到老年代。当GC只发生在年轻代中，回收年轻代对象的行为被称为MinorGc。
 　　当GC发生在老年代时则被称为MajorGc或者FullGC。一般的，MinorGc的发生频率要比MajorGC高很多，即老年代中垃圾回收发生的频率将大大低于年轻代。
 
-## 6.11 小结：堆空间的参数设置
-　　官网地址：https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html
-　　-XX:+PrintFlagsInitial  //查看所有的参数的默认初始值
-　　-XX:+PrintFlagsFinal  //查看所有的参数的最终值(可能会存在修改，不再是初始值)
-　　-Xms  //初始堆空间内存(默认为物理内存的1/64)
-　　-Xmx  //最大堆空间内存(默认为物理内存的1/4)
-　　-Xmn  //设置新生代的大小。(初始值及最大值)
-　　-XX:NewRatio  //配置新生代与老年代在堆结构的占比
-　　-XX:SurvivorRatio  //设置新生代中Eden和S0/S1空间的比例
-　　-XX:MaxTenuringThreshold  //设置新生代垃圾的最大年龄
-　　-XX:+PrintGCDetails //输出详细的GC处理日志
-　　//打印gc简要信息：①-Xx：+PrintGC ② - verbose:gc
-　　-XX:HandlePromotionFalilure：//是否设置空间分配担保
-
-### 6.11.1 堆相关JVM启动参数
-　　参数中+表示启用，-表示不启用
-
-　　**设置heap初始化大小**
-　　-Xms600m：设置heap初始化大小为600m，不带单位则为byte，还可以是k、m、g；
-　　-XX:InitialHeapSize=600m，同上。
-
-　　**设置heap最大大小**
-　　-Xmx600m：设置heap最大大小为600m，不带单位则为byte，还可以是k、m、g；
-　　-XX:MaxHeapSize=600m，同上。
-
-　　**显示垃圾回收细节**
-　　-XX:+PrintGCDetails。
-
-　　**设置新生代、老年代比例**
-　　-XX:NewRatio=8：表示老年代的占比为8，新生代的占比为1。
-
-　　**设置新生代的Eden、S0、S1的比例**
-　　-XX:SurvivorRatio=3：表示Eden区占比为3，S0和S1的占比各为1。注意需要与 -XX:-UseAdaptiveSizePolicy联用。
-
-　　**设置是否采用自适应模式**
-　　-XX:-UseAdaptiveSizePolicy 不采用；
-　　-XX:+UseAdaptiveSizePolicy 采用，默认是采用。
-
-　　**设置新生代的大小**
-　　-Xmn100m：设置新生代的大小为100m，不带单位则为byte，还可以是k、m、g；这个参数的优先级高于"-XX:NewRatio"。
-
-　　**设置对象进入老年代需要经过YGC的次数**
-　　-XX:MaxTenuringThreshold=N
-
-　　**开启TLAB**
-　　-XX:+UseTLAB或-XX:UseTLAB，默认开启
-
-　　**设置TLAB占Eden区的比例**
-　　-XX:TLABWasteTargetPercent
-
-　　**空间分配担保**
-　　-XX:HandlePromotionFailure
-　　在发生Minor GC之前，虚拟机会检查老年代最大可用的连续空间是否大于新生代所有对象的总空间。
-<ul>
-    <li>如果大于，则此次Minor GC是安全的</li>
-    <li>
-        如果小于，则虚拟机会查看-XX:HandlePromotionFailure设置值是否允担保失败。
-        <ul>
-            <li>
-                如果HandlePromotionFailure=true，那么会继续检查老年代最大可用连续空间是否大于历次晋升到老年代的对象的平均大小。
-                <ul>
-                    <li>如果大于，则尝试进行一次Minor GC，但这次Minor GC依然是有风险的；</li>
-                    <li>如果小于，则改为进行一次Full GC。</li>
-                </ul> 
-            </li>
-            <li>如果HandlePromotionFailure=false，则改为进行一次Full Gc。</li>
-        </ul>
-    </li>
-</ul>
-
-　　在JDK6 Update24之后，HandlePromotionFailure参数不会再影响到虚拟机的空间分配担保策略，观察openJDK中的源码变化，虽然源码中还定义了HandlePromotionFailure参数，但是在代码中已经不会再使用它。JDK6 Update 24之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小就会进行Minor GC，否则将进行FullGC。
-
-　　**显式开启逃逸分析(需要-server)**
-　　-XX:+DoEscapeAnalysis
-
-　　**查看逃逸分析结果**
-　　-XX:+PrintEscapeAnalysis
-
-　　**开启标量替换(默认开启)**
-　　-XX:+EliminateAllocations
-
-　　**将打印GC日志**
-　　-XX:+PrintGC
-
-### 6.11.2 Java相关命令行指令
-　　**查看jvm进程id**
-　　jps
-
-　　**查看新生代、老年代占比，Eden、S0、S1占比**
-　　jinfo -flag NewRatio 进程id
-　　jinfo -flag SurvivorRatio 进程id
-
-　　**查看JVM参数**
-　　jstat -gc 进程id
-
-　　**查看是否启用了TLAB**
-　　jinfo -flag UseTLAB 进程id
 
 # 7 方法区
 　　![avatar](pictures/7methodArea/7-1.png)
@@ -1256,15 +1266,15 @@
 ### 7.3.1 设置方法区内存的大小
 　　方法区的大小不必是固定的，JVM可以根据应用的需要动态调整。
 　　**jdk7及以前**
-　　- 通过来设置永久代初始分配空间。默认值是20.75M-XX:Permsize
-　　- 通过来设定永久代最大可分配空间。32位机器默认是64M，64位机器模式是82M-XX:MaxPermsize
+　　- 通过来设置永久代初始分配空间。默认值是20.75M -XX:Permsize
+　　- 通过来设定永久代最大可分配空间。32位机器默认是64M，64位机器模式是82M -XX:MaxPermsize
 　　- 当JVM加载的类信息容量超过了这个值，会报异常OutOfMemoryError:PermGen space。
 
 　　**JDK8以后**
 　　- 元数据区大小可以使用参数 -XX:MetaspaceSize 和 -XX:MaxMetaspaceSize指定
 　　- 默认值依赖于平台。windows下，-XX:MetaspaceSize=21M -XX:MaxMetaspaceSize=-1//即没有限制。
 　　- 与永久代不同，如果不指定大小，默认情况下，虚拟机会耗尽所有的可用系统内存。如果元数据区发生溢出，虚拟机一样会抛出异常OutOfMemoryError:Metaspace
-　　- -XX:MetaspaceSize：设置初始的元空间大小。对于一个64位的服务器端JVM来说，其默认的-XX:MetaspaceSize值为21MB。这就是初始的高水位线，一旦触及这个水位线，Full GC将会被触发并卸载没用的类(即这些类对应的类加载器不再存活)，然后这个高水位线将会重置。新的高水位线的值取决于GC后释放了多少元空间。如果释放的空间不足，那么在不超过MaxMetaspaceSize时，适当提高该值。如果释放空间过多，则适当降低该值。
+　　- -XX:MetaspaceSize：设置初始的元空间大小。对于一个64位的服务器端JVM来说，其默认的-XX:MetaspaceSize值为21MB。这就是初始的高水位线，一旦触及这个水位线，**Full GC将会被触发并卸载没用的类(即这些类对应的类加载器不再存活)**，然后这个高水位线将会重置。新的高水位线的值取决于GC后释放了多少元空间。如果释放的空间不足，那么在不超过MaxMetaspaceSize时，适当提高该值。如果释放空间过多，则适当降低该值。
 　　- 如果初始化的高水位线设置过低，上述高水位线调整情况会发生很多次。通过垃圾回收器的日志可以观察到Full GC多次调用。为了避免频繁地GC，建议将-XX:MetaspaceSize设置为一个相对较高的值。
 
 ### 7.3.2 如何解决这些OOM
@@ -1277,13 +1287,14 @@
 
 ### 7.4.1 方法区(Method Area)存储什么？
 　　《深入理解Java虚拟机》书中对方法区(Method Area)存储内容描述如下：**它用于存储已被虚拟机加载的类型信息、常量、静态变量、即时编译器编译后的代码缓存等**。
+　　**注意，方法区仅会描述类的信息，Class对象是在堆中存入的。**
 　　![avatar](pictures/7methodArea/7-7.png)
 
 ### 7.4.2 方法区的内部结构
 　　**类型信息**
 　　对每个加载的类型(类class、接口interface、枚举enum、注解annotation)，JVM必须在方法区中存储以下类型信息：
 　　1.这个类型的完整有效名称(全名=包名.类名)；
-　　2.这个类型直接父类的完整有效名(对于interface或是java.lang.object，都没有父类)；
+　　2.这个类型直接父类的完整有效名(对于interface或是java.lang.object，这二者没有父类)；
 　　3.这个类型的修饰符(public，abstract，final的某个子集)；
 　　4.这个类型直接接口的一个有序列表。
 
@@ -1380,7 +1391,7 @@ public class MethodAreaDemo {
 　　**Hotspot中方法区的变化：**
 |:---|:---|
 |JDK1.6之前|有永久代(permanet)，静态变量存储在永久代上|
-|JDK1.7|有永久代，但已经逐步 “去永久代”，字符串常量池，静态变量移除，保存在堆中|
+|JDK1.7|有永久代，但已经逐步"去永久代"，字符串常量池，静态变量移除，保存在堆中|
 |JDK1.8|无永久代，类型信息，字段，方法，常量保存在本地内存的元空间，但字符串常量池、静态变量仍然在堆中。|
 　　![avatar](pictures/7methodArea/7-11.png)
 　　![avatar](pictures/7methodArea/7-12.png)
@@ -1404,7 +1415,8 @@ public class MethodAreaDemo {
 　　这就导致StringTable回收效率不高。而我们开发中会有大量的字符串被创建，回收效率低，导致永久代内存不足。放到堆里，能及时回收内存。
 
 ### 7.6.3 静态变量存放在那里？
-　　只要是对象实例必然会在Java堆中分配。
+　　JDK8以前在方法区，JDK8及以后在堆中。
+　　在HotSpot VM里，java.lang.Class的实例被称为"Java mirror"，意思是它是VM内部用的klass对象的"镜像"，把klass对象包装了一层来暴露给Java层使用。在InstanceKlass里有个_java_mirror字段引用着它对应的Java mirror，而mirror里也有个隐藏字段指向其对应的InstanceKlass。所以当我们写obj.getClass()，在HotSpot VM里实际上经过了两层间接引用才能找到最终的Class对象：obj->_klass->_java_mirror。
 　　从《Java虚拟机规范》所定义的概念模型来看，所有Class相关的信息都应该存放在方法区之中，但方法区该如何实现，《Java虚拟机规范》并未做出规定，这就成了一件允许不同虚拟机自己灵活把握的事情。JDK7及其以后版本的HotSpot虚拟机选择把静态变量与类型在Java语言一端的映射class对象存放在一起，存储于Java堆之中，从我们的实验中也明确验证了这一点。
 
 ## 7.7 方法区的垃圾回收
@@ -1422,7 +1434,7 @@ public class MethodAreaDemo {
 　　HotSpot虚拟机对常量池的回收策略是很明确的，只要常量池中的常量没有被任何地方引用，就可以被回收。
 　　回收废弃常量与回收Java堆中的对象非常类似。
 
-　　判定一个常量是否“废弃”还是相对简单，而要判定一个类型是否属于“不再被使用的类”的条件就比较苛刻了。需要同时满足下面三个条件：
+　　判定一个常量是否"废弃"还是相对简单，而要判定一个类型是否属于"不再被使用的类"的条件就比较苛刻了。需要同时满足下面三个条件：
 　　- **该类所有的实例都已经被回收**，也就是Java堆中不存在该类及其任何派生子类的实例。 
 　　- **加载该类的类加载器已经被回收**，这个条件除非是经过精心设计的可替换类加载器的场景，如OSGi、JSP的重加载等，否则通常是很难达成的。 
 　　- **该类对应的java.lang.Class对象没有在任何地方被引用**，无法在任何地方通过反射访问该类的方法。 
@@ -1434,7 +1446,7 @@ public class MethodAreaDemo {
 ## 7.8 总结
 　　![avatar](pictures/7methodArea/7-14.png)
 
-## 7.9 常见面试题
+## 7.10 常见面试题
 　　说一下JVM内存模型吧，有哪些区？分别干什么的？
 
 　　Java8的内存分代改进 JVM内存分哪几个区，每个区的作用是什么？
@@ -1509,12 +1521,12 @@ public class MethodAreaDemo {
 　　- 构造器中初始化
 
 　　**对象实例化的过程**
-　　1.加载类元信息
-　　2.为对象分配内存
-　　3.处理并发问题
-　　4.属性的默认初始化(零值初始化)
-　　5.设置对象头信息
-　　6.属性的显示初始化、代码块中初始化、构造器中初始化
+　　1.加载类元信息；
+　　2.为对象分配内存；
+　　3.处理并发问题；
+　　4.属性的默认初始化(零值初始化)；
+　　5.设置对象头信息；
+　　6.属性的显式初始化、代码块中初始化、构造器中初始化。
 
 ## 8.2 对象内存布局
 　　![avatar](pictures/8objInstance/8-3.png)
@@ -1794,7 +1806,7 @@ public class CustomerTest{
 　　所谓AOT编译，是与即时编译相对立的一个概念。我们知道，即时编译指的是在程序的运行过程中，将字节码转换为可在硬件上直接运行的机器码，并部署至托管环境中的过程。而AOT编译指的则是，在程序运行之前，便将字节码转换为机器码的过程。
 　　最大的好处：Java虚拟机加载已经预编译成二进制库，可以直接执行。不必等待及时编译器的预热，减少Java应用给人带来“第一次运行慢” 的不良体验
 　　缺点：
-　　1.破坏了 java “ 一次编译，到处运行”的理念，必须为每个不同的硬件，OS编译对应的发行包；
+　　1.破坏了java"一次编译，到处运行"的理念，必须为每个不同的硬件，OS编译对应的发行包；
 　　2.降低了Java链接过程的动态性，加载的代码在编译器就必须全部已知。；
 　　3.还需要继续优化中，最初只支持Linux X64 java base。
 　　
