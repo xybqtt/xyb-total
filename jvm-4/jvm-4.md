@@ -111,6 +111,25 @@
 　　**设置元空间的大小**
 　　-XX:MaxDirectMemorySize=10(G|M|K|空)，如果不设置，则与-Xmx一样大小。
 
+#### 0.3.1.6 执行引擎相关参数设置
+　　**设置代码变为热点代码前需要调用的次数**
+　　-XX:CompileThreshold=10000
+
+　　**是否启用热度衰减**
+　　-XX:(+|-|空)UseCounterDecay
+
+　　**热度衰减的半衰期**
+　　-XX:CounterHalfLifeTime=10000，单位秒，如果在这个时间段时代码调用次数没达到变为热点代码所需次数，则次数减半。
+
+　　**切换执行引擎的模式**
+　　-(Xint|Xcomp|Xmixed)
+　　Xint：完全采用解释器模式执行程序；
+　　Xcomp：完全采用即时编译器模式执行程序，如果即时编码出现问题，解释器会介入执行；
+　　Xmixed：采用即时编译器+解释器的混合模式共同执行程序。
+
+　　**server模式**
+　　-Server ： 64位只有server模式。
+
 ### 0.3.2 JAVA命令
 　　**查看jvm进程id**
 　　jps
@@ -129,6 +148,13 @@
 　　javap -(verbose|v) [-p] fileName [> fileName2]
 　　-p：不加此参数，不能显示类private信息；
 　　\> fileName2：表示将反编译后的cls文件写入到fileName2中。
+
+　　**切换执行引擎的模式**
+　　java -(Xint|Xcomp|Xmixed) -version
+　　Xint：完全采用解释器模式执行程序；
+　　Xcomp：完全采用即时编译器模式执行程序，如果即时编码出现问题，解释器会介入执行；
+　　Xmixed：采用即时编译器+解释器的混合模式共同执行程序。
+
 
 
 # 1 JVM与Java体系结构
