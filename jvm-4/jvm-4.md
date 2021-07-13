@@ -1031,6 +1031,9 @@
 
 ### 6.1.3 Java VisualVM的使用
 　　jvvm可以监控正在运行的java程序，在%JAVA_HOME%/bin/jvisualvm.exe打开，安装Visual GC工具，双击正在运行的jvm就可以通过Visual GC查看heap内存情况。
+　　添加Visual GC插件：
+　　　　1.https://visualvm.github.io/index.html 》 plugins 》Plugins Centers 》找jdk对应的版本，如https://visualvm.github.io/uc/8u131/updates.html 》下载Visual GC插件；》在Jvisualvm中添加插件。
+　　　　2、工具》插件》设置》编辑》更改url为https://visualvm.github.io/uc/8u131/updates.html》可用插件》重新装入目录》装需要的插件。
 　　或直接在cmd中输入：jvisualvm
 　　idea中安装jvvm插件：https://plugins.jetbrains.com/plugin/7115-visualvm-launcher/versions下载插件，安装，在idea运行的旁边就可以看到了。
 
