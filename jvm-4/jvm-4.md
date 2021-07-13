@@ -130,6 +130,10 @@
 　　**server模式**
 　　-Server ： 64位只有server模式。
 
+#### 0.3.1.7 String相关设置
+　　**设置字符串常量池中可包含链表的个数**
+　　-XX:StringTableSize=1009
+
 ### 0.3.2 JAVA命令
 　　**查看jvm进程id**
 　　jps
