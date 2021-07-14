@@ -187,7 +187,7 @@
 　　　　　　Output directory：建议"模块绝对路径\target\artifacts\模块名_war_exploded"，则build后资源文件和WEB-INF都在此目录下，相当于"五.5"的docBase。
 
 ## 3.4 配置对应的tomcat去启动
-　　Edit Configurations -> Tomcat Local -> 点选刚才新生成的 -> 更改name；
+　　Edit Configurations -> Tomcat Server -> Local -> 点选刚才新生成的 -> 更改name；
 　　Deployment：
 　　　　"+" -> Artifact -> 选择对应模块；
 　　　　Application context：/自定义工程名，浏览器输入http://ip:port/工程名，即可访问此工程，"/工程名"对应"Artifacts的Output directory"；

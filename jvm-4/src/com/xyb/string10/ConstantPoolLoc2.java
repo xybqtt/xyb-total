@@ -5,11 +5,11 @@ import java.util.Set;
 
 /**
  * 不同JDK版本常量池位置测试，注意切换jdk版本
- * JDK6：
+ * JDK6：永久代中
  *  -XX:PermSize=10m -XX:MaxPermSize=10m -Xms10m -Xmx10m
  *  会报OOM:PermGen Size
  *
- * JDK8：
+ * JDK8：堆中
  *  -XX:MetaspaceSize=10m -XX:MaxMetaspaceSize=10m  -Xms10m -Xmx10m
  * 会报：OOM:java heap space
  */

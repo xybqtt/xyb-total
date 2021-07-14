@@ -3,7 +3,7 @@ package com.xyb.string10;
 import java.util.Scanner;
 
 /**
- * 测试StringTable数组的长度对性能的影响。
+ * 测试StringTable字符串常量池数组的长度对性能的影响。
  * 分别在：
  *  -XX:StringTableSize=1009(jdk8可设置的最小值)； 221ms
  *  默认60013：51ms
