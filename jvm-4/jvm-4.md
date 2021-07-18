@@ -475,7 +475,8 @@
 　　1.将常量池内的符号引用转换为直接引用的过程；
 　　2.事实上，解析操作往往会伴随着JVM在执行完初始化之后再执行；
 　　3.符号引用就是一组符号来描述所引用的目标。符号引用的字面量形式明确定义在《java虚拟机规范》的Class文件格式中。直接引用就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄；
-　　4.解析动作主要针对类或接口、字段、类方法、接口方法、方法类型等。对应常量池中的CONSTANT_Class_info，CONSTANT_Fieldref_info、CONSTANT_Methodref_info等。
+　　4.解析动作主要针对类或接口、字段、类方法、接口方法、方法类型等。对应常量池中的CONSTANT_Class_info，CONSTANT_Fieldref_info、CONSTANT_Methodref_info等；
+　　5.JVM会在堆中创建对应这些 class 文件常量池中的字符串对象实例 ，并在字符串常量池中驻留其引用，这些常量全局共享。**JVM规范里明确指定resolve阶段可以是lazy的**，即对于字符串的加载只有在进行ldc指令的时候，才会将其转换为字符串，并放入字符串常量池。
 　　TODO：什么是将符号引用转换为直接引用？如main方法中的sout，本质是调用PrintWriter.class的println()方法，在常量池中"#27 = NameAndType        #36:#37        // out:Ljava/io/PrintStream;"，难道是将符号引用直接改为方法区中对应的地址？
 
 
