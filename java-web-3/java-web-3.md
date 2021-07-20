@@ -156,49 +156,107 @@
 　　第2种方式，本质是将一堆jar包，装在1个lib库，然后将这个lib库添加到某个模块中：
 　　　　File -> Project Structure -> Libraries -> + -> java -> 选jar包 -> 选要添加到模块A -> 可以把这个lib库的名字改下 -> Artifacts -> 选择 模块A:war exploded -> Fix -> add lib库 to artifact。
 
-## 3.4 如何将java模块A变成java web模块 Aweb
-　　1、对A右键 -> Add Framework Support；
-　　2、勾选Web Application -> 勾选 Create web.xml，项目中就会在src的同一级出现web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
-　　3、在WEB-INF目录下创建lib目录。
-　　4、File -> Project Structure ->
-　　　　Modules：
-　　　　　　点选A模块
-　　　　　　　　Paths：勾选Use module compile out path，设置java代码的输出路径，建议Output path："A模块绝对路径\target\production\模块名"，建议Test output path："A模块绝对路径\target\test\模块名"；
-　　　　　　　　Dependencies：需要的依赖，在Libraries中设置。
-　　　　　　点击模块下的Web：(和Facets中需要配置的一模一样，在这儿配了就不用到Facets中配置了)
-　　　　　　　　name：可自定义修改；
-　　　　　　　　　　Deployment Descriptors：
-　　　　　　　　　　　　Type：不可修改；
-　　　　　　　　　　　　path：web.xml的绝对路径；
-　　　　　　　　　　Web Resource Directories：
-　　　　　　　　　　　　Web Resource Directory：2中的web目录的绝对路径，即资源路径的绝对路径；被设置了这个位置的目录就是web目录，不管叫什么；
-　　　　　　　　　　　　Path Relative to Deployment Root：要把上面的资源放到发布的根目录的什么位置，/代表就把资源放到发布目录下(Artifacts的output directory)，建议别整妖娥子，就放在这个目录下，如果不放在这个目录下，比如放在/111目录下，那么，class的目录是/WEB-INF/class，资源的目录是/111/。本来资源和WEB-INF是同一级，现在资源所在的目录和WEB-INF才是同一级。
-　　　　　　　　　　Source Roots：java源代码目录，选择"模块绝对路径/src"；
+## 3.4 如何将非java模块A变成java web模块 Aweb或导入已有的web模块
 
-　　　　Libraries：
-　　　　　　"+" -> java -> 选所有需要jar包 -> 选要添加到模块A(也可以生成后，右键Add to Modules) -> 可以把这个lib库的名字改下
-
-　　　　Facets：
-　　　　　　已经设置过了，不用设置了；
-
-　　　　Artifacts：
-　　　　　　选择模块 -> Fix -> Add '依赖名' to the artifact；
-　　　　　　Type：Web Application: Exploded：相当于将打包后的war包解压的形式，比较推荐；
-　　　　　　Output directory：建议"模块绝对路径\target\artifacts\模块名_war_exploded"，则build后资源文件和WEB-INF都在此目录下，相当于"五.5"的docBase。
+1. 变为web模块
+	- 非web项目：
+		- 创建web.xml：
+			- 对A右键，Add Framework Support；
+			- 勾选Web Application，勾选 Create web.xml；
+			- 项目中就会在src的同一级出现web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
+			- 在web/WEB-INF/下创建lib目录，用于存放依赖的jar包。
+	- web项目：在Facets中设置。
+2. 模块设置：File -> Project Structure ->
+    - Modules：
+        - 点选A模块
+			- Name：模块名；
+			- Sources：让idea区分哪些是源代码
+				- Language level：jdk版本；
+				- Sources：源代码目录，会对此目录文件进行编译；
+				- Tests：测试目录；
+				- Resources：资源目录，会将此目录文件copy到jar包中；
+				- Test Resources：测试资源目录；
+				- Exclude：忽略标记为Exluded的内容；
+				- Exclude files：不进行编译文件。
+			- Paths：设置编译输出文件目录
+				- Compiler output：编译文件输出路径
+					- Inherit ...：使用默认输出路径，即Project中的输出路径；
+					- Use module ...：编译后的文件使用本模块的输出路径，可以自定义；
+						- Output path：模块绝对路径\target\production\java-web-3；
+						- Test output path：模块绝对路径\target\test\java-web-3；
+						- Exclude output paths：排除输出路径，选中此复选框可以排除输出目录；
+				- Java doc：使用可用控件组合与模块关联的外部JavaDocs存储位置的列表。(可空)
+				- External Annotations：外部注释。使用+、-管理与模块关联的外部注释的位置（目录）列表。(可空)
+			- Dependencies：可以定义模块SDK并形成模块依赖关系列表
+				- Module SDK：模块sdk
+					- 如果选择Project SDK，则模块的sdk根据项目改变而改变；
+					- 可以选择自定义的模块SDK，则不随project改变；
+				- 依赖列表：可以添加或删除自己依赖；
+				- Dependencies storage format：选择用于存储依赖关系的格式(作为IntelliJ IDEA模块或Eclipse项目)；
+				- 如果勾选的导入jar包ajar的前面的export，表示如果新建模块B依赖了模块A，则模块B中Dependencies也会有这个依赖ajar。
+	
+	- Libraries：定义模块SDK并形成模块依赖关系列表
+		- + -> java -> 选依赖，可以打成一个依赖组，可以修改依赖组名，再在Aritifacts中进行fix设置到具体模块。
+	
+	- Facets： module有什么特征，比如Web、Spring和Hibernate等，非maven项目可以配置在此处达到项目的资源配置
+		- + -> web -> 选择要变为web模块的模块A(与modules模块中的设置一样的，修改这2个任何1个地方都可以)
+		- Name：设置web名；
+		- Deployment Descriptors：发布说明
+			- Type：不可修改；
+			- path：web.xml的绝对路径；
+		- Web Resource Directories：web资源路径，html、js、jsp、css等
+			- Web Resource Directory：web目录的绝对路径，比如lis系统里面是ui；
+			- Path Relative to Deployment Root：要把上面的资源放到发布的根目录的什么位置，/代表就把资源放到发布目录下(Artifacts的output directory)，不要动，就放在/下。如果不放在这个目录下，比如放在/111目录下，那么，class的目录是/WEB-INF/class，资源的目录是/111/。本来资源和WEB-INF是同一级，现在资源所在的目录和WEB-INF才是同一级。
+			- Source Roots：java源代码目录和资源目录，选择"模块绝对路径/src/main/java"、选择"模块绝对路径/src/main/resources"。lis项目的源代码路径是src，没有资源路径。
+	
+	- Artifacts：Artifact是maven中的一个概念，表示某个module要如何打包，例如 war exploded、war、jar、ear 等等这种打包形式；一个 module有了Artifacts 就可以部署到应用服务器中了！在给项目配置 Artifacts 的时候有好多个type的选项，exploded可以理解为展开，不压缩的意思。也就是war、jar 等产出物没压缩前的目录结构。建议在开发的时候使用这种模式，便于修改了文件的效果立刻显现出来。默认情况下，IDEA 的 Modules 和 Artifacts 的 output 目录已经设置好了，不需要更改，打成war包的时候会自动在Output directory的WEB-INF目录下生产classes 目录 ，然后把编译后的文件放进去。
+		- + -> Web Application exploded -> From Modules -> 选择模块(只有在Facets中设置了web.xml的模块才会显示)
+		- Name：模块打包名；
+		- Type：打包类型，就是上面选的；
+		- Output directory：模块绝对路径\target\artifacts\模块名_war_exploded；
+		- Include in project build：打勾会生成war包、不打不会生成war包。
 
 ## 3.4 配置对应的tomcat去启动
-　　Edit Configurations -> Tomcat Server -> Local -> 点选刚才新生成的 -> 更改name；
-　　Deployment：
-　　　　"+" -> Artifact -> 选择对应模块；
-　　　　Application context：/自定义工程名，浏览器输入http://ip:port/工程名，即可访问此工程，"/工程名"对应"Artifacts的Output directory"；
 
-　　Server，相当于"2.5"的path的设置。
-　　　　URL：启动后默认访问的url，为"http://localhost:8080/Application context的内容/"；
-　　　　HTTP Port：设置端口。
-　　　　On 'Update' action：Update classes and resources；
-　　　　On frame deactivation：选择Update classes and resources； 这个和上面的选项配合，可以进行热部署。
-　　启动访问即可。
+1. Edit Configurations -> Tomcat Server -> Local
+	- Name：自定义名称；
+	- Deployment：
+		- "+" -> Artifact -> 选择对应模块；
+		- Application context：/自定义工程名，浏览器输入http://ip:port/工程名，即可访问此工程，"/工程名"对应"Artifacts的Output directory"；
+	- Server：
+		- Application server：
+			- Configure：配置tomcat；
+		- URL：启动后默认访问的url，为"http://localhost:8080/Application context的内容/"；
+		- VM options：jvm启动参数设置；
+		- On 'Update' action：重新部署的时候进行什么操作；
+		- On frame deactivation：切换窗口的时候进行什么操作do nothing； 
+		- JRE：设置jdk版本；
+		- HTTP Port：设置端口。
+	- Before launch：启动前设置。
+	- Logs：日志
+		- Is Active：勾选哪个，则显示哪个；
+		- Save console output to file：将控制台的输出写到具体文件中；
+		- 其它自己看着选。
+	- Code Coverage：不知道；
+	- Startup/Connection：
+		- Startup script：启动脚本，默认是tomcat的catalina.bat run；
+		- Shutdown script：停止脚本，默认是tomcat的catalina.bat stop；
+	- Pass environment variables：激活环境变量，不知道怎么用。
 
+## 3.5 lis工程启动需要修改的地方
+
+1. 上面说的先设置了；
+2. 修改编码格式为GBK。
+3. Edit Configurations -> A tomcat -> Before launch -> 删除所有内容，即启动前什么也不要做；
+4. File -> settings -> Compiler：
+	- Use compiler：eclipse，lis系统用eclipse编译器编译；
+	- Proceed on errors：勾选，编译报错接着编；
+	- Path to ECJ batch compiler tool(leave empty to use bundled)：选择eclipse编译器(idea自带的ecj编译器版本高，编译会出错)，选择tomcat\lib\ecj-4.4.2jar(不同tomcat的版本不一样)。
+5. Edit Configurations，运行配置的tomcat configurations即可。
+6. 编译的时候可能会oom，堆内存溢出，在settings -> Compiler -> Build process heap size(Mbytes)，设置堆内存大小为4096。
+7. 如何在运行时特别卡，百度调整idea内存。
+
+   
 
 # 4 HTTP协议
 ## 4.1 什么是HTTP协议
