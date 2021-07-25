@@ -1,4 +1,4 @@
-package com.xyb.gc11;
+package com.xyb.gcalgorithm11;
 
 /**
  * 测试java不是使用的引用计数算法
