@@ -133,7 +133,7 @@
 　　当我们在浏览器输入http://localhost:8080/工程名/ 但是没有输入想要访问的资源时，默认访问index.html页面。
 
 ## 2.8 idea整合本地tomcat
-　　settings -> Application Servers -> + -> Tomcat Server -> 选本地tomcat，ok；
+　　settings -> Application Servers ->  "+"  -> Tomcat Server -> 选本地tomcat，ok；
 
 # 3 javaweb工程创建等操作
 ## 3.1 idea的javaweb动态工程的创建
@@ -141,20 +141,22 @@
 　　在创建好的WEB-INF目录下，再创建一个lib目录。
 
 ## 3.2 javaweb动态工程目录说明
-　　工程名(对应开发过程中的web目录)
-　　　　src：java代码开发目录
-　　　　web：专门用来存放web工程的资源文件，如html、css、js等
-　　　　　　WEB-INF：是一个受服务器保护的目录，浏览器无法直接访问到此目录内容
-　　　　　　　　lib：存放第三方的jar包(idea还需要自己配置导入)
-　　　　　　　　web.xml：是整个动态web工程的配置部署描述文件，可以在这里配置很多web工程的组件，如Servlet程序、Filter过滤器、Listener监听器、Session超时等。
+
+1. 工程名(对应开发过程中的web目录)
+    - src：java代码开发目录
+    - web：专门用来存放web工程的资源文件，如html、css、js等
+        - WEB-INF：是一个受服务器保护的目录，浏览器无法直接访问到此目录内容
+            - lib：存放第三方的jar包(idea还需要自己配置导入)
+            - web.xml：是整个动态web工程的配置部署描述文件，可以在这里配置很多web工程的组件，如Servlet程序、Filter过滤器、Listener监听器、Session超时等。
 
 ## 3.3 如何给动态web工程添加额外的jar包
+
 　　被添加的jar包前面会有箭头可以往下选。
 　　第1种方式：
 　　　　将jar包放入lib中，选中所有的jar包并右键 -> Add as Library -> 选中此web的模块并ok。
 
 　　第2种方式，本质是将一堆jar包，装在1个lib库，然后将这个lib库添加到某个模块中：
-　　　　File -> Project Structure -> Libraries -> + -> java -> 选jar包 -> 选要添加到模块A -> 可以把这个lib库的名字改下 -> Artifacts -> 选择 模块A:war exploded -> Fix -> add lib库 to artifact。
+　　　　File -> Project Structure -> Libraries ->  "+"  -> java -> 选jar包 -> 选要添加到模块A -> 可以把这个lib库的名字改下 -> Artifacts -> 选择 模块A:war exploded -> Fix -> add lib库 to artifact。
 
 ## 3.4 如何将非java模块A变成java web模块 Aweb或导入已有的web模块
 
@@ -196,10 +198,10 @@
 				- 如果勾选的导入jar包ajar的前面的export，表示如果新建模块B依赖了模块A，则模块B中Dependencies也会有这个依赖ajar。
 	
 	- Libraries：定义模块SDK并形成模块依赖关系列表
-		- + -> java -> 选依赖，可以打成一个依赖组，可以修改依赖组名，再在Aritifacts中进行fix设置到具体模块。
+		-  "+"  -> java -> 选依赖，可以打成一个依赖组，可以修改依赖组名，再在Aritifacts中进行fix设置到具体模块。
 	
 	- Facets： module有什么特征，比如Web、Spring和Hibernate等，非maven项目可以配置在此处达到项目的资源配置
-		- + -> web -> 选择要变为web模块的模块A(与modules模块中的设置一样的，修改这2个任何1个地方都可以)
+		-  "+"  -> web -> 选择要变为web模块的模块A(与modules模块中的设置一样的，修改这2个任何1个地方都可以)
 		- Name：设置web名；
 		- Deployment Descriptors：发布说明
 			- Type：不可修改；
@@ -210,7 +212,7 @@
 			- Source Roots：java源代码目录和资源目录，选择"模块绝对路径/src/main/java"、选择"模块绝对路径/src/main/resources"。lis项目的源代码路径是src，没有资源路径。
 	
 	- Artifacts：Artifact是maven中的一个概念，表示某个module要如何打包，例如 war exploded、war、jar、ear 等等这种打包形式；一个 module有了Artifacts 就可以部署到应用服务器中了！在给项目配置 Artifacts 的时候有好多个type的选项，exploded可以理解为展开，不压缩的意思。也就是war、jar 等产出物没压缩前的目录结构。建议在开发的时候使用这种模式，便于修改了文件的效果立刻显现出来。默认情况下，IDEA 的 Modules 和 Artifacts 的 output 目录已经设置好了，不需要更改，打成war包的时候会自动在Output directory的WEB-INF目录下生产classes 目录 ，然后把编译后的文件放进去。
-		- + -> Web Application exploded -> From Modules -> 选择模块(只有在Facets中设置了web.xml的模块才会显示)
+		-  "+"  -> Web Application exploded -> From Modules -> 选择模块(只有在Facets中设置了web.xml的模块才会显示)
 		- Name：模块打包名；
 		- Type：打包类型，就是上面选的；
 		- Output directory：模块绝对路径\target\artifacts\模块名_war_exploded；
