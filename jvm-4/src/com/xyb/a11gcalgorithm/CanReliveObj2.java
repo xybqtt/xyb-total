@@ -1,4 +1,4 @@
-package com.xyb.gcalgorithm11;
+package com.xyb.a11gcalgorithm;
 
 /**
  * 验证对象可复活的情况：即对象的finalization机制。

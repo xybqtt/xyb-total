@@ -1,4 +1,4 @@
-package com.xyb.instanceobj8;
+package com.xyb.a8instanceobj;
 
 import java.nio.ByteBuffer;
 import java.util.Scanner;

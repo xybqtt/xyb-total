@@ -1,4 +1,4 @@
-package com.xyb.string10;
+package com.xyb.a10string;
 
 /**
  * new String("a")到底创建了几个对象：

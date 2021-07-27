@@ -1,4 +1,4 @@
-package com.xyb.instanceobj8;
+package com.xyb.a8instanceobj;
 
 /**
  * new一个类的过程：

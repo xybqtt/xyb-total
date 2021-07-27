@@ -1,4 +1,4 @@
-package com.xyb.methodarea7;
+package com.xyb.a7methodarea;
 
 import java.util.Scanner;
 

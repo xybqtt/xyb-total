@@ -1,4 +1,4 @@
-package com.xyb.heap6;
+package com.xyb.a6heap;
 
 /**
  * 查看堆初始化、最大扩展大小

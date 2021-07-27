@@ -1,4 +1,4 @@
-package com.xyb.clsloader2;
+package com.xyb.a2clsloader;
 
 import com.sun.glass.utils.NativeLibLoader;
 import javafx.beans.value.ChangeListener;

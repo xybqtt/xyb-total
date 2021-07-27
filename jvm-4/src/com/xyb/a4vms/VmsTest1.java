@@ -1,4 +1,4 @@
-package com.xyb.vms4;
+package com.xyb.a4vms;
 
 /**
  * java virtual machine stack：虚拟机栈测试

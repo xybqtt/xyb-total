@@ -1,4 +1,4 @@
-package com.xyb.methodarea7;
+package com.xyb.a7methodarea;
 
 /**
  * 查看方法区中有哪些内容，即查看cls字节码文件中有哪些内容：

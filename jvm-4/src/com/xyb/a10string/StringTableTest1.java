@@ -1,4 +1,4 @@
-package com.xyb.string10;
+package com.xyb.a10string;
 
 import java.util.Scanner;
 
