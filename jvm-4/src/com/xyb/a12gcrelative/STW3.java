@@ -38,11 +38,11 @@ public class STW3 {
                 try{
                     while (true){
                         for (int i = 0; i < 1000; i++) {
-                            byte[] bytes = new byte[10240];
+                            byte[] bytes = new byte[1024];
                             list.add(bytes);
                         }
 
-                        if(list.size() > 10000){
+                        if(list.size() > 100000){
                             list.clear();
                             System.gc();
                         }
