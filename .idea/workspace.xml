@@ -1,0 +1,1244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="java-web-3:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-web-3/java-web-3.md" beforeDir="false" afterPath="$PROJECT_DIR$/java-web-3/java-web-3.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/jvm-4.md" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/jvm-4.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="HTML File" />
+        <option value="Jsp File" />
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../../../envirVar/apache-maven-3.6.1" />
+        <option name="userSettingsFile" value="D:\envirVar\apache-maven-3.6.1\dbrep\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1k1sXvVBYIFBOOqzuqC5InLD3Rp" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
+    <property name="last_opened_file_path" value="$APPLICATION_HOME_DIR$/medWorkspace/med" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15332031" />
+    <property name="project.structure.side.proportion" value="0.33073172" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xyb.service.impl" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\devTools\IntelliJ IDEA 2020.1.1\topWorkspace\xybWorkspace\xyb-total-project\webservice-3\ws-server\src\main\java\com\xyb\service\impl" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\4jvmStack" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\src\com\xyb\clsloader2" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\1jvm" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.xyb.servlet" />
+      <recent name="com.xyb.entity" />
+      <recent name="com.xyb.filter3" />
+      <recent name="com.xyb.service" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\4jvmStack" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\6" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\java-web-3\web" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.java-web-3-tomcat">
+    <configuration name="Arithmetic2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.basic1.Arithmetic2" />
+      <module name="java-basic-knowledge1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xyb.basic1.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ClassLoaderTest1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.a2clsloader.ClassLoaderTest1" />
+      <module name="jvm-4" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xyb.a2clsloader.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.Client" />
+      <module name="ws-client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xyb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.Server" />
+      <module name="ws-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xyb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AppTest.test01" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="xyb-mybatis" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xyb.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.xyb" />
+      <option name="MAIN_CLASS_NAME" value="com.xyb.AppTest" />
+      <option name="METHOD_NAME" value="test01" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="java-web-3-tomcat" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.85" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="1.8">
+      <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
+      <deployment>
+        <artifact name="java-web-3:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/java_web_3" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="Unnamed_xyb-total-project" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="11745" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Debug with VisualVM">
+        <option name="DEBUG_PORT" value="11609" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug with VisualVM">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run with VisualVM">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="java-web-3:war exploded" />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.EscapeAnalysis4" />
+      <item itemvalue="Application.MethodAreaDemo1" />
+      <item itemvalue="Application.ExeEngineModel1" />
+      <item itemvalue="Application.MethodAreaShow2" />
+      <item itemvalue="Application.DirectMemory2" />
+      <item itemvalue="Application.StringTableTest1" />
+      <item itemvalue="Application.RefCountGCTest1" />
+      <item itemvalue="Application.NewStrTest2" />
+      <item itemvalue="Application.CanReliveObj2" />
+      <item itemvalue="Application.VmsTest1" />
+      <item itemvalue="Application.HeapSpace1" />
+      <item itemvalue="Application.YoungOldRatio2" />
+      <item itemvalue="Application.HeapGC3" />
+      <item itemvalue="Application.Server" />
+      <item itemvalue="Application.Client" />
+      <item itemvalue="Application.Arithmetic2" />
+      <item itemvalue="Application.ClassLoaderTest1" />
+      <item itemvalue="JUnit.AppTest.test01" />
+      <item itemvalue="Tomcat Server.java-web-3-tomcat" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ClassLoaderTest1" />
+        <item itemvalue="Application.Arithmetic2" />
+        <item itemvalue="Application.Client" />
+        <item itemvalue="Application.Server" />
+        <item itemvalue="JUnit.AppTest.test01" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="" />
+      <created>1604879475074</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1604879475074</updated>
+      <workItem from="1604879494110" duration="1068000" />
+      <workItem from="1620311548457" duration="89000" />
+      <workItem from="1620311742044" duration="1332000" />
+      <workItem from="1620313479691" duration="2562000" />
+      <workItem from="1620516086044" duration="2558000" />
+      <workItem from="1620537686512" duration="4826000" />
+      <workItem from="1620542586972" duration="453000" />
+      <workItem from="1620543074953" duration="405000" />
+      <workItem from="1620546859455" duration="6862000" />
+      <workItem from="1620559237513" duration="2241000" />
+      <workItem from="1620644439749" duration="7071000" />
+      <workItem from="1620817315940" duration="4668000" />
+      <workItem from="1620862172552" duration="2401000" />
+      <workItem from="1620906409120" duration="7663000" />
+      <workItem from="1620923636170" duration="1858000" />
+      <workItem from="1621032781767" duration="5601000" />
+      <workItem from="1621055871687" duration="8667000" />
+      <workItem from="1621078299673" duration="5372000" />
+      <workItem from="1621102270565" duration="2381000" />
+      <workItem from="1621207310839" duration="25000" />
+      <workItem from="1621255480004" duration="8867000" />
+      <workItem from="1621301310460" duration="4846000" />
+      <workItem from="1621513082660" duration="19236000" />
+      <workItem from="1621597938168" duration="38228000" />
+      <workItem from="1621674170045" duration="39028000" />
+      <workItem from="1622122105936" duration="5378000" />
+      <workItem from="1622268702259" duration="8358000" />
+      <workItem from="1622294181278" duration="2494000" />
+      <workItem from="1622319287067" duration="27000" />
+      <workItem from="1622319381525" duration="439000" />
+      <workItem from="1622319853436" duration="13000" />
+      <workItem from="1622320013250" duration="121000" />
+      <workItem from="1622320426255" duration="62000" />
+      <workItem from="1622320512709" duration="18000" />
+      <workItem from="1622320559149" duration="8540000" />
+      <workItem from="1622473532409" duration="8148000" />
+      <workItem from="1622644422067" duration="13511000" />
+      <workItem from="1622920496674" duration="14756000" />
+      <workItem from="1622986109646" duration="3939000" />
+      <workItem from="1623072355525" duration="4000" />
+      <workItem from="1623072691254" duration="57000" />
+      <workItem from="1623073133015" duration="4000" />
+      <workItem from="1623073178173" duration="14026000" />
+      <workItem from="1623410550825" duration="570000" />
+      <workItem from="1623411160916" duration="549000" />
+      <workItem from="1623411976269" duration="9000" />
+      <workItem from="1623412014537" duration="34241000" />
+      <workItem from="1623566953047" duration="7352000" />
+      <workItem from="1623641349668" duration="14125000" />
+      <workItem from="1623754304253" duration="9258000" />
+      <workItem from="1623843070060" duration="7884000" />
+      <workItem from="1623943984601" duration="5233000" />
+      <workItem from="1624070488283" duration="33312000" />
+      <workItem from="1624305424203" duration="28000" />
+      <workItem from="1624305491801" duration="2900000" />
+      <workItem from="1624712122976" duration="905000" />
+      <workItem from="1624783336352" duration="105000" />
+      <workItem from="1624783476501" duration="13000" />
+      <workItem from="1624783521045" duration="18547000" />
+      <workItem from="1624884514289" duration="13000" />
+      <workItem from="1624884549150" duration="15000" />
+      <workItem from="1624884604423" duration="65000" />
+      <workItem from="1624884695404" duration="27929000" />
+      <workItem from="1625282384816" duration="154000" />
+      <workItem from="1625282591891" duration="106000" />
+      <workItem from="1625290223335" duration="7000" />
+      <workItem from="1625290270077" duration="13000" />
+      <workItem from="1625290322320" duration="9882000" />
+      <workItem from="1625361831357" duration="501000" />
+      <workItem from="1625372265767" duration="3156000" />
+      <workItem from="1625375484197" duration="12871000" />
+      <workItem from="1625439278370" duration="7365000" />
+      <workItem from="1625529381126" duration="144000" />
+      <workItem from="1625572268981" duration="196000" />
+      <workItem from="1625572487764" duration="50000" />
+      <workItem from="1625572559423" duration="8000" />
+      <workItem from="1625572601055" duration="8922000" />
+      <workItem from="1625741926536" duration="53898000" />
+      <workItem from="1626306077028" duration="26000" />
+      <workItem from="1626306145168" duration="296000" />
+      <workItem from="1626500682606" duration="9000" />
+      <workItem from="1626500745215" duration="17238000" />
+      <workItem from="1626710382158" duration="5505000" />
+      <workItem from="1626870988467" duration="43000" />
+      <workItem from="1626871073405" duration="13000" />
+      <workItem from="1626871115204" duration="5600000" />
+      <workItem from="1627207584332" duration="7000" />
+      <workItem from="1627207631186" duration="23566000" />
+      <workItem from="1627521926839" duration="6053000" />
+    </task>
+    <task id="LOCAL-00005" summary="html学习：将要学习视频19">
+      <created>1620864603269</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1620864603269</updated>
+    </task>
+    <task id="LOCAL-00006" summary="html学习：将要学习视频33">
+      <created>1620917950652</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1620917950652</updated>
+    </task>
+    <task id="LOCAL-00007" summary="html学习：将要学习视频39">
+      <created>1620925281948</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1620925281948</updated>
+    </task>
+    <task id="LOCAL-00008" summary="html学习：将要学习视频72">
+      <created>1621104069047</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1621104069047</updated>
+    </task>
+    <task id="LOCAL-00009" summary="html学习：将要学习视频74">
+      <created>1621267374228</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1621267374228</updated>
+    </task>
+    <task id="LOCAL-00010" summary="html学习：正在学习视频75">
+      <created>1621469048860</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1621469048860</updated>
+    </task>
+    <task id="LOCAL-00011" summary="html学习：正在学习视频75-2">
+      <created>1621469099919</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1621469099919</updated>
+    </task>
+    <task id="LOCAL-00012" summary="html学习：正在学习视频77">
+      <created>1621535735403</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1621535735404</updated>
+    </task>
+    <task id="LOCAL-00013" summary="html学习：正在学习视频80">
+      <created>1621552930217</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1621552930217</updated>
+    </task>
+    <task id="LOCAL-00014" summary="html学习：正在学习视频121">
+      <created>1621783543012</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1621783543012</updated>
+    </task>
+    <task id="LOCAL-00015" summary="html学习：正在学习视频128">
+      <created>1621900704393</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1621900704393</updated>
+    </task>
+    <task id="LOCAL-00016" summary="html学习：正在学习视频131">
+      <created>1622160011439</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1622160011439</updated>
+    </task>
+    <task id="LOCAL-00017" summary="html学习：正在学习视频172">
+      <created>1622478495840</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1622478495840</updated>
+    </task>
+    <task id="LOCAL-00018" summary="html学习：正在学习视频175">
+      <created>1622591889166</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1622591889166</updated>
+    </task>
+    <task id="LOCAL-00019" summary="html学习：正在学习视频178">
+      <created>1622650167497</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1622650167497</updated>
+    </task>
+    <task id="LOCAL-00020" summary="html学习：正在学习视频179">
+      <created>1622765870213</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1622765870213</updated>
+    </task>
+    <task id="LOCAL-00021" summary="html学习：正在学习视频190">
+      <created>1623024802110</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1623024802110</updated>
+    </task>
+    <task id="LOCAL-00022" summary="html学习：正在学习视频193">
+      <created>1623110211744</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1623110211744</updated>
+    </task>
+    <task id="LOCAL-00023" summary="html学习：正在学习视频194">
+      <created>1623251608380</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1623251608380</updated>
+    </task>
+    <task id="LOCAL-00024" summary="html学习：正在学习视频222">
+      <created>1623585782227</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1623585782227</updated>
+    </task>
+    <task id="LOCAL-00025" summary="html学习：正在学习视频266">
+      <created>1623684058239</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1623684058239</updated>
+    </task>
+    <task id="LOCAL-00026" summary="html学习：正在学习视频294">
+      <created>1623801136130</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1623801136130</updated>
+    </task>
+    <task id="LOCAL-00027" summary="html学习：正在学习视频294">
+      <created>1623801161035</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1623801161035</updated>
+    </task>
+    <task id="LOCAL-00028" summary="html学习：正在学习视频294">
+      <created>1623886486810</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1623886486810</updated>
+    </task>
+    <task id="LOCAL-00029" summary="html学习：正在学习视频294">
+      <created>1623949731099</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1623949731099</updated>
+    </task>
+    <task id="LOCAL-00030" summary="html学习：正在学习视频320">
+      <created>1624164054669</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1624164054669</updated>
+    </task>
+    <task id="LOCAL-00031" summary="jvm学习">
+      <created>1624807300682</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1624807300682</updated>
+    </task>
+    <task id="LOCAL-00032" summary="jvm学习：2">
+      <created>1624924320396</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1624924320396</updated>
+    </task>
+    <task id="LOCAL-00033" summary="jvm学习：3">
+      <created>1625146545861</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1625146545861</updated>
+    </task>
+    <task id="LOCAL-00034" summary="jvm学习：4">
+      <created>1625282477206</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1625282477207</updated>
+    </task>
+    <task id="LOCAL-00035" summary="jvm学习：5">
+      <created>1625282635770</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1625282635770</updated>
+    </task>
+    <task id="LOCAL-00036" summary="jvm学习：6">
+      <created>1625303542491</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1625303542492</updated>
+    </task>
+    <task id="LOCAL-00037" summary="jvm学习：7">
+      <created>1625408372954</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1625408372954</updated>
+    </task>
+    <task id="LOCAL-00038" summary="jvm学习：8">
+      <created>1625513096737</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1625513096738</updated>
+    </task>
+    <task id="LOCAL-00039" summary="jvm学习：9">
+      <created>1625615936054</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1625615936054</updated>
+    </task>
+    <task id="LOCAL-00040" summary="jvm学习：10">
+      <created>1625757929275</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1625757929275</updated>
+    </task>
+    <task id="LOCAL-00041" summary="jvm学习：11">
+      <created>1626014751257</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1626014751257</updated>
+    </task>
+    <task id="LOCAL-00042" summary="jvm学习：12 110节">
+      <created>1626047432980</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1626047432980</updated>
+    </task>
+    <task id="LOCAL-00043" summary="jvm学习：13 118节">
+      <created>1626101343365</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1626101343365</updated>
+    </task>
+    <task id="LOCAL-00044" summary="jvm学习：13 118节">
+      <created>1626214608345</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1626214608345</updated>
+    </task>
+    <task id="LOCAL-00045" summary="jvm学习：14 121节">
+      <created>1626219452989</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1626219452989</updated>
+    </task>
+    <task id="LOCAL-00046" summary="jvm学习：15 126节">
+      <created>1626306213847</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1626306213847</updated>
+    </task>
+    <task id="LOCAL-00047" summary="jvm学习：15-2 126节">
+      <created>1626568985074</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1626568985074</updated>
+    </task>
+    <task id="LOCAL-00048" summary="jvm学习：15-3 126节">
+      <created>1626791017732</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1626791017732</updated>
+    </task>
+    <task id="LOCAL-00049" summary="jvm学习：16 146节">
+      <created>1627230180501</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1627230180501</updated>
+    </task>
+    <task id="LOCAL-00050" summary="jvm学习：17 147节">
+      <created>1627256844530</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1627256844531</updated>
+    </task>
+    <task id="LOCAL-00051" summary="jvm学习：18 151节">
+      <created>1627344478582</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1627344478582</updated>
+    </task>
+    <task id="LOCAL-00052" summary="jvm学习：19 160节">
+      <created>1627404400862</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1627404400862</updated>
+    </task>
+    <task id="LOCAL-00053" summary="jvm学习：20 165节">
+      <created>1627430525564</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1627430525564</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:D:/java/idea200101/topWorkspace/xyb-total-project/html-css-js2" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="2">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="3">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:D:/java/idea200101/topWorkspace/xyb-total-project/java-web-3" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="4">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:D:/java/idea200101/topWorkspace/xyb-total-project/java-basic-knowledge1" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="5">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:D:/java/idea200101/topWorkspace/xyb-total-project/jvm-4" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="1" value="TOOL_WINDOW" />
+        <entry key="2" value="TOOL_WINDOW" />
+        <entry key="3" value="TOOL_WINDOW" />
+        <entry key="4" value="TOOL_WINDOW" />
+        <entry key="5" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="html学习：正在学习视频266" />
+    <MESSAGE value="html学习：正在学习视频294" />
+    <MESSAGE value="html学习：正在学习视频320" />
+    <MESSAGE value="jvm学习" />
+    <MESSAGE value="jvm学习：2" />
+    <MESSAGE value="jvm学习：3" />
+    <MESSAGE value="jvm学习：4" />
+    <MESSAGE value="jvm学习：5" />
+    <MESSAGE value="jvm学习：6" />
+    <MESSAGE value="jvm学习：7" />
+    <MESSAGE value="jvm学习：8" />
+    <MESSAGE value="jvm学习：9" />
+    <MESSAGE value="jvm学习：10" />
+    <MESSAGE value="jvm学习：11" />
+    <MESSAGE value="jvm学习：12 110节" />
+    <MESSAGE value="jvm学习：13 118节" />
+    <MESSAGE value="jvm学习：14 121节" />
+    <MESSAGE value="jvm学习：15 126节" />
+    <MESSAGE value="jvm学习：15-2 126节" />
+    <MESSAGE value="jvm学习：15-3 126节" />
+    <MESSAGE value="jvm学习：16 146节" />
+    <MESSAGE value="jvm学习：17 147节" />
+    <MESSAGE value="jvm学习：18 151节" />
+    <MESSAGE value="jvm学习：19 160节" />
+    <MESSAGE value="jvm学习：20 165节" />
+    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：20 165节" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="444" y="26" key="#Arithmetic2" timestamp="1620559996772">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="444" y="26" key="#Arithmetic2/0.0.1536.824@0.0.1536.824" timestamp="1620559996772" />
+    <state x="703" y="73" key="#HTTP_Proxy" timestamp="1625375221995">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="703" y="73" key="#HTTP_Proxy/0.0.1536.824@0.0.1536.824" timestamp="1625375221995" />
+    <state x="779" y="90" key="#Inspections" timestamp="1621870891278">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="779" y="90" key="#Inspections/0.0.1536.824@0.0.1536.824" timestamp="1621870891278" />
+    <state x="260" y="122" width="1158" height="583" key="#Markdown" timestamp="1626870843100">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="260" y="122" width="1158" height="583" key="#Markdown/0.0.1536.824@0.0.1536.824" timestamp="1626870843100" />
+    <state x="651" y="274" key="#Notifications" timestamp="1620311574152">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="651" y="274" key="#Notifications/0.0.1536.824@0.0.1536.824" timestamp="1620311574152" />
+    <state x="230" y="0" key="#Project_Structure" timestamp="1627522535172">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="230" y="0" key="#Project_Structure/0.0.1280.680@0.0.1280.680" timestamp="1627522535172" />
+    <state x="276" y="0" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1624682596257" />
+    <state x="683" y="232" key="#Tomcat_Server" timestamp="1621750142907">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="683" y="232" key="#Tomcat_Server/0.0.1536.824@0.0.1536.824" timestamp="1621750142907" />
+    <state x="444" y="26" key="#Variable1" timestamp="1620559786430">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="444" y="26" key="#Variable1/0.0.1536.824@0.0.1536.824" timestamp="1620559786430" />
+    <state x="384" y="127" key="#VisualVM_Launcher" timestamp="1625375553088">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="384" y="127" key="#VisualVM_Launcher/0.0.1536.824@0.0.1536.824" timestamp="1625375553088" />
+    <state x="407" y="79" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1627600788868">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="407" y="79" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1627600788868" />
+    <state x="872" y="212" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1622320437933">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="872" y="212" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1622320437933" />
+    <state x="958" y="117" key="#com.intellij.ide.util.MemberChooser" timestamp="1626014582159">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="958" y="117" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1626014582159" />
+    <state x="682" y="213" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1627399271916">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="682" y="213" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1536.824@0.0.1536.824" timestamp="1627399271916" />
+    <state x="431" y="88" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1621776264013">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="88" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1536.824@0.0.1536.824" timestamp="1621776264013" />
+    <state x="625" y="336" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath" timestamp="1621776933911">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="625" y="336" key="#com.intellij.javaee.module.view.common.J2EE.J2EEDeploymentDescriptorLocationPanel.changeDDPath/0.0.1536.824@0.0.1536.824" timestamp="1621776933911" />
+    <state x="742" y="318" key="#com.intellij.javaee.module.view.web.EditWebRootDialog" timestamp="1621777826839">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="742" y="318" key="#com.intellij.javaee.module.view.web.EditWebRootDialog/0.0.1536.824@0.0.1536.824" timestamp="1621777826839" />
+    <state x="784" y="123" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog" timestamp="1623475365430">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="784" y="123" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog/0.0.1536.824@0.0.1536.824" timestamp="1623475365430" />
+    <state x="512" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1627398940827">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="512" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1627398940827" />
+    <state x="695" y="185" key="#com.intellij.tools.ToolEditorDialog" timestamp="1623168832343">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="695" y="185" key="#com.intellij.tools.ToolEditorDialog/0.0.1536.824@0.0.1536.824" timestamp="1623168832343" />
+    <state x="684" y="167" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1623475597790">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="684" y="167" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1536.824@0.0.1536.824" timestamp="1623475597790" />
+    <state x="879" y="243" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1623799970328">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="879" y="243" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1623799970328" />
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1627430524171">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1627430524171" />
+    <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1626214627314">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="246" y="64" width="1228" height="688" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1626214627314" />
+    <state x="80" y="60" key="FileChooserDialogImpl" timestamp="1627539060627">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="80" y="60" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1627539060627" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1625375540860" />
+    <state x="0" y="0" key="FileDocumentManager.FileCacheConflict" timestamp="1621256720012">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="0" y="0" key="FileDocumentManager.FileCacheConflict/0.0.1536.824@0.0.1536.824" timestamp="1621256720012" />
+    <state width="939" height="221" key="GridCell.Tab.0.bottom" timestamp="1627539062682">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
+    <state width="1493" height="236" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1627430547600" />
+    <state width="939" height="221" key="GridCell.Tab.0.center" timestamp="1627539062681">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
+    <state width="1493" height="236" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1627430547600" />
+    <state width="939" height="221" key="GridCell.Tab.0.left" timestamp="1627539062681">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
+    <state width="1493" height="236" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1627430547600" />
+    <state width="939" height="221" key="GridCell.Tab.0.right" timestamp="1627539062681">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
+    <state width="1493" height="236" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1627430547600" />
+    <state width="939" height="221" key="GridCell.Tab.1.bottom" timestamp="1627539062682">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
+    <state width="1236" height="301" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
+    <state width="939" height="221" key="GridCell.Tab.1.center" timestamp="1627539062682">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
+    <state width="1236" height="301" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
+    <state width="939" height="221" key="GridCell.Tab.1.left" timestamp="1627539062682">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
+    <state width="1236" height="301" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
+    <state width="939" height="221" key="GridCell.Tab.1.right" timestamp="1627539062682">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
+    <state width="1236" height="301" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
+    <state width="939" height="221" key="GridCell.Tab.2.bottom" timestamp="1627539062682">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.2.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
+    <state width="1236" height="301" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
+    <state width="939" height="221" key="GridCell.Tab.2.center" timestamp="1627539062682">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.2.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
+    <state width="1236" height="301" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
+    <state width="939" height="221" key="GridCell.Tab.2.left" timestamp="1627539062682">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.2.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
+    <state width="1236" height="301" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
+    <state width="939" height="221" key="GridCell.Tab.2.right" timestamp="1627539062682">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="939" height="221" key="GridCell.Tab.2.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
+    <state width="1236" height="301" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
+    <state width="1236" height="274" key="GridCell.Tab.3.bottom" timestamp="1624202775596">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1236" height="274" key="GridCell.Tab.3.bottom/0.0.1536.824@0.0.1536.824" timestamp="1624202775596" />
+    <state width="1236" height="274" key="GridCell.Tab.3.center" timestamp="1624202775596">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1236" height="274" key="GridCell.Tab.3.center/0.0.1536.824@0.0.1536.824" timestamp="1624202775596" />
+    <state width="1236" height="274" key="GridCell.Tab.3.left" timestamp="1624202775596">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1236" height="274" key="GridCell.Tab.3.left/0.0.1536.824@0.0.1536.824" timestamp="1624202775596" />
+    <state width="1236" height="274" key="GridCell.Tab.3.right" timestamp="1624202775596">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1236" height="274" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1624202775596" />
+    <state x="408" y="43" width="861" height="593" key="NewModule_or_Project.wizard" timestamp="1627528298341">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="408" y="43" width="861" height="593" key="NewModule_or_Project.wizard/0.0.1280.680@0.0.1280.680" timestamp="1627528298341" />
+    <state x="458" y="113" key="RollbackChangesDialog" timestamp="1627399080173">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="458" y="113" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1627399080173" />
+    <state x="434" y="0" width="1226" height="680" key="SettingsEditor" timestamp="1627600887438">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="54" y="0" width="1226" height="680" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1627529496209" />
+    <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1627600887438" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1627430537392">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1627430537392" />
+    <state x="646" y="303" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1621673541644">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="646" y="303" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1621673541644" />
+    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1627430528345">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1627430528345" />
+    <state x="313" y="141" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1623584735668">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="313" y="141" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1536.824@0.0.1536.824" timestamp="1623584735668" />
+    <state x="843" y="0" width="602" height="824" key="find.popup" timestamp="1623643126367">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="843" y="0" width="602" height="824" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1623643126367" />
+    <state x="324" y="18" width="1198" height="780" key="new project wizard" timestamp="1624682408761">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="324" y="18" width="1198" height="780" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1624682408761" />
+    <state x="425" y="187" width="672" height="677" key="run.anything.popup" timestamp="1623677099072">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1623677099072" />
+    <state x="678" y="120" width="672" height="560" key="search.everywhere.popup" timestamp="1627538409774">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="678" y="120" width="672" height="560" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1627538409774" />
+    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1626518882175" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/java-basic-knowledge1/src/com/xyb/basic1/Variable1.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/java-web-3/src/com/xyb/servlet/AjaxServlet13.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/jvm-4/src/com/xyb/a2clsloader/A2MyDiskClassLoader.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/jvm-4/src/com/xyb/a2clsloader/A2MyDiskClassLoader.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/jvm-4/src/com/xyb/a2clsloader/A2MyDiskClassLoader.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/jvm-4/src/com/xyb/a4vms/A2StackFrameTest.java</url>
+          <line>9</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/jvm-4/src/com/xyb/a4vms/A2StackFrameTest.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/jvm-4/src/com/xyb/a6heap/A3HeapGC.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/jvm-4/src/com/xyb/a9executeengine/ExeEngineModel1.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/jvm-4/src/com/xyb/a9executeengine/ExeEngineModel1.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo typeName="org.apache.commons.fileupload.servlet.ServletRequestContext" fieldName="request" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+</project>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ws-client" />
+        <module name="ws-server" />
+        <module name="xyb-mybatis" />
+        <module name="parse-combin" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="java-basic1" target="1.5" />
+      <module name="parse-combin" target="1.7" />
+      <module name="webservice-3" target="1.7" />
+      <module name="webService3" target="1.5" />
+      <module name="ws-client" target="1.7" />
+      <module name="ws-server" target="1.7" />
+      <module name="xyb-mybatis" target="1.8" />
+      <module name="xyb-total-project" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
