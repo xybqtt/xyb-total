@@ -31,6 +31,7 @@ public class STW3 {
             }
         }).start();
 
+        // 在这块new一个经常调用gc的线程，则上面的打印就不能按时打印了。
         new Thread(new Runnable() {
             public List list = new ArrayList();
             @Override

@@ -29,6 +29,10 @@ public class HeapGC3 {
 
     public static double scanNum;
 
+    public HeapGC3(){
+        getAllAreaSize();
+    }
+
     public static void main(String[] args) throws InterruptedException {
 
         // 1、获取生存区、eden区的大小
