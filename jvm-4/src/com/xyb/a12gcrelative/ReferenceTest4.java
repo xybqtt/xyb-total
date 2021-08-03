@@ -2,6 +2,8 @@ package com.xyb.a12gcrelative;
 
 import com.xyb.a6heap.HeapGC3;
 
+import java.lang.ref.PhantomReference;
+import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
@@ -15,9 +17,56 @@ public class ReferenceTest4 {
 
 
     public static void main(String[] args) throws InterruptedException {
-        testSoftRef();
+//        testSoftRef();
+//
+//        testWeakRef();
 
-        testWeakRef();
+        testPhantomRef();
+    }
+
+    /**
+     * 测试虚引用
+     */
+    private static void testPhantomRef() throws InterruptedException {
+
+        // new 实例对象
+        Object obj = new Object();
+
+        // 创建虚引用队列
+        ReferenceQueue<Object> referenceQueue = new ReferenceQueue<Object>();
+
+        // 创建虚引用，为其指定对象和虚引用队列
+        PhantomReference<Object> sf = new PhantomReference<Object>(obj, referenceQueue);
+
+        // 让此线程启动，当虚引用引用的对象被GC时，查看虚引用队列有无元素进入
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    Object obj = null;
+                    try {
+                        obj = referenceQueue.remove();
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if(obj != null)
+                        System.out.println("实例被GC了");
+                }
+            }
+        });
+        t.setDaemon(true);
+        t.start();
+
+        obj = null;
+        System.gc();
+        Thread.sleep(1000);
+
+        if(obj == null)
+            System.out.println("obj是null");
+        else
+            System.out.println("obj不是null");
+
 
     }
 
