@@ -25,9 +25,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/jvm-4/jvm-4.md" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/jvm-4.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/src/com/xyb/a12gcrelative/STW3.java" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/src/com/xyb/a12gcrelative/STW3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/src/com/xyb/a6heap/HeapGC3.java" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/src/com/xyb/a6heap/HeapGC3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +81,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last_opened_file_path" value="$APPLICATION_HOME_DIR$/medWorkspace/med" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/jvm-4/pictures" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15332031" />
@@ -92,15 +90,19 @@
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.xyb.service.impl" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\4jvmStack" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\6" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\java-web-3\web" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures" />
       <recent name="D:\devTools\IntelliJ IDEA 2020.1.1\topWorkspace\xybWorkspace\xyb-total-project\webservice-3\ws-server\src\main\java\com\xyb\service\impl" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\4jvmStack" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\src\com\xyb\clsloader2" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\1jvm" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.xyb.servlet" />
@@ -108,12 +110,8 @@
       <recent name="com.xyb.filter3" />
       <recent name="com.xyb.service" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\4jvmStack" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\6" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\java-web-3\web" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xyb.service.impl" />
     </key>
   </component>
   <component name="RunManager" selected="Application.ReferenceTest4">
@@ -297,7 +295,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ReferenceTest4" />
         <item itemvalue="Application.ClassLoaderTest1" />
         <item itemvalue="Application.Arithmetic2" />
         <item itemvalue="Application.Client" />
@@ -404,20 +401,17 @@
       <workItem from="1627207584332" duration="7000" />
       <workItem from="1627207631186" duration="23566000" />
       <workItem from="1627521926839" duration="6053000" />
-    </task>
-    <task id="LOCAL-00005" summary="html学习：将要学习视频19">
-      <created>1620864603269</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1620864603269</updated>
-    </task>
-    <task id="LOCAL-00006" summary="html学习：将要学习视频33">
-      <created>1620917950652</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1620917950652</updated>
+      <workItem from="1627995072078" duration="21000" />
+      <workItem from="1627995135054" duration="3242000" />
+      <workItem from="1628169042634" duration="28000" />
+      <workItem from="1628169173363" duration="1492000" />
+      <workItem from="1628595703851" duration="4000" />
+      <workItem from="1628595751330" duration="7770000" />
+      <workItem from="1628810413162" duration="591000" />
+      <workItem from="1628989976308" duration="7000" />
+      <workItem from="1628990011923" duration="27000" />
+      <workItem from="1628990092655" duration="3000" />
+      <workItem from="1628990129024" duration="221000" />
     </task>
     <task id="LOCAL-00007" summary="html学习：将要学习视频39">
       <created>1620925281948</created>
@@ -748,7 +742,21 @@
       <option name="project" value="LOCAL" />
       <updated>1627430525564</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="jvm学习：21 171节">
+      <created>1628035165513</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1628035165514</updated>
+    </task>
+    <task id="LOCAL-00055" summary="jvm学习：22 193节">
+      <created>1628990248204</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1628990248205</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -937,8 +945,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="html学习：正在学习视频266" />
-    <MESSAGE value="html学习：正在学习视频294" />
     <MESSAGE value="html学习：正在学习视频320" />
     <MESSAGE value="jvm学习" />
     <MESSAGE value="jvm学习：2" />
@@ -962,7 +968,9 @@
     <MESSAGE value="jvm学习：18 151节" />
     <MESSAGE value="jvm学习：19 160节" />
     <MESSAGE value="jvm学习：20 165节" />
-    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：20 165节" />
+    <MESSAGE value="jvm学习：21 171节" />
+    <MESSAGE value="jvm学习：22 193节" />
+    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：22 193节" />
   </component>
   <component name="WindowStateProjectService">
     <state x="444" y="26" key="#Arithmetic2" timestamp="1620559996772">
@@ -981,10 +989,6 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="260" y="122" width="1158" height="583" key="#Markdown/0.0.1536.824@0.0.1536.824" timestamp="1626870843100" />
-    <state x="651" y="274" key="#Notifications" timestamp="1620311574152">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="651" y="274" key="#Notifications/0.0.1536.824@0.0.1536.824" timestamp="1620311574152" />
     <state x="230" y="0" key="#Project_Structure" timestamp="1627522535172">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1050,10 +1054,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="879" y="243" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1623799970328" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1627430524171">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1628990246066">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1627430524171" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1628990246066" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1627601912020">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1067,26 +1071,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="0" y="0" key="FileDocumentManager.FileCacheConflict/0.0.1536.824@0.0.1536.824" timestamp="1621256720012" />
-    <state width="1493" height="333" key="GridCell.Tab.0.bottom" timestamp="1627658370105">
+    <state width="724" height="248" key="GridCell.Tab.0.bottom" timestamp="1628081650649">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1493" height="333" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1627658370105" />
-    <state width="1493" height="333" key="GridCell.Tab.0.center" timestamp="1627658370104">
+    <state width="724" height="248" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1628081650649" />
+    <state width="724" height="248" key="GridCell.Tab.0.center" timestamp="1628081650648">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="333" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1627658370104" />
-    <state width="1493" height="333" key="GridCell.Tab.0.left" timestamp="1627658370104">
+    <state width="724" height="248" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1628081650648" />
+    <state width="724" height="248" key="GridCell.Tab.0.left" timestamp="1628081650648">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="333" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1627658370104" />
-    <state width="1493" height="333" key="GridCell.Tab.0.right" timestamp="1627658370105">
+    <state width="724" height="248" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1628081650648" />
+    <state width="724" height="248" key="GridCell.Tab.0.right" timestamp="1628081650649">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="333" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1627658370105" />
+    <state width="724" height="248" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1628081650649" />
     <state width="1493" height="333" key="GridCell.Tab.1.bottom" timestamp="1627658370105">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1151,23 +1155,23 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="458" y="113" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1627601106595" />
-    <state x="434" y="0" width="1226" height="680" key="SettingsEditor" timestamp="1627600998182">
+    <state x="434" y="0" width="1226" height="680" key="SettingsEditor" timestamp="1628990364469">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="54" y="0" width="1226" height="680" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1627529496209" />
-    <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1627600998182" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1627601630471">
+    <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1628990364469" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1628990267840">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1627601630471" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1628990267840" />
     <state x="646" y="303" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1621673541644">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="646" y="303" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1621673541644" />
-    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1627601616834">
+    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1628990256070">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1627601616834" />
+    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1628990256070" />
     <state x="313" y="141" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1623584735668">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1245,7 +1249,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/jvm-4/src/com/xyb/a12gcrelative/ReferenceTest4.java</url>
-          <line>20</line>
+          <line>22</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
