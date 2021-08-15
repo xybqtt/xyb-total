@@ -2272,7 +2272,7 @@ public class CustomerTest{
 　　Java 语言的“编译期”其实是一段“不确定”的操作过程，因为它可能是指一个前端编译器(其实叫“编译器的前端”更准确一些)把.java文件转变成.class文件的过程；
 　　也可能是指虚拟机的后端运行期编译器(JIT编译器，Just In Time Compiler)把字节码转变成机器码的过程。
 　　还可能是指使用静态提前编译器(AOT编译器，Ahead of Time Compiler)直接把.java文件编译成本地机器代码的过程。
-<ol>
+<ol>a
     <li>前端编译器：Sun的Javac、Eclipse JDT中的增量式编译器(ECJ)。 </li>
     <li>JIT编译器：HotSpot VM的C1、C2编译器。 </li>
     <li>AOT 编译器：GNU Compiler for the Java(GCJ)、Excelsior JET。 </li>
