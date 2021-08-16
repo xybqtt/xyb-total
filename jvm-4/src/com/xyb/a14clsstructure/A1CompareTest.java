@@ -84,6 +84,7 @@ class Son extends Father{
     int x = 30;
 
     public Son() {
+        // 父类方法中也调用了print()，但是如果是new Son()的话，其实是调用的子类Son的print()方法，此时还没有给x赋值为30，所以x = 0。
         this.print();
         x = 40;
     }
