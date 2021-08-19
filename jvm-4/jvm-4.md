@@ -3997,29 +3997,32 @@ public static void main(String[] args) {
 
 　　官方文档位置：https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html
 
-　　Class类的本质：任何一个Class文件都对应着一唯一一个类或接口的定义信息，但反过来说，Class文件实际上它并不一定以磁盘的形式存在。Class文件是一组以8位字节为基础单位的二进制流。
-
-　　Class文件格式：Class的结构不像XML等描述语言，由于它没有任何分隔符号。所以在其中的数据项，无论是字节顺序还是数量，都是被严格限定的，哪个字节代表什么含义，长度是多少，先后顺序如何，都不允许改变。
-
 <div>
-    　　<strong>Class文件格式采用一种类似于C语言结构休的方式进行数据存储，这种结构中只有2种数据类型：无符号数和表</strong>
-    <ol>
-        <li>无符号数属于基本的数据类型，以u1、u2、u4、u8来分别代表1 - 8个字节的无符号数，可以用来描述数字、索引引用、数量值或者按照UTF-8编译构成字符串值；</li>
-        <li>表是由多个无符号数或者其它表作为数据项构成的复合数据类型，所有的表都习惯性地以"_info"结尾。表用于描述有层次关系的复合结构的数据，整个Class文件本质上就是一张表。由于表没有固定长度，所以通常会在其前面加上个数说明。</li>
-    </ol>
+    <div>
+        <p>　　Class类的本质：任何一个Class文件都对应着一唯一一个类或接口的定义信息，但反过来说，Class文件实际上它并不一定以磁盘的形式存在。Class文件是一组以8位字节为基础单位的二进制流。</p>
+        <p>　　Class文件格式：Class的结构不像XML等描述语言，由于它没有任何分隔符号。所以在其中的数据项，无论是字节顺序还是数量，都是被严格限定的，哪个字节代表什么含义，长度是多少，先后顺序如何，都不允许改变。</p>
+    </div>
+    <div>
+        　　<strong>Class文件格式采用一种类似于C语言结构休的方式进行数据存储，这种结构中只有2种数据类型：无符号数和表</strong>
+        <ol>
+            <li>无符号数属于基本的数据类型，以u1、u2、u4、u8来分别代表1 - 8个字节的无符号数，可以用来描述数字、索引引用、数量值或者按照UTF-8编译构成字符串值；</li>
+            <li>表是由多个无符号数或者其它表作为数据项构成的复合数据类型，所有的表都习惯性地以"_info"结尾。表用于描述有层次关系的复合结构的数据，整个Class文件本质上就是一张表。由于表没有固定长度，所以通常会在其前面加上个数说明。</li>
+        </ol>
+    </div>
+    <div>
+        <p>　　class文件结构概述：不是一成不变的，随着虚拟机制发展，不可避免会对class文件进行一些改造，但其基本的结构和框架是稳定的，总体结构如下</p>
+        <ol>
+            <li>魔数</li>
+            <li>class文件版本</li>
+            <li>常量池</li>
+            <li>访问标志</li>
+            <li>类索引、父类索引、接口索引</li>
+            <li>字段表集合</li>
+            <li>方法表集合</li>
+            <li>属性表集合</li>
+        </ol>
+    </div>
 </div>
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
 
 <table>
     <thead>
@@ -4163,11 +4166,23 @@ public static void main(String[] args) {
 |无符号数|无符号数可以用来描述数字、索引引用、数量值或按照utf-8编码构成的字符串值。|其中无符号数属于基本的数据类型。 以u1、u2、u4、u8来分别代表1个字节、2个字节、4个字节和8个字节|
 |表|表是由多个无符号数或其他表构成的复合数据结构。|所有的表都以“_info”结尾。 由于表没有固定长度，所以通常会在其前面加上个数说明。|
 
+　　以下用如下代码的class文件讲解：
+~~~
+public class Demo {
+    private int num = 1;
+    
+    public int add(){
+        num = num + 2;
+        return num;
+    }
+}
+~~~
+
 ## 14.3 魔数
 
 <div>
     　　<strong>Magic Number（魔数）</strong>
-    <ul style="list-style-type: none;">
+    <ul>
         <li>每个Class文件开头的4个字节的无符号整数称为魔数（Magic Number）</li>
         <li>它的唯一作用是确定这个文件是否为一个能被虚拟机接受的有效合法的Class文件。即：魔数是Class文件的标识符。</li>
         <li>魔数值固定为0xCAFEBABE。不会改变。</li>
@@ -4339,13 +4354,13 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
     　　<strong>细节说明:</strong>
     <ul>
         <li>CONSTANT_Class_info结构用于表示类或接口</li>
-        <li>CONSTAT_Fieldref_info、CONSTAHT_Methodref_infoF和lCONSTANIT_InterfaceMethodref_info结构表示字段、方汇和按口小法</li>
-        <li>CONSTANT_String_info结构用于表示示String类型的常量对象</li>
+        <li>CONSTAT_Fieldref_info、CONSTAHT_Methodref_infoF和lCONSTANIT_InterfaceMethodref_info结构表示字段、方法和接口方法</li>
+        <li>CONSTANT_String_info结构用于表示String类型的常量对象</li>
         <li>CONSTANT_Integer_info和CONSTANT_Float_info表示4字节（int和float）的数值常量</li>
         <li>
             CONSTANT_Long_info和CONSTAT_Double_info结构表示8字作（long和double）的数值常量 
             <ul>
-                <li>在class文件的常最池表中，所行的a字节常借均占两个表成员（项）的空问。如果一个CONSTAHT_Long_info和CNSTAHT_Double_info结构在常量池中的索引位n，则常量池中一个可用的索引位n+2，此时常量池长中索引为n+1的项仍然有效但必须视为不可用的。</li>
+                <li>在class文件的常最池表中，所有的8字节常量均占两个表成员（项）的空间。如果一个CONSTANT_Long_info和CONSTANT_Double_info结构的项在常量池中的索引位n，则常量池中一个可用的索引位n+2，此时常量池表长中索引为n+1的项仍然有效但必须视为不可用的。</li>
             </ul>
         </li>
         <li>CONSTANT_NameAndType_info结构用于表示字段或方法，但是和之前的3个结构不同，CONSTANT_NameAndType_info结构没有指明该字段或方法所属的类或接口。</li>
