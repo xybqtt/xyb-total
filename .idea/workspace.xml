@@ -24,19 +24,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="jvm学习：25-1 219节">
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/14ClassStructure/14-4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jvm-4/src/com/xyb/a14clsstructure/Demo.java" afterDir="false" />
+    <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jvm-4/jvm-4.md" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/jvm-4.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -442,14 +431,7 @@
       <workItem from="1628991067229" duration="7000" />
       <workItem from="1628991742604" duration="10000" />
       <workItem from="1628991783745" duration="226000" />
-      <workItem from="1628992076802" duration="22478000" />
-    </task>
-    <task id="LOCAL-00011" summary="html学习：正在学习视频75-2">
-      <created>1621469099919</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1621469099919</updated>
+      <workItem from="1628992076802" duration="26825000" />
     </task>
     <task id="LOCAL-00012" summary="html学习：正在学习视频77">
       <created>1621535735403</created>
@@ -787,7 +769,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629370505319</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="jvm学习：25-1 219节">
+      <created>1629370973241</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1629370973241</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1085,10 +1074,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="879" y="243" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1623799970328" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1629370709881">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1629370969062">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1629370709881" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1629370969062" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1629370740222">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1102,26 +1091,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="0" y="0" key="FileDocumentManager.FileCacheConflict/0.0.1536.824@0.0.1536.824" timestamp="1621256720012" />
-    <state width="1493" height="254" key="GridCell.Tab.0.bottom" timestamp="1629118007973">
+    <state width="1493" height="254" key="GridCell.Tab.0.bottom" timestamp="1629381385199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1493" height="254" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1629118007973" />
-    <state width="1493" height="254" key="GridCell.Tab.0.center" timestamp="1629118007973">
+    <state width="1493" height="254" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1629381385199" />
+    <state width="1493" height="254" key="GridCell.Tab.0.center" timestamp="1629381385199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="254" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1629118007973" />
-    <state width="1493" height="254" key="GridCell.Tab.0.left" timestamp="1629118007973">
+    <state width="1493" height="254" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1629381385199" />
+    <state width="1493" height="254" key="GridCell.Tab.0.left" timestamp="1629381385198">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="254" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1629118007973" />
-    <state width="1493" height="254" key="GridCell.Tab.0.right" timestamp="1629118007973">
+    <state width="1493" height="254" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1629381385198" />
+    <state width="1493" height="254" key="GridCell.Tab.0.right" timestamp="1629381385199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="254" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1629118007973" />
+    <state width="1493" height="254" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1629381385199" />
     <state width="1493" height="333" key="GridCell.Tab.1.bottom" timestamp="1627658370105">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1191,18 +1180,18 @@
     </state>
     <state x="54" y="0" width="1226" height="680" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1627529496209" />
     <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1628990364469" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1629370517772">
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1629370986287">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1629370517772" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1629370986287" />
     <state x="646" y="303" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1621673541644">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="646" y="303" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1621673541644" />
-    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1629370508896">
+    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1629370978585">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1629370508896" />
+    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1629370978585" />
     <state x="313" y="141" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1623584735668">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1219,11 +1208,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="187" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1623677099072" />
-    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup" timestamp="1629120160672">
+    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup" timestamp="1629382031645">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="678" y="120" width="672" height="560" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1627538409774" />
-    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1629120160672" />
+    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1629382031645" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

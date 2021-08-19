@@ -3949,7 +3949,7 @@ public static void main(String[] args) {
     　　<strong>想要让一个Java程序正确地运行在JVM中，Java源码就必须要被编译为符合JVM规范的字节码</strong>
     <ul>
         <li>前端编译器的主要任务就是负责将符合Java语法规范的Java代码转换为符合JVM规范的字节码文件；</li>
-        <li>javac是一各能够将Java源码编译为字节码的前端编译器</li>
+        <li>javac是一种能够将Java源码编译为字节码的前端编译器</li>
         <li>javac编译器在将Java源码编译为一个有效的字节码文件过程中经历了4个步骤，分别是词法解析、语法解析、语义解析及生成字节码。</li>
     </ul>
     　　<strong>Oracle的JDK软件包括2部分内容：</strong>
@@ -3985,7 +3985,7 @@ public static void main(String[] args) {
 　　如aload_0
 
 <div>
-    　　<strong>如何解读供虚拟机解释执行的二进制字节码？</strong>
+    <h5>如何解读供虚拟机解释执行的二进制字节码？</h5>
     <ol>
         <li>一个一个二进制看。这里用到的是Notepad++，需要安装一个HEX-Editor插件，或者使用Binary Viewer</li>
         <li>使用javap指令：javap -v A.class > A.txt，将class文件解析后输出到A.txt中；</li>
@@ -4553,13 +4553,12 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
 ~~~
 // 以常量属性为例，结构为：
 ConstantValue_attribute{
-	u2 attribute_name_index;
-	u4 attribute_length;
-    u2 constantvalue_index;
+	u2 attribute_name_index; // 根据这个值可以从常量池获取，这是这个字段的什么属性
+	u4 attribute_length; // 对于常量属性而言，attribute_length值恒为2
+    u2 constantvalue_index; // 根据这个值可以从常量池获取，这个字段的属性值
 }
 ~~~
 
-　　说明：对于常量属性而言，attribute_length值恒为2。
 
 ## 14.9 方法表集合
 
@@ -4759,7 +4758,332 @@ LocalVariableTable_attribute{
 　　**⑨ 其他属性**
 　　Java虚拟机中预定义的属性有20多个，这里就不一一介绍了，通过上面几个属性的介绍，只要领会其精髓，其他属性的解读也是易如反掌。
 
+## 14.11 使用javap指令解析Class文件
+### 14.11.1 解析字节码的作用
 
+　　javap是jdk自带的反解析工具。它的作用就是根据class字节码文件，反解析出当前类对应的code区(汇编指令)、本地变量表、异常表和代码行偏移量映射表、常量池信息等。
+
+　　通过反编译生成的汇编代码，我们可以深入地了解java代码的工作机制。比如我们可以查看i++这等代码实际运行时是先获取变量i的值，然后将这个值加1，最后再将加1后的值赋值给变量i。
+　　通过局部变量表，我们可以查看局部变量表的作用域范围、所在槽位等信息，甚至可以看到槽位复用等信息。
+
+### 14.11.2 javac -g操作
+
+　　当然这些信息中，有些信息(如本地变量表、指令和代码行偏移量映射表、常量池中方法的参数名称等)需要在使用javac编译成class文件时，指定参数才能输出，比如，直接javac xx.java，就不会在生成对应的局部变量表等信息，如果使用**javac -g xx.java**就可以生成所有相关信息了。如果使用的是eclipse，则默认情况下，eclipse在编译时会生成局部变量表、指令和代码行偏移量映射表等信息的。
+
+### 14.11.3 javap的用法
+
+　　javap的用法格式：javap <options> <classes>，
+　　其中，classes就是需要反编译的class文件，可以在命令行直接输入javap或javap -help查看可选参数
+　　一般常用的是-v、-l、-c三个选项：
+　　javap -l：会输出行号和本地变量表信息；
+　　javap -c：会对当前class字节码进行反编译生成汇编代码；
+　　javap -v classxx：除了包含-c内容外，还会输行号、局部变量表信息、常量池等信息。
+　　注意：-v相当于-c -l，-v也不会输出私有的字段、方法等信息，所以如果想输出私有的信息，需要在-v后面加-p。
+
+### 14.11.4 使用举例
+
+~~~
+public class JavapTest {
+    private int num;
+    boolean flag;
+    protected char gender;
+    public String info;
+
+    public static final int COUNTS = 1;
+    static {
+        String url = "www.atguigu.com";
+    }
+    {
+        info = "java";
+    }
+    public JavapTest() {
+
+    }
+    private JavapTest(boolean falg) {
+        this.flag = flag;
+    }
+    private void methodPrivate() {
+
+    }
+    int getNum(int i) {
+        return num + i;
+    }
+    protected char showGender() {
+        return gender;
+    }
+    public void showInfo() {
+        int i = 100;
+        System.out.println(info + i);
+    }
+}
+~~~
+　　字节码文件分析：
+~~~
+Classfile /C:/Users/mingming/Desktop/JavapTest.class   // 字节码文件所属的路径
+  Last modified 2021-2-24; size 1393 bytes   // 最后修改时间，字节码文件的大小
+  MD5 checksum 2c764244fa3a95bfb346c9e416a7a3f6   // MD5散列值
+  Compiled from "JavapTest.java"   // 源文件的名称
+public class io.renren.JavapTest
+  minor version: 0   // 副版本
+  major version: 52   // 主版本
+  flags: ACC_PUBLIC, ACC_SUPER   // 访问标识
+*************************** 常量池********************************
+Constant pool:
+   #1 = Methodref          #16.#48        // java/lang/Object."<init>":()V
+   #2 = String             #49            // java
+   #3 = Fieldref           #15.#50        // io/renren/JavapTest.info:Ljava/lang/String;
+   #4 = Fieldref           #15.#51        // io/renren/JavapTest.flag:Z
+   #5 = Fieldref           #15.#52        // io/renren/JavapTest.num:I
+   #6 = Fieldref           #15.#53        // io/renren/JavapTest.gender:C
+   #7 = Fieldref           #54.#55        // java/lang/System.out:Ljava/io/PrintStream;
+   #8 = Class              #56            // java/lang/StringBuilder
+   #9 = Methodref          #8.#48         // java/lang/StringBuilder."<init>":()V
+  #10 = Methodref          #8.#57         // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #11 = Methodref          #8.#58         // java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+  #12 = Methodref          #8.#59         // java/lang/StringBuilder.toString:()Ljava/lang/String;
+  #13 = Methodref          #60.#61        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #14 = String             #62            // www.atguigu.com
+  #15 = Class              #63            // io/renren/JavapTest
+  #16 = Class              #64            // java/lang/Object
+  #17 = Utf8               num
+  #18 = Utf8               I
+  #19 = Utf8               flag
+  #20 = Utf8               Z
+  #21 = Utf8               gender
+  #22 = Utf8               C
+  #23 = Utf8               info
+  #24 = Utf8               Ljava/lang/String;
+  #25 = Utf8               COUNTS
+  #26 = Utf8               ConstantValue
+  #27 = Integer            1
+  #28 = Utf8               <init>
+  #29 = Utf8               ()V
+  #30 = Utf8               Code
+  #31 = Utf8               LineNumberTable
+  #32 = Utf8               LocalVariableTable
+  #33 = Utf8               this
+  #34 = Utf8               Lio/renren/JavapTest;
+  #35 = Utf8               (Z)V
+  #36 = Utf8               falg
+  #37 = Utf8               MethodParameters
+  #38 = Utf8               methodPrivate
+  #39 = Utf8               getNum
+  #40 = Utf8               (I)I
+  #41 = Utf8               i
+  #42 = Utf8               showGender
+  #43 = Utf8               ()C
+  #44 = Utf8               showInfo
+  #45 = Utf8               <clinit>
+  #46 = Utf8               SourceFile
+  #47 = Utf8               JavapTest.java
+  #48 = NameAndType        #28:#29        // "<init>":()V
+  #49 = Utf8               java
+  #50 = NameAndType        #23:#24        // info:Ljava/lang/String;
+  #51 = NameAndType        #19:#20        // flag:Z
+  #52 = NameAndType        #17:#18        // num:I
+  #53 = NameAndType        #21:#22        // gender:C
+  #54 = Class              #65            // java/lang/System
+  #55 = NameAndType        #66:#67        // out:Ljava/io/PrintStream;
+  #56 = Utf8               java/lang/StringBuilder
+  #57 = NameAndType        #68:#69        // append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #58 = NameAndType        #68:#70        // append:(I)Ljava/lang/StringBuilder;
+  #59 = NameAndType        #71:#72        // toString:()Ljava/lang/String;
+  #60 = Class              #73            // java/io/PrintStream
+  #61 = NameAndType        #74:#75        // println:(Ljava/lang/String;)V
+  #62 = Utf8               www.atguigu.com
+  #63 = Utf8               io/renren/JavapTest
+  #64 = Utf8               java/lang/Object
+  #65 = Utf8               java/lang/System
+  #66 = Utf8               out
+  #67 = Utf8               Ljava/io/PrintStream;
+  #68 = Utf8               append
+  #69 = Utf8               (Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #70 = Utf8               (I)Ljava/lang/StringBuilder;
+  #71 = Utf8               toString
+  #72 = Utf8               ()Ljava/lang/String;
+  #73 = Utf8               java/io/PrintStream
+  #74 = Utf8               println
+  #75 = Utf8               (Ljava/lang/String;)V
+******************************字段表集合的信息**************************************
+{
+  private int num;   // 字段名
+    descriptor: I   // 字段表集合的信息
+    flags: ACC_PRIVATE   // 字段的访问标识
+ 
+  boolean flag;
+    descriptor: Z
+    flags:
+ 
+  protected char gender;
+    descriptor: C
+    flags: ACC_PROTECTED
+ 
+  public java.lang.String info;
+    descriptor: Ljava/lang/String;
+    flags: ACC_PUBLIC
+ 
+  public static final int COUNTS;
+    descriptor: I
+    flags: ACC_PUBLIC, ACC_STATIC, ACC_FINAL
+    ConstantValue: int 1   // 常量字段的属性：ConstantValue
+******************************方法表集合的信息**************************************
+  public io.renren.JavapTest();   // 无参构造器方法信息
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: ldc           #2                  // String java
+         7: putfield      #3                  // Field info:Ljava/lang/String;
+        10: return
+      LineNumberTable:
+        line 16: 0
+        line 14: 4
+        line 18: 10
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Lio/renren/JavapTest;
+ 
+  private io.renren.JavapTest(boolean);   // 单个参数构造器方法信息
+    descriptor: (Z)V
+    flags: ACC_PRIVATE
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: ldc           #2                  // String java
+         7: putfield      #3                  // Field info:Ljava/lang/String;
+        10: aload_0
+        11: aload_0
+        12: getfield      #4                  // Field flag:Z
+        15: putfield      #4                  // Field flag:Z
+        18: return
+      LineNumberTable:
+        line 19: 0
+        line 14: 4
+        line 20: 10
+        line 21: 18
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      19     0  this   Lio/renren/JavapTest;
+            0      19     1  falg   Z
+    MethodParameters:
+      Name                           Flags
+      falg
+ 
+  private void methodPrivate();
+    descriptor: ()V
+    flags: ACC_PRIVATE
+    Code:
+      stack=0, locals=1, args_size=1
+         0: return
+      LineNumberTable:
+        line 24: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       1     0  this   Lio/renren/JavapTest;
+ 
+  int getNum(int);
+    descriptor: (I)I
+    flags:
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #5                  // Field num:I
+         4: iload_1
+         5: iadd
+         6: ireturn
+      LineNumberTable:
+        line 26: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Lio/renren/JavapTest;
+            0       7     1     i   I
+    MethodParameters:
+      Name                           Flags
+      i
+ 
+  protected char showGender();
+    descriptor: ()C
+    flags: ACC_PROTECTED
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #6                  // Field gender:C
+         4: ireturn
+      LineNumberTable:
+        line 29: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lio/renren/JavapTest;
+ 
+  public void showInfo();
+    descriptor: ()V   // 方法的描述符：方法的形参列表、返回值类型
+    flags: ACC_PUBLIC   // 方法的访问标识
+    Code:   // 方法的Code属性
+      stack=3, locals=2, args_size=1   // stack：操作数栈的最大深度   locals：局部变量表的长度   args_size：方法接受参数的个数
+// 偏移量  操作码   操作数
+         0: bipush        100
+         2: istore_1
+         3: getstatic     #7                  // Field java/lang/System.out:Ljava/io/PrintStream;
+         6: new           #8                  // class java/lang/StringBuilder
+         9: dup
+        10: invokespecial #9                  // Method java/lang/StringBuilder."<init>":()V
+        13: aload_0
+        14: getfield      #3                  // Field info:Ljava/lang/String;
+        17: invokevirtual #10                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        20: iload_1
+        21: invokevirtual #11                 // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+        24: invokevirtual #12                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+        27: invokevirtual #13                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        30: return
+     // 行号表：指明字节码指令的偏移量与java源代码中代码的行号的一一对应关系
+      LineNumberTable:
+        line 32: 0
+        line 33: 3
+        line 34: 30
+     // 局部变量表：描述内部局部变量的相关信息
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      31     0  this   Lio/renren/JavapTest;
+            3      28     1     i   I
+ 
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=1, locals=1, args_size=0
+         0: ldc           #14                 // String www.atguigu.com
+         2: astore_0
+         3: return
+      LineNumberTable:
+        line 11: 0
+        line 12: 3
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+}
+SourceFile: "JavapTest.java"   // 附加属性：指明当前字节码文件对应的源程序文件名
+~~~
+
+### 14.11.5 总结
+
+　　通过javap命令可以查看一个java类反射汇编得到的Class文件版本号、常量池、访问标识、变量表、指令代码行号表等信息。不显示类索引、父类索引、接口索引集合、<clinit>()、<init>()等结构。
+
+<div>
+    <h5>通过对前面例子代码反汇编文件的简单解析，可以发现，一个方法的执行通常会涉及下面几块内存的操作</h5>
+    <ol>
+        <li>java栈中：局部变量表、操作数栈</li>
+        <li>java堆，通过对象的地址引用去操作</li>
+        <li>常量池</li>
+        <li>其他如帧数据区、方法区的剩余部分等情况，测试中没有显示出来，这里说明一下。</li>
+    </ol>
+</div>
+
+　　平常，我们比较关注的是java类中每个方法的反汇编中的指令操作过程，这些指令都是顺序执行的，可以参考官方文查看每个指令的含义，很简单：
+　　https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html
 
 # 15 字节码指令集
 ## 15.1 概述
