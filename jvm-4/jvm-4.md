@@ -5085,8 +5085,19 @@ SourceFile: "JavapTest.java"   // 附加属性：指明当前字节码文件对�
 　　平常，我们比较关注的是java类中每个方法的反汇编中的指令操作过程，这些指令都是顺序执行的，可以参考官方文查看每个指令的含义，很简单：
 　　https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html
 
+
+
 # 15 字节码指令集
 ## 15.1 概述
+
+<ul>
+    <li>Java字节码对于虚拟机，就好像汇编语言对于计算机，属性基本执行指令。</li>
+    <li>Java虚拟机的指令由一个<b>字节长度</b>的、代表着某种特定操作含义的数字(称为操作码，Opcode)以及跟随其后的0至多个代表此操作所需参数(称为操作数，Operands)而构成。由于Java虚拟机采用面向操作数栈而不是寄存器的结构，所以大多数的指令都不包含操作数，只有1个操作码。</li>
+    <li>由于限制了Java虚拟机操作码的长度为1个字节(即0 - 255)，这意味着指令集的操作码总数不可能超过256条。</li>
+    <li>官方文档：https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html</li>
+    <li>熟悉虚拟机的指令对于动态字节码生成、反编译Class文件、Class文件修补都有着非常重要的价值。因此，阅读字节码作为了解Java虚拟机的基础技能，需要熟练掌握常见指令。</li>
+</ul>
+
 ### 15.1.1 执行模型
 
 　　如果不考虑异常处理的话，那么Java虚拟机的解释器可以使用下面这个伪代码当做最基本的执行模型来理解
@@ -5152,7 +5163,6 @@ do{
 
 ### 15.2.2 常用指令
 
-
 <ol>
     <li>【局部变量压栈指令】将一个局部变量加载到操作数栈：xload、xload_&lt;n&gt;（其中x为i、l、f、d、a，n为0到3）</li>
     <li>【常量入栈指令】将一个常量加载到操作数栈：bipush、sipush、ldc、ldc_w、ldc2_w、aconst_null、iconst_m1、iconst_&lt;i&gt;、lconst_&lt;l&gt;）、fconst_&lt;f&gt;、dconst_&lt;d&gt;</li>
@@ -5168,7 +5178,7 @@ do{
 
 　　**操作数栈（Operand Stacks）**
 　　我们知道，Java字节码是Java虚拟机所使用的指令集。因此，它与Java虚拟机基于栈的计算模型是密不可分的。在解释执行过程中，每当为Java方法分配栈桢时，Java虚拟机往往需要开辟一块额外的空间作为操作数栈，来存放计算的操作数以及返回结果。
-　　具体来说便是：执行每一条指令之前，Java虚拟机要求该指令的操作数已被压入操作数栈中。在执行指令时，Java虚拟机会将该指令所需的操作数弹出，并且将指令的结果重新压入栈中。
+　　具体来说便是：**执行每一条指令之前，Java虚拟机要求该指令的操作数已被压入操作数栈中。在执行指令时，Java虚拟机会将该指令所需的操作数弹出，并且将指令的结果重新压入栈中。**
 　　![avatar](pictures/15ClassInstruction/15-1.png)
 
 　　以加法指令iadd为例。假设在执行该指令前，栈顶的两个元素分别为int值1和int值2，那么iadd指令将弹出这两个int，并将求得的和int值3压入栈中。
@@ -5186,7 +5196,7 @@ do{
 ~~~
 public void foo(long l, float f) {
     {
-        int i = e;
+        int i = 0;
     }
     {
         String s = "Hello, World";
