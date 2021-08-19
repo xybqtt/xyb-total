@@ -3993,7 +3993,7 @@ public static void main(String[] args) {
     </ol>
 </div>
 
-## 14.1 Class字节码文件结构
+### 14.1.4 Class字节码文件结构
 
 　　官方文档位置：https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html
 
@@ -4446,7 +4446,7 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
 |u2|interfaces[interfaces_count]|
 
 <div>
-    　　<strong>这三项数据来确定这个类的继承关系：</strong>
+    <h5>这三项数据来确定这个类的继承关系：</h5>
     <ul style="list-style-type: none;">
         <li>类索引用于确定这个类的全限定名</li>
         <li>父类索引用于确定这个类的父类的全限定名。由于Java语言不允许多重继承，所以父类索引只有一个，除了java.1ang.Object之外，所有的Java类都有父类，因此除了java.lang.Object外，所有Java类的父类索引都不为e。</li>
@@ -4480,8 +4480,8 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
 
 <div>
     <div>
-        　　<strong>field</strong>
-        <ul style="list-style-type: none;">
+        <h5>field</h5>
+        <ul>
             <li>用于描述接口或类中声明的变量。字段（field）包括类级变量以及实例级变量，但是不包括方法内部、代码块内部声明的局部变量。</li>
             <li>字段叫什么名字、字段被定义为什么数据类型，这些都是无法固定的，只能引用常量池中的常量来描述。</li>
             <li>它指向常量池索引集合，它描述了每个字段的完整信息。比如字段的标识符、访问修饰符（public、private或protected）、是类变量还是实例变量（static修饰符）、是否是常量（final修饰符）等。</li>
@@ -4489,17 +4489,773 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
     </div>
     <hr/>
     <div>
-        　　<strong>注意事项：</strong>
+        <h5>注意事项：</h5>
         <ol>
             <li>字段表集合中不会列出从父类或者实现的接口中继承而来的字段，但有可能列出原本Java代码之中不存在的字段。譬如在内部类中为了保持对外部类的访问性，会自动添加指向外部类实例的字段。</li>
             <li>在Java语言中字段是无法重载的，两个字段的数据类型、修饰符不管是否相同，都必须使用不一样的名称，但是对于字节码来讲，如果两个字段的描述符不一致，那字段重名就是合法的。</li>
         </ol>
     </div>
 </div>
+
+### 14.8.1 字段计数器
+
+　　**fields_count（字段计数器）**
+　　fields_count的值表示当前class文件fields表的成员个数。使用两个字节来表示。
+　　fields表中每个成员都是一个field_info结构，用于表示该类或接口所声明的所有类字段或者实例字段，不包括方法内部声明的变量，也不包括从父类或父接口继承的那些字段。
+
+|标志名称|标志值|含义|数量|
+|:---|:---|:---|:---|
+|u2|access_flags|访问标志|1|
+|u2|name_index|字段名索引|1|
+|u2|descriptor_index|描述符索引|1|
+|u2|attributes_count|属性计数器|1|
+|attribute_info|attribute|属性集合|attributes_count|
+
+### 14.8.2 字段表
+#### 14.8.2.1 字段表访问标识
 　　
-　　
-　　
-　　
+　　我们知道，一个字段可以被各种关键字去修饰，比如：作用域修饰符（public、private、protected）、static修饰符、final修饰符、volatile修饰符等等。因此，其可像类的访问标志那样，使用一些标志来标记字段。字段的访问标志有如下这些：
+
+|标志名称|标志值|含义|
+|:---|:---|:---|
+|ACC_PUBLIC|0x0001|字段是否为public|
+|ACC_PRIVATE|0x0002|字段是否为private|
+|ACC_PROTECTED|0x0004|字段是否为protected|
+|ACC_STATIC|0x0008|字段是否为static|
+|ACC_FINAL|0x0010|字段是否为final|
+|ACC_VOLATILE|0x0040|字段是否为volatile|
+|ACC_TRANSTENT|0x0080|字段是否为transient|
+|ACC_SYNCHETIC|0x1000|字段是否为由编译器自动产生|
+|ACC_ENUM|0x4000|字段是否为enum|
+
+#### 14.8.2.2 描述符索引
+
+　　描述符的作用是用来描述字段的数据类型、方法的参数列表（包括数量、类型以及顺序）和返回值。根据描述符规则，基本数据类型（byte，char，double，float，int，long，short，boolean）及代表无返回值的void类型都用一个大写字符来表示，而对象则用字符L加对象的全限定名来表示，如下所示：
+
+|标志符|含义|
+|:---|:---a|
+|B|基本数据类型byte|
+|C|基本数据类型char|
+|D|基本数据类型double|
+|F|基本数据类型float|
+|I|基本数据类型int|
+|J|基本数据类型long|
+|S|基本数据类型short|
+|Z|基本数据类型boolean|
+|V|代表void类型|
+|L|对象类型，比如：Ljava/lang/Object;|
+|[|数组类型，代表一维数组。比如：`double[][][]is[[[D|　　
+
+#### 14.8.2.3 属性表集合
+
+　　一个字段还可能拥有一些属性，用于存储更多的额外信息。比如初始化值、一些注释信息等。属性个数存放在attribute_count中，属性具体内容存放在attributes数组中。
+
+~~~
+// 以常量属性为例，结构为：
+ConstantValue_attribute{
+	u2 attribute_name_index;
+	u4 attribute_length;
+    u2 constantvalue_index;
+}
+~~~
+
+　　说明：对于常量属性而言，attribute_length值恒为2。
+
+## 14.9 方法表集合
+
+<div>
+    <div>
+        <h5>methods：指向常量池索引集合，它完整描述了每个方法的签名。</h5>
+        <ol>
+            <li>在字节码文件中，每一个method_info项都对应着一个类或者接口中的方法信息。比如方法的访问修饰符（public、private或protected），方法的返回值类型以及方法的参数信息等。</li>
+            <li>如果这个方法不是抽象的或者不是native的，那么字节码中会体现出来。</li>
+            <li>一方面，methods表只描述当前类或接口中声明的方法，不包括从父类或父接口继承的方法。另一方面，methods表有可能会出现由编译器自动添加的方法，最典型的便是编译器产生的方法信息（比如：类（接口）初始化方法&lt;clinit&gt;()和实例初始化方法&lt;init&gt;()）。</li>
+        </ol>
+    </div>
+    <div>
+        <h5>使用注意事项：</h5>
+        <p>　　在Java语言中，要重载（Overload）一个方法，除了要与原方法具有相同的简单名称之外，还要求必须拥有一个与原方法不同的特征签名，特征签名就是一个方法中各个参数在常量池中的字段符号引用的集合，也就是因为返回值不会包含在特征签名之中，因此Java语言里无法仅仅依靠返回值的不同来对一个已有方法进行重载。但在Class文件格式中，特征签名的范围更大一些，只要描述符不是完全一致的两个方法就可以共存。也就是说，如果两个方法有相同的名称和特征签名，但返回值不同，那么也是可以合法共存于同一个class文件中。</p>
+        <p>　　也就是说，尽管Java语法规范并不允许在一个类或者接口中声明多个方法签名相同的方法，但是和Java语法规范相反，字节码文件中却恰恰允许存放多个方法签名相同的方法，唯一的条件就是这些方法之间的返回值不能相同。</p>
+    </div>
+</div>
+
+### 14.9.1 方法计数器
+
+　　**methods_count（方法计数器）**
+　　methods_count的值表示当前class文件methods表的成员个数。使用两个字节来表示。
+　　methods表中每个成员都是一个method_info结构。
+
+### 14.9.2 方法表
+
+　　**methods[]（方法表）**
+　　methods表中的每个成员都必须是一个method_info结构，用于表示当前类或接口中某个方法的完整描述。如果某个method_info结构的access_flags项既没有设置ACC_NATIVE标志也没有设置ACC_ABSTRACT标志，那么该结构中也应包含实现这个方法所用的Java虚拟机指令。
+　　method_info结构可以表示类和接口中定义的所有方法，包括实例方法、类方法、实例初始化方法和类或接口初始化方法。
+
+　　**方法表的结构实际跟字段表是一样的，方法表结构如下：**
+|标志名称|标志值|含义|数量|
+|:---|:---|:---|:---|
+|u2|access_flags|访问标志|1|
+|u2|name_index|方法名索引|1|
+|u2|descriptor_index|描述符索引|1|
+|u2|attributes_count|属性计数器|1|
+|attribute_info|attributes|属性集合|attributes_count|
+
+　　**方法表访问标志**
+　　跟字段表一样，方法表也有访问标志，而且他们的标志有部分相同，部分则不同，方法表的具体访问标志如下：
+|标志名称|标志值|含义|
+|:---|:---|:---|
+|ACC_PUBLIC|0x0001|public，方法可以从包外访问|
+|ACC_PRIVATE|0x0002|private，方法只能本类访问|
+|ACC_PROTECTED|0x0004|protected，方法在自身和子类可以访问|
+|ACC_STATIC|0x0008|static，静态方法|
+
+## 14.10 属性表集合
+
+　　方法表集合之后的属性表集合，指的是class文件所携带的辅助信息，比如该class文件的源文件的名称。以及任何带有RetentionPolicy.CLASS 或者RetentionPolicy.RUNTIME的注解。这类信息通常被用于Java虚拟机的验证和运行，以及Java程序的调试，一般无须深入了解。
+　　此外，字段表、方法表都可以有自己的属性表。用于描述某些场景专有的信息。
+　　属性表集合的限制没有那么严格，不再要求各个属性表具有严格的顺序，并且只要不与已有的属性名重复，任何人实现的编译器都可以向属性表中写入自己定义的属性信息，但Java虚拟机运行时会忽略掉它不认识的属性。
+
+### 14.10.1 属性计数器
+
+　　**attributes_count（属性计数器）**
+　　attributes_count的值表示当前class文件属性表的成员个数。属性表中每一项都是一个attribute_info结构。
+
+### 14.10.2 属性表
+
+　　**attributes[]（属性表）**
+　　属性表的每个项的值必须是attribute_info结构。属性表的结构比较灵活，各种不同的属性只要满足以下结构即可。
+
+　　**属性的通用格式**
+|类型|名称|数量|含义|
+|:---|:---|:---|:---|
+|u2|attribute_name_index|1|属性名索引|
+|u4|attribute_length|1|属性长度|
+|u1|info|attribute_length|属性表|
+
+　　**属性类型**
+　　属性表实际上可以有很多类型，上面看到的Code属性只是其中一种，Java8里面定义了23种属性。下面这些是虚拟机中预定义的属性：
+|属性名称|使用位置|含义|
+|:---|:---|:---|
+|Code|方法表|Java代码编译成的字节码指令|
+|ConstantValue|字段表|final关键字定义的常量池|
+|Deprecated|类，方法，字段表|被声明为deprecated的方法和字段|
+|Exceptions|方法表|方法抛出的异常|
+|EnclosingMethod|类文件|仅当一个类为局部类或者匿名类时才能拥有这个属性，这个属性用于标识这个类所在的外围方法|
+|InnerClass|类文件|内部类列表|
+|LineNumberTable|Code属性|Java源码的行号与字节码指令的对应关系|
+|LocalVariableTable|Code属性|方法的局部变量描述|
+|StackMapTable|Code属性|JDK1.6中新增的属性，供新的类型检查检验器和处理目标方法的局部变量和操作数有所需要的类是否匹配|
+|Signature|类，方法表，字段表|用于支持泛型情况下的方法签名|
+|SourceFile|类文件|记录源文件名称|
+|SourceDebugExtension|类文件|用于存储额外的调试信息|
+|Synthetic|类，方法表，字段表|标志方法或字段为编译器自动生成的|
+|LocalVariableTypeTable|类|是哟很难过特征签名代替描述符，是为了引入泛型语法之后能描述泛型参数化类型而添加|
+|RuntimeVisibleAnnotations|类，方法表，字段表|为动态注解提供支持|
+|RuntimeInvisibleAnnotations|类，方法表，字段表|用于指明哪些注解是运行时不可见的|
+|RuntimeVisibleParameterAnnotation|方法表|作用与RuntimeVisibleAnnotations属性类似，只不过作用对象或方法|
+|RuntimeInvisibleParameterAnnotation|方法表|作用与RuntimeInvisibleAnnotations属性类似，只不过作用对象或方法|
+|AnnotationDefault|方法表|用于记录注解类元素的默认值|
+|BootstrapMethods|类文件|用于保存invokeddynamic指令引用的引导方法限定符|
+
+　　或者（查看官网）
+　　![avatar](pictures/14ClassStructure/14-4.png)
+
+　　**部分属性详解**
+　　**① ConstantValue属性**
+~~~
+ConstantValue_attribute{
+	u2 attribute_name_index;
+	u4 attribute_length;
+	u2 constantvalue_index;//字段值在常量池中的索引，常量池在该索引处的项给出该属性表示的常量值。（例如，值是1ong型的，在常量池中便是CONSTANT_Long）
+}
+~~~
+
+　　**② Deprecated 属性**
+　　Deprecated 属性是在JDK1.1为了支持注释中的关键词@deprecated而引入的。
+~~~
+Deprecated_attribute{
+	u2 attribute_name_index;
+	u4 attribute_length;
+}
+~~~
+
+　　**③ Code属性**
+　　Code属性就是存放方法体里面的代码。但是，并非所有方法表都有Code属性。像接口或者抽象方法，他们没有具体的方法体，因此也就不会有Code属性了。Code属性表的结构，如下图：
+|类型|名称|数量|含义|
+|:---|:---|:---|:---|
+|u2|attribute_name_index|1|属性名索引|
+|u4|attribute_length|1|属性长度|
+|u2|max_stack|1|操作数栈深度的最大值|
+|u2|max_locals|1|局部变量表所需的存续空间|
+|u4|code_length|1|字节码指令的长度|
+|u1|code|code_lenth|存储字节码指令|
+|u2|exception_table_length|1|异常表长度|
+|exception_info|exception_table|exception_length|异常表|
+|u2|attributes_count|1|属性集合计数器|
+|attribute_info|attributes|attributes_count|属性集合|
+
+　　可以看到：Code属性表的前两项跟属性表是一致的，即Code属性表遵循属性表的结构，后面那些则是他自定义的结构。
+
+　　**④ InnerClasses 属性**
+　　为了方便说明特别定义一个表示类或接口的Class格式为C。如果C的常量池中包含某个CONSTANT_Class_info成员，且这个成员所表示的类或接口不属于任何一个包，那么C的ClassFile结构的属性表中就必须含有对应的InnerClasses属性。InnerClasses属性是在JDK1.1中为了支持内部类和内部接口而引入的，位于ClassFile结构的属性表。
+
+　　**⑤ LineNumberTable属性**
+　　LineNumberTable属性是可选变长属性，位于Code结构的属性表。
+　　LineNumberTable属性是用来描述Java源码行号与字节码行号之间的对应关系。这个属性可以用来在调试的时候定位代码执行的行数。
+　　start_pc，即字节码行号；1ine_number，即Java源代码行号。
+　　在Code属性的属性表中，LineNumberTable属性可以按照任意顺序出现，此外，多个LineNumberTable属性可以共同表示一个行号在源文件中表示的内容，即LineNumberTable属性不需要与源文件的行一一对应。
+~~~
+// LineNumberTable属性表结构：
+LineNumberTable_attribute{
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u2 line_number_table_length;
+    {
+        u2 start_pc;
+        u2 line_number;
+    } line_number_table[line_number_table_length];
+}
+~~~
+
+　　**⑥ LocalVariableTable属性**
+<div>
+    <p>　　LocalVariableTable是可选变长属性，位于Code属性的属性表中。它被调试器用于确定方法在执行过程中局部变量的信息。在Code属性的属性表中，LocalVariableTable属性可以按照任意顺序出现。Code属性中的每个局部变量最多只能有一个LocalVariableTable属性。</p>
+    <ul>
+        <li>start pc + length表示这个变量在字节码中的生命周期起始和结束的偏移位置（this生命周期从头e到结尾10）</li>
+        <li>index就是这个变量在局部变量表中的槽位（槽位可复用）</li>
+        <li>name就是变量名</li>
+        <li>Descriptor表示局部变量类型描述</li>
+    </ul>
+</div>
+~~~
+// LocalVariableTable属性表结构：
+LocalVariableTable_attribute{
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u2 local_variable_table_length;
+    {
+        u2 start_pc;
+        u2 length;
+        u2 name_index;
+        u2 descriptor_index;
+        u2 index;
+    } local_variable_table[local_variable_table_length];
+}
+~~~
+
+　　**⑦ Signature属性**
+　　Signature属性是可选的定长属性，位于ClassFile，field_info或method_info结构的属性表中。在Java语言中，任何类、接口、初始化方法或成员的泛型签名如果包含了类型变量（Type Variables）或参数化类型（Parameterized Types），则Signature属性会为它记录泛型签名信息。
+
+　　**⑧ SourceFile属性**
+　　SourceFile属性结构
+|类型|名称|数量|含义|
+|:---|:---|:---|:---|
+|u2|attribute_name_index|1|属性名索引|
+|u4|attribute_length|1|属性长度|
+|u2|sourcefileindex|1|源码文件素引|
+
+　　可以看到，其长度总是固定的8个字节。
+
+　　**⑨ 其他属性**
+　　Java虚拟机中预定义的属性有20多个，这里就不一一介绍了，通过上面几个属性的介绍，只要领会其精髓，其他属性的解读也是易如反掌。
 
 
 
+# 15 字节码指令集
+## 15.1 概述
+### 15.1.1 执行模型
+
+　　如果不考虑异常处理的话，那么Java虚拟机的解释器可以使用下面这个伪代码当做最基本的执行模型来理解
+~~~
+do{
+    自动计算PC寄存器的值加1;
+    根据PC寄存器的指示位置，从字节码流中取出操作码;
+    if(字节码存在操作数) 从字节码流中取出操作数;
+    执行操作码所定义的操作;
+}while(字节码长度>0)；
+~~~
+
+## 15.1.2 字节码与数据类型
+
+　　在Java虚拟机的指令集中，大多数的指令都包含了其操作所对应的数据类型信息。例如，iload指令用于从局部变量表中加载int型的数据到操作数栈中，而fload指令加载的则是float类型的数据。
+<div>
+    <p>　　对于大部分与数据类型相关的字节码指令，它们的操作码助记符中都有特殊的字符来表明专门为哪种数据类型服务：</p>
+    <ul>
+        <li>i代表对int类型的数据操作</li>
+        <li>l代表long</li>
+        <li>s代表short</li>
+        <li>b代表byte</li>
+        <li>c代表char</li>
+        <li>f代表float</li>
+        <li>d代表double</li>
+    </ul>
+</div>
+
+　　也有一些指令的助记符中没有明确地指明操作类型的字母，如arraylength指令，它没有代表数据类型的特殊字符，但操作数永远只能是一个数组类型的对象。
+　　还有另外一些指令，如无条件跳转指令goto则是与数据类型无关的。
+　　大部分的指令都没有支持整数类型byte、char和short，甚至没有任何指令支持boolean类型。编译器会在编译期或运行期将byte和short类型的数据带符号扩展（Sign-Extend）为相应的int类型数据，将boolean和char类型数据零位扩展（Zero-Extend）为相应的int类型数据。与之类似，在处理boolean、byte、short和char类型的数组时，也会转换为使用对应的int类型的字节码指令来处理。因此，大多数对于boolean、byte、short和char类型数据的操作，实际上都是使用相应的int类型作为运算类型。
+
+### 15.1.3 指令分析
+
+<div>
+    <div>
+        <p>　　由于完全介绍和学习这些指令需要花费大量时间。为了让大家能够更快地熟悉和了解这些基本指令，这里将JVM中的字节码指令集按用途大致分成9类。</p>
+        <ul>
+            <li>加载与存储指令</li>
+            <li>算术指令</li>
+            <li>类型转换指令</li>
+            <li>对象的创建与访问指令</li>
+            <li>方法调用与返回指令</li>
+            <li>操作数栈管理指令</li>
+            <li>比较控制指令</li>
+            <li>异常处理指令</li>
+            <li>同步控制指令</li>
+        </ul>
+    </div>
+    <div>
+        <p>　　（说在前面）在做值相关操作时：</p>
+        <ul>
+            <li>一个指令，可以从局部变量表、常量池、堆中对象、方法调用、系统调用中等取得数据，这些数据（可能是值，可能是对象的引用）被压入操作数栈。</li>
+            <li>一个指令，也可以从操作数栈中取出一到多个值（pop多次），完成赋值、加减乘除、方法传参、系统调用等等操作。</li>
+        </ul>
+    </div>
+</div>
+
+## 15.2 加载与存储指令
+### 15.2.1 作用
+
+　　加载和存储指令用于将数据从栈帧的局部变量表和操作数栈之间来回传递。
+
+### 15.2.2 常用指令
+
+
+<ol>
+    <li>【局部变量压栈指令】将一个局部变量加载到操作数栈：xload、xload_&lt;n&gt;（其中x为i、l、f、d、a，n为0到3）</li>
+    <li>【常量入栈指令】将一个常量加载到操作数栈：bipush、sipush、ldc、ldc_w、ldc2_w、aconst_null、iconst_m1、iconst_&lt;i&gt;、lconst_&lt;l&gt;）、fconst_&lt;f&gt;、dconst_&lt;d&gt;</li>
+    <li>【出栈装入局部变量表指令】将一个数值从操作数栈存储到局部变量表：xstore、xstore_&lt;n&gt;（其中x为i、l、f、d、a，n为0到3）；xastore（其中x为i、l、f、d、a、b、c、s）</li>
+    <li>扩充局部变量表的访问索引的指令：wide。</li>
+</ol>
+
+　　上面所列举的指令助记符中，有一部分是以尖括号结尾的（例如iload_<n>）。这些指令助记符实际上代表了一组指令（例如iload_<n>代表了iload_0、iload_1、iload_2和iload_3这几个指令）。这几组指令都是某个带有一个操作数的通用指令（例如iload）的特殊形式，对于这若干组特殊指令来说，它们表面上没有操作数，不需要进行取操作数的动作，但操作数都隐含在指令中。
+　　除此之外，它们的语义与原生的通用指令完全一致（例如iload_0的语义与操作数为0时的iload指令语义完全一致）。在尖括号之间的字母指定了指令隐含操作数的数据类型，<n>代表非负的整数，<i>代表是int类型数据，<l>代表long类型，<f>代表float类型，<d>代表double类型。
+　　操作byte、char、short和boolean类型数据时，经常用int类型的指令来表示。
+
+### 15.2.3 再谈操作数栈与局部变量表
+
+　　**操作数栈（Operand Stacks）**
+　　我们知道，Java字节码是Java虚拟机所使用的指令集。因此，它与Java虚拟机基于栈的计算模型是密不可分的。在解释执行过程中，每当为Java方法分配栈桢时，Java虚拟机往往需要开辟一块额外的空间作为操作数栈，来存放计算的操作数以及返回结果。
+　　具体来说便是：执行每一条指令之前，Java虚拟机要求该指令的操作数已被压入操作数栈中。在执行指令时，Java虚拟机会将该指令所需的操作数弹出，并且将指令的结果重新压入栈中。
+　　![avatar](pictures/15ClassInstruction/15-1.png)
+
+　　以加法指令iadd为例。假设在执行该指令前，栈顶的两个元素分别为int值1和int值2，那么iadd指令将弹出这两个int，并将求得的和int值3压入栈中。
+　　![avatar](pictures/15ClassInstruction/15-2.png)
+
+　　由于iadd指令只消耗栈顶的两个元素，因此，对于离栈顶距离为2的元素，即图中的问号，iadd 指令并不关心它是否存在，更加不会对其进行修改。
+
+　　**局部变量表（Local Variables）**
+　　Java方法栈桢的另外一个重要组成部分则是局部变量区，字节码程序可以将计算的结果缓存在局部变量区之中。
+　　实际上，Java虚拟机将局部变量区当成一个数组，依次存放this指针（仅非静态方法），所传入的参数，以及字节码中的局部变量。
+　　和操作数栈一样，long类型以及double类型的值将占据两个单元，其余类型仅占据一个单元。
+　　![avatar](pictures/15ClassInstruction/15-3.png)
+　　
+　　举例：
+~~~
+public void foo(long l, float f) {
+    {
+        int i = e;
+    }
+    {
+        String s = "Hello, World";
+    }
+}
+~~~
+　　对应的图示：
+　　![avatar](pictures/15ClassInstruction/15-4.png)
+　　this表示当前类的引用，l和f的类型的值占两个槽位，i和s变量由于分别在各自代码块中，没有共同的生命周期，所以占同一个槽位（即槽位复用）
+　　在栈帧中，与性能调优关系最为密切的部分就是局部变量表。局部变量表中的变量也是重要的垃圾回收根节点，只要被局部变量表中直接或间接引用的对象都不会被回收。
+
+### 15.2.4 局部变量压栈指令
+
+<ul>
+    <li>iload：从局部变量中装载int类型值</li>
+    <li>lload：从局部变量中装载long类型值</li>
+    <li>fload：从局部变量中装载float类型值</li>
+    <li>dload：从局部变量中装载double类型值</li>
+    <li>aload：从局部变量中装载引用类型值（refernce）</li>
+    <li>iload_0：从局部变量0中装载int类型值</li>
+    <li>iload_1：从局部变量1中装载int类型值</li>
+    <li>iload_2：从局部变量2中装载int类型值</li>
+    <li>iload_3：从局部变量3中装载int类型值</li>
+    <li>lload_0：从局部变量0中装载long类型值</li>
+    <li>lload_1：从局部变量1中装载long类型值</li>
+    <li>lload_2：从局部变量2中装载long类型值</li>
+    <li>lload_3：从局部变量3中装载long类型值</li>
+    <li>fload_0：从局部变量0中装载float类型值</li>
+    <li>fload_1：从局部变量1中装载float类型值</li>
+    <li>fload_2：从局部变量2中装载float类型值</li>
+    <li>fload_3：从局部变量3中装载float类型值</li>
+    <li>dload_0：从局部变量0中装载double类型值</li>
+    <li>dload_1：从局部变量1中装载double类型值</li>
+    <li>dload_2：从局部变量2中装载double类型值</li>
+    <li>dload_3：从局部变量3中装载double类型值</li>
+    <li>aload_0：从局部变量0中装载引用类型值</li>
+    <li>aload_1：从局部变量1中装载引用类型值</li>
+    <li>aload_2：从局部变量2中装载引用类型值</li>
+    <li>aload_3：从局部变量3中装载引用类型值</li>
+    <li>iaload：从数组中装载int类型值</li>
+    <li>laload：从数组中装载long类型值</li>
+    <li>faload：从数组中装载float类型值</li>
+    <li>daload：从数组中装载double类型值</li>
+    <li>aaload：从数组中装载引用类型值</li>
+    <li>baload：从数组中装载byte类型或boolean类型值</li>
+    <li>caload：从数组中装载char类型值</li>
+    <li>saload：从数组中装载short类型值</li>
+</ul>
+
+　　**局部变量压栈常用指令集**
+|-|-|-|-|-|
+|:---|:---|:---|:---|:---|
+|xload_n|xload_0|xload_1|xload_2|xload_3|
+|iload_n|iload_0|iload_1|iload_2|iload_3|
+|lload_n|lload_0|lload_1|lload_2|lload_3|
+|fload_n|fload_0|fload_1|fload_2|fload_3|
+|dload_n|dload_0|dload_1|dload_2|dload_3|
+|aload_n|aload_0|aload_1|aload_2|aload_3|
+
+　　**局部变量压栈指令剖析**
+　　局部变量压栈指令将给定的局部变量表中的数据压入操作数栈。
+<div>
+    <p>　　这类指令大体可以分为：</p>
+    <ul>
+        <li>xload_&lt;n&gt;（x为i、l、f、d、a，n为0到3）</li>
+        <li>xload（x为i、l、f、d、a）</li>
+    </ul>
+    <p>　　说明：在这里，x的取值表示数据类型。</p>
+</div>
+
+　　指令xload_n表示将第n个局部变量压入操作数栈，比如iload_1、fload_0、aload_0等指令。其中aload_n表示将一个对象引用压栈。
+　　指令xload通过指定参数的形式，把局部变量压入操作数栈，当使用这个命令时，表示局部变量的数量可能超过了4个，比如指令iload、fload等。
+
+　　举例：
+~~~
+public void load(int num, Object obj, long count, boolean flag, short[] arr) {
+    System.out.println(num);
+    System.out.println(obj);
+    System.out.println(count);
+    System.out.println(flag);
+    System.out.println(arr);
+}
+~~~
+　　字节码执行过程
+　　![avatar](pictures/15ClassInstruction/15-5.png)
+
+### 15.2.2 常量入栈指令
+
+<ul>
+    <li>aconst_null：将null对象引用压入栈</li>
+    <li>iconst_m1：将int类型常量-1压入栈</li>
+    <li>iconst_0：将int类型常量0压入栈</li>
+    <li>iconst_1：将int类型常量1压入栈</li>
+    <li>iconst_2：将int类型常量2压入栈</li>
+    <li>iconst_3：将int类型常量3压入栈</li>
+    <li>iconst_4：将int类型常量4压入栈</li>
+    <li>iconst_5：将int类型常量5压入栈</li>
+    <li>lconst_0：将long类型常量0压入栈</li>
+    <li>lconst_1：将long类型常量1压入栈</li>
+    <li>fconst_0：将float类型常量0压入栈</li>
+    <li>fconst_1：将float类型常量1压入栈</li>
+    <li>dconst_0：将double类型常量0压入栈</li>
+    <li>dconst_1：将double类型常量1压入栈</li>
+    <li>bipush：将一个8位带符号整数压入栈</li>
+    <li>sipush：将16位带符号整数压入栈</li>
+    <li>ldc：把常量池中的项压入栈</li>
+    <li>ldc_w：把常量池中的项压入栈（使用宽索引）</li>
+    <li>ldc2_w：把常量池中long类型或者double类型的项压入栈（使用宽索引）</li>
+</ul>
+
+　　**常量入栈常用指令集**
+|xconst_n|范围|xconst_null|xconst_m1|xconst_0|xconst_1|xconst_2|xconst_3|xconst_4|
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+|iconst_n|[-1, 5]||iconst_m1|iconst_0|iconst_1|iconst_2|iconst_3|iconst_4|
+|lconst_n|0, 1|||lconst_0|lconst_1||||
+|fconst_n|0, 1, 2|||fconst_0|fconst_1|fconst_2|||
+|dconst_n|0, 1|||dconst_0|dconst_1||||
+|aconst_n|null, String, literal, Class literal|aconst_null|||||||
+|bipush|一个字节，2^8，[-2^7, 2^7 - 1]，即[-128, 127]||||||||
+|sipush|两个字节，2^16，[-2^15, 2^15 - 1]，即[-32768, 32767]||||||||
+|ldc|四个字节，2^32，[-2^31, 2^31 - 1]||||||||
+|ldc_w|宽索引||||||||
+|ldc2_w|宽索引，long或double||||||||
+
+<div>
+    <h5>常量入栈指令剖析</h5>
+    <p>　　常量入栈指令的功能是将常数压入操作数栈，根据数据类型和入栈内容的不同，又可以分为const系列、push系列和ldc指令。</p>
+    <div>
+        <h6>指令const系列</h6>
+        <p>　　用于对特定的常量入栈，入栈的常量隐含在指令本身里。指令有：iconst_&lt;i&gt;（i从-1到5）、lconst_&lt;l&gt;（1从0到1）、fconst_&lt;f&gt;（f从0到2）、dconst_&lt;d&gt;（d从0到1）、aconst_null。比如：</p>
+        <ul>
+            <li>iconst_m1将-1压入操作数栈；</li>
+            <li>iconst_x（x为0到5）将x压入栈；</li>
+            <li>lconst_0、lconst_1分别将长整数0和1压入栈；</li>
+            <li>fconst_0、fconst_1、fconst_2分别将浮点数0、1、2压入栈；</li>
+            <li>dconst_0和dconst_1分别将double型0和1压入栈；</li>
+            <li>aconst_null将null压入操作数栈；</li>
+        </ul>
+        <p>　　从指令的命名上不难找出规律，指令助记符的第一个字符总是喜欢表示数据类型，i表示整数，l表示长整数，f表示浮点数，d表示双精度浮点，习惯上用a表示对象引用。如果指令隐含操作的参数，会以下划线形式给出。</p>
+    </div>
+    <div>
+        <h6>指令push系列</h6>
+        <p>　　主要包括bipush和sipush。它们的区别在于接收数据类型的不同，bipush接收8位整数作为参数，sipush接收16位整数，它们都将参数压入栈。</p>
+    </div>
+    <div>
+        <h6>指令ldc系列</h6>
+        <p>　　如果以上指令都不能满足需求，那么可以使用万能的</p>
+        <ul>
+            <li>ldc指令，它可以接收一个8位的参数，该参数指向常量池中的int、float或者String的索引，将指定的内容压入堆栈。</li>
+            <li>类似的还有ldc_w，它接收两个8位参数，能支持的索引范围大于ldc。</li>
+            <li>如果要压入的元素是long或者double类型的，则使用ldc2_w指令，使用方式都是类似的</li>
+        </ul>
+    </div>
+    <div>
+        <h5>总结如下</h5>
+        <table>
+            <thead>
+                <td>类型</td>
+                <td>常数指令</td>
+                <td>范围</td>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="4">int(boolean,byte,char,short)</td>
+                    <td>iconst</td>
+                    <td>[-1, 5]</td>
+                </tr>
+                <tr>
+                    <td>bipush</td>
+                    <td>[-128, 127]</td>
+                </tr>
+                <tr>
+                    <td>sipush</td>
+                    <td>[-32768, 32767]</td>
+                </tr>
+                <tr>
+                    <td>ldc</td>
+                    <td>any int value</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">long</td>
+                    <td>lconst</td>
+                    <td>0, 1</td>
+                </tr>
+                <tr>
+                    <td>ldc</td>
+                    <td>any long value</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">float</td>
+                    <td>fconst</td>
+                    <td>0, 1, 2</td>
+                </tr>
+                <tr>
+                    <td>ldc</td>
+                    <td>any float value</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">double</td>
+                    <td>dconst</td>
+                    <td>0, 1</td>
+                </tr>
+                <tr>
+                    <td>ldc</td>
+                    <td>any double value</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">reference</td>
+                    <td>aconst</td>
+                    <td>null</td>
+                </tr>
+                <tr>
+                    <td>ldc</td>
+                    <td>String literal, Class literal</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+　　![avatar](pictures/15ClassInstruction/15-6.png)
+　　![avatar](pictures/15ClassInstruction/15-7.png)
+
+### 15.2.3 出栈装入局部变量表指令
+
+<ul>
+    <li>istore：将int类型值存入局部变量</li>
+    <li>lstore：将long类型值存入局部变量</li>
+    <li>fstore：将float类型值存入局部变量</li>
+    <li>dstore：将double类型值存入局部变量</li>
+    <li>astore：将将引用类型或returnAddress类型值存入局部变量</li>
+    <li>istore_0：将int类型值存入局部变量0</li>
+    <li>istore_1：将int类型值存入局部变量1</li>
+    <li>istore_2：将int类型值存入局部变量2</li>
+    <li>istore_3：将int类型值存入局部变量3</li>
+    <li>lstore_0：将long类型值存入局部变量0</li>
+    <li>lstore_1：将long类型值存入局部变量1</li>
+    <li>lstore_2：将long类型值存入局部变量2</li>
+    <li>lstore_3：将long类型值存入局部变量3</li>
+    <li>fstore_0：将float类型值存入局部变量0</li>
+    <li>fstore_1：将float类型值存入局部变量1</li>
+    <li>fstore_2：将float类型值存入局部变量2</li>
+    <li>fstore_3：将float类型值存入局部变量3</li>
+    <li>dstore_0：将double类型值存入局部变量0</li>
+    <li>dstore_1：将double类型值存入局部变量1</li>
+    <li>dstore_2：将double类型值存入局部变量2</li>
+    <li>dstore_3：将double类型值存入局部变量3</li>
+    <li>astore_0：将引用类型或returnAddress类型值存入局部变量0</li>
+    <li>astore_1：将引用类型或returnAddress类型值存入局部变量1</li>
+    <li>astore_2：将引用类型或returnAddress类型值存入局部变量2</li>
+    <li>astore_3：将引用类型或returnAddress类型值存入局部变量3</li>
+    <li>iastore：将int类型值存入数组中</li>
+    <li>lastore：将long类型值存入数组中</li>
+    <li>fastore：将float类型值存入数组中</li>
+    <li>dastore：将double类型值存入数组中</li>
+    <li>aastore：将引用类型值存入数组中</li>
+    <li>bastore：将byte类型或者boolean类型值存入数组中</li>
+    <li>castore：将char类型值存入数组中</li>
+    <li>sastore：将short类型值存入数组中</li>
+    <li>wide指令</li>
+    <li>wide：使用附加字节扩展局部变量索引</li>
+</ul>
+
+　　**出栈装入局部变量表常用指令集**
+|xstore_n|xstore_0|xstore_1|xstore_2|xstore_3|
+|:---|:---|:---|:---|:---|
+|istore_n|istore_0|istore_1|istore_2|istore_3|
+|lstore_n|lstore_0|lstore_1|lstore_2|lstore_3|
+|fstore_n|fstore_0|fstore_1|fstore_2|fstore_3|
+|dstore_n|dstore_0|dstore_1|dstore_2|dstore_3|
+|astore_n|astore_0|astore_1|astore_2|astore_3|
+
+　　**出栈装入局部变量表指令剖析**
+　　出栈装入局部变量表指令用于将操作数栈中栈顶元素弹出后，装入局部变量表的指定位置，用于给局部变量赋值。这类指令主要以store的形式存在，比如xstore（x为i、l、f、d、a）、xstore_n（x为i、l、f、d、a，n为0至3）。
+　　其中，指令istore_n将从操作数栈中弹出一个整数，并把它值给局部变量索引n位置。
+　　指令xstore由于没有隐含参数信息，故需要提供一个byte类型的参数类指定目标局部变量表的位置。
+　　说明：一般说来，类似像store这样的命令需要带一个参数，用来指明将弹出的元素放在局部变量表的第几个位置。但是，为了尽可能压缩指令大小，使用专门的istore_1指令表示将弹出的元素放置在局部变量表第1个位置。类似的还有istore_0、istore_2、istore_3，它们分别表示从操作数栈顶弹出一个元素，存放在局部变量表第0、2、3个位置。由于局部变量表前几个位置总是非常常用，因此这种做法虽然增加了指令数量，但是可以大大压缩生成的字节码的体积。如果局部变量表很大，需要存储的槽位大于3，那么可以使用istore指令，外加一个参数，用来表示需要存放的槽位位置。
+
+　　举例：
+　　![avatar](pictures/15ClassInstruction/15-8.png)
+
+## 15.3 算术指令
+### 15.3.1 作用
+
+　　算术指令用于对两个操作数栈上的值进行某种特定运算，并把结果重新压入操作数栈。
+
+### 15.3.2 分类
+
+　　大体上算术指令可以分为两种：对整型数据进行运算的指令与对浮点类型数据进行运算的指令。
+
+### 15.3.3 byte、short、char和boolean类型说明
+
+　　在每一大类中，都有针对Java虚拟机具体数据类型的专用算术指令。但没有直接支持byte、short、char和boolean类型的算术指令，对于这些数据的运算，都使用int类型的指令来处理。此外，在处理boolean、byte、short和char类型的数组时，也会转换为使用对应的int类型的字节码指令来处理。
+　　![avatar](pictures/15ClassInstruction/15-9.png)
+
+### 15.3.4 运算时的溢出
+
+　　数据运算可能会导致溢出，例如两个很大的正整数相加，结果可能是一个负数。其实Java虚拟机规范并无明确规定过整型数据溢出的具体结果，仅规定了在处理整型数据时，只有除法指令以及求余指令中当出现除数为0时会导致虚拟机抛出异常ArithmeticException。
+
+### 15.3.5 运算模式
+
+　　**向最接近数舍入模式**：JVM要求在进行浮点数计算时，所有的运算结果都必须舍入到适当的精度，非精确结果必须舍入为可被表示的最接近的精确值，如果有两种可表示的形式与该值一样接近，将优先选择最低有效位为零的；
+　　**向零舍入模式**：将浮点数转换为整数时，采用该模式，该模式将在目标数值类型中选择一个最接近但是不大于原值的数字作为最精确的舍入结果；
+
+### 15.3.6 NaN值使用
+
+　　当一个操作产生溢出时，将会使用有符号的无穷大表示，如果某个操作结果没有明确的数学定义的话，将会使用NaN值来表示。而且所有使用NaN值作为操作数的算术操作，结果都会返回NaN；
+　　![avatar](pictures/15ClassInstruction/15-10.png)
+
+### 15.3.7 所有算术指令
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　

@@ -24,8 +24,19 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="jvm学习：25-1 219节">
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/14ClassStructure/14-4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jvm-4/src/com/xyb/a14clsstructure/Demo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jvm-4/jvm-4.md" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/jvm-4.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -431,14 +442,7 @@
       <workItem from="1628991067229" duration="7000" />
       <workItem from="1628991742604" duration="10000" />
       <workItem from="1628991783745" duration="226000" />
-      <workItem from="1628992076802" duration="22148000" />
-    </task>
-    <task id="LOCAL-00010" summary="html学习：正在学习视频75">
-      <created>1621469048860</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1621469048860</updated>
+      <workItem from="1628992076802" duration="22478000" />
     </task>
     <task id="LOCAL-00011" summary="html学习：正在学习视频75-2">
       <created>1621469099919</created>
@@ -776,7 +780,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629124983193</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="jvm学习：25 219节">
+      <created>1629370505319</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1629370505319</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -965,8 +976,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：3" />
-    <MESSAGE value="jvm学习：4" />
     <MESSAGE value="jvm学习：5" />
     <MESSAGE value="jvm学习：6" />
     <MESSAGE value="jvm学习：7" />
@@ -990,7 +999,9 @@
     <MESSAGE value="jvm学习：22-2 193节" />
     <MESSAGE value="jvm学习：23 209节" />
     <MESSAGE value="jvm学习：24 215节" />
-    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：24 215节" />
+    <MESSAGE value="jvm学习：25 219节" />
+    <MESSAGE value="jvm学习：25-1 219节" />
+    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：25-1 219节" />
   </component>
   <component name="WindowStateProjectService">
     <state x="444" y="26" key="#Arithmetic2" timestamp="1620559996772">
@@ -1074,14 +1085,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="879" y="243" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1623799970328" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1629124981674">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1629370709881">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1629124981674" />
-    <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1627601912020">
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1629370709881" />
+    <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1629370740222">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="246" y="64" width="1228" height="688" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1627601912020" />
+    <state x="246" y="64" width="1228" height="688" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1629370740222" />
     <state x="80" y="60" key="FileChooserDialogImpl" timestamp="1627539060627">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1171,27 +1182,27 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="408" y="43" width="861" height="593" key="NewModule_or_Project.wizard/0.0.1280.680@0.0.1280.680" timestamp="1627528298341" />
-    <state x="458" y="113" key="RollbackChangesDialog" timestamp="1627601106595">
+    <state x="458" y="113" key="RollbackChangesDialog" timestamp="1629370742432">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="458" y="113" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1627601106595" />
+    <state x="458" y="113" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1629370742432" />
     <state x="434" y="0" width="1226" height="680" key="SettingsEditor" timestamp="1628990364469">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="54" y="0" width="1226" height="680" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1627529496209" />
     <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1628990364469" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1629124987773">
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1629370517772">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1629124987773" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1629370517772" />
     <state x="646" y="303" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1621673541644">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="646" y="303" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1621673541644" />
-    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1629071279808">
+    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1629370508896">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1629071279808" />
+    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1629370508896" />
     <state x="313" y="141" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1623584735668">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
