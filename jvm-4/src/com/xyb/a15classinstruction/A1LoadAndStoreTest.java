@@ -46,4 +46,30 @@ public class A1LoadAndStoreTest {
         Date date = null;
     }
 
+    /**
+     * 测试出栈装入局部变量表指令
+     * @param k
+     * @param d
+     */
+    public void store(int k, double d) {
+        int m = k + 2;
+        long l = 12;
+        String str = "aaa";
+        float f = 10.0f;
+        d = 10;
+    }
+
+    /**
+     * 查看slot复用
+     * @param l
+     * @param f
+     */
+    public void foo(long l, float f) {
+        {
+            int i = 0;
+        }
+        {
+            String s = "abc";
+        }
+    }
 }
