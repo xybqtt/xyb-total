@@ -27,7 +27,7 @@
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jvm-4/jvm-4.md" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/jvm-4.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/src/com/xyb/a15classinstruction/A1LoadAndStoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/src/com/xyb/a15classinstruction/A1LoadAndStoreTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/src/com/xyb/a15classinstruction/A4NewObjTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/src/com/xyb/a15classinstruction/A4NewObjTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -434,13 +434,6 @@
       <workItem from="1628991783745" duration="226000" />
       <workItem from="1628992076802" duration="31750000" />
     </task>
-    <task id="LOCAL-00013" summary="html学习：正在学习视频80">
-      <created>1621552930217</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1621552930217</updated>
-    </task>
     <task id="LOCAL-00014" summary="html学习：正在学习视频121">
       <created>1621783543012</created>
       <option name="number" value="00014" />
@@ -777,7 +770,14 @@
       <option name="project" value="LOCAL" />
       <updated>1629383182168</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="jvm学习：27 253节">
+      <created>1629555497642</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1629555497643</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -966,7 +966,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：6" />
     <MESSAGE value="jvm学习：7" />
     <MESSAGE value="jvm学习：8" />
     <MESSAGE value="jvm学习：9" />
@@ -991,7 +990,8 @@
     <MESSAGE value="jvm学习：25 219节" />
     <MESSAGE value="jvm学习：25-1 219节" />
     <MESSAGE value="jvm学习：26 238节" />
-    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：26 238节" />
+    <MESSAGE value="jvm学习：27 253节" />
+    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：27 253节" />
   </component>
   <component name="WindowStateProjectService">
     <state x="703" y="73" key="#HTTP_Proxy" timestamp="1625375221995">
@@ -1067,10 +1067,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="879" y="243" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1623799970328" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1629383180788">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1629555495310">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1629383180788" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1629555495310" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1629370740222">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1173,10 +1173,10 @@
     </state>
     <state x="54" y="0" width="1226" height="680" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1627529496209" />
     <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1628990364469" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1629383189461">
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1629555539801">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1629383189461" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1629555539801" />
     <state x="646" y="303" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1621673541644">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

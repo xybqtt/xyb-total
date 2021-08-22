@@ -46,6 +46,28 @@ public class A4NewObjTest {
 
     }
 
+    public void setArray() {
+
+        int[] intArr = new int[10];
+        intArr[3] = 20;
+        System.out.println(intArr[1]);
+
+        double[] doubleArr = new double[10];
+        System.out.println(doubleArr.length);
+
+    }
+
+    /**
+     * 4、类型检查指令
+     * @param obj
+     * @return
+     */
+    public String checkCasr(Object obj) {
+        if(obj instanceof String)
+            return (String) obj;
+        else
+            return null;
+    }
 }
 
 class Order {

@@ -112,7 +112,7 @@
 #### 0.3.1.4 方法区相关参数值设置
 
 <div>
-    　　<strong>设置方法区大小</strong>
+    <h5>　　设置方法区大小</h5>
     <ul style="list-style-type: none;" >
         <li>-XX:Permsize=10m：设置JDK7及以前永久代的初始分配空间大小；</li>
         <li>-XX:MaxPermsize=10g：设置JDK7及以前永久代的最大可分配空间大小；</li>
@@ -211,7 +211,7 @@
 
 <div>
     <div>
-        　　<strong>字节码：</strong>
+        <h5>　　字节码：</h5>
         <ol>
             <li>我们平时说的java字节码，指的是用java语言编译成的字节码。准确的说任何能在jvm平台上执行的字节码格式都是一样的。所以应该统称为：jvm字节码。</li>
             <li>不同的编译器，可以编译出相同的字节码文件，字节码文件也可以在不同的JVM上运行。</li>
@@ -220,7 +220,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>多语言混合编程：</strong>
+        <h5>　　多语言混合编程：</h5>
         <ol>
             <li>Java平台上的多语言混合编程正成为主流，通过特定领域的语言去解决特定领域的问题是当前软件开发应对日趋复杂的项目需求的一个方向。</li>
             <li>试想一下，在一个项目之中，并行处理用Clojure语言编写，展示层使用JRuby/Rails，中间层则是Java，每个应用层都将使用不同的编程语言来完成，而且，接口对每一层的开发者都是透明的，各种语言之间的交互不存在任何困难，就像使用自己语言的原生API一样方便，因为它们最终都运行在一个虚拟机之上。</li>
@@ -237,7 +237,7 @@
 　　无论是系统虚拟机还是程序虚拟机，在上面运行的软件都被限制于虚拟机提供的资源中。
 
 <div>
-    　　<strong>Java虚拟机：</strong>
+    <h5>　　Java虚拟机：</h5>
     <ol>
         <li>Java虚拟机是一台执行Java字节码的虚拟计算机，它拥有独立的运行机制，其运行的Java字节码也未必由Java语言编译而成。</li>
         <li>JVM平台的各种语言可以共享Java虚拟机带来的跨平台性、优秀的垃圾回器，以及可靠的即时编译器。</li>
@@ -245,11 +245,11 @@
     </ol>
 </div>
 
-　　作用：
+　　**作用：**
 　　Java虚拟机就是二进制字节码的运行环境，负责装载字节码到其内部，解释/编译为对应平台上的机器指令执行。每一条Java指令，Java虚拟机规范中都有详细定义，如怎么取操作数，怎么处理操作数，处理结果放在哪里。
 
 <div>
-    　　<strong>特点：</strong>
+    <h5>　　特点：</h5>
     <ol>
         <li>一次编译，到处运行；</li>
         <li>自动内存管理；</li>
@@ -277,7 +277,7 @@
 　　Java编译器输入的指令流基本上是一种基于栈的指令集架构，另外一种指令集架构则是基于寄存器的指令集架构。
 
 <div>
-    　　<strong>两种架构之间的区别：</strong>
+    <h5>　　两种架构之间的区别：</h5>
     <ul>
         <li>
             基于栈式架构的特点：
@@ -311,7 +311,7 @@
 
 <div>
     <div>
-        　　<strong>虚拟机的执行：</strong>
+        <h5>　　虚拟机的执行：</h5>
         <ol>
             <li>一个运行中的Java虚拟机有着一个清晰的任务：执行Java程序；</li>
             <li>程序开始执行时他才运行，程序结束时他就停止；</li>
@@ -320,7 +320,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>虚拟机的退出，有如下的几种情况：</strong>
+        <h5>　　虚拟机的退出，有如下的几种情况：</h5>
         <ol>
             <li>程序正常执行结束；</li>
             <li>程序在执行过程中遇到了异常或错误而异常终止；</li>
@@ -363,7 +363,8 @@
 ### 1.7.3 HotSpot VM
 
 <ol>
-    <li>HotSpot历史
+    <li>
+        HotSpot历史
         <ul>
             <li>最初由一家名为“Longview Technologies”的小公司设计</li>
             <li>1997年，此公司被sun收购；2009年，Sun公司被甲骨文收购。</li>
@@ -389,17 +390,20 @@
 ### 1.7.4 JRockit
 
 <ol>
-    <li>专注于服务器端应用
+    <li>
+        专注于服务器端应用
         <ul>
             <li>它可以不太关注程序启动速度，因此JRockit内部不包含解析器实现，全部代码都靠即时编译器编译后执行。</li>
         </ul>
     </li>
-    <li>大量的行业基准测试显示，JRockit JVM是世界上最快的JVM
+    <li>
+        大量的行业基准测试显示，JRockit JVM是世界上最快的JVM
         <ul>
             <li>使用JRockit产品，客户已经体验到了显著的性能提高(一些超过了70%)和硬件成本的减少(达50%)</li>
         </ul>
     </li>
-    <li>优势：全面的Java运行时解决方案组合
+    <li>
+        优势：全面的Java运行时解决方案组合
         <ul>
             <li>JRockit面向延迟敏感型应用的解决方案JRockit Real Time提供以毫秒或微秒级的JVM响应时间，适合财务、军事指挥、电信网络的需要</li>
             <li>MissionControl服务套件，它是一组以极低的开销来监控、管理和分析生产环境中的应用程序的工具。</li>
@@ -544,7 +548,7 @@
 ## 2.2 类加载器与类的加载过程
 
 <div>
-    　　<strong>类加载器子系统作用</strong>
+    <h5>　　类加载器子系统作用</h5>
     <ol>
         <li>类加载器子系统负责从文件系统或者网络中加载Class文件，class文件在文件开头有特定的文件标识。</li>
         <li>ClassLoader只负责class文件的加载，至于它是否可以运行，则由Execution Engine决定。</li>
@@ -555,7 +559,7 @@
 　　![avatar](./pictures/2classloader/2-3.png)
 
 <div>
-    　　<strong>类加载器ClassLoader角色</strong>
+    <h5>　　类加载器ClassLoader角色</h5>
     <ol>
         <li>class file存在于本地硬盘上，可以理解为设计师画在纸上的模板，而最终这个模板在执行的时候是要加载到JVM当中来根据这个文件实例化出n个一模一样的实例。</li>
         <li>class file加载到JVM中，被称为DNA元数据模板，放在方法区。</li>
@@ -572,7 +576,7 @@
 </ol>
 
 <div>
-    　　<strong>加载class文件的方式：</strong>
+    <h5>　　加载class文件的方式：</h5>
     <ol>
         <li>从本地系统中直接加载；</li>
         <li>通过网络获取，典型场景：Web Applet；</li>
@@ -588,7 +592,7 @@
 
 <div>
     <div>
-        　　<strong>验证(Verify)：</strong>
+        <h5>　　验证(Verify)：</h5>
         <ol>
             <li>目的在子确保Class文件的字节流中包含信息符合当前虚拟机要求，保证被加载类的正确性，不会危害虚拟机自身安全。</li>
             <li>主要包括四种验证，文件格式验证，元数据验证，字节码验证，符号引用验证。</li>
@@ -596,7 +600,7 @@
     </div>
 	<br/>
     <div>
-    　　<strong>准备(Prepare)：</strong>
+    <h5>　　准备(Prepare)：</h5>
         <ol>
             <li>为类变量分配内存并且设置该类变量的默认初始值，即零值；</li>
             <li>这里不包含用final修饰的static，因为final在编译的时候就会分配了，准备阶段会显式初始化；</li>
@@ -605,7 +609,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>解析(Resolve)：</strong>
+        <h5>　　解析(Resolve)：</h5>
         <ol>
             <li>将常量池内的符号引用转换为直接引用的过程；</li>
             <li>事实上，解析操作往往会伴随着JVM在执行完初始化之后再执行；</li>
@@ -640,7 +644,7 @@
 
 <div>
     <div>
-        　　<strong>启动类加载器(引导类加载器，Bootstrap ClassLoader)</strong>
+        <h5>　　启动类加载器(引导类加载器，Bootstrap ClassLoader)</h5>
         <ol>
             <li>这个类加载使用C/C++语言实现的，嵌套在JVM内部；</li>
             <li>它用来加载Java的核心库(JAVA_HOME/jre/lib/rt.jar、resources.jar或sun.boot.class.path路径下的内容)，用于提供JVM自身需要的类；</li>
@@ -651,7 +655,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>扩展类加载器(Extension ClassLoader)</strong>
+        <h5>　　扩展类加载器(Extension ClassLoader)</h5>
         <ol>
             <li>Java语言编写，由sun.misc.Launcher\$ExtClassLoader实现，本质也是一个类，由引导类加载器加载；</li>
             <li>派生于ClassLoader类；</li>
@@ -661,7 +665,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>应用程序类加载器(系统类加载器，AppClassLoader)</strong>
+        <h5>　　应用程序类加载器(系统类加载器，AppClassLoader)</h5>
         <ol>
             <li>java语言编写，由sun.misc.LaunchersAppClassLoader实现；</li>
             <li>派生于ClassLoader类；</li>
@@ -678,7 +682,7 @@
 　　在Java的日常应用程序开发中，类的加载几乎是由上述3种类加载器相互配合执行的，在必要时，我们还可以自定义类加载器，来定制类的加载方式。 
 <div>
     <div>
-        　　<strong>为什么要自定义类加载器？</strong>
+        <h5>　　为什么要自定义类加载器？</h5>
         <ol>
             <li>隔离加载类；</li>
             <li>修改类加载的方式；</li>
@@ -688,7 +692,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>用户自定义类加载器实现步骤：</strong>
+        <h5>　　用户自定义类加载器实现步骤：</h5>
         <ol>
             <li>开发人员可以通过继承抽象类ava.lang.ClassLoader类的方式，实现自己的类加载器，以满足一些特殊的需求；</li>
             <li>在JDK1.2之前，在自定义类加载器时，总会去继承ClassLoader类并重写loadClass() 方法，从而实现自定义的类加载类，但是在JDK1.2之后已不再建议用户去覆盖loadclass() 方法，而是建议把自定义的类加载逻辑写在findClass()方法中；</li>
@@ -727,7 +731,7 @@
 　　Java虚拟机对class文件采用的是按需加载的方式，也就是说当需要使用该类时才会将它的class文件加载到内存生成class对象。而且加载某个类的class文件时，Java虚拟机采用的是双亲委派模式，即把请求交由父类处理，它是一种任务委派模式。
 
 <div>
-    　　<strong>工作原理：</strong>
+    <h5>　　工作原理：</h5>
     <ol>
         <li>如果一个类加载器收到了类加载请求，它并不会自己先去加载，而是把这个请求委托给父类的加载器去执行；</li>
         <li>如果父类加载器还存在其父类加载器，则进一步向上委托，依次递归，请求最终将到达顶层的启动类加载器；</li>
@@ -738,7 +742,7 @@
 　　![avatar](./pictures/2classloader/2-6.png)
 
 <div>
-    　　<strong>优势</strong>
+    <h5>　　优势</h5>
     <ol>
         <li>避免类的重复加载；</li>
         <li>保护程序安全，防止核心API被随意篡改 ；
@@ -759,7 +763,7 @@
 　　如何判断两个class对象是否相同？
 
 <div>
-    　　<strong>在JVM中表示两个class对象是否为同一个类存在两个必要条件：</strong>
+    <h5>　　在JVM中表示两个class对象是否为同一个类存在两个必要条件：</h5>
     <ol>
         <li>类的完整类名必须一致，包括包名；</li>
         <li>加载这个类的ClassLoader(指ClassLoader实例对象)必须相同。</li>
@@ -771,7 +775,7 @@
 　　JVM必须知道一个类型是由启动加载器加载的还是由用户类加载器加载的。如果一个类型是由用户类加载器加载的，那么JVM会将这个类加载器的一个引用作为类型信息的一部分保存在方法区中。当解析一个类型到另一个类型的引用的时候，JVM需要保证这两个类型的类加载器是相同的。
 
 <div>
-    　　<strong>类的主动使用和被动使用</strong>
+    <h5>　　类的主动使用和被动使用</h5>
     <ul>
         <li>
             主动使用，又分为七种情况：
@@ -804,7 +808,7 @@
 　　每个JVM只有一个Runtime实例。即为运行时环境，相当于内存结构的中间的那个框框：运行时环境，可以获取JVM的堆内存大小等参数。
 
 <div>
-    　　<strong>经典运行时内存区包含以下部分，其中heap、method Area是所有线程数据共享的，线程中的栈、本地方法栈、程序计数器是不共享的。</strong>
+    <h5>　　经典运行时内存区包含以下部分，其中heap、method Area是所有线程数据共享的，线程中的栈、本地方法栈、程序计数器是不共享的。</h5>
     <ol>
         <li>栈区
             <ul>
@@ -867,7 +871,7 @@
 
 　　如果你使用console或者是任何一个调试工具，都能看到在后台有许多线程在运行。这些后台线程不包括调用public static void main(String[] args)的main线程以及所有这个main线程自己创建的线程。
 <div>
-    　　<strong>这些主要的后台系统线程在Hotspot JVM里主要是以下几个：</strong>
+    <h5>　　这些主要的后台系统线程在Hotspot JVM里主要是以下几个：</h5>
     <ol>
         <li>虚拟机线程：这种线程的操作是需要JVM达到安全点才会出现。这些操作必须在不同的线程中发生的原因是他们都需要JVM达到安全点，这样堆才不会变化。这种线程的执行类型包括"stop-the-world"的垃圾收集，线程栈收集，线程挂起以及偏向锁撤销；</li>
         <li>周期任务线程：这种线程是时间周期事件的体现(比如中断)，他们一般用于周期性操作的调度执行；</li>
@@ -921,7 +925,7 @@
 
 　　![avatar](./pictures/4jvmStack/4-6.png)
 <div>
-    　　<strong>LocalVariableTable是局部变量表：</strong>
+    <h5>　　LocalVariableTable是局部变量表：</h5>
     <ol>
         <li>Start：表示此变量从字节码指令的哪一行生效；</li>
         <li>Length：表示此变量的生效范围，即作用域范围；Length + Start就是方法的长度。</li>
@@ -984,7 +988,7 @@
 ### 4.2.3 栈帧的内部结构
 
 <div>
-    　　<strong>每个栈帧中存储着：</strong>
+    <h5>　　每个栈帧中存储着：</h5>
     <ol>
         <li>局部变量表(Local Variables)</li>
         <li>操作数栈(operand Stack)(或表达式栈)</li>
@@ -999,7 +1003,7 @@
 ## 4.3 局部变量表(Local Variables)
 
 <div>
-    　　<strong>局部变量表也被称之为局部变量数组或本地变量表</strong>
+    <h5>　　局部变量表也被称之为局部变量数组或本地变量表</h5>
     <ol>
         <li>定义为一个数字数组，主要用于存储方法参数和定义在方法体内的局部变量，这些数据类型包括各类基本数据类型、对象引用(reference)，以及returnAddress类型； </li>
         <li>由于局部变量表是建立在线程的栈上，是线程的私有数据，因此不存在数据安全问题；</li>
@@ -1109,14 +1113,14 @@
 　　**静态方法、私有方法、final方法、实例构造器、父类方法**都是非虚方法，即不能**被重写的方法**和**子类调用的父类的方法(java单继承，只要调用父类的方法，只有确定的1个父类方法被调用)**。其他方法称为虚方法。
 
 <div>
-    　　<strong>虚拟机中提供了以下几条方法调用指令：</strong>
+    <h5>　　虚拟机中提供了以下几条方法调用指令：</h5>
     <ol>
         <li>invokestatic：调用静态方法，解析阶段确定唯一方法版本；</li>
         <li>invokespecial：调用init方法(即构造器)、私有及父类方法，解析阶段确定唯一方法版本；</li>
         <li>invokevirtual：调用所有虚方法；</li>
         <li>invokeinterface：调用接口方法。</li>
     </ol>
-    　　<strong>动态调用指令：</strong>
+    <h5>　　动态调用指令：</h5>
     <ol>
         <li>invokedynamic：动态解析出需要调用的方法，然后执行</li>
     </ol>
@@ -1166,7 +1170,7 @@
 　　无论通过哪种方式退出，在方法退出后都返回到该方法被调用的位置。方法正常退出时，调用者的pc计数器的值作为返回地址，即调用该方法的指令的下一条指令的地址。而通过异常退出的，返回地址是要通过异常表来确定，栈帧中一般不会保存这部分信息。
 
 <div>
-    　　<strong>当一个方法开始执行后，只有两种方式可以退出这个方法</strong>
+    <h5>　　当一个方法开始执行后，只有两种方式可以退出这个方法</h5>
     <ul>
         <li>执行引擎遇到任意一个方法返回的字节码指令(return)，会有返回值传递给上层的方法调用者，简称正常完成出口；一个方法在正常调用完成之后，究竟需要使用哪一个返回指令，还需要根据方法返回值的实际数据类型而定。在字节码指令中，返回指令包含ireturn(当返回值是boolean，byte，char，short和int类型时使用)，lreturn(Long类型)，freturn(Float类型)，dreturn(Double类型)，areturn。另外还有一个return指令声明为void的方法，实例初始化方法，类和接口的初始化方法使用。</li>
         <li>在方法执行过程中遇到异常(Exception)，并且这个异常没有在方法内进行处理，也就是只要在本方法的异常表中没有搜索到匹配的异常处理器，就会导致方法退出，简称异常完成出口。</li>
@@ -1244,7 +1248,7 @@
 　　![avatar](pictures/5LocalMethodInterface/5-2.png)
 
 <div>
-    　　<strong>当某个线程调用一个本地方法时，它就进入了一个全新的并且不再受虚拟机限制的世界。它和虚拟机拥有同样的权限。</strong>
+    <h5>　　当某个线程调用一个本地方法时，它就进入了一个全新的并且不再受虚拟机限制的世界。它和虚拟机拥有同样的权限。</h5>
     <ul>
         <li>本地方法可以通过本地方法接口来访问虚拟机内部的运行时数据区。</li>
         <li>它甚至可以直接使用本地处理器中的寄存器</li>
@@ -1262,7 +1266,7 @@
 　　堆针对一个JVM进程来说是唯一的，也就是一个进程只有一个JVM，但是进程包含多个线程，他们是共享同一堆空间的。
 　　![avatar](pictures/6heap/6-1.png)
 <div>
-    　　<strong>堆的核心概述：</strong>
+    <h5>　　堆的核心概述：</h5>
     <ol>
         <li>Java堆区在JVM启动的时候即被创建，其空间大小也就确定了(可以设置空间大小)。是JVM管理的最大一块内存空间；</li>
         <li>一个JVM实例只存在一个堆内存，堆也是Java内存管理的核心区域；</li>
@@ -1278,7 +1282,7 @@
 
 <div>
     <div>
-        　　<strong>Java 7及之前堆内存逻辑上分为三部分：新生区+养老区+永久区</strong>
+        <h5>　　Java 7及之前堆内存逻辑上分为三部分：新生区+养老区+永久区</h5>
         <ol>
             <li>Young Generation Space 新生区 Young/New 又被划分为Eden区和Survivor区</li>
             <li>Tenure generation space 养老区 Old/Tenure</li>
@@ -1287,7 +1291,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>Java 8及之后堆内存逻辑上分为三部分：新生区+养老区+元空间</strong>
+        <h5>　　Java 8及之后堆内存逻辑上分为三部分：新生区+养老区+元空间</h5>
         <ol>
             <li>Young Generation Space 新生区 Young/New 又被划分为Eden区和Survivor区</li>
             <li>Tenure generation space 养老区 Old/Tenure</li>
@@ -1338,7 +1342,7 @@
 ## 6.3 年轻代与老年代
 
 <div>
-    　　<strong>存储在JVM中的Java对象可以被划分为两类：</strong>
+    <h5>　　存储在JVM中的Java对象可以被划分为两类：</h5>
     <ol>
         <li>一类是生命周期较短的瞬时对象，这类对象的创建和消亡都非常迅速；</li>
         <li>另外一类对象的生命周期却非常长，在某些极端的情况下还能够与JVM的生命周期保持一致。</li>
@@ -1370,7 +1374,7 @@
 
 　　为新对象分配内存是一件非常严谨和复杂的任务，JVM的设计者们不仅需要考虑内存如何分配、在哪里分配等问题，并且由于内存分配算法与内存回收算法密切相关，所以还需要考虑GC执行完内存回收后是否会在内存空间中产生内存碎片。
 <div>
-    　　<strong>new对象过程</strong>
+    <h5>　　new对象过程</h5>
     <ol>
         <li>new的对象先放伊甸园区。此区有大小限制；</li>
         <li>当伊甸园的空间填满时，程序又需要创建对象，JVM的垃圾回收器将对伊甸园区进行垃圾回收(MinorGC)，将伊甸园区中的不再被其他对象所引用的对象进行销毁。再加载新的对象放到伊甸园区；</li>
@@ -1385,7 +1389,7 @@
 　　![avatar](pictures/6heap/6-6.png)
 <div>
     <div>
-        　　<strong>一些特殊说明如下remain()表示剩余空间大小、size表示new对象的大小、max()表示这个区域的大小、into()表示进入到某个区的大小：</strong>
+        <h5>　　一些特殊说明如下remain()表示剩余空间大小、size表示new对象的大小、max()表示这个区域的大小、into()表示进入到某个区的大小：</h5>
         <ol>
             <li>触发YGC的条件：此次new对象时，remain(Eden) < size(new) < max(S)；</li>
             <li>触发FGC的条件：remain(Old) < into(Old)；</li>
@@ -1395,7 +1399,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>总结</strong>
+        <h5>　　总结</h5>
         <ol>
             <li>针对幸存者s0，s1区的总结：复制之后有交换，谁空谁是to；</li>
             <li>关于垃圾回收：频繁在新生区收集，很少在老年代收集，几乎不再永久代和元空间进行收集；</li>
@@ -1405,7 +1409,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>常用调优工具(在JVM下篇：性能监控与调优篇会详细介绍)</strong>
+        <h5>　　常用调优工具(在JVM下篇：性能监控与调优篇会详细介绍)</h5>
         <ul>
             <li>JDK命令行</li>
             <li>Eclipse:Memory Analyzer Tool</li>
@@ -1424,7 +1428,7 @@
 
 　　JVM在进行GC时，并非每次都对上面三个内存区域一起回收的，大部分时候回收的都是指新生代。
 <div>
-    　　<strong>针对Hotspot VM的实现，它里面的GC按照回收区域又分为两大种类型：一种是部分收集(Partial GC)，一种是整堆收集(FullGC):</strong>
+    <h5>　　针对Hotspot VM的实现，它里面的GC按照回收区域又分为两大种类型：一种是部分收集(Partial GC)，一种是整堆收集(FullGC):</h5>
     <ul>
         <li>
             部分收集：不是完整收集整个Java堆的垃圾收集。其中又分为：
@@ -1447,7 +1451,7 @@
 ### 6.5.1 最简单的分代式GC策略的触发条件
 
 <div>
-    　　<strong>年轻代GC(Minor GC)触发机制</strong>
+    <h5>　　年轻代GC(Minor GC)触发机制</h5>
     <ol>
         <li>当年轻代空间不足时，就会触发MinorGC，这里的年轻代满指的是Eden代满，Survivor满不会引发GC。(每次Minor GC会清理年轻代的内存。) </li>
         <li>因为Java对象大多都具备朝生夕灭的特性.，所以Minor GC非常频繁，一般回收速度也比较快。这一定义既清晰又易于理解。 </li>
@@ -1458,7 +1462,7 @@
 　　![avatar](pictures/6heap/6-7.png)
 <div>
     <div>
-        　　<strong>老年代GC(Major GC / Full GC)触发机制</strong>
+        <h5>　　老年代GC(Major GC / Full GC)触发机制</h5>
         <ol>
             <li>指发生在老年代的GC，对象从老年代消失时，我们说"Major GC"或"Full GC"发生了； </li>
             <li>出现了Major Gc，经常会伴随至少一次的Minor GC(但非绝对的，在Paralle1 Scavenge收集器的收集策略里就有直接进行MajorGC的策略选择过程)；也就是在老年代空间不足时，会先尝试触发Minor Gc。如果之后空间还不足，则触发Major GC；</li>
@@ -1468,7 +1472,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>Full GC触发机制(后面细讲)：</strong>
+        <h5>　　Full GC触发机制(后面细讲)：</h5>
         <ol>
             <li>调用System.gc()时，系统建议执行Full GC，但是不必然执行；</li>
             <li>老年代空间不足；</li>
@@ -1498,7 +1502,7 @@
 　　如果对象在Eden出生并经过第一次Minor GC后仍然存活，并且能被Survivor容纳的话，将被移动到survivor空间中，并将对象年龄设为1。对象在survivor区中每熬过一次MinorGC，年龄就增加1岁，当它的年龄增加到一定程度(默认为15岁，其实每个JVM、每个GC都有所不同)时，就会被晋升到老年代
 　　对象晋升老年代的年龄阀值，可以通过选项-XX:MaxTenuringThreshold来设置
 <div>
-    　　<strong>针对不同年龄段的对象分配原则如下所示：</strong>
+    <h5>　　针对不同年龄段的对象分配原则如下所示：</h5>
     <ul>
         <li>优先分配到Eden</li>
         <li>大对象直接分配到老年代(尽量避免程序中出现过多的大对象)</li>
@@ -1560,7 +1564,7 @@
 ### 6.9.2 逃逸分析：代码优化
 
 <div>
-    　　<strong>使用逃逸分析，编译器可以对代码做如下优化：</strong>
+    <h5>　　使用逃逸分析，编译器可以对代码做如下优化：</h5>
     <ol>
         <li>栈上分配：将堆分配转化为栈分配。如果一个对象在子程序中被分配，要使指向该对象的指针永远不会发生逃逸，对象可能是栈上分配的候选，而不是堆上分配</li>
         <li>同步省略：如果一个对象被发现只有一个线程被访问到，那么对于这个对象的操作可以不考虑同步。</li>
@@ -1586,8 +1590,8 @@
 　　参数-XX:EliminateAllocations：开启了标量替换(默认打开)，允许将对象打散分配到栈上。
 
 <div>
-    　　<strong>-server -Xmx100m -Xms100m -XX:+DoEscapeAnalysis -XX:+PrintGC -XX:+EliminateAllocations</strong>
-    　　<strong>这里设置参数如下：</strong>
+    <h5>　　-server -Xmx100m -Xms100m -XX:+DoEscapeAnalysis -XX:+PrintGC -XX:+EliminateAllocations</h5>
+    <h5>　　这里设置参数如下：</h5>
     <ol>
         <li>参数-server：启动Server模式，因为在server模式下，才可以启用逃逸分析；</li>
         <li>参数-XX:+DoEscapeAnalysis：启用逃逸分析；</li>
@@ -1658,7 +1662,7 @@
 　　方法区的大小不必是固定的，JVM可以根据应用的需要动态调整。
 <div>
     <div>
-        　　<strong>jdk7及以前</strong>
+        <h5>　　jdk7及以前</h5>
         <ul>
             <li>通过来设置永久代初始分配空间。默认值是20.75M -XX:Permsize</li>
             <li>通过来设定永久代最大可分配空间。32位机器默认是64M，64位机器模式是82M -XX:MaxPermsize</li>
@@ -1667,7 +1671,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>JDK8以后</strong>
+        <h5>　　JDK8以后</h5>
         <ul>
             <li>元数据区大小可以使用参数 -XX:MetaspaceSize 和 -XX:MaxMetaspaceSize指定</li>
             <li>默认值依赖于平台。windows下，-XX:MetaspaceSize=21M -XX:MaxMetaspaceSize=-1//即没有限制。</li>
@@ -1700,7 +1704,7 @@
 
 <div>
     <div>
-        　　<strong>类型信息，对每个加载的类型(类class、接口interface、枚举enum、注解annotation)，JVM必须在方法区中存储以下类型信息：</strong>
+        <h5>　　类型信息，对每个加载的类型(类class、接口interface、枚举enum、注解annotation)，JVM必须在方法区中存储以下类型信息：</h5>
         <ol>
             <li>这个类型的完整有效名称(全名=包名.类名)；</li>
             <li>这个类型直接父类的完整有效名(对于interface或是java.lang.object，这二者没有父类)；</li>
@@ -1710,14 +1714,14 @@
     </div>
 	<br/>
     <div>
-        　　<strong>域(Field)信息</strong>
+        <h5>　　域(Field)信息</h5>
         <ol>
             <li>JVM必须在方法区中保存类型的所有域的相关信息以及域的声明顺序。域的相关信息包括：域名称、域类型、域修饰符(public，private，protected，static，final，volatile，transient的某个子集)</li>
         </ol>
     </div>
 	<br/>
     <div>
-        　　<strong>方法(Method)信息，JVM必须保存所有方法的以下信息，同域信息一样包括声明顺序：</strong>
+        <h5>　　方法(Method)信息，JVM必须保存所有方法的以下信息，同域信息一样包括声明顺序：</h5>
         <ol>
             <li>方法名称；</li>
             <li>方法的返回类型(或void)；</li>
@@ -1729,7 +1733,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>non-final的类变量</strong>
+        <h5>　　non-final的类变量</h5>
         <ol>
             <li>静态变量(类变量)和类关联在一起，随着类的加载而加载，他们成为类数据在逻辑上的一部分；</li>
             <li>类变量被类的所有实例共享，即使没有类实例时，你也可以访问它</li>
@@ -1737,7 +1741,7 @@
     </div>
 	<br/>
     <div>
-        　　<strong>补充说明：全局常量(static final)</strong>
+        <h5>　　补充说明：全局常量(static final)</h5>
         <ol>
             <li>被声明为final的类变量的处理方法则不同，每个全局常量在编译的时候就会被分配了。</li>
         </ol>
@@ -1766,7 +1770,7 @@
 
 　　**常量池中有什么?**
 <div>
-    　　<strong>常量池内存储的数据类型包括：</strong>
+    <h5>　　常量池内存储的数据类型包括：</h5>
     <ul>
         <li>数量值</li>
         <li>字符串值</li>
@@ -1869,7 +1873,7 @@ public class MethodAreaDemo {
 
 　　先来说说方法区内常量池之中主要存放的两大类常量：字面量和符号引用。字面量比较接近Java语言层次的常量概念，如文本字符串、被声明为final的常量值、8种基本类型等。
 <div>
-    　　<strong>符号引用则属于编译原理方面的概念，包括下面三类常量：</strong>
+    <h5>　　符号引用则属于编译原理方面的概念，包括下面三类常量：</h5>
     <ul>
         <li>类和接口的全限定名</li>
         <li>字段的名称和描述符</li>
@@ -1881,7 +1885,7 @@ public class MethodAreaDemo {
 　　回收废弃常量与回收Java堆中的对象非常类似。
 
 <div>
-    　　<strong>判定一个常量是否"废弃"还是相对简单，而要判定一个类型是否属于"不再被使用的类"的条件就比较苛刻了。需要同时满足下面三个条件：</strong>
+    <h5>　　判定一个常量是否"废弃"还是相对简单，而要判定一个类型是否属于"不再被使用的类"的条件就比较苛刻了。需要同时满足下面三个条件：</h5>
     <ul>
         <li><strong>该类所有的实例都已经被回收</strong>，也就是Java堆中不存在该类及其任何派生子类的实例。 </li>
         <li><strong>加载该类的类加载器已经被回收</strong>，这个条件除非是经过精心设计的可替换类加载器的场景，如OSGi、JSP的重加载等，否则通常是很难达成的。 </li>
@@ -1984,14 +1988,14 @@ public class MethodAreaDemo {
             <strong>执行init方法进行初始化</strong><br/>
             　　在Java程序的视角看来，初始化才正式开始。初始化成员变量，执行实例化代码块，调用类的构造方法，并把堆内对象的首地址赋值给引用变量。<br/>
             　　因此一般来说(由字节码中跟随invokespecial指令所决定)，new指令之后会接着就是执行方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象才算完成创建出来。<br/>
-            　　<strong>给对象属性赋值的操作</strong>
+            <h5>　　给对象属性赋值的操作</h5>
             <ul>
                 <li>属性的默认初始化</li>
                 <li>显式初始化</li>
                 <li>代码块中初始化</li>
                 <li>构造器中初始化</li>
             </ul>
-            　　<strong>对象实例化的过程</strong>
+            <h5>　　对象实例化的过程</h5>
             <ol>
                 <li>加载类元信息；</li>
                 <li>为对象分配内存；</li>
@@ -2013,7 +2017,7 @@ public class MethodAreaDemo {
 　　对象头包含了两部分，分别是运行时元数据(Mark Word)和类型指针。如果是数组，还需要记录数组的长度。
 <div>
     <div>
-        　　<strong>运行时元数据</strong>
+        <h5>　　运行时元数据</h5>
         <ol>
             <li>哈希值(HashCode)</li>
             <li>GC分代年龄</li>
@@ -2025,7 +2029,7 @@ public class MethodAreaDemo {
     </div>
 	<br/>
     <div>
-        　　<strong>类型指针</strong>
+        <h5>　　类型指针</h5>
         <ul>
             <li>指向类元数据InstanceKlass，确定该对象所属的类型。</li>
         </ul>
@@ -2035,7 +2039,7 @@ public class MethodAreaDemo {
 ### 8.2.2 实例数据(Instance Data)
 
 <div>
-    　　<strong>它是对象真正存储的有效信息，包括程序代码中定义的各种类型的字段(包括从父类继承下来的和本身拥有的字段)：</strong>
+    <h5>　　它是对象真正存储的有效信息，包括程序代码中定义的各种类型的字段(包括从父类继承下来的和本身拥有的字段)：</h5>
     <ol>
         <li>相同宽度的字段总是被分配在一起；</li>
         <li>父类中定义的变量会出现在子类之前；</li>
@@ -2219,7 +2223,7 @@ public class CustomerTest{
 
 <div>
     <div>
-        　　<strong>在Java的发展历史里，一共有两套解释执行器，即古老的字节码解释器、现在普遍使用的模板解释器：</strong>
+        <h5>　　在Java的发展历史里，一共有两套解释执行器，即古老的字节码解释器、现在普遍使用的模板解释器：</h5>
         <ol>
             <li>字节码解释器在执行时通过纯软件代码模拟字节码的执行，效率非常低下。</li>
             <li>而模板解释器将每一条字节码和一个模板函数相关联，模板函数中直接产生这条字节码执行时的机器码，从而很大程度上提高了解释器的性能。</li>
@@ -2227,7 +2231,7 @@ public class CustomerTest{
     </div>
 	<br/>
     <div>
-        　　<strong>在HotSpot VM中，解释器主要由Interpreter模块和Code模块构成。</strong>
+        <h5>　　在HotSpot VM中，解释器主要由Interpreter模块和Code模块构成。</h5>
         <ol>
             <li>Interpreter模块：实现了解释器的核心功能；</li>
             <li>Code模块：用于管理HotSpot VM在运行时生成的本地机器指令。</li>
@@ -2286,7 +2290,7 @@ public class CustomerTest{
 　　目前HotSpot VM所采用的热点探测方式是基于计数器的热点探测。
 　　采用基于计数器的热点探测，HotSpot VM将会为每一个方法都建立2个不同类型的计数器，分别为方法调用计数器(Invocation Counter)和回边计数器(Back Edge Counter)。
 <div>
-    　　<strong>方法调用计数器(Invocation Counter)和回边计数器(Back Edge Counter)</strong>
+    <h5>　　方法调用计数器(Invocation Counter)和回边计数器(Back Edge Counter)</h5>
     <ol>
         <li>方法调用计数器用于统计方法的调用次数</li>
         <li>回边计数器则用于统计循环体执行的循环次数</li>
@@ -2312,7 +2316,7 @@ public class CustomerTest{
 
 　　缺省情况下HotSpot VM是采用解释器与即时编译器并存的架构，当然开发人员可以根据具体的应用场景，通过命令显式地为Java虚拟机指定在运行时到底是完全采用解释器执行，还是完全采用即时编译器执行。如下所示：
 <div>
-    　　<strong>执行方法设置</strong>
+    <h5>　　执行方法设置</h5>
     <ol>
         <li>-Xint：完全采用解释器模式执行程序；</li>
         <li>-Xcomp：完全采用即时编译器模式执行程序。如果即时编译出现问题，解释器会介入执行；</li>
@@ -2323,7 +2327,7 @@ public class CustomerTest{
 ### 9.5.6 HotSpotVM中 JIT 分类
 　　JIT的编译器还分为了两种，分别是C1和C2，在HotSpot VM中内嵌有两个JIT编译器，分别为Client Compiler和Server Compiler，但大多数情况下我们简称为C1编译器 和 C2编译器。开发人员可以通过如下命令显式指定Java虚拟机在运行时到底使用哪一种即时编译器，如下所示：
 <div>
-    　　<strong>指定Java虚拟机在运行时到底使用哪一种即时编译器</strong>
+    <h5>　　指定Java虚拟机在运行时到底使用哪一种即时编译器</h5>
     <ol>
         <li>-client：指定Java虚拟机运行在Client模式下，并使用C1编译器；C1编译器会对字节码进行简单和可靠的优化，耗时短，以达到更快的编译速度。</li>
         <li>-server：指定Java虚拟机运行在server模式下，并使用C2编译器。C2进行耗时较长的优化，以及激进优化，但优化的代码执行效率更高。</li>
@@ -2335,11 +2339,11 @@ public class CustomerTest{
 
 <div>
     <div>
-        　　<strong>C1 和 C2编译器不同的优化策略</strong>
+        <h5>　　C1 和 C2编译器不同的优化策略</h5>
     </div>
 	<br/>
     <div>
-        　　<strong>在不同的编译器上有不同的优化策略，C1编译器上主要有方法内联、去虚拟化、冗余消除：</strong>
+        <h5>　　在不同的编译器上有不同的优化策略，C1编译器上主要有方法内联、去虚拟化、冗余消除：</h5>
         <ol>
             <li>方法内联：将引用的函数代码编译到引用点处，这样可以减少栈帧的生成，减少参数传递以及跳转过程；</li>
             <li>去虚拟化：对唯一的实现类进行内联；</li>
@@ -2348,7 +2352,7 @@ public class CustomerTest{
     </div>
 	<br/>
     <div>
-        　　<strong>C2的优化主要是在全局层面，逃逸分析(前面讲过，并不成熟)是优化的基础。基于逃逸分析在C2上有如下几种优化：</strong>
+        <h5>　　C2的优化主要是在全局层面，逃逸分析(前面讲过，并不成熟)是优化的基础。基于逃逸分析在C2上有如下几种优化：</h5>
         <ol>
             <li>标量替换：用标量值代替聚合对象的属性值；</li>
             <li>栈上分配：对于未逃逸的对象分配对象在栈而不是堆；</li>
@@ -2357,14 +2361,14 @@ public class CustomerTest{
     </div>
 	<br/>
     <div>
-        　　<strong>总结</strong><br/>
+        <h5>　　总结</h5><br/>
         　　一般来讲，JIT编译出来的机器码性能比解释器高。C2编译器启动时长比C1慢，系统稳定执行以后，C2编译器执行速度远快于C1编译器
     </div>
 </div>
 
 <div>
     <div>
-        　　<strong>写到最后1</strong>
+        <h5>　　写到最后1</h5>
         <ol>
             <li>自JDK10起，HotSpot又加入了一个全新的及时编译器：Graal编译器；</li>
             <li>编译效果短短几年时间就追评了C2编译器，未来可期；</li>
@@ -2373,7 +2377,7 @@ public class CustomerTest{
     </div>
 	<br/>
     <div>
-        　　<strong>写到最后2：AOT编译器</strong><br/>
+        <h5>　　写到最后2：AOT编译器</h5><br/>
         　　jdk9引入了AOT编译器(静态提前编译器，Ahead of Time Compiler)<br/>
         　　Java 9引入了实验性AOT编译工具jaotc。它借助了Graal编译器，将所输入的Java类文件转换为机器码，并存放至生成的动态共享库之中。<br/>
         　　所谓AOT编译，是与即时编译相对立的一个概念。我们知道，即时编译指的是在程序的运行过程中，将字节码转换为可在硬件上直接运行的机器码，并部署至托管环境中的过程。而AOT编译指的则是，在程序运行之前，便将字节码转换为机器码的过程。<br/>
@@ -2381,7 +2385,7 @@ public class CustomerTest{
     </div>
 	<br/>
     <div>
-        　　<strong>缺点：</strong>
+        <h5>　　缺点：</h5>
         <ol>
             <li>破坏了java"一次编译，到处运行"的理念，必须为每个不同的硬件，OS编译对应的发行包；</li>
             <li>降低了Java链接过程的动态性，加载的代码在编译器就必须全部已知。；</li>
@@ -2416,7 +2420,7 @@ public class CustomerTest{
 ### 10.1.2 String的基本特性
 
 <div>
-    　　<strong>String：代表不可变的字符序列。简称：不可变性。</strong>
+    <h5>　　String：代表不可变的字符序列。简称：不可变性。</h5>
     <ul>
         <li>当对字符串重新赋值时，需要重写指定内存区域赋值，不能使用原有的value进行赋值；</li>
         <li>当对现有的字符串进行连接操作时，也需要重新指定内存区域赋值，不能使用原有的value进行赋值；</li>
@@ -2429,7 +2433,7 @@ public class CustomerTest{
 　　String的String Pool是一个固定大小的Hashtable，默认值大小长度是1009。如果放进String Pool的String非常多，就会造成Hash冲突严重，从而导致链表会很长，而链表长了后直接会造成的影响就是当调用String.intern时性能会大幅下降。
 
 <div>
-    　　<strong>使用-XX:StringTablesize可设置StringTable的长度</strong>
+    <h5>　　使用-XX:StringTablesize可设置StringTable的长度</h5>
     <ul>
         <li>在jdk6中StringTable是固定的，就是1009的长度，所以如果常量池中的字符串过多就会导致效率下降很快。StringTablesize设置没有要求 </li>
         <li>在jdk7中，StringTable的长度默认值是60013，StringTablesize设置没有要求 </li>
@@ -2444,7 +2448,7 @@ public class CustomerTest{
 
 <div>
     <div>
-        　　<strong>String类型的常量池比较特殊。它的主要使用方法有两种：</strong>
+        <h5>　　String类型的常量池比较特殊。它的主要使用方法有两种：</h5>
         <ul>
             <li>直接使用双引号声明出来的String对象会直接存储在常量池中；</li>
             <li>如果不是用双引号声明的String对象，可以使用String提供的intern()方法。</li>
@@ -2452,11 +2456,11 @@ public class CustomerTest{
     </div>
 	<br/>
     <div>
-        　　<strong>Java 6及以前，字符串常量池存放在永久代。</strong><br/>
+        <h5>　　Java 6及以前，字符串常量池存放在永久代。</h5><br/>
     </div>
 	<br/>
     <div>
-        　　<strong>Java 7中 Oracle的工程师对字符串池的逻辑做了很大的改变，即将字符串常量池的位置调整到Java堆内：</strong>
+        <h5>　　Java 7中 Oracle的工程师对字符串池的逻辑做了很大的改变，即将字符串常量池的位置调整到Java堆内：</h5>
         <ul>
             <li>所有的字符串都保存在堆(Heap)中，和其他普通对象一样，这样可以让你在进行调优应用时仅需要调整堆大小就可以了；</li>
             <li>字符串常量池概念原本使用得比较多，但是这个改动使得我们有足够的理由让我们重新考虑在Java 7中使用String.intern()。</li>
@@ -2464,7 +2468,7 @@ public class CustomerTest{
     </div>
 	<br/>
     <div>
-        　　<strong>Java8元空间，字符串常量在堆。</strong><br/>
+        <h5>　　Java8元空间，字符串常量在堆。</h5><br/>
     </div>
 </div>
 
@@ -2560,7 +2564,7 @@ public class StringGCTest {
 　　注意这里说的重复，指的是在堆中的数据，而不是常量池中的，因为常量池中的本身就不会重复
 
 <div>
-    　　<strong>对许多Java应用(有大的也有小的)做的测试得出以下结果：</strong>
+    <h5>　　对许多Java应用(有大的也有小的)做的测试得出以下结果：</h5>
     <ul>
         <li>堆存活数据集合里面string对象占了25%；</li>
         <li>堆存活数据集合里面重复的string对象有13.5%；</li>
@@ -2673,7 +2677,7 @@ public class StringGCTest {
 　　![avatar](pictures/11GCAlgorithm/11-2.png)
 
 <div>
-    　　<strong>在Java语言中，GC Roots包括以下几类元素：</strong>
+    <h5>　　在Java语言中，GC Roots包括以下几类元素：</h5>
     <ol>
         <li>虚拟机栈中引用的对象：比如：各个线程被调用的方法中使用到的参数、局部变量等；</li>
         <li>本地方法栈内JNI(通常说的本地方法)引用的对象；</li>
@@ -2701,7 +2705,7 @@ public class StringGCTest {
 　　finalize() 方法允许在子类中被重写，用于在对象被回收时进行资源释放。通常在这个方法中进行一些资源释放和清理的工作，比如关闭文件、套接字和数据库连接等。
 
 <div>
-    　　<strong>永远不要主动调用某个对象的finalize()方法，应该交给垃圾回收机制调用。理由包括下面三点：</strong>
+    <h5>　　永远不要主动调用某个对象的finalize()方法，应该交给垃圾回收机制调用。理由包括下面三点：</h5>
     <ol>
         <li>在finalize()时可能会导致对象复活，例将此变量重新连接到一个GC ROOTS；</li>
         <li>finalize()方法的执行时间是没有保障的，它完全由GC线程决定，极端情况下，若不发生GC，则finalize()方法将没有执行机会。finalize()方法只会在Finalizer线程中被执行，此线程是在GC的时候会调用，所以执行时间没有保障。</li>
@@ -2716,7 +2720,7 @@ public class StringGCTest {
 　　如果从所有的根节点都无法访问到某个对象，说明对象己经不再使用了。一般来说，此对象需要被回收。但事实上，也并非是“非死不可”的，这时候它们暂时处于“缓刑”阶段。一个无法触及的对象有可能在某一个条件下“复活”自己，如果这样，那么对它的回收就是不合理的。
 <div>
     <div>
-        　　<strong>为此，定义虚拟机中的对象可能的三种状态。如下：</strong>
+        <h5>　　为此，定义虚拟机中的对象可能的三种状态。如下：</h5>
         <ol>
             <li>可触及的：从根节点开始，可以到达这个对象；</li>
             <li>可复活的：对象的所有引用都被释放，但是对象有可能在finalize()中复活；</li>
@@ -2726,8 +2730,8 @@ public class StringGCTest {
     </div>
 	<br/>
     <div>
-        　　<strong>具体过程</strong><br/>
-        　　<strong>判定一个对象objA是否可回收，至少要经历两次标记过程：</strong><br/>
+        <h5>　　具体过程</h5><br/>
+        <h5>　　判定一个对象objA是否可回收，至少要经历两次标记过程：</h5><br/>
         <ol>
             <li>如果对象objA到GC Roots没有引用链，则进行第一次标记。</li>
             <li>进行筛选，判断此对象是否有必要执行finalize()方法</li>
@@ -2772,7 +2776,7 @@ public class StringGCTest {
 　　目前在JVM中比较常见的三种垃圾收集算法是标记一清除算法(Mark-Sweep)、复制算法(copying)、标记-压缩算法(Mark-Compact)
 
 <div>
-    　　<strong>标记-清除算法(Mark-Sweep)</strong><br/>
+    <h5>　　标记-清除算法(Mark-Sweep)</h5><br/>
     　　标记-清除算法(Mark-Sweep)是一种非常基础和常见的垃圾收集算法，该算法被J.McCarthy等人在1960年提出并并应用于Lisp语言。<br/>
     <ul style="list-style-type: none;">
         <li>
@@ -2808,7 +2812,7 @@ public class StringGCTest {
 
 <div>
     <div>
-        　　<strong>优点</strong>
+        <h5>　　优点</h5>
         <ol>
             <li>没有标记和清除过程，实现简单，运行高效；</li>
             <li>复制过去以后保证空间的连续性，不会出现“碎片”问题。</li>
@@ -2816,14 +2820,14 @@ public class StringGCTest {
     </div>
 	<br/>
     <div>
-        　　<strong>缺点</strong>
+        <h5>　　缺点</h5>
         <ol>
             <li>此算法的缺点也是很明显的，就是需要两倍的内存空间；</li>
             <li>对于G1这种分拆成为大量region的GC，复制而不是移动，意味着GC需要维护region之间对象引用关系，不管是内存占用或者时间开销也不小。</li>
         </ol>
-        　　<strong>特别的</strong><br/>
+        <h5>　　特别的</h5><br/>
         　　如果系统中的非垃圾对象很多，复制就会很耗时。复制算法需要复制的存活对象数量不太大，或者说非常低才行。<br/>
-        　　<strong>应用场景</strong><br/>
+        <h5>　　应用场景</h5><br/>
         　　在新生代，对常规应用的垃圾回收，一次通常可以回收70% - 99% 的内存空间。回收性价比很高。所以现在的商业虚拟机都是用这种收集算法回收新生代。<br/>
     </div>
 </div>
@@ -2838,7 +2842,7 @@ public class StringGCTest {
 　　1970年前后，G.L.Steele、C.J.Chene和D.s.Wise等研究者发布标记-压缩算法。在许多现代的垃圾收集器中，人们都使用了标记-压缩算法或其改进版本。
 
 <div>
-    　　<strong>执行过程</strong>
+    <h5>　　执行过程</h5>
     <ol>
         <li>第一阶段和标记清除算法一样，从根节点开始标记所有被引用对象 </li>
         <li>第二阶段将所有的存活对象压缩到内存的一端，按顺序排放。 </li>
@@ -2856,7 +2860,7 @@ public class StringGCTest {
 
 <div>
     <div>
-        　　<strong>优点</strong>
+        <h5>　　优点</h5>
         <ol>
             <li>消除了标记-清除算法当中，内存区域分散的缺点，我们需要给新对象分配内存时，JVM只需要持有一个内存的起始地址即可；</li>
             <li>消除了复制算法当中，内存减半的高额代价。</li>
@@ -2864,7 +2868,7 @@ public class StringGCTest {
     </div>
 	<br/>
     <div>
-        　　<strong>缺点</strong>
+        <h5>　　缺点</h5>
         <ol>
             <li>从效率上来说，标记-整理算法要低于复制算法；</li>
             <li>移动对象的同时，如果对象被其他对象引用，则还需要调整引用的地址；</li>
@@ -2979,7 +2983,7 @@ public class StringGCTest {
 　　Stop-the-World，简称STW，指的是GC事件发生过程中，会产生应用程序的停顿。停顿产生时整个应用程序线程都会被暂停，没有任何响应，有点像卡死的感觉，这个停顿称为STW。
 
 <div>
-    　　<strong>可达性分析算法中枚举根节点（GC Roots）会导致所有Java执行线程停顿：</strong>
+    <h5>　　可达性分析算法中枚举根节点（GC Roots）会导致所有Java执行线程停顿：</h5>
     <ol>
         <li>分析工作必须在一个能确保一致性的快照中进行</li>
         <li>一致性指整个分析期间整个执行系统看起来像被冻结在某个时间点上</li>
@@ -3037,7 +3041,7 @@ public class StringGCTest {
 　　安全区域是指在一段代码片段中，对象的引用关系不会发生变化，在这个区域中的任何位置开始Gc都是安全的。我们也可以把Safe Region看做是被扩展了的Safepoint。
 
 <div>
-    　　<strong>实际执行时</strong>
+    <h5>　　实际执行时</h5>
     <ol>
         <li>当线程运行到Safe Region的代码时，首先标识已经进入了Safe Relgion，如果这段时间内发生GC，JVM会忽略标识为Safe Region状态的线程；</li>
         <li>当线程即将离开Safe Region时，会检查JVM是否已经完成GC，如果完成了，则继续运行，否则线程必须等待直到收到可以安全离开Safe Region的信号为止；</li>
@@ -3053,7 +3057,7 @@ public class StringGCTest {
 　　![avatar](pictures/12GCRelative/12-6.png)
 
 <div>
-    　　<strong>Reference子类中只有终结器引用是包内可见的，其他3种引用类型均为public，可以在应用程序中直接使用:</strong>
+    <h5>　　Reference子类中只有终结器引用是包内可见的，其他3种引用类型均为public，可以在应用程序中直接使用:</h5>
     <ol>
         <li>
             <strong>强引用（StrongReference）</strong>：最传统的“引用”的定义，是指在程序代码之中普遍存在的引用赋值，即类似“Object obj = new Object()”这种引用关系。无论任何情况下，只要强引用关系还存在，垃圾收集器就永远不会回收掉被引用的对象。
@@ -3078,7 +3082,7 @@ public class StringGCTest {
 　　相对的，软引用、弱引用和虚引用的对象是软可触及、弱可触及和虚可触及的，在一定条件下，都是可以被回收的。所以，强引用是造成Java内存泄漏的主要原因之一。
 
 <div>
-    　　<strong>强引用具备以下特点：</strong>
+    <h5>　　强引用具备以下特点：</h5>
     <ol>
         <li>强引用可以直接访问目标对象；</li>
         <li>强引用所指向的对象在任何时候都不会被系统回收，虚拟机宁愿抛出OOM异常，也不会回收强引用所指向对象；</li>
@@ -3325,7 +3329,7 @@ obj = null;
 　　在程序吞吐量优先的应用场景中，Parallel 收集器和Parallel Old收集器的组合，在Server模式下的内存回收性能很不错。在Java8中，默认是此垃圾收集器。
 
 <div>
-    　　<strong>参数配置</strong>
+    <h5>　　参数配置</h5>
     <ul>
         <li>-XX:+UseParallelGC 手动指定年轻代使用Parallel并行收集器执行内存回收任务。 </li>
         <li>
@@ -3377,7 +3381,7 @@ obj = null;
 　　![avatar](pictures/13GCRealization/13-11.png)
 
 <div>
-    　　<strong>CMS整个过程比之前的收集器要复杂，整个过程分为4个主要阶段，即初始标记阶段、并发标记阶段、重新标记阶段和并发清除阶段</strong>
+    <h5>　　CMS整个过程比之前的收集器要复杂，整个过程分为4个主要阶段，即初始标记阶段、并发标记阶段、重新标记阶段和并发清除阶段</h5>
     <ul>
         <li>初始标记（Initial-Mark）阶段：在这个阶段中，程序中所有的工作线程都将会因为“Stop-the-World”机制而出现短暂的暂停，这个阶段的主要任务仅仅只是标记出GCRoots能直接关联到的对象。一旦标记完成之后就会恢复之前被暂停的所有应用线程。由于直接关联对象比较小，所以这里的速度非常快。</li>
         <li>并发标记（Concurrent-Mark）阶段：从GC Roots的直接关联对象开始遍历整个对象图的过程，这个过程耗时较长但是不需要停顿用户线程，可以与垃圾收集线程一起并发运行。</li>
@@ -3435,7 +3439,7 @@ obj = null;
 　　HotSpot有这么多的垃圾回收器，那么如果有人问，Serial GC、Parallel GC、Concurrent Mark Sweep GC这三个Gc有什么不同呢？
 
 <div>
-    　　<strong>请记住以下口令：</strong>
+    <h5>　　请记住以下口令：</h5>
     <ul>
         <li>如果你想要最小化地使用内存和并行开销，请选Serial GC；</li>
         <li>如果你想要最大化应用程序的吞吐量，请选Parallel GC；</li>
@@ -3469,7 +3473,7 @@ obj = null;
 ### 13.7.1 G1回收器的特点（优势）
 
 <div>
-    　　<strong>与其他GC收集器相比，G1使用了全新的分区算法，其特点如下所示：</strong>
+    <h5>　　与其他GC收集器相比，G1使用了全新的分区算法，其特点如下所示：</h5>
     <ul>
         <li>
             并行与并发
@@ -3497,7 +3501,7 @@ obj = null;
 　　G1将内存划分为一个个的region。内存的回收是以region作为基本单位的。Region之间是复制算法，但整体上实际可看作是标记-压缩（Mark-Compact）算法，两种算法都可以避免内存碎片。这种特性有利于程序长时间运行，分配大对象时不会因为无法找到连续内存空间而提前触发下一次GC。尤其是当Java堆非常大的时候，G1的优势更加明显。
 
 <div>
-    　　<strong>可预测的停顿时间模型（即：软实时soft real-time）</strong><br/>
+    <h5>　　可预测的停顿时间模型（即：软实时soft real-time）</h5><br/>
     　　这是G1相对于CMS的另一大优势，G1除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者明确指定在一个长度为M毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒：<br/>
     <ul>
         <li>由于分区的原因，G1可以只选取部分区域进行内存回收，这样缩小了回收的范围，因此对于全局停顿情况的发生也能得到较好的控制。</li>
@@ -3523,7 +3527,7 @@ obj = null;
 ### 13.7.4 G1收集器的常见操作步骤
 
 <div>
-    　　<strong>G1的设计原则就是简化JVM性能调优，开发人员只需要简单的三步即可完成调优：</strong>
+    <h5>　　G1的设计原则就是简化JVM性能调优，开发人员只需要简单的三步即可完成调优：</h5>
     <ol>
         <li>第一步：开启G1垃圾收集器；</li>
         <li>第二步：设置堆的最大内存；</li>
@@ -3539,7 +3543,7 @@ obj = null;
 　　最主要的应用是需要低GC延迟，并具有大堆的应用程序提供解决方案；如：在堆大小约6GB或更大时，可预测的暂停时间可以低于0.5秒；（G1通过每次只清理一部分而不是全部的Region的增量式清理来保证每次GC停顿时间不会过长）。
 
 <div>
-    　　<strong>用来替换掉JDK1.5中的CMS收集器；在下面的情况时，使用G1可能比CMS好：</strong>
+    <h5>　　用来替换掉JDK1.5中的CMS收集器；在下面的情况时，使用G1可能比CMS好：</h5>
     <ul>
         <li>超过50%的Java堆被活动数据占用；</li>
         <li>对象分配频率或年代提升频率变化很大；</li>
@@ -3564,7 +3568,7 @@ obj = null;
 ### 13.7.7 G1垃圾回收器的回收过程
 
 <div>
-    　　<strong>G1GC的垃圾回收过程主要包括如下三个环节：</strong>
+    <h5>　　G1GC的垃圾回收过程主要包括如下三个环节：</h5>
     <ul>
         <li>年轻代GC（Young GC） </li>
         <li>老年代并发标记过程（Concurrent Marking） </li>
@@ -3604,7 +3608,7 @@ obj = null;
 　　![avatar](pictures/13GCRealization/13-19.png)
 
 <div>
-    　　<strong>然后开始如下回收过程</strong>
+    <h5>　　然后开始如下回收过程</h5>
     <ol>
         <li>第一阶段，扫描根。根是指static变量指向的对象，正在执行的方法调用链条上的局部变量等。根引用连同RSet记录的外部引用作为扫描存活对象的入口。</li>
         <li>第二阶段，更新RSet。处理dirty card queue（见备注）中的card，更新RSet。此阶段完成后，RSet可以准确的反映老年代对所在的内存分段中对象的引用。</li>
@@ -3641,7 +3645,7 @@ obj = null;
 　　要避免Full GC的发生，一旦发生需要进行调整。什么时候会发生Full GC呢？比如堆内存太小，当G1在复制存活对象的时候没有空的内存分段可用，则会回退到Full GC，这种情况可以通过增大内存解决。
 
 <div>
-    　　<strong>导致G1 Full GC的原因可能有两个：</strong>
+    <h5>　　导致G1 Full GC的原因可能有两个：</h5>
     <ul>
         <li>Evacuation的时候没有足够的to-space来存放晋升的对象；</li>
         <li>并发处理过程完成之前空间耗尽。</li>
@@ -3709,7 +3713,7 @@ obj = null;
 
 <div>
     <div>
-        　　<strong>怎么选择垃圾收集器？</strong>
+        <h5>　　怎么选择垃圾收集器？</h5>
         <ol>
             <li>优先调整堆的大小让JVM自适应完成。 </li>
             <li>如果内存小于100M，使用串行收集器 </li>
@@ -3720,7 +3724,7 @@ obj = null;
     </div>
 	<br/>
     <div>
-        　　<strong>最后需要明确一个观点：</strong>
+        <h5>　　最后需要明确一个观点：</h5>
         <ol>
             <li>没有最好的收集器，更没有万能的收集</li>
             <li>调优永远是针对特定场景、特定需求，不存在一劳永逸的收集器</li>
@@ -3737,7 +3741,7 @@ obj = null;
 ## 13.9 GC日志分析
 
 <div>
-    　　<strong>通过阅读Gc日志，我们可以了解Java虚拟机内存分配与回收策略。 内存分配与垃圾回收的参数列表</strong>
+    <h5>　　通过阅读Gc日志，我们可以了解Java虚拟机内存分配与回收策略。 内存分配与垃圾回收的参数列表</h5>
     <ul>
         <li>-XX:+PrintGC 输出GC日志。类似：-verbose:gc</li>
         <li>-XX:+PrintGCDetails 输出GC的详细日志</li>
@@ -3757,7 +3761,7 @@ obj = null;
 ~~~
 
 <div>
-    　　<strong>参数解析</strong>
+    <h5>　　参数解析</h5>
     <ol>
         <li>GC、Full GC：GC的类型，GC只在新生代上进行，Full GC包括永生代，新生代，老年代。</li>
         <li>Allocation Failure：GC发生的原因。</li>
@@ -3778,7 +3782,7 @@ obj = null;
 ~~~
 
 <div>
-    　　<strong>参数解析</strong>
+    <h5>　　参数解析</h5>
     <ol>
         <li>GC，Full FC：同样是GC的类型</li>
         <li>Allocation Failure：GC原因</li>
@@ -3802,7 +3806,7 @@ obj = null;
 　　如果想把GC日志存到文件的话，是下面的参数：-Xloggc:/path/to/gc.log
 
 <div>
-    　　<strong>日志补充说明</strong>
+    <h5>　　日志补充说明</h5>
     <ul>
         <li>"[GC"和"[Full GC"说明了这次垃圾收集的停顿类型，如果有"Full"则说明GC发生了"Stop The World" </li>
         <li>使用Serial收集器在新生代的名字是Default New Generation，因此显示的是"[DefNew" </li>
@@ -3888,7 +3892,7 @@ public static void main(String[] args) {
 　　- 而吞吐量方面出现了明显的下降，总运行时间是所有测试收集器里最长的。
 
 <div>
-    　　<strong>总结</strong>
+    <h5>　　总结</h5>
     <ul>
         <li>Shenandoah GC的弱项：高运行负担下的吞吐量下降。</li>
         <li>Shenandoah GC的强项：低延迟时间。</li>
@@ -3934,7 +3938,7 @@ public static void main(String[] args) {
 ### 14.1.1 字节码文件的跨平台性
 
 <div>
-    　　<strong>Java语言：跨平台的语言</strong>
+    <h5>　　Java语言：跨平台的语言</h5>
     <ul>
         <li>当Java源代码成功编译成字节码后，如果想在不同的平台上面运行，则无须再次编译</li>
         <li>这个优势不再吸引人了。Python、PHP、Perl、Ruby、Lisp等都有强大的解释器；</li>
@@ -3946,13 +3950,13 @@ public static void main(String[] args) {
 　　Java虚拟机不和包括Java在内的任何语言绑定，它只与"class文件"这种特定的二进制文件格式所关联。无论使用何种语言进行软件开发，只要能将源文件编译为正确的Class文件，那么这种语言就可以在Java虚拟机上执行。可以说，统一而强大的Class文件结构就是Java虚拟机的基石。
 
 <div>
-    　　<strong>想要让一个Java程序正确地运行在JVM中，Java源码就必须要被编译为符合JVM规范的字节码</strong>
+    <h5>　　想要让一个Java程序正确地运行在JVM中，Java源码就必须要被编译为符合JVM规范的字节码</h5>
     <ul>
         <li>前端编译器的主要任务就是负责将符合Java语法规范的Java代码转换为符合JVM规范的字节码文件；</li>
         <li>javac是一种能够将Java源码编译为字节码的前端编译器</li>
         <li>javac编译器在将Java源码编译为一个有效的字节码文件过程中经历了4个步骤，分别是词法解析、语法解析、语义解析及生成字节码。</li>
     </ul>
-    　　<strong>Oracle的JDK软件包括2部分内容：</strong>
+    <h5>　　Oracle的JDK软件包括2部分内容：</h5>
     <ul>
         <li>一部分是将Java源代码编译成J萧萧虚拟机的指令的编译器；</li>
         <li>另一部分是用于实现Java虚拟机的运行时环境。</li>
@@ -4003,7 +4007,7 @@ public static void main(String[] args) {
         <p>　　Class文件格式：Class的结构不像XML等描述语言，由于它没有任何分隔符号。所以在其中的数据项，无论是字节顺序还是数量，都是被严格限定的，哪个字节代表什么含义，长度是多少，先后顺序如何，都不允许改变。</p>
     </div>
     <div>
-        　　<strong>Class文件格式采用一种类似于C语言结构休的方式进行数据存储，这种结构中只有2种数据类型：无符号数和表</strong>
+        <h5>　　Class文件格式采用一种类似于C语言结构休的方式进行数据存储，这种结构中只有2种数据类型：无符号数和表</h5>
         <ol>
             <li>无符号数属于基本的数据类型，以u1、u2、u4、u8来分别代表1 - 8个字节的无符号数，可以用来描述数字、索引引用、数量值或者按照UTF-8编译构成字符串值；</li>
             <li>表是由多个无符号数或者其它表作为数据项构成的复合数据类型，所有的表都习惯性地以"_info"结尾。表用于描述有层次关系的复合结构的数据，整个Class文件本质上就是一张表。由于表没有固定长度，所以通常会在其前面加上个数说明。</li>
@@ -4181,7 +4185,7 @@ public class Demo {
 ## 14.3 魔数
 
 <div>
-    　　<strong>Magic Number（魔数）</strong>
+    <h5>　　Magic Number（魔数）</h5>
     <ul>
         <li>每个Class文件开头的4个字节的无符号整数称为魔数（Magic Number）</li>
         <li>它的唯一作用是确定这个文件是否为一个能被虚拟机接受的有效合法的Class文件。即：魔数是Class文件的标识符。</li>
@@ -4241,7 +4245,7 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
 ### 14.5.1 常量池计数器
 
 <div>
-    　　<strong>constant_pool_count（常量池计数器）</strong>
+    <h5>　　constant_pool_count（常量池计数器）</h5>
     <ul>
         <li>由于常量池的数量不固定，时长时短，所以需要放置两个字节来表示常量池容量计数值。</li>
         <li>常量池容量计数值（u2类型）：从1开始，表示常量池中有多少项常量。即constant_pool_count=1表示常量池中有0个常量项。</li>
@@ -4334,7 +4338,7 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
 　　虚拟机在加载Class文件时才会进行动态链接，也就是说，Class文件中不会保存各个方法和字段的最终内存布局信息。因此，这些字段和方法的符号引用不经过转换是无法直接被虚拟机使用的。当虚拟机运行时，需要从常量池中获得对应的符号引用，再在类加载过程中的解析阶段将其替换为直接引用，并翻译到具体的内存地址中。
 
 <div>
-    　　<strong>符号引用和直接引用的区别与关联：</strong>
+    <h5>　　符号引用和直接引用的区别与关联：</h5>
     <ul>
         <li>符号引用：符号引用以一组符号来描述所引用的目标，符号可以是任何形式的字面量，只要使用时能无歧义地定位到目标即可。符号引用与虚拟机实现的内存布局无关，引用的目标并不一定已经加载到了内存中。</li>
         <li>直接引用：直接引用可以是直接指向目标的指针、相对偏移量或是一个能间接定位到目标的句柄。直接引用是与虚拟机实现的内存布局相关的，同一个符号引用在不同虚拟机实例上翻译出来的直接引用一般不会相同。如果有了直接引用，那说明引用的目标必定已经存在于内存之中了。</li>
@@ -4351,7 +4355,7 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
 　　标志为15、16、18的常量项类型是用来支持动态语言调用的（jdk1.7时才加入的）。
 
 <div>
-    　　<strong>细节说明:</strong>
+    <h5>　　细节说明:</h5>
     <ul>
         <li>CONSTANT_Class_info结构用于表示类或接口</li>
         <li>CONSTAT_Fieldref_info、CONSTAHT_Methodref_infoF和lCONSTANIT_InterfaceMethodref_info结构表示字段、方法和接口方法</li>
@@ -4375,7 +4379,7 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
 
 <div>
     <div>
-    　　<strong>总结1：</strong>
+    <h5>　　总结1：</h5>
         <ul>
             <li>这14种表（或者常量项结构）的共同点是：表开始的第一位是一个u1类型的标志位（tag），代表当前这个常量项使用的是哪种表结构，即哪种常量类型。</li>
             <li>在常量池列表中，CONSTANT_Utf8_info常量项是一种使用改进过的UTF-8编码格式来存储诸如文字字符串、类或者接口的全限定名、字段或者方法的简单名称以及描述符等常量字符串信息。</li>
@@ -4384,7 +4388,7 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
     </div>
     <hr/>
     <div>
-    　　<strong>总结2：</strong>
+    <h5>　　总结2：</h5>
         <ul>
             <li>常量池：可以理解为Class文件之中的资源仓库，它是Class文件结构中与其他项目关联最多的数据类型（后面的很多数据类型都会指向此处），也是占用Class文件空间最大的数据项目之一。</li>
             <li>常量池中为什么要包含这些内容？Java代码在进行Javac编译的时候，并不像C和C++那样有“连接”这一步骤，而是在虚拟机加载C1ass文件的时候进行动态链接。也就是说，在Class文件中不会保存各个方法、字段的最终内存布局信息，因此这些字段、方法的符号引用不经过运行期转换的话无法得到真正的内存入口地址，也就无法直接被虚拟机使用。当虚拟机运行时，需要从常量池获得对应的符号引用，再在类创建时或运行时解析、翻译到具体的内存地址之中。关于类的创建和动态链接的内容，在虚拟机类加载过程时再进行详细讲解</li>
@@ -4413,7 +4417,7 @@ Exception in thread "main" java.lang.ClassFormatError: Incompatible magic value 
 　　使用ACC_SUPER可以让类更准确地定位到父类的方法super.method()，现代编译器都会设置并且使用这个标记。
 
 <div>
-    　　<strong>补充说明：</strong>
+    <h5>　　补充说明：</h5>
     <ul>
         <li>
             带有ACC_INTERFACE标志的class文件表示的是接口而不是类，反之则表示的是类而不是接口。
@@ -4607,6 +4611,15 @@ ConstantValue_attribute{
 |ACC_PRIVATE|0x0002|private，方法只能本类访问|
 |ACC_PROTECTED|0x0004|protected，方法在自身和子类可以访问|
 |ACC_STATIC|0x0008|static，静态方法|
+|ACC_FINAL|0x0010|final，方法不能被重写(覆盖)|
+|ACC_SYNCHRONIZED|0x0020|synchronized，方法由管程同步|
+|ACC_BRIDGE|0x0040|bridge，方法由编译器产生|
+|ACC_VARARGS|0x0080|表示方法带有变长参数|
+|ACC_NATIVE|0x0100|native，表示引用非java语言的本地方法|
+|ACC_ABSTRACT|0x0400|abstract，方法没有具体实现|
+|ACC_STRICT|0x0800|strictfp，方法使用FP-strict浮点格式|
+|ACC_SYNTHETIC|0x1000|方法在源文件中不出现，由编译器产生|
+
 
 ## 14.10 属性表集合
 
@@ -6013,21 +6026,21 @@ public void sayHello() {
     <div>
         <h5>方法调用指令</h5>
         <ul>
-            <li>invokevirtual 运行时按照对象的类来调用实例方法</li>
-            <li>invokespecial 根据编译时类型来调用实例方法</li>
-            <li>invokestatic 调用类（静态）方法</li>
-            <li>invokcinterface 调用接口方法</li>
+            <li>invokevirtual：运行时按照对象的类来调用实例方法</li>
+            <li>invokespecial：根据编译时类型来调用实例方法</li>
+            <li>invokestatic：调用类（静态）方法</li>
+            <li>invokcinterface：调用接口方法</li>
         </ul>
     </div>
     <div>
         <h5>方法返回指令</h5>
         <ul>
-            <li>ireturn 从方法中返回int类型的数据</li>
-            <li>lreturn 从方法中返回long类型的数据</li>
-            <li>freturn 从方法中返回float类型的数据</li>
-            <li>dreturn 从方法中返回double类型的数据</li>
-            <li>areturn 从方法中返回引用类型的数据</li>
-            <li>return 从方法中返回，返回值为void</li>
+            <li>ireturn：从方法中返回int类型的数据</li>
+            <li>lreturn：从方法中返回long类型的数据</li>
+            <li>freturn：从方法中返回float类型的数据</li>
+            <li>dreturn：从方法中返回double类型的数据</li>
+            <li>areturn：从方法中返回引用类型的数据</li>
+            <li>return：从方法中返回，返回值为void</li>
         </ul>
     </div>
 </div>
@@ -6037,13 +6050,13 @@ public void sayHello() {
 <div>
     <p>方法调用指令：invokevirtual、invokeinterface、invokespecial、invokestatic、invokedynamic，以下5条指令用于方法调用：</p>
     <ul>
-        <li>invokevirtual指令用于调用对象的实例方法，根据对象的实际类型进行分派（虚方法分派），支持多态。这也是Java语言中最常见的方法分派方式。</li>
-        <li>invokeinterface指令用于调用接口方法，它会在运行时搜索由特定对象所实现的这个接口方法，并找出适合的方法进行调用。</li>
-        <li>invokespecial指令用于调用一些需要特殊处理的实例方法，包括实例初始化方法（构造器）、私有方法和父类方法。这些方法都是静态类型绑定的，不会在调用时进行动态派发。</li>
-        <li>invokestatic指令用于调用命名类中的类方法（static方法）。这是静态绑定的。</li>
-        <li>invokedynamic指令用于调用动态绑定的方法，这个是JDK1.7后新加入的指令。用于在运行时动态解析出调用点限定符所引用的方法，并执行该方法。</li>
-        <li>invokedynamic指令的分派逻辑是由用户所设定的引导方法决定的，而前面4条调用指令的分派逻辑都固化在java虚拟机内部。</li>
+        <li>invokevirtual：指令用于调用对象的实例方法，根据对象的实际类型进行分派（虚方法分派），支持多态。这也是Java语言中最常见的方法分派方式。</li>
+        <li>invokeinterface：指令用于调用接口方法，它会在运行时搜索由特定对象所实现的这个接口方法，并找出适合的方法进行调用。</li>
+        <li>invokespecial：指令用于调用一些需要特殊处理的实例方法，包括实例初始化方法（构造器）、私有方法和父类方法(super.method)。这些方法都是静态类型绑定的，不会在调用时进行动态派发。即通过这次调用只会调用到独一无二的方法。</li>
+        <li>invokestatic：指令用于调用命名类中的类方法（static方法）。这是静态绑定的。</li>
+        <li>invokedynamic：指令用于调用动态绑定的方法，这个是JDK1.7后新加入的指令。用于在运行时动态解析出调用点限定符所引用的方法，并执行该方法。</li>
     </ul>
+    <p>　　指令的分派逻辑是由用户所设定的引导方法决定的，而前面4条调用指令的分派逻辑都固化在java虚拟机内部。</p>
 </div>
 
 |方法调用指令|含义|
@@ -6242,10 +6255,10 @@ public int methodReturn() {
 |lookupswitch|用于switch条件跳转，case值不连续|
 
 <div>
-    <p>　　从助记符上看，两者都是switch语句的实现，它们的区别：</p>
+    <p>从助记符上看，两者都是switch语句的实现，它们的区别：</p>
     <ul>
         <li>tableswitch要求多个条件分支值是连续的，它内部只存放起始值和终止值，以及若干个跳转偏移量，通过给定的操作数index，可以立即定位到跳转偏移量位置，因此效率比较高。</li>
-        <li>lookupswitch内部存放着各个离散的case-offset对，每次执行都要搜索全部的case-offset对，找到匹配的case值，并根据对应的offset计算跳转地址，因此效率较低。</li>
+        <li>lookupswitch内部存放着各个离散的case-offset对，每次执行都要搜索全部的case-offset对，找到匹配的case值，并根据对应的offset计算跳转地址(或者有优化的情况，使用二分法查找)，因此效率较低。</li>
     </ul>
 </div>
 
@@ -6254,6 +6267,8 @@ public int methodReturn() {
 
 　　指令lookupswitch处理的是离散的case值，但是出于效率考虑，将case-offset对按照case值大小排序，给定index时，需要查找与index相等的case，获得其offset，如果找不到则跳转到default。指令lookupswitch如下图所示。
 　　![avatar](pictures/15ClassInstruction/15-23.png)
+
+　　java7中case可以是字符串，本质是在编译时，获取其字符串的hashcode，将参数的hashcode和case相对比。
 
 ### 15.8.5 无条件跳转指令
 
@@ -6290,7 +6305,7 @@ public int methodReturn() {
 　　在Java虚拟机中，处理异常（catch语句）不是由字节码指令来实现的（早期使用jsr、ret指令），而是采用异常表来完成的。
 
 <div>
-    <p><b>异常表</b></p>
+    <h5>　　异常表</h5>
     <p>　　如果一个方法定义了一个try-catch 或者try-finally的异常处理，就会创建一个异常表。它包含了每个异常处理或者finally块的信息。异常表保存了每个异常处理信息。比如：</p>
     <ul>
         <li>起始位置</li>
@@ -6304,10 +6319,14 @@ public int methodReturn() {
 
 ## 15.10 同步控制指令
 
+　　java虚拟机支持2种同步结构："方法级的同步"和"方法内部一级指令序列的同步"，这2种同步都是使用monitor来支持的。
+
+### 15.10.1 方法级的同步
+
 　　方法级的同步：是隐式的，即无须通过字节码指令来控制，它实现在方法调用和返回操作之中。虚拟机可以从方法常量池的方法表结构中的ACC_SYNCHRONIZED访问标志得知一个方法是否声明为同步方法；
 
 <div>
-    <p>　　当调用方法时，调用指令将会检查方法的ACC_SYNCHRONIZED访问标志是否设置？</p>
+    <h5>　　当调用方法时，调用指令将会检查方法的ACC_SYNCHRONIZED访问标志是否设置？</h5>
     <ul>
         <li>如果设置了，执行线程将先持有同步锁，然后执行方法。最后在方法完成（无论是正常完成还是非正常完成）时释放同步锁。</li>
         <li>在方法执行期间，执行线程持有了同步锁，其他任何线程都无法再获得同一个锁。</li>
@@ -6334,6 +6353,7 @@ public synchronized void add() {
 10 return
 ~~~
 
+　　**说明**
 　　这段代码和普通的无同步操作的代码没有什么不同，没有使用monitorenter和monitorexit进行同步区控制。
 　　这是因为，对于同步方法而言，当虚拟机通过方法的访问标示符判断是一个同步方法时，会自动在方法调用前进行加锁，当同步方法执行完毕后，不管方法是正常结束还是有异常抛出，均会由虚拟机释放这个锁。
 　　因此，对于同步方法而言，monitorenter和monitorexit指令是隐式存在的，并未直接出现在字节码中。
@@ -6343,7 +6363,7 @@ public synchronized void add() {
 　　同步一段指令集序列：通常是由java中的synchronized语句块来表示的。jvm的指令集有monitorenter和monitorexit 两条指令来支持synchronized关键字的语义。
 　　当一个线程进入同步代码块时，它使用monitorenter指令请求进入。如果当前对象的监视器计数器为0，则它会被准许进入，若为1，则判断持有当前监视器的线程是否为自己，如果是，则进入，否则进行等待，直到对象的监视器计数器为0，才会被允许进入同步块。
 　　当线程退出同步块时，需要使用monitorexit声明退出。在Java虚拟机中，任何对象都有一个监视器与之相关联，用来判断对象是否被锁定，当监视器被持有后，对象处于锁定状态。
-　　指令monitorenter和monitorexit在执行时，都需要在操作数栈顶压入对象，之后monitorenter和monitorexit的锁定和释放都是针对这个对象的监视器进行的。
+　　指令monitorenter和monitorexit在执行时，都需要在操作数栈顶压入对象($\color{#FF0000}{因为这2个指令改变的是对象的对象头信息中的锁标志，所以要压入对象，同时也会在对象头中记录是哪个线程持有锁}$)，之后monitorenter和monitorexit的锁定和释放都是针对这个对象的监视器进行的。
 　　下图展示了监视器如何保护临界区代码不同时被多个线程访问，只有当线程4离开临界区后，线程1、2、3才有可能进入。
 　　对应的字节码：
 ~~~
@@ -6374,7 +6394,7 @@ Exception table:
 ~~~
 
 　　编译器必须确保无论方法通过何种方式完成，方法中调用过的每条monitorenter指令都必须执行其对应的monitorexit指令，而无论这个方法是正常结束还是异常结束。
-　　为了保证在方法异常完成时monitorenter和monitorexit指令依然可以正确配对执行，编译器会自动产生一个异常处理器，这个异常处理器声明可处理所有的异常，它的目的就是用来执行monitorexit指令
+　　**为了保证在方法异常完成时monitorenter和monitorexit指令依然可以正确配对执行，编译器会自动产生一个异常处理器，这个异常处理器声明可处理所有的异常，它的目的就是用来执行monitorexit指令。要是没有这个操作，出现异常这个对象就锁死了。**
 
 
 
@@ -6393,13 +6413,13 @@ Exception table:
 ### 16.2.1 加载完成的操作
 
 　　**加载的理解**
-　　所谓类模板对象，其实就是Java类在]VM内存中的一个快照，JVM将从字节码文件中解析出的常量池、类字段、类方法等信息存储到类模板中，这样]VM在运行期便能通过类模板而获取Java类中的任意信息，能够对Java类的成员变量进行遍历，也能进行Java方法的调用。
+　　$\color{#FF0000}{所谓加载，简单来说就是将Java类的字节码文件加载到机器内存中，并在内存中构建出Java类的原型——类模板对象}$所谓类模板对象，其实就是Java类在]VM内存中的一个快照，JVM将从字节码文件中解析出的常量池、类字段、类方法等信息存储到类模板中，这样]VM在运行期便能通过类模板而获取Java类中的任意信息，能够对Java类的成员变量进行遍历，也能进行Java方法的调用。
 　　反射的机制即基于这一基础。如果JVM没有将Java类的声明信息存储起来，则JVM在运行期也无法反射。
 
 　　**加载完成的操作**
-　　加载阶段，简言之，查找并加载类的二进制数据，生成Class实例。
+　　**加载阶段，简言之，查找并加载类的二进制数据，生成Class实例。**
 <div>
-    <h5>在加载类时，Java虚拟机必须完成以下3件事情：</h5>
+    <h5>　　在加载类时，Java虚拟机必须完成以下3件事情：</h5>
     <ul>
         <li>通过类的全名，获取类的二进制数据流。</li>
         <li>解析类的二进制数据流为方法区内的数据结构（Java类模型）</li>
@@ -6411,7 +6431,7 @@ Exception table:
 ### 16.2.2 二进制流的获取方式
 
 <div>
-    <h5>对于类的二进制数据流，虚拟机可以通过多种途径产生或获得。（只要所读取的字节码符合JVM规范即可）</h5>
+    <h5>　　对于类的二进制数据流，虚拟机可以通过多种途径产生或获得。（只要所读取的字节码符合JVM规范即可）</h5>
     <ul>
         <li>虚拟机可能通过文件系统读入一个class后缀的文件</li>
         <li>读入jar、zip等归档数据包，提取类文件。</li>
@@ -6429,40 +6449,20 @@ Exception table:
 　　加载的类在JVM中创建相应的类结构，类结构会存储在方法区（JDKl.8之前：永久代；J0Kl.8及之后：元空间）。
 
 　　**Class实例的位置**
-　　类将.class文件加载至元空间后，会在堆中创建一个Java.lang.Class对象，用来封装类位于方法区内的数据结构，该Class对象是在加载类的过程中创建的，每个类都对应有一个Class类型的对象。
+　　类将.class文件加载至元空间后，会在堆中创建一个Java.lang.Class对象，用来封装类位于方法区内的数据结构，该Class对象是在加载类的过程中创建的，每个类都对应有一个Class类型的对象(在方法区的是instanceKlass，它的镜像是堆区的Class实例)。
 　　![avatar](pictures/16ClassLoadProcess/16-3.png)
-~~~
-Class clazz = Class.forName("java.lang.String");
-//获取当前运行时类声明的所有方法
-Method[] ms = clazz.getDecla#FF0000Methods();
-for (Method m : ms) {
-    //获取方法的修饰符
-    String mod = Modifier.toString(m.getModifiers());
-    System.out.print(mod + "");
-    //获取方法的返回值类型
-    String returnType = (m.getReturnType()).getSimpleName();
-    System.out.print(returnType + "");
-    //获取方法名
-    System.out.print(m.getName() + "(");
-    //获取方法的参数列表
-    Class<?>[] ps = m.getParameterTypes();
-    if (ps.length == 0) {
-        System.out.print(')');
-    }
-    for (int i = 0; i < ps.length; i++) {
-        char end = (i == ps.length - 1) ? ')' : ',';
-        //获取参教的类型
-        System.out.print(ps[i].getSimpleName() + end);
-    }
-}
-~~~
+　　外部可以通过访问Order类的Class对象来获取Order的类数据结构。
+
+　　**再说明**
+　　Class类的构造方法是私有的，只有JVM能够创建
+　　java.lang.Class实例是访问类型元数据的接口，也是实现反射的关键数据、入口。通过Class类提供的接口，可以获取目标类所关联的.class文件中具体的数据结构：方法、字段等信息。
 
 ### 16.2.4 数组类的加载
 
 　　创建数组类的情况稍微有些特殊，因为数组类本身并不是由类加载器负责创建，而是由JVM在运行时根据需要而直接创建的，但数组的元素类型仍然需要依靠类加载器去创建。
 
 <div>
-    <h5>创建数组类（下述简称A）的过程：</h5>
+    <h5>　　创建数组类（下述简称A）的过程：</h5>
     <ul>
         <li>如果数组的元素类型是引用类型，那么就遵循定义的加载过程递归加载和创建数组A的元素类型；</li>
         <li>JVM使用指定的元素类型和数组维度来创建新的数组类。</li>
@@ -6480,7 +6480,7 @@ for (Method m : ms) {
 　　![avatar](pictures/16ClassLoadProcess/16-4.png)
 
 <div>
-    <h5>整体说明：</h5>
+    <h5>　　整体说明：</h5>
     <p>　　验证的内容则涵盖了类数据信息的格式验证、语义检查、字节码验证，以及符号引用验证等。</p>
     <ul>
         <li>其中格式验证会和加载阶段一起执行。验证通过之后，类加载器才会成功将类的二进制数据信息加载到方法区中。</li>
@@ -6491,7 +6491,7 @@ for (Method m : ms) {
 　　链接阶段的验证虽然拖慢了加载速度，但是它避免了在字节码运行时还需要进行各种检查。（磨刀不误砍柴工）
 
 <div>
-    <h5>具体说明：</h5>
+    <h5>　　具体说明：</h5>
     <ol>
         <li>格式验证：是否以魔数0XCAFEBABE开头，主版本和副版本号是否在当前Java虚拟机的支持范围内，数据中每一个项是否都拥有正确的长度等。</li>
         <li>
@@ -6538,7 +6538,7 @@ for (Method m : ms) {
 　　Java并不支持boolean类型，对于boolean类型，内部实现是int，由于int的默认值是0，故对应的，boolean的默认值就是false。
 
 <div>
-    <h5>注意</h5>
+    <h5>　　注意</h5>
     <ul>
         <li>
             这里不包含用static final修饰的基本数据类型字段，因为final在编译的时候就会分配，准备阶段会显式赋值
@@ -6616,7 +6616,7 @@ public static String s2 = "hellowrold2";                                  // 在
 
 <div>
     <div>
-        <h5>主动使用</h5>
+        <h5>　　主动使用</h5>
         <p>　　Class只有在必须要首次使用的时候才会被装载，Java虚拟机不会无条件地装载Class类型。Java虚拟机规定，一个类或接口在初次使用前，必须要进行初始化。这里指的“使用”，是指主动使用，主动使用只有下列几种情况：（即：如果出现如下的情况，则会对类进行初始化操作。而初始化操作之前的加载、验证、准备已经完成。</p>
         <ol>
             <li>
@@ -6717,8 +6717,8 @@ interface Compare {
         </ol>
     </div>
     <div>
-        <h5>被动使用</h5>
-        <p>除了以上的情况属于主动使用，其他的情况均属于被动使用。被动使用不会引起类的初始化。也就是说：并不是在代码中出现的类，就一定会被加载或者初始化。如果不符合主动使用的条件，类就不会初始化。</p>
+        <h5>　　被动使用</h5>
+        <p>　　除了以上的情况属于主动使用，其他的情况均属于被动使用。被动使用不会引起类的初始化。也就是说：并不是在代码中出现的类，就一定会被加载或者初始化。如果不符合主动使用的条件，类就不会初始化。</p>
         <ol>
             <li>
                 静态字段：当通过子类引用父类的静态变量，不会导致子类初始化，只有真正声明这个字段的类才会被初始化。
