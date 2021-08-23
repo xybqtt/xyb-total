@@ -6554,7 +6554,7 @@ Exception table:
 
 ### 16.3.3 环节3：链接阶段之Resolution（解析）
 
-　　在准备阶段完成后，就进入了解析阶段。解析阶段（Resolution），简言之，将类、接口、字段和方法的符号引用转为直接引用。
+　　在准备阶段完成后，就进入了解析阶段。解析阶段（Resolution），简言之，将类、接口、字段和方法的符号引用转为直接引用(即找到真实的内存地址)。
 
 　　**具体描述：**
 　　符号引用就是一些字面量的引用，和虚拟机的内部数据结构和和内存布局无关。比较容易理解的就是在Class类文件中，通过常量池进行了大量的符号引用。但是在程序实际运行时，只有符号引用是不够的，比如当如下println()方法被调用时，系统需要明确知道该方法的位置。
@@ -6564,127 +6564,87 @@ Exception table:
 　　invokevirtual #24 <java/io/PrintStream.println>
 　　![avatar](pictures/16ClassLoadProcess/16-5.png)
 　　以方法为例，Java虚拟机为每个类都准备了一张方法表，将其所有的方法都列在表中，当需要调用一个类的方法的时候，只要知道这个方法在方法表中的偏移量就可以直接调用该方法。
-　　通过解析操作，符号引用可以转变目标方法在类中方法表的位置，从而使得方法被成功调用。
+　　**通过解析操作，符号引用可以转变目标方法在类中方法表的位置，从而使得方法被成功调用。**
+
+　　**小结**
+　　所谓解析就是将符号引用转为直接引用，也就是得到类、字段、方法在内存中的指针或偏移量。因此，可以说，如果直接引用存在，那么可以肯定系统中存在该类、方法或字段。但只存在符号引用，不能确定系统中一定存在该结构。
+　　不过Java虚拟机规范并没有明确要求解析阶段一定要按照顺序执行。在HotSpot VM中，加载、验证、准备和初始化会按照顺序有条不紊地执行，但链接阶段中的解析操作往往会伴随着JVM在执行完初始化后再执行。
+
+　　**字符串的复习**
+　　最后，再来看一下CONSTANT_String的解析。由于字符串在程序开发过程中有着重要的作用，因此，读者有必要了解下String在Java虚拟机中的处理。**当在Java代码中直接使用字符串常量时，就会在类中出现CONSTANT_String**，它表示字符串常量，并且会引用一个CONSTANT_UTF8的常量项。在Java虚拟机内部运行的常量池中，会维护一张字符串拘留表(intern)，它会保存所有出现过的字符串常量，并且没有重复项。只要以CONSTANT_String形式出现的字符串也都会在这张表中。使用String.intern()方法可以得到一个字符串在拘留表中的引用，因为该表中没有重复项，所以任何字面相同的字符串的String.intern()方法返回总是相等的。
 
 ## 16.4 过程三：Initialization（初始化）阶段
+
+　　初始化阶段，简言之，为类的静态变量赋予正确的初始值。威
+
+<div>
+    <div>
+        <h5>　　具体描述</h5>
+        <p>　　类的初始化是类装载的最后一个阶段。如果前面的步骤都没有问题，那么表示类可以顺利装载到系统中。<span style="color: red;">此时，类都会开始执行Java字节码。(即：到了初始化阶段，才真正开始执行类中定义的Java程序代码。)</span></p>
+        <p>　　初始化阶段的重要工作是执行的初始化方法：&lt;clinit&gt;()方法</p>
+        <ul>
+            <li>该方法仅能由Java编译器生成并由JVM调用，程序开发都无法自定义一个同名的方法，更无法直接在Java程序中调用该方法，虽然该方法也是由字节码指令所组成。</li>
+            <li>它是由类静态成员的赋值语句以及static语句块合并产生的。</li>
+        </ul>        
+    </div>
+    <div>
+        <h5>　　说明</h5>
+        <p>　　在加载一个类之前，虚拟机总是会试图加载该类的父类，因此父类的&lt;clinit&gt;()总是在子类的此方法之前被调用。也就是说父类的static块优先级高于子类。</p>
+        <p>　　Java编译器并不会为所有的类都产生&lt;clinit&gt;()初始化方法。哪些类在编译为字节码后，字节码文件中将不会包含&lt;clinit&gt;()方法？</p>
+        <ul>
+            <li>一个类中并没有声明任何的类变量，也没有静态代码块时；</li>
+            <li>一个类中声明类变量，但是没有明确使用类变量的初始化语句以及静态代码块来执行初始化操作时；</li>
+            <li>一个类中包含static final修饰的基本数据类型的字段，这些类字段初始化语句采用编译时常量表达式。</li>
+        </ul>
+    </div>
+</div>　　
+　　
+　　
+　　
+
 ### 16.4.1 static与final的搭配问题
 
 <div>
     <div>
-        <p>　　说明：使用static+ final修饰的字段的显式赋值的操作，到底是在哪个阶段进行的赋值？</p>
+        <p>　　说明：使用static + final修饰的字段的显式赋值的操作，到底是在哪个阶段进行的赋值？</p>
         <ol>
-            <li>在链接阶段的准备环节赋值</li>
-            <li>在初始化阶段&lt;clinit&gt;()中赋值</li>
+            <li>在链接阶段的准备环节赋值，要求=右边是基本类型或"str"</li>
+            <li>在初始化阶段&lt;clinit&gt;()中赋值，如= 引用类型(除了"str"这种字符串)</li>
         </ol>
     </div>
     <div>
         <p>　　结论：在链接阶段的准备环节赋值的情况：</p>
         <ol>
-            <li>对于基本数据类型的字段来说，如果使用static final修饰，则显式赋值(直接赋值常量，而非调用方法通常是在链接阶段的准备环节进行 </li>
+            <li>对于基本数据类型的字段来说，如果使用static final修饰，则显式赋值(直接赋值常量，而非调用方法通常是在链接阶段的准备环节进行)</li>
             <li>对于String来说，如果使用字面量的方式赋值，使用static final修饰的话，则显式赋值通常是在链接阶段的准备环节进行 </li>
-            <li>在初始化阶段&lt;clinit&gt;()中赋值的情况： 排除上述的在准备环节赋值的情况之外的情况。</li>
+            <li>在初始化阶段&lt;clinit&gt;()中赋值的情况：排除上述的在准备环节赋值的情况之外的情况。</li>
         </ol>
     </div>
     <div>
-        <p>　　最终结论：使用static+final修饰，且显示赋值中不涉及到方法或构造器调用的基本数据类到或String类型的显式财值，是在链接阶段的准备环节进行。</p>
+        <p style="color: red;">　　最终结论：使用static + final修饰，且显示赋值中不涉及到方法或构造器调用的基本数据类到或String类型的显式赋值，是在链接阶段的准备环节进行。</p>
     </div>
 </div>
 
-~~~
-public static final int INT_CONSTANT = 10;                                // 在链接阶段的准备环节赋值
-public static final int NUM1 = new Random().nextInt(10);                  // 在初始化阶段clinit>()中赋值
-public static int a = 1;                                                  // 在初始化阶段<clinit>()中赋值
+### 16.4.2 &lt;clinit&gt;()的线程安全性
 
-public static final Integer INTEGER_CONSTANT1 = Integer.valueOf(100);     // 在初始化阶段<clinit>()中赋值
-public static Integer INTEGER_CONSTANT2 = Integer.valueOf(100);           // 在初始化阶段<clinit>()中概值
-
-public static final String s0 = "helloworld0";                            // 在链接阶段的准备环节赋值
-public static final String s1 = new String("helloworld1");                // 在初始化阶段<clinit>()中赋值
-public static String s2 = "hellowrold2";                                  // 在初始化阶段<clinit>()中赋值
-~~~
-
-### 16.4.2 <clinit>()的线程安全性
-
-　　对于<clinit>()方法的调用，也就是类的初始化，虚拟机会在内部确保其多线程环境中的安全性。
-　　虚拟机会保证一个类的()方法在多线程环境中被正确地加锁、同步，如果多个线程同时去初始化一个类，那么只会有一个线程去执行这个类的<clinit>()方法，其他线程都需要阻塞等待，直到活动线程执行<clinit>()方法完毕。
-　　正是因为函数<clinit>()带锁线程安全的，因此，如果在一个类的<clinit>()方法中有耗时很长的操作，就可能造成多个线程阻塞，引发死锁。并且这种死锁是很难发现的，因为看起来它们并没有可用的锁信息。
-　　如果之前的线程成功加载了类，则等在队列中的线程就没有机会再执行<clinit>()方法了。那么，当需要使用这个类时，虚拟机会直接返回给它已经准备好的信息。
+　　对于&lt;clinit&gt;()方法的调用，也就是类的初始化，虚拟机会在内部确保其多线程环境中的安全性。
+　　虚拟机会保证一个类的()方法在多线程环境中被正确地加锁、同步，如果多个线程同时去初始化一个类，那么只会有一个线程去执行这个类的&lt;clinit&gt;()方法，其他线程都需要阻塞等待，直到活动线程执行&lt;clinit&gt;()方法完毕。
+　　正是因为<span style="color: red;">函数&lt;clinit&gt;()带锁线程安全的</span>，因此，如果在一个类的&lt;clinit&gt;()方法中有耗时很长的操作，就可能造成多个线程阻塞，引发死锁。并且这种死锁是很难发现的，因为看起来它们并没有可用的锁信息。
+　　如果之前的线程成功加载了类，则等在队列中的线程就没有机会再执行&lt;clinit&gt;()方法了。那么，当需要使用这个类时，虚拟机会直接返回给它已经准备好的信息。
+　　如果在2个类的&lt;clinit&gt;()中各自调用了对方类的构造方法，即也会执行&lt;clinit&gt;()方法，就会造成死锁。
 
 ### 16.4.3 类的初始化情况：主动使用vs被动使用
 
-　　Java程序对类的使用分为两种：主动使用和被动使用。
+　　Java程序对类的使用分为两种：主动使用(会调用&lt;clinit&gt;()方法)和被动使用(不会调用&lt;clinit&gt;()方法)。
 
 <div>
     <div>
         <h5>　　主动使用</h5>
         <p>　　Class只有在必须要首次使用的时候才会被装载，Java虚拟机不会无条件地装载Class类型。Java虚拟机规定，一个类或接口在初次使用前，必须要进行初始化。这里指的“使用”，是指主动使用，主动使用只有下列几种情况：（即：如果出现如下的情况，则会对类进行初始化操作。而初始化操作之前的加载、验证、准备已经完成。</p>
         <ol>
-            <li>
-                实例化：当创建一个类的实例时，比如使用new关键字，或者通过反射、克隆、反序列化。
-                <pre>
-                    <code>
-/**
- * 反序列化
- */
-Class Order implements Serializable {
-    static {
-        System.out.println("Order类的初始化");
-    }
-}
-public void test() {
-    ObjectOutputStream oos = null;
-    ObjectInputStream ois = null;
-    try {
-        // 序列化
-        oos = new ObjectOutputStream(new FileOutputStream("order.dat"));
-        oos.writeObject(new Order());
-        // 反序列化
-        ois = new ObjectInputStream(new FileOutputStream("order.dat"));
-        Order order = ois.readObject();
-    }
-    catch (IOException e){
-        e.printStackTrace();
-    }
-    catch (ClassNotFoundException e){
-        e.printStackTrace();
-    }
-    finally {
-        try {
-            if (oos != null) {
-                oos.close();
-            }
-            if (ois != null) {
-                ois.close();
-            }
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-}
-                    </code>
-                </pre>
-            </li>
+            <li>实例化：当创建一个类的实例时，比如使用new关键字，或者通过反射、克隆、反序列化。</li>
             <li>静态方法：当调用类的静态方法时，即当使用了字节码invokestatic指令。</li>
-            <li>
-                静态字段：当使用类、接口的静态字段时（final修饰特殊考虑），比如，使用getstatic或者putstatic指令。（对应访问变量、赋值变量操作）
-                <pre>
-                    <code>
-public class ActiveUse {
-    @Test
-    public void test() {
-        System.out.println(User.num);
-    }
-}
-class User {
-    static {
-        System.out.println("User类的初始化");
-    }
-    public static final int num = 1;
-}
-                    </code>
-                </pre>
-            </li>
+            <li>静态字段：当使用类、接口的静态字段时（final修饰特殊考虑），比如，使用getstatic或者putstatic指令。（对应访问变量、赋值变量操作）</li>
             <li>反射：当使用java.lang.reflect包中的方法反射类的方法时。比如：Class.forName("com.atguigu.java.Test")</li>
             <li>
                 <p>继承：当初始化子类时，如果发现其父类还没有进行过初始化，则需要先触发其父类的初始化。</p>
