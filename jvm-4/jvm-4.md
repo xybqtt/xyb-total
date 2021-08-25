@@ -6636,6 +6636,18 @@ Exception table:
 ### 16.4.3 类的初始化情况：主动使用vs被动使用
 
 　　Java程序对类的使用分为两种：主动使用(会调用&lt;clinit&gt;()方法)和被动使用(不会调用&lt;clinit&gt;()方法)。
+<div>
+    <h5>　　个人理解：主动使用代表我要让这个类做好我设定好的准备，即为静态变量赋好值，即所有可能涉及到使用静态变量的地方都叫主动使用</h5>
+    <ol>
+        <li>new对象：new好的对象中可能会使用到静态变量；</li>
+        <li>静态变量获取和设置：涉及到静态变量的使用；</li>
+        <li>反射：反射后，就可以获取类的所有变量值了，涉及到静态变量的使用；</li>
+        <li>main方法：可以调用类的静态变量，涉及到静态变量的使用；</li>
+        <li>调用类的静态方法：静态方法中可能调用静态变量，涉及到静态变量的使用；</li>
+        <li>初始化子类：子类初始化可能会用到父类的静态变量，涉及到静态变量的使用；</li>
+    </ol>
+</div>
+　　
 
 <div>
     <div>
@@ -6655,20 +6667,7 @@ Exception table:
                     <li>因此，一个父接口并不会因为它的子接口或者实现类的初始化而初始化。只有当程序首次使用特定接口的静态字段时，才会导致该接口的初始化。</li>
                 </ul>
             </li>
-            <li>
-                default方法：如果一个接口定义了default方法，那么直接实现或者间接实现该接口的类的初始化，该接口要在其之前被初始化。 
-                <pre>
-                    <code>
-interface Compare {
-    public static final Thread t = new Thread() {
-        {
-            System.out.println("Compare接口的初始化");
-        }
-    }   
-}
-                    </code>
-                </pre>
-            </li>
+            <li>default方法：如果一个接口定义了default方法，那么直接实现或者间接实现该接口的类的初始化，该接口要在其之前被初始化。</li>
             <li>
                 main方法：当虚拟机启动时，用户需要指定一个要执行的主类（包含main()方法的那个类），虚拟机会先初始化这个主类。<br/>
                 VM启动的时候通过引导类加载器加载一个初始类。这个类在调用public static void main(String[])方法之前被链接和初始化。这个方法的执行将依次导致所需的类的加载，链接和初始化。
@@ -6680,68 +6679,10 @@ interface Compare {
         <h5>　　被动使用</h5>
         <p>　　除了以上的情况属于主动使用，其他的情况均属于被动使用。被动使用不会引起类的初始化。也就是说：并不是在代码中出现的类，就一定会被加载或者初始化。如果不符合主动使用的条件，类就不会初始化。</p>
         <ol>
-            <li>
-                静态字段：当通过子类引用父类的静态变量，不会导致子类初始化，只有真正声明这个字段的类才会被初始化。
-                <pre>
-                    <code>
-public class PassiveUse {
-    @Test
-    public void test() {
-        System.out.println(Child.num);
-    }
-}
-class Child extends Parent {
-    static {
-        System.out.println("Child类的初始化");
-    }
-}
-class Parent {
-    static {
-        System.out.println("Parent类的初始化");
-    }
-    public static int num = 1;
-}
-                    </code>
-                </pre>
-            </li>
-            <li>
-                数组定义：通过数组定义类引用，不会触发此类的初始化  
-                <pre>
-                    Parent[] parents= new Parent[10];
-                    System.out.println(parents.getClass()); 
-                    // new的话才会初始化
-                    parents[0] = new Parent();
-                </pre>
-            </li>
-            <li>
-                引用常量：引用常量不会触发此类或接口的初始化。因为常量在链接阶段就已经被显式赋值了。
-                <pre>
-                    <code>
-public class PassiveUse {
-    public static void main(String[] args) {
-        System.out.println(Serival.num);
-        // 但引用其他类的话还是会初始化
-        System.out.println(Serival.num2);
-    }
-}
-interface Serival {
-    public static final Thread t = new Thread() {
-        {
-            System.out.println("Serival初始化");
-        }
-    };
-    public static int num = 10; 
-    public static final int num2 = new Random().nextInt(10);
-}
-                    </code>
-                </pre>
-            </li>
-            <li>
-                loadClass方法：调用ClassLoader类的loadClass()方法加载一个类，并不是对类的主动使用，不会导致类的初始化。  
-                <pre>
-                    Class clazz = ClassLoader.getSystemClassLoader().loadClass("com.test.java.Person");
-                </pre>
-            </li>
+            <li>静态字段：当通过子类引用父类的静态变量，不会导致子类初始化，只有真正声明这个字段的类才会被初始化。</li>
+            <li>数组定义：通过数组定义类引用，不会触发此类的初始化</li>
+            <li>引用常量：引用常量不会触发此类或接口的初始化。因为常量在链接阶段就已经被显式赋值了。</li>
+            <li>loadClass方法：调用ClassLoader类的loadClass()方法加载一个类，并不是对类的主动使用，不会导致类的初始化。</li>
         </ol>
     </div>
     <div>
