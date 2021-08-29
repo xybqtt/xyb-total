@@ -6589,7 +6589,7 @@ Exception table:
     </div>
     <div>
         <h5>　　说明</h5>
-        <p>　　在加载一个类之前，虚拟机总是会试图加载该类的父类，因此父类的&lt;clinit&gt;()总是在子类的此方法之前被调用。也就是说父类的static块优先级高于子类。</p>
+        <p style="color:#FF0000;">　　在加载一个类之前，虚拟机总是会试图加载该类的父类，因此父类的&lt;clinit&gt;()总是在子类的此方法之前被调用。也就是说父类的static块优先级高于子类。</p>
         <p>　　Java编译器并不会为所有的类都产生&lt;clinit&gt;()初始化方法。哪些类在编译为字节码后，字节码文件中将不会包含&lt;clinit&gt;()方法？</p>
         <ul>
             <li>一个类中并没有声明任何的类变量，也没有静态代码块时；</li>
@@ -6598,9 +6598,7 @@ Exception table:
         </ul>
     </div>
 </div>　　
-　　
-　　
-　　
+
 
 ### 16.4.1 static与final的搭配问题
 
@@ -6608,8 +6606,8 @@ Exception table:
     <div>
         <p>　　说明：使用static + final修饰的字段的显式赋值的操作，到底是在哪个阶段进行的赋值？</p>
         <ol>
-            <li>在链接阶段的准备环节赋值，要求=右边是基本类型或"str"</li>
-            <li>在初始化阶段&lt;clinit&gt;()中赋值，如= 引用类型(除了"str"这种字符串)</li>
+            <li>字面量赋值：在链接阶段的准备环节赋值</li>
+            <li>非字面量赋值：在初始化阶段&lt;clinit&gt;()中赋值，如new String("abc")、new Random.nextInt(10)等需要通过执行java指令的赋值。</li>
         </ol>
     </div>
     <div>
@@ -6622,6 +6620,7 @@ Exception table:
     </div>
     <div>
         <p style="color: red;">　　最终结论：使用static + final修饰，且显示赋值中不涉及到方法或构造器调用的基本数据类到或String类型的显式赋值，是在链接阶段的准备环节进行。</p>
+        <p style="color: red;">　　生成&lt;clinit&gt;()方法的情况总结：1、除了由static final修饰的变量通过字面量赋值(这是在链接的准备阶段赋值的)的情况，其它对类变量进行显式赋值(在静态块中赋值也属于)的情况，都会生成&lt;clinit&gt;()方法。2、在静态代码块中编写java代码。</p>
     </div>
 </div>
 
