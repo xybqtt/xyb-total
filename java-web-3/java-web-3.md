@@ -257,7 +257,9 @@
 5. Edit Configurations，运行配置的tomcat configurations即可。
 6. 编译的时候可能会oom，堆内存溢出，在settings -> Compiler -> Build process heap size(Mbytes)，设置堆内存大小为4096。
 7. 如何在运行时特别卡，百度调整idea内存。
-8. 如果是maven项目，则编译输出路径设置为和install命令后产生的编译文件位置一样；如果是java、javaweb项目，则为module\target\production、module\target\test。
+8. 如果是maven项目，则编译输出路径设置为和install命令后产生的编译文件位置一样；如果是java、javaweb项目，则为module\target\production、module\target\test；
+9. lis系统的编译输出路径设置为web/classes，打包输出路径设置为web，可以省去.class文件和资源文件的复制；
+10. 如果修改了java文件，不能使用全编，要对文件右键，编译。
 
    
 
