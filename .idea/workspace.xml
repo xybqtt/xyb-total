@@ -25,7 +25,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/java-web-3/java-web-3.md" beforeDir="false" afterPath="$PROJECT_DIR$/java-web-3/java-web-3.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/jvm-4.md" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/jvm-4.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -437,14 +438,7 @@
       <workItem from="1629725938622" duration="4000" />
       <workItem from="1629726192363" duration="14859000" />
       <workItem from="1630276704990" duration="60000" />
-      <workItem from="1630276982388" duration="14033000" />
-    </task>
-    <task id="LOCAL-00021" summary="html学习：正在学习视频190">
-      <created>1623024802110</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1623024802110</updated>
+      <workItem from="1630276982388" duration="16878000" />
     </task>
     <task id="LOCAL-00022" summary="html学习：正在学习视频193">
       <created>1623110211744</created>
@@ -782,7 +776,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630367066531</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="html学习：添加笔记">
+      <created>1630451055259</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1630451055259</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -971,7 +972,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：14 121节" />
     <MESSAGE value="jvm学习：15 126节" />
     <MESSAGE value="jvm学习：15-2 126节" />
     <MESSAGE value="jvm学习：15-3 126节" />
@@ -996,7 +996,8 @@
     <MESSAGE value="jvm学习：31 277节" />
     <MESSAGE value="jvm学习：32 282节" />
     <MESSAGE value="jvm学习：33 286节" />
-    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：33 286节" />
+    <MESSAGE value="html学习：添加笔记" />
+    <option name="LAST_COMMIT_MESSAGE" value="html学习：添加笔记" />
   </component>
   <component name="WindowStateProjectService">
     <state x="703" y="73" key="#HTTP_Proxy" timestamp="1625375221995">
@@ -1072,10 +1073,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="879" y="243" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1623799970328" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1630367065403">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1630451054187">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1630367065403" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1630451054187" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1630344064081">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1085,26 +1086,26 @@
     </state>
     <state x="80" y="60" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1627539060627" />
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1625375540860" />
-    <state width="1493" height="227" key="GridCell.Tab.0.bottom" timestamp="1630450831797">
+    <state width="1493" height="237" key="GridCell.Tab.0.bottom" timestamp="1630537590021">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1493" height="227" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1630450831797" />
-    <state width="1493" height="227" key="GridCell.Tab.0.center" timestamp="1630450831796">
+    <state width="1493" height="237" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1630537590021" />
+    <state width="1493" height="237" key="GridCell.Tab.0.center" timestamp="1630537590021">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="227" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1630450831796" />
-    <state width="1493" height="227" key="GridCell.Tab.0.left" timestamp="1630450831796">
+    <state width="1493" height="237" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1630537590021" />
+    <state width="1493" height="237" key="GridCell.Tab.0.left" timestamp="1630537590021">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="227" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1630450831796" />
-    <state width="1493" height="227" key="GridCell.Tab.0.right" timestamp="1630450831797">
+    <state width="1493" height="237" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1630537590021" />
+    <state width="1493" height="237" key="GridCell.Tab.0.right" timestamp="1630537590021">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="227" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1630450831797" />
+    <state width="1493" height="237" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1630537590021" />
     <state width="1493" height="333" key="GridCell.Tab.1.bottom" timestamp="1627658370105">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

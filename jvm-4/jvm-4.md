@@ -6741,39 +6741,211 @@ Exception table:
 
 
 # 17 再谈类的加载器
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
+## 17.1.概述
+
+　　类加载器是JVM执行类加载机制的前提。
+
+　　**ClassLoader的作用：**
+　　ClassLoader是Java的核心组件，所有的Class都是由ClassLoader进行加载的，ClassLoader负责通过各种方式将Class信息的二进制数据流读入JVM内部，转换为一个与目标类对应的java.lang.Class对象实例。然后交给Java虚拟机进行链接、初始化等操作。因此，ClassLoader在整个装载阶段，只能影响到类的加载，而无法通过ClassLoader去改变类的链接和初始化行为。至于它是否可以运行，则由Execution Engine决定。　　
+　　![avatar](pictures/17ClassLoader2/17-1.png)
+
+### 17.1.1 类加载器的分类
+
+　　类的加载分类：显式加载 vs 隐式加载，class文件的显式加载与隐式加载的方式是指JVM加载class文件到内存的方式。
+　　**显式加载**指的是在代码中通过调用ClassLoader加载class对象，如直接使用Class.forName(name)或this.getClass().getClassLoader().loadClass()加载class对象。
+　　**隐式加载**则是不直接在代码中调用ClassLoader的方法加载class对象，而是通过虚拟机自动加载到内存中，如在加载某个类的class文件时，该类的class文件中引用了另外一个类的对象，此时额外引用的类将通过JVM自动加载到内存中。
+　　在日常开发以上两种方式一般会混合使用。
+
+~~~
+//隐式加载
+User user=new User();
+//显式加载，并初始化
+Class clazz=Class.forName("com.test.java.User");
+//显式加载，但不初始化
+ClassLoader.getSystemClassLoader().loadClass("com.test.java.Parent");
+~~~
+
+### 17.1.2 类加载器的必要性
+
+<div>
+    <p>　　一般情况下，Java开发人员并不需要在程序中显式地使用类加载器，但是了解类加载器的加载机制却显得至关重要。从以下几个方面说：</p>
+    <ul>
+        <li>避免在开发中遇到java.lang.ClassNotFoundException异常或java.lang.NoClassDefFoundError异常时，手足无措。只有了解类加载器的 加载机制才能够在出现异常的时候快速地根据错误异常日志定位问题和解决问题</li>
+        <li>需要支持类的动态加载或需要对编译后的字节码文件进行加解密操作时，就需要与类加载器打交道了。</li>
+        <li>开发人员可以在程序中编写自定义类加载器来重新定义类的加载规则，以便实现一些自定义的处理逻辑。</li>
+    </ul>
+</div>
+
+### 17.1.3 命名空间
+
+　　**何为类的唯一性？**
+　　对于任意一个类，都需要由加载它的类加载器本身和这个类一同确认其在java虚拟机中的唯一性。
+　　每一个类加载器，都拥有一个独立的类名称空间：比较2个类是否相等，只有在这2个类是由同一个类加载器加载的前提下才有意义。否则，即使这2个类来自同一个.class文件，被同一个虚拟机加载，只要加载它们的类加载器不同，那这2个类就必然不相等。
+
+<div>
+    <h5>　　命名空间</h5>
+    <ul>
+        <li>每个类加载器都有自己的命名空间，命名空间由该加载器及所有的父加载器所加载的类组成；</li>
+        <li>在同一命名空间中，不会出现类的完整名字（包括类的包名）相同的两个类；</li>
+        <li>在不同的命名空间中，有可能会出现类的完整名字（包括类的包名）相同的两个类。</li>
+    </ul>
+    <p>　　在大型应用中，我们往往借助这一特性，来运行同一个类的不同版本。</p>
+</div>
+
+### 17.1.4. 类加载机制的基本特征
+
+　　双亲委派模型。但不是所有类加载都遵守这个模型，有的时候，启动类加载器所加载的类型，是可能要加载用户代码的，比如JDK内部的ServiceProvider/ServiceLoader机制，用户可以在标准API框架上，提供自己的实现，JDK也需要提供些默认的参考实现。例如，Java中JNDI、JDBC、文件系统、Cipher等很多方面，都是利用的这种机制，这种情况就不会用双亲委派模型去加载，而是利用所谓的上下文加载器。
+　　**可见性**，子类加载器可以访问父加载器加载的类型，但是反过来是不允许的。不然，因为缺少必要的隔离，我们就没有办法利用类加载器去实现容器的逻辑。
+　　**单一性**，由于父加载器的类型对于子加载器是可见的，所以父加载器中加载过的类型，就不会在子加载器中重复加载。但是注意，类加载器“邻居”间，同一类型仍然可以被加载多次，因为互相并不可见。
+
+### 17.1.5 类加载器之间的关系
+
+　　Launcher类核心代码
+
+~~~
+Launcher.ExtClassLoader var1;
+try {
+    var1 = Launcher.ExtClassLoader.getExtClassLoader();
+} catch (IOException var10) {
+    throw new InternalError("Could not create extension class loader", var10);
+}
+
+try {
+    this.loader = Launcher.AppClassLoader.getAppClassLoader(var1);
+} catch (IOException var9) {
+    throw new InternalError("Could not create application class loader", var9);
+}
+
+Thread.currentThread().setContextClassLoader(this.loader);
+~~~
+　　ExtClassLoader的Parent类是null；
+　　AppClassLoader的Parent类是ExtClassLoader； 
+　　当前线程的ClassLoader是AppClassLoader；
+<p style="color: red;">　　注意，这里的Parent类并不是Java语言意义上的继承关系，而是一种包含关系。</p>
+
+## 17.2 类的加载器分类
+
+　　JVM支持两种类型的类加载器，分别为引导类加载器（Bootstrap ClassLoader）和自定义类加载器（User-Defined ClassLoader）。
+　　从概念上来讲，自定义类加载器一般指的是程序中由开发人员自定义的一类类加载器，但是Java虚拟机规范却没有这么定义，而是将所有派生于抽象类ClassLoader的类加载器都划分为自定义类加载器。无论类加载器的类型如何划分，在程序中我们最常见的类加载器结构主要是如下情况：
+　　![avatar](pictures/17ClassLoader2/17-2.png)
+　　除了顶层的启动类加载器外，其余的类加载器都应当有自己的“父类”加戟器。
+　　不同类加载器看似是继承（Inheritance）关系，实际上是包含关系。在下层加载器中，包含着上层加载器的引用。
+
+　　父类加载器和子类加载器的关系：
+~~~
+class ClassLoader{
+    ClassLoader parent;//父类加载器
+        public ClassLoader(ClassLoader parent){
+        this.parent = parent;
+    }
+}
+class ParentClassLoader extends ClassLoader{
+    public ParentClassLoader(ClassLoader parent){
+        super(parent);
+    }
+}
+class ChildClassLoader extends ClassLoader{
+    public ChildClassLoader(ClassLoader parent){ //parent = new ParentClassLoader();
+        super(parent);
+    }
+}
+~~~
+　　正是由于子类加载器中包含着父类加载器的引用，所以可以通过子类加载器的方法获取对应的父类加载器。
+　　**注意：**
+　　启动类加载器通过C/C++语言编写，而自定义类加载器都是由Java语言编写的，虽然扩展类加载器和应用程序类加载器是被jdk开发人员使用java语言来编写的，但是也是由java语言编写的，所以也被称为自定义类加载器
+
+### 17.2.1 引导类加载器
+
+<div>
+    <p>　　启动类加载器（引导类加载器，Bootstrap ClassLoader）</p>
+    <ul>
+        <li>这个类加载使用C/C++语言实现的，嵌套在JVM内部；</li>
+        <li>它用来加载Java的核心库（JAVAHOME/jre/lib/rt.jar或sun.boot.class.path路径下的内容）。用于提供JVM自身需要的类；</li>
+        <li>并不继承自java.lang.ClassLoader，没有父加载器；</li>
+        <li>出于安全考虑，Bootstrap启动类加载器只加载包名为java、javax、sun等开头的类；</li>
+        <li>加载扩展类和应用程序类加载器，并指定为他们的父类加载器；</li>
+        <li>使用-XX:+TraceClassLoading参数得到。 </li>
+    </ul>
+    <p>　　启动类加载器使用C++编写的？Yes！</p>
+    <ul>
+        <li>C/C++：指针函数&函数指针、C++支持多继承、更加高效</li>
+        <li>Java：由C演变而来，（C）–版，单继承</li>
+    </ul>
+</div>
+
+### 17.2.2 扩展类加载器
+
+<div>
+    <p>　　扩展类加载器（Extension ClassLoader）</p>
+    <ul>
+        <li>Java语言编写，由sun.misc.Launcher$ExtClassLoader实现；</li>
+        <li>继承于ClassLoader类 ；</li>
+        <li>父类加载器为启动类加载器 ；</li>
+        <li>
+            从java.ext.dirs系统属性所指定的目录中加载类库，或从JDK的安装目录的jre/lib/ext子目录下加载类库。如果用户创建的JAR放在此目录下，也会自动由扩展类加载器加载；
+            <img src="pictures/17ClassLoader2/17-3.png">
+        </li>
+    </ul>
+</div>
+
+### 17.2.3 系统类加载器
+
+<div>
+    <p>　　应用程序类加载器（系统类加载器，AppClassLoader）</p>
+    <ul>
+        <li>java语言编写，由sun.misc.Launcher$AppClassLoader实现；</li>
+        <li>继承于ClassLoader类；</li>
+        <li>父类加载器为扩展类加载器；</li>
+        <li>它负责加载环境变量classpath或系统属性java.class.path指定路径下的类库；</li>
+        <li>应用程序中的类加载器默认是系统类加载器；>
+        <li>它是用户自定义类加载器的默认父加载器；</li>
+        <li>
+            通过ClassLoader的getSystemClassLoader()方法可以获取到该类加载器
+            <img src="pictures/17ClassLoader2/17-4.png">
+        </li>
+    </ul>
+</div>
+
+### 17.2.4 用户自定义类加载器
+
+<div>
+    <p>　　用户自定义类加载器</p>
+    <ul>
+        <li>在Java的日常应用程序开发中，类的加载几乎是由上述3种类加载器相互配合执行的。在必要时，我们还可以自定义类加载器，来定制类的加载方式；</li>
+        <li>体现Java语言强大生命力和巨大魅力的关键因素之一便是，Java开发者可以自定义类加载器来实现类库的动态加载，加载源可以是本地的JAR包，也可以是网络上的远程资源；</li>
+        <li><b>通过类加载器可以实现非常绝妙的插件机制</b>，这方面的实际应用案例举不胜举。例如，著名的OSGI组件框架，再如Eclipse的插件机制。类加载器为应用程序提供了一种动态增加新功能的机制，这种机制无须重新打包发布应用程序就能实现</li>
+        <li>同时，自定义加载器能够实现应用隔离，例如Tomcat，Spring等中间件和组件框架都在内部实现了自定义的加载器，并通过自定义加载器隔离不同的组件模块。这种机制比C/C程序要好太多，想不修改C/C程序就能为其新增功能，几乎是不可能的，仅仅一个兼容性便能阻挡住所有美好的设想；</li>
+        <li>自定义类加载器通常需要继承于ClassLoader。</li>
+    </ul>
+</div>
+
+### 17.3. 测试不同的类的加载器
+
+　　每个Class对象都会包含一个定义它的ClassLoader的一个引用。
+　　**获取ClassLoader的途径**
+~~~
+// 获得当前类的ClassLoader
+clazz.getClassLoader()
+// 获得当前线程上下文的ClassLoader
+Thread.currentThread().getContextClassLoader()
+// 获得系统的ClassLoader
+ClassLoader.getSystemClassLoader()
+~~~
+
+　　**说明：**
+　　站在程序的角度看，引导类加载器与另外两种类加载器（系统类加载器和扩展类加载器）并不是同一个层次意义上的加载器，引导类加载器是使用C++语言编写而成的，而另外两种类加载器则是使用Java语言编写而成的。由于引导类加载器压根儿就不是一个Java类，因此在Java程序中只能打印出空值。
+　　数组类的Class对象，不是由类加载器去创建的，而是在Java运行期JVM根据需要自动创建的。对于数组类的类加载器来说，是通过Class.getClassLoader()返回的，与数组当中元素类型的类加载器是一样的；如果数组当中的元素类型是基本数据类型，数组类是没有类加载器的。
+
+## 17.4 ClassLoader源码解析
+
+　　**ClassLoader与现有类的关系：**
+　　![avatar](pictures/17ClassLoader2/17-5.png)
+　　除了以上虚拟机自带的加载器外，用户还可以定制自己的类加载器。Java提供了抽象类java.lang.ClassLoader，所有用户自定义的类加载器都应该继承ClassLoader类。
+
+### 17.4.1 ClassLoader的主要方法
+
+　　抽象类ClassLoader的主要方法：（内部没有抽象方法）
+
 　　
 　　
 　　
