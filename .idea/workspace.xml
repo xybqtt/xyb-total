@@ -115,7 +115,7 @@
       <recent name="com.xyb.service.impl" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.A1ClassLoad">
+  <component name="RunManager" selected="Application.A2ClsLoaderTest2">
     <configuration name="A1ClassLoad" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xyb.a17clsloader2.A1ClassLoad" />
       <module name="jvm-4" />
@@ -129,12 +129,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="A4ActiveUse" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a16detailclsloader.A4ActiveUse" />
+    <configuration name="A2ClsLoaderTest2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.a17clsloader2.A2ClsLoaderTest2" />
       <module name="jvm-4" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.xyb.a16detailclsloader.a3initialization.*" />
+          <option name="PATTERN" value="com.xyb.a17clsloader2.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -301,20 +301,20 @@
       <item itemvalue="Application.YoungOldRatio2" />
       <item itemvalue="Application.HeapGC3" />
       <item itemvalue="Application.ReferenceTest4" />
-      <item itemvalue="Application.A4ActiveUse" />
       <item itemvalue="Tomcat Server.java-web-3-tomcat" />
       <item itemvalue="Application.A4clinitLockTest" />
       <item itemvalue="Application.A5AcitveUseTest" />
       <item itemvalue="Application.A6PassiveUseTest" />
       <item itemvalue="Application.A1ClassLoad" />
+      <item itemvalue="Application.A2ClsLoaderTest2" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.A2ClsLoaderTest2" />
         <item itemvalue="Application.A1ClassLoad" />
         <item itemvalue="Application.A6PassiveUseTest" />
         <item itemvalue="Application.A5AcitveUseTest" />
         <item itemvalue="Application.A4clinitLockTest" />
-        <item itemvalue="Application.A4ActiveUse" />
       </list>
     </recent_temporary>
   </component>
@@ -438,14 +438,7 @@
       <workItem from="1629725938622" duration="4000" />
       <workItem from="1629726192363" duration="14859000" />
       <workItem from="1630276704990" duration="60000" />
-      <workItem from="1630276982388" duration="16878000" />
-    </task>
-    <task id="LOCAL-00022" summary="html学习：正在学习视频193">
-      <created>1623110211744</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1623110211744</updated>
+      <workItem from="1630276982388" duration="23340000" />
     </task>
     <task id="LOCAL-00023" summary="html学习：正在学习视频194">
       <created>1623251608380</created>
@@ -783,7 +776,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630451055259</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="jvm学习：33-1 286节">
+      <created>1630538894550</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1630538894550</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -972,7 +972,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：15 126节" />
     <MESSAGE value="jvm学习：15-2 126节" />
     <MESSAGE value="jvm学习：15-3 126节" />
     <MESSAGE value="jvm学习：16 146节" />
@@ -997,7 +996,8 @@
     <MESSAGE value="jvm学习：32 282节" />
     <MESSAGE value="jvm学习：33 286节" />
     <MESSAGE value="html学习：添加笔记" />
-    <option name="LAST_COMMIT_MESSAGE" value="html学习：添加笔记" />
+    <MESSAGE value="jvm学习：33-1 286节" />
+    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：33-1 286节" />
   </component>
   <component name="WindowStateProjectService">
     <state x="703" y="73" key="#HTTP_Proxy" timestamp="1625375221995">
@@ -1073,10 +1073,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="879" y="243" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1623799970328" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1630451054187">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1630538893150">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1630451054187" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1630538893150" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1630344064081">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1086,26 +1086,26 @@
     </state>
     <state x="80" y="60" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1627539060627" />
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1625375540860" />
-    <state width="1493" height="237" key="GridCell.Tab.0.bottom" timestamp="1630537590021">
+    <state width="737" height="220" key="GridCell.Tab.0.bottom" timestamp="1630829654154">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1493" height="237" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1630537590021" />
-    <state width="1493" height="237" key="GridCell.Tab.0.center" timestamp="1630537590021">
+    <state width="737" height="220" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1630829654154" />
+    <state width="737" height="220" key="GridCell.Tab.0.center" timestamp="1630829654154">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="237" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1630537590021" />
-    <state width="1493" height="237" key="GridCell.Tab.0.left" timestamp="1630537590021">
+    <state width="737" height="220" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1630829654154" />
+    <state width="737" height="220" key="GridCell.Tab.0.left" timestamp="1630829654154">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="237" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1630537590021" />
-    <state width="1493" height="237" key="GridCell.Tab.0.right" timestamp="1630537590021">
+    <state width="737" height="220" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1630829654154" />
+    <state width="737" height="220" key="GridCell.Tab.0.right" timestamp="1630829654154">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="237" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1630537590021" />
+    <state width="737" height="220" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1630829654154" />
     <state width="1493" height="333" key="GridCell.Tab.1.bottom" timestamp="1627658370105">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1175,10 +1175,10 @@
     </state>
     <state x="54" y="0" width="1226" height="680" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1627529496209" />
     <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1630450938533" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1630367079366">
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1630538902368">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1630367079366" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1630538902368" />
     <state x="646" y="303" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1621673541644">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1203,11 +1203,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="186" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1629729149902" />
-    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup" timestamp="1630339377801">
+    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup" timestamp="1630732131234">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="678" y="120" width="672" height="560" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1627538409774" />
-    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1630339377801" />
+    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1630732131234" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

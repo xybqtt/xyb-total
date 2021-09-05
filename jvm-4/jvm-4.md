@@ -11,6 +11,7 @@
 　　视频地址：https://www.bilibili.com/video/BV1PJ411n7xZ?p=6&spm_id_from=pageDriver
 　　![avatar](pictures/6heap/6-1.png)
 　　每个大标题之间空2行，每个小标题之间空1行
+　　<span style="color: red;"></span>
 
 ## 0.1 推荐书
 
@@ -6919,7 +6920,7 @@ class ChildClassLoader extends ClassLoader{
     </ul>
 </div>
 
-### 17.3. 测试不同的类的加载器
+## 17.3 测试不同的类的加载器
 
 　　每个Class对象都会包含一个定义它的ClassLoader的一个引用。
 　　**获取ClassLoader的途径**
@@ -6944,19 +6945,358 @@ ClassLoader.getSystemClassLoader()
 
 ### 17.4.1 ClassLoader的主要方法
 
-　　抽象类ClassLoader的主要方法：（内部没有抽象方法）
+<div>
+    <h5>　　抽象类ClassLoader的主要方法：（内部没有抽象方法）</h5>
+    <ol>
+        <li>public final ClassLoader getParent()：返回该类加载器的超类加载器</li>
+        <li>public Class<?> loadClass(String name) throws ClassNotFoundException：加载名称为name的类，返回结果为java.lang.Class类的实例。如果找不到类，则返回 ClassNotFoundException异常。该方法中的逻辑就是双亲委派模式的实现。</li>
+        <li>
+            protected Class<?> findClass(String name) throws ClassNotFoundException：查找二进制名称为name的类，返回结果为java.lang.Class类的实例。这是一个受保护的方法，JVM鼓励我们重写此方法，需要自定义加载器遵循双亲委托机制，该方法会在检查完父类加载器之后被loadClass()方法调用。
+            <ul>
+                <li>在JDK1.2之前，在自定义类加载时，总会去继承ClassLoader类并重写loadClass方法，从而实现自定义的类加载类。但是在JDK1.2之后已不再建议用户去覆盖loadClass()方法，而是建议把自定义的类加载逻辑写在findClass()方法中，从前面的分析可知，findClass()方法是在loadClass()方法中被调用的，当loadClass()方法中父加载器加载失败后，则会调用自己的findClass()方法来完成类加载，这样就可以保证自定义的类加载器也符合双亲委托模式。 </li>
+                <li>需要注意的是ClassLoader类中并没有实现findClass()方法的具体代码逻辑，取而代之的是抛出ClassNotFoundException异常，同时应该知道的是findClass方法通常是和defineClass方法一起使用的。<span style="color: red;">一般情况下，在自定义类加载器时，会直接覆盖ClassLoader的findClass()方法并编写加载规则，取得要加载类的字节码转换成流，然后调用defineClass()方法生成类的Class对象。</span></li>
+            </ul>
+        </li>
+        <li>
+            protected final Class<?> defineClass(String name, byte[] b,int off,int len)：根据给定的字节数组b转换为Class的实例，off和len参数表示实际Class信息在byte数组中的位置和长度，其中byte数组b是ClassLoader从外部获取的。这是受保护的方法，只有在自定义ClassLoader子类中可以使用。
+            <ul>
+                <li>defineClass()方法是用来将byte字节流解析成JVM能够识别的Class对象（ClassLoader中已实现该方法逻辑），通过这个方法不仅能够通过class文件实例化class对象，也可以通过其他方式实例化class对象，如通过网络接收一个类的字节码，然后转换为byte字节流创建对应的Class对象。 </li>
+                <li style="color: red;">defineClass()方法常与findClass()方法一起使用，一般情况下，在自定义类加载器时，会直接覆盖ClassLoader的findClass()方法并编写加载规则，取得要加载类的字节码转换成流，然后调用defineClass()方法生成类的Class对象。</li>
+            </ul>
+        </li>
+        <li>protected final void resolveClass(Class<?> c)：链接指定的一个Java类。使用该方法可以使用类的Class对象创建完成的同时也被解析。前面我们说链接阶段主要是对字节码进行验证，为类变量分配内存并设置初始值同时将字节码文件中的符号引用转换为直接引用。</li>
+        <li>protected final Class<?> findLoadedClass(String name)：查找名称为name的已经被加载过的类，返回结果为java.lang.Class类的实例。这个方法是final方法，无法被修改。</li>
+        <li>private final ClassLoader parent：它也是一个ClassLoader的实例，这个字段所表示的ClassLoader也称为这个ClassLoader的双亲。在类加载的过程中，ClassLoader可能会将某些请求交予自己的双亲处理。</li>
+    </ol>
+</div>
 
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
-　　
+### 17.4.2 SecureClassLoader与URLClassLoader
 
+　　接着SecureClassLoader扩展了ClassLoader，新增了几个与使用相关的代码源（对代码源的位置及其证书的验证）和权限定义类验证（主要指对class源码的访问权限）的方法，一般我们不会直接跟这个类打交道，更多是与它的子类URLClassLoader有所关联。
+　　前面说过，ClassLoader是一个抽象类，很多方法是空的没有实现，比如findClass()、findResource()等。而URLClassLoader这个实现类为这些方法提供了具体的实现。并新增了URLClassPath类协助取得Class字节码流等功能。
+　　<span style="color: red;">在编写自定义加载器时，如果没有太过于复杂的需求，可以直接继承URLClassLoader类，</span>这样就可以避免自己去编写findClass()方法及其获取字节码流的方式，使自定义类加载器编写更加简洁。
+　　![avatar](pictures/17ClassLoader2/17-6.png)
+
+### 17.4.3 ExtClassLoader与AppClassLoader
+
+　　了解完URLClassLoader后接着看看剩余的两个类加载器，即拓展类加载器ExtClassLoader和系统类加载器AppClassLoader，这两个类都继承自URLClassLoader，是sun.misc.Launcher的静态内部类。
+　　sun.misc.Launcher主要被系统用于启动主应用程序，ExtClassLoader和AppClassLoader都是由sun.misc.Launcher创建的，其类主要类结构如下：
+　　![avatar](pictures/17ClassLoader2/17-7.png)
+　　我们发现ExtClassLoader并没有重写loadClass()方法，这足矣说明其遵循双亲委派模式，而AppClassLoader重载了loadClass()方法，但最终调用的还是父类loadClass()方法，因此依然遵守双亲委派模式。
+
+### 17.4.4 Class.forName()与ClassLoader.loadClass()
+
+<div>
+    <div>
+        <h5>　　Class.forName()</h5>
+        <ul>
+            <li>Class.forName()：是一个静态方法，最常用的是Class.forName(String className); </li>
+            <li>根据传入的类的全限定名返回一个Class对象。该方法在将Class文件加载到内存的同时，会执行类的初始化。</li>
+            <li>Class.forName("com.atguigu.java.Helloworld");</li>
+        </ul>
+    </div>
+    <div>
+        <h5>　　ClassLoader.loadClass()</h5>
+        <ul>
+            <li>ClassLoader.loadClass()：这是一个实例方法，需要一个ClassLoader对象来调用该方法。 </li>
+            <li>该方法将Class文件加载到内存时，并不会执行类的初始化，直到这个类第一次使用时才进行初始化。该方法因为需要得到一个ClassLoader对象，所以可以根据需要指定使用哪个类加载器。 </li>
+            <li>Classloader cl = ......; cl.loadClass("com.atguigu.java.Helloworld");</li>
+        </ul>
+    </div>
+</div>
+
+## 17.5 双亲委派模型
+### 17.5.1 定义与本质
+
+　　类加载器用来把类加载到Java虚拟机中。从JDK1.2版本开始，类的加载过程采用双亲委派机制，这种机制能更好地保证Java平台的安全。
+
+　　**定义**
+　　如果一个类加载器在接到加载类的请求时，它首先不会自己尝试去加载这个类，而是把这个请求任务委托给父类加载器去完成，依次递归，如果父类加载器可以完成类加载任务，就成功返回。只有父类加载器无法完成此加载任务时，才自己去加载。
+
+　　**本质**
+　　规定了类加载的顺序是：引导类加载器先加载，若加载不到，由扩展类加载器加载，若还加载不到，才会由系统类加载器或自定义的类加载器进行加载。
+　　![avatar](pictures/17ClassLoader2/17-8.png)
+　　![avatar](pictures/17ClassLoader2/17-9.png)
+
+### 17.5.2 优势与劣势
+
+<div>
+    <div>
+        <h5>　　双亲委派机制优势</h5>
+        <ul>
+            <li>避免类的重复加载，确保一个类的全局唯一性，java类随着它的类加载器一起具备了一种带有优先级的层次关系，通过这种层级关系可以避免类的重复加载，当父亲已经加载了该类时，就没有必要ClassLoader再加载一次；</li>
+            <li>保护程序安全，防止核心API被随意篡改。</li>
+        </ul>
+    </div>
+    <div>
+        <h5>　　代码支持</h5>
+        <p>　　双亲委派机制在java.lang.ClassLoader.loadClass(String，boolean)接口中体现。该接口的逻辑如下：</p>
+        <ol>
+            <li>先在当前加载器的缓存中查找有无目标类，如果有，直接返回。</li>
+            <li>判断当前加载器的父加载器是否为空，如果不为空，则调用parent.loadClass(name，false)接口进行加载。</li>
+            <li>反之，如果当前加载器的父类加载器为空，则调用findBootstrapClassorNull(name)接口，让引导类加载器进行加载。</li>
+            <li>如果通过以上3条路径都没能成功加载，则调用findClass(name)接口进行加载。该接口最终会调用java.lang.ClassLoader接口的defineClass系列的native接口加载目标Java类。</li>
+            <li>双亲委派的模型就隐藏在这第2和第3步中。</li>
+        </ol>
+    </div>
+</div>
+
+　　**举例**
+　　假设当前加载的是java.lang.Object这个类，很显然，该类属于JDK中核心得不能再核心的一个类，因此一定只能由引导类加载器进行加载。当]VM准备加载javaJang.Object时，JVM默认会使用系统类加载器去加载，按照上面4步加载的逻辑，在第1步从系统类的缓存中肯定查找不到该类，于是进入第2步。由于从系统类加载器的父加载器是扩展类加载器，于是扩展类加载器继续从第1步开始重复。由于扩展类加载器的缓存中也一定查找不到该类，因此进入第2步。扩展类的父加载器是null，因此系统调用findClass（String），最终通过引导类加载器进行加载。
+
+　　**思考**
+　　如果在自定义的类加载器中重写java.lang.ClassLoader.loadClass(String)或java.lang.ClassLoader.loadclass(String，boolean)方法，抹去其中的双亲委派机制，仅保留上面这4步中的第l步与第4步，那么是不是就能够加载核心类库了呢？
+　　这也不行！因为JDK还为核心类库提供了一层保护机制。不管是自定义的类加载器，还是系统类加载器抑或扩展类加载器，最终都必须调用 java.lang.ClassLoader.defineclass(String，byte[]，int，int，ProtectionDomain)方法，而该方法会执行preDefineClass()接口，该接口中提供了对JDK核心类库的保护。
+
+　　**弊端**
+　　检查类是否加载的委托过程是单向的，这个方式虽然从结构上说比较清晰，使各个ClassLoader的职责非常明确，但是同时会带来一个问题，即顶层的ClassLoader无法访问底层的ClassLoader所加载的类。
+　　通常情况下，启动类加载器中的类为系统核心类，包括一些重要的系统接口，而在应用类加载器中，为应用类。按照这种模式，应用类访问系统类自然是没有问题，但是系统类访问应用类就会出现问题。比如在系统类中提供了一个接口，该接口需要在应用类中得以实现，该接口还绑定一个工厂方法，用于创建该接口的实例，而接口和工厂方法都在启动类加载器中。这时，就会出现该工厂方法无法创建由应用类加载器加载的应用实例的问题。
+
+　　**结论**
+　　<span style="color: red;">由于java虚拟机规范并没有明确要求类加载器的加载机制一定要使用双亲委派模型，只是建议采用这种方式而已。</span>比如在Tomcat中，类加载器所采用的加载机制就和传统的双亲委派模型有一定区别，当缺省的类加载器接收到一个类的加载任务时，首先会由它自行加载，当它加载失败时，才会将类的加载任务委派给它的超类加载器去执行，这同时也是Serylet规范推荐的一种做法。
+
+### 17.5.3 破坏双亲委派机制
+
+　　双亲委派模型并不是一个具有强制性约束的模型，而是Java设计者推荐给开发者们的类加载器实现方式。
+　　在Java的世界中大部分的类加载器都遵循这个模型，但也有例外的情况，直到Java模块化出现为止，双亲委派模型主要出现过3次较大规模“被破坏”的情况。
+
+　　**第一次破坏双亲委派机制**
+　　双亲委派模型的第一次“被破坏”其实发生在双亲委派模型出现之前一—即JDK1.2面世以前的“远古”时代。
+　　由于双亲委派模型在JDK 1.2之后才被引入，但是类加载器的概念和抽象类java.lang.ClassLoader则在Java的第一个版本中就已经存在，面对经存在的用户自定义类加载器的代码，Java设计者们引入双亲委派模型时不得不做出一些妥协，<span>为了兼容这些已有代码，无法再心技术手段避免loadClass()被子类覆盖的可能性，</span>只能在JDK1.2之后的java.lang.ClassLoader中添加一个新的protected方法findClass()，并引导用户编写的类加载逻辑时尽可能去重写这个方法，而不是在loadClass()中编写代码。上节我们已经分析过loadClass()方法，双亲委派的具体逻辑就实现在这里面，按照loadClass()方法的逻辑，如果父类加载失败，会自动调用自己的findClass()方法来完成加载，这样既不影响用户按照自己的意愿去加载类，又可以保证新写出来的类加载器是符合双亲委派规则的。
+
+　　**第二次破坏双亲委派机制：线程上下文类加载器**
+　　双亲委派模型的第二次“被破坏”是由这个模型自身的缺陷导致的，双亲委派很好地解决了各个类加载器协作时基础类型的一致性问题（<span style="color: red;">越基础的类由越上层的加载器进行加载</span>），基础类型之所以被称为“基础”，是因为它们总是作为被用户代码继承、调用的API存在，但程序设计往往没有绝对不变的完美规则，如果有<span style="color: red;">基础类型又要调用回用户的代码，那该怎么办？</span>
+　　这并非是不可能出现的事情，一个典型的例子便是JNDI服务，JNDI现在已经是Java的标准服务，它的代码由启动类加载器来完成加载（在JDK 1.3时加入到rt.jar的），肯定属于Java中很基础的类型了。但JNDI存在的目的就是对资源进行查找和集中管理，它需要调用由其他厂商实现并部署在应用程序的ClassPath下的JNDI服务提供者接口（Service Provider Interface，SPI）的代码，现在问题来了，<span style="color: red;">启动类加载器是绝不可能认识、加载这些代码的，那该如何？</span>（SPI：在Java平台中，通常把核心类rt.jar中提供外部服务、可由应用层自行实现的接口称为SPI）。
+　　为了解决这个困境，Java的设计团队只好引入了一个不太优雅的设计：<span style="color: red;">线程上下文类加载器(ThreadContextClassLoader)</span>。这个类加载器可以通过java.lang.Thread类的setContextClassLoader()方法进行设置，如果创建线程时还未设置，它将会从父线程中继承一个，如果在应用程序的全局范围内都没有设置过的话，那这个类加载器默认就是应用程序类加载器。
+　　有了线程上下文类加载器，程序就可以做一些“舞弊”的事情了。JNDI服务使用这个线程上下文类加载器去加载所需的SPI服务代码，<span style="color: red;">这是一种父类加载器去请求子类加载器完成类加载的行为，这种行为实际上是打通了双亲委派模型的层次结构来逆向使用类加载器，已经违背了双亲委派模型的一般性原则，</span>但也是无可奈何的事情。 ，例如JNDI、JDBC、JCE、JAXB和JBI等。不过，当SPI的服务提供者多于一个的时候，代码就只能根据具体提供者的类型来硬编码判断，为了消除这种极不优雅的实现方式，在JDK6时，JDK提供了java.util.ServiceLoader类，以META-INF/services中的配置信息，辅以责任链模式，这才算是给SPI的加载提供了一种相对合理的解决方案。
+　　![avatar](pictures/17ClassLoader2/17-10.png)
+　　默认上下文加载器就是应用类加载器，这样以上下文加载器为中介，使得启动类加载器中的代码也可以访问应用类加载器中的类。
+
+<div>
+    <h5>　　第三次破坏双亲委派机制</h5>
+    <p>　　双亲委派模型的第三次“被破坏”是由于用户对程序动态性的追求而导致的。如：**代码热替换(Hot Swap)、模块热部署(Hot Deployment)**等</p>
+    <p>　　IBM公司主导的JSR-291(即OSGiR4.2)实现模块化热部署的关键是它自定义的类加载器机制的实现，每一个程序模块(osGi中称为Bundle)都有一个自己的类加载器，当需要更换一个Bundle时，就把Bund1e连同类加载器一起换掉以实现代码的热替换。在oSGi环境下，类加载器不再双亲委派模型推荐的树状结构，而是进一步发展为更加复杂的网状结构。</p>
+    <p>　　当收到类加载请求时，OSGi将按照下面的顺序进行类搜索：</p>
+    <ol>
+        <li style="color: red;">将以java.*开头的类，委派给父类加载器加载；</li>
+        <li style="color: red;">否则，将委派列表名单内的类，委派给父类加载器加载；</li>
+        <li>否则，将Import列表中的类，委派给Export这个类的Bundle的类加载器加载；</li>
+        <li>否则，查找当前Bundle的ClassPath，使用自己的类加载器加载；</li>
+        <li>否则，查找类是否在自己的Fragment Bundle中，如果在，则委派给Fragment Bundle的类加载器加载；</li>
+        <li>否则，查找Dynamic Import列表的Bundle，委派给对应Bund1e的类加载器加载；</li>
+        <li>否则，类查找失败。</li>
+    </ol>
+    <p>　　说明：只有开头两点仍然符合双亲委派模型的原则，其余的类查找都是在平级的类加载器中进行的。</p>
+    <p>　　小结：这里，我们使用了“被破坏”这个词来形容上述不符合双亲委派模型原则的行为，但这里“被破坏”并不一定是带有贬义的。只要有明确的目的和充分的理由，突破旧有原则无疑是一种创新。</p>
+    <p>　　正如：OSGi中的类加载器的设计不符合传统的双亲委派的类加载器架构，且业界对其为了实现热部署而带来的额外的高复杂度还存在不少争议，但对这方面有了解的技术人员基本还是能达成一个共识，认为<b>OSGi中对类加载器的运用是值得学习的，完全弄懂了OSGi的实现，就算是掌握了类加载器的精粹</b>。</p>
+</div>
+
+### 17.5.4 热替换的实现
+
+　　热替换是指在程序的运行过程中，不停止服务，只通过替换程序文件来修改程序的行为。<span style="color: red;">热替换的关键需求在于服务不能中断，修改必须立即表现正在运行的系统之中。</span>基本上大部分脚本语言都是天生支持热替换的，比如：PHP，只要替换了PHP源文件，这种改动就会立即生效，而无需重启Web服务器。
+　　但对Java来说，热替换并非天生就支持，如果一个类已经加载到系统中，通过修改类文件，并无法让系统再来加载并重定义这个类。因此，在Java中实现这一功能的一个可行的方法就是灵活运用ClassLoader。
+　　注意：由不同ClassLoader加载的同名类属于不同的类型，不能相互转换和兼容。即两个不同的ClassLoader加载同一个类，在虚拟机内部，会认为这2个类是完全不同的。
+　　根据这个特点，可以用来模拟热替换的实现，基本思路如下图所示：
+　　![avatar](pictures/17ClassLoader2/17-11.png)
+
+## 17.6 热替换的实现
+
+<div>
+    <p>　　沙箱安全机制</p>
+    <ul>
+        <li>保证程序安全</li>
+        <li>保护Java原生的JDK代码</li>
+    </ul>
+</div>
+
+　　<span style="color: red;">java安全模型的核心就是java沙箱(sandbox)。</span>什么是沙箱？就是一个限制程序运行的环境。
+　　沙箱机制就是将Java代码<span style="color: red;">限定在虚拟机(jvm)特定的运行范围中，并且严格限制代码对本地系统资源访问。</span>通过这样的措施来保证对代码的有限隔离，防止对本地系统造成破坏。
+　　沙箱主要限制系统资源访问，那系统资源包括什么？CPU、内存、文件系统、网络。不同级别的沙箱对这些资源访问的限制也可以不一样。
+　　所有的Java程序运行都可以指定沙箱，可以定制安全策略。
+
+### 17.6.1 JDK1.0时期
+
+　　在Java中将执行程序分成本地代码和远程代码两种，本地代码默认视为可信任的，而远程代码则被看作是不受信的。对于授信的本地代码，可以访问一切本地资源。而对于非授信的远程代码在早期的Java实现中，安全依赖于沙箱（Sandbox）机制。如下图所示JDK1.0安全模型
+　　![avatar](pictures/17ClassLoader2/17-12.png)
+
+### 17.6.2 JDK1.1时期
+
+　　JDK1.0中如此严格的安全机制也给程序的功能扩展带来障碍，比如当用户希望远程代码访问本地系统的文件时候，就无法实现。
+　　因此在后续的Java1.1版本中，针对安全机制做了改进，增加了**安全策略**。允许用户指定代码对本地资源的访问权限。
+　　如下图所示JDK1.1安全模型
+　　![avatar](pictures/17ClassLoader2/17-13.png)
+
+### 17.6.3 JDK1.2时期
+
+　　在Java1.2版本中，再次改进了安全机制，增加了**代码签名**。不论本地代码或是远程代码，都会按照用户的安全策略设定，由类加载器加载到虚拟机中权限不同的运行空间，来实现差异化的代码执行权限控制。如下图所示JDK1.2安全模型：
+　　![avatar](pictures/17ClassLoader2/17-14.png)
+
+### 17.6.4 JDK1.6时期
+
+　　当前最新的安全机制实现，则引入了**域（Domain）**的概念。
+　　虚拟机会把所有代码加载到不同的系统域和应用域。<span style="color: red;">系统域部分专门负责与关键资源进行交互</span>，而各个应用域部分则通过系统域的部分代理来对各种需要的资源进行访问。虚拟机中不同的受保护域（Protected Domain），对应不一样的权限（Permission）。存在于不同域中的类文件就具有了当前域的全部权限，如下图所示，最新的安全模型（jdk1.6）
+　　![avatar](pictures/17ClassLoader2/17-15.png)
+
+## 17.7 自定义类的加载器
+### 17.7.1 为什么要自定义类加载器？
+
+<div>
+    <div>
+        <ul>
+            <li>隔离加载类：在某些框架内进行中间件与应用的模块隔离，把类加载到不同的环境。比如:阿里内某容器框架通过自定义类加载器确保应用中依赖的jar包不会影响到中间件运行时使用的jar包。再比如:Tomcat这类Web应用服务器，内部自定义了好几种类加载器，用于隔离同一个Web应用服务器上的不同应用程序；</li>
+            <li>修改类加载的方式：类的加载模型并非强制，除Bootstrap外，其他的加载并非一定要引入，或者根据实际情况在某个时间点进行按需进行动态加载；</li>
+            <li>扩展加载源：比如从数据库、网络、甚至是电视机机顶盒进行加载；</li>
+            <li>防止源码泄漏：Java代码容易被编译和篡改，可以进行编译加密。那么类加载也需要自定义，还原加密的字节码。 </li>
+        </ul>
+    </div>
+    <div>
+        <h5>　　常见的场景</h5>
+        <ul>
+            <li>实现类似进程内隔离，类加载器实际上用作不同的命名空间，以提供类似容器、模块化的效果。例如，两个模块依赖于某个类库的不同版本，如果分别被不同的容器加载，就可以互不干扰。这个方面的集大成者是JavaEE和OSGI、JPMS等框架。</li>
+            <li>应用需要从不同的数据源获取类定义信息，例如网络数据源，而不是本地文件系统。或者是需要自己操纵字节码，动态修改或者生成类型。</li>
+        </ul>
+    </div>
+</div>
+
+　　**注意**
+　　在一般情况下，使用不同的类加载器去加载不同的功能模块，会提高应用程序的安全性。但是，如果涉及Java类型转换，则加载器反而容易产生不美好的事情。在做Java类型转换时，只有两个类型都是由同一个加载器所加载，才能进行类型转换，否则转换时会发生异常。
+
+### 17.7.2 实现方式
+
+　　Java提供了抽象类java.lang.ClassLoader，所有用户自定义的类加载器都应该继承ClassLoader类。
+
+<div>
+    <div>
+        <p>　　在自定义ClassLoader的子类时候，我们常见的会有两种做法:</p>
+        <ul>
+            <li>方式一:重写loadClass()方法</li>
+            <li>方式二:重写findclass()方法</li>
+        </ul>
+    </div>
+    <div>
+        <h5>　　对比</h5>
+        <ul>
+            <li>这两种方法本质上差不多，毕竟loadClass()也会调用findClass()，但是从逻辑上讲我们最好不要直接修改loadClass()的内部逻辑。建议的做法是只在findClass()里重写自定义类的加载方法，根据参数指定类的名字，返回对应的Class对象的引用。</li>
+            <li>loadclass()这个方法是实现双亲委派模型逻辑的地方，擅自修改这个方法会导致模型被破坏，容易造成问题。<span style="color: red;">因此我们最好是在双亲委派模块框架内进行小范围的改动，不破坏原有的稳定结构。</span>同时，也避免了自己重写loadClass()方法的过程中必须写双亲委托的重复代码，从代码的复用性来看，不直接修改这个方法始终是比较好的选择。</li>
+            <li>当编写好自定义类加载器后，便可以在程序中调用loadClass()方法来实现类加载操作。</li>
+        </ul>
+    </div>
+    <div>
+        <h5>　　说明</h5>
+        <ul>
+            <li>其父类加载器是系统类加载器</li>
+            <li>JVM中的所有类加载都会使用java.lang.ClassLoader.loadClass(String)接口(自定义类加载器并重写java.lang.ClassLoader.loadClass(String)接口的除外)，连JDK的核心类库也不能例外。</li>
+        </ul>
+    </div>
+</div>
+
+## 17.8 Java9新特性
+
+<div>
+    <p>　　为了保证兼容性，JDK9没有从根本上改变三层类加载器架构和双亲委派模型，但为了模块化系统的顺利运行，仍然发生了一些值得被注意的变动。</p>
+    <ol>
+        <li>
+            扩展机制被移除，扩展类加载器由于向后兼容性的原因被保留，不过被重命名为平台类加载器(platform class loader)。可以通过classLoader的新方法getPlatformClassLoader()来获取。
+            JDK9时基于模块化进行构建(原来的rt.jar和tools.jar被拆分成数十个JMOD文件)，其中的Java类库就已天然地满足了可扩展的需求，那自然无须再保留&lt;JAVA_HOME&gt;\lib\ext目录，此前使用这个目录或者java.ext.dirs系统变量来扩展JDK功能的机制已经没有继续存在的价值了。 </li>
+        <li>
+            平台类加载器和应用程序类加载器都不再继承自java.net.URLClassLoader。
+            现在启动类加载器、平台类加载器、应用程序类加载器全都继承于jdk.internal.loader.BuiltinClassLoader。
+            <img src="pictures/17ClassLoader2/17-16.png">
+            如果有程序直接依赖了这种继承关系，或者依赖了URLClassLoader类的特定方法，那代码很可能会在JDK9及更高版本的JDK中崩溃。
+        </li>
+        <li>在Java9中，类加载器有了名称。该名称在构造方法中指定，可以通过getName()方法来获取。平台类加载器的名称是platform，应用类加载器的名称是app。类加载器的名称在调试与类加载器相关的问题时会非常有用。</li>
+        <li>启动类加载器现在是在jvm内部和java类库共同协作实现的类加载器（以前是C++实现），但为了与之前代码兼容，在获取启动类加载器的场景中仍然会返回null，而不会得到BootClassLoader实例。</li>
+        <li>
+            类加载的委派关系也发生了变动。当平台及应用程序类加载器收到类加载请求，在委派给父加载器加载前，要先判断该类是否能够归属到某一个系统模块中，如果可以找到这样的归属关系，就要优先委派给负责那个模块的加载器完成加载。
+            <img src="pictures/17ClassLoader2/17-17.png">
+            <img src="pictures/17ClassLoader2/17-18.png">
+            <img src="pictures/17ClassLoader2/17-19.png">
+            <img src="pictures/17ClassLoader2/17-20.png">
+        </li>
+    </ol>
+</div>
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
+　　
