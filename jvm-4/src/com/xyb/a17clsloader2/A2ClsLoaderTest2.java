@@ -34,6 +34,9 @@ public class A2ClsLoaderTest2 {
 
         int[] intArr = new int[10];
         System.out.println(intArr.getClass().getClassLoader()); // 基本类型是没有引导器加载的，此时的null指不需要类加载器，而不是引导类加载器。
+
+        // 是系统类加载器，查看Launcher的构造方法可知
+        System.out.println(Thread.currentThread().getContextClassLoader());
     }
 
 }

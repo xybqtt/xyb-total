@@ -658,7 +658,7 @@
     <div>
         <h5>　　扩展类加载器(Extension ClassLoader)</h5>
         <ol>
-            <li>Java语言编写，由sun.misc.Launcher\$ExtClassLoader实现，本质也是一个类，由引导类加载器加载；</li>
+            <li style="color: red;">Java语言编写，由sun.misc.Launcher$ExtClassLoader实现，本质也是一个类，由引导类加载器加载；</li>
             <li>派生于ClassLoader类；</li>
             <li>父类加载器为启动类加载器；</li>
             <li>从java.ext.dirs系统属性所指定的目录中加载类库，或从JDK的安装目录的jre/1ib/ext子目录(扩展目录)下加载类库。如果用户创建的JAR放在此目录下，也会自动由扩展类加载器加载。</li>
@@ -668,7 +668,7 @@
     <div>
         <h5>　　应用程序类加载器(系统类加载器，AppClassLoader)</h5>
         <ol>
-            <li>java语言编写，由sun.misc.LaunchersAppClassLoader实现；</li>
+            <li>java语言编写，由sun.misc.Launcher$AppClassLoader实现；</li>
             <li>派生于ClassLoader类；</li>
             <li>父类加载器为扩展类加载器，<strong>注意不是由扩展类加载器加载的，含义不同，其parent虽然是扩展类加载器，但是是由引导类加载器加载的，它和扩展类加载器不是继承关系，他们都继承了URLClassLoader</strong>；</li>
             <li>它负责加载环境变量classpath或系统属性java.class.path指定路径下的类库；</li>
@@ -6949,7 +6949,7 @@ ClassLoader.getSystemClassLoader()
     <h5>　　抽象类ClassLoader的主要方法：（内部没有抽象方法）</h5>
     <ol>
         <li>public final ClassLoader getParent()：返回该类加载器的超类加载器</li>
-        <li>public Class<?> loadClass(String name) throws ClassNotFoundException：加载名称为name的类，返回结果为java.lang.Class类的实例。如果找不到类，则返回 ClassNotFoundException异常。该方法中的逻辑就是双亲委派模式的实现。</li>
+        <li style="color: red;">public Class<?> loadClass(String name) throws ClassNotFoundException：加载名称为name的类，返回结果为java.lang.Class类的实例。如果找不到类，则返回 ClassNotFoundException异常。该方法中的逻辑就是双亲委派模式的实现，可以查看源码。</li>
         <li>
             protected Class<?> findClass(String name) throws ClassNotFoundException：查找二进制名称为name的类，返回结果为java.lang.Class类的实例。这是一个受保护的方法，JVM鼓励我们重写此方法，需要自定义加载器遵循双亲委托机制，该方法会在检查完父类加载器之后被loadClass()方法调用。
             <ul>
