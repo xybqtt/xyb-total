@@ -7835,6 +7835,43 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
     </ul>
 </div>
 
+<div>
+    <h5>　　dump文件</h5>
+    <div>
+        <h5>　　dump文件一般说来，这些内存信息包含</h5>
+        <ul>
+            <li>所有的对象信息，包括对象实例、成员变量、存储于栈中的基本类型值和存储于堆中的其它对象的引用值；</li>
+            <li>所有的类信息，包括classloader、类名称、父类、静态变量等</li>
+            <li>GCRoot到所有的这些对象的引用路径</li>
+            <li>线程信息，包括线程的调用栈及此线程的线程局部变量(TLS)</li>
+        </ul>
+    </div>
+    <div>
+        <h5>　　dump生成的几种方式</h5>
+        <ol>
+            <li>通过jmap命令生成，可以生成任意一个java进程的dump文件；</li>
+            <li>
+                通过配置JVM参数生成
+                "-XX:+HeapDumpOnOutOfMemoryError"或"+XX:+HeapDumpBeforeFullGC"；
+                "-XX:HeapDumpPath"：表示当程序出现oom时，会在此参数路径下生成dump文件，如果不指定，则在当前目录下生成。
+            </li>
+            <li>使用Visual VM导出</li>
+            <li>
+                使用MAT可以打开一个已有的堆快照，也可通过MAT直接从活动的java程序中导出堆快照。该功能将借助jps列出当前正在运行的java进程，以供选择并获取快照。File 》 Acquire Heap Dump...
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div>
+    <h5>　　深堆与浅堆</h5>
+    <p>　　浅堆(shallow heap)：是指一个对象所消耗的内存。在32位系统中，一个对象引用会占据4个字节，一个int类型会占据4个字节，long型变量会占据8个字节，每个对象头需要占用8个字节。根据堆快照格式不同，对象的大小可能会向8字节对齐。</p>
+    <p>　　保留集(Retained Set)：对象A的保留集指当A对象被GC后，可以被释放的所有对象的集合(包含A本身)，即对象A的保留集可以被认为是<b style="color: red;">只能通过</b>对象A被直接或间接访问到的所有对象的集合。通俗地说，就是指仅被对象A所持有的对象的集合。</p>
+    <p>　　深堆(shallow heap)：是指对象的保留集中所有的对象的浅堆大小之和。</p>
+    <p>　　注意：浅堆指对象本身占用的内存，不包括其内部引用对象的大小。一个对象的深堆指只能通过该对象访问到的(直接或间接)所有对象的浅堆之和，即对象被回收后，可以释放的真实空间。</p>
+    <p>　　另外一个常用的概念是对象的实际大小。这是，对象的实际大小定义为一个对象<b style="color:red;">所能触及</b>的所有对象的浅堆大小之和，也就是通常意义上我们说的对象大小。与深堆相比，似乎这个在日常开发中更为直观和被人接受，但实际上，这个概念和垃圾回收无关。</div>
+
+
 ## 20.2 JConsole
 
 　　jconsole：从Java5开始，在JDK中自带的java监控和管理控制台。用于对JVM中内存、线程和类等的监控，是一个基于JMX（java management extensions）的GUI性能监控工具。
@@ -7846,45 +7883,139 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
 
 　　Visual VM是一个功能强大的多合一故障诊断和性能监控的可视化工具。它集成了多个JDK命令行工具，使用Visual VM可用于显示虚拟机进程及进程的配置和环境信息（jps，jinfo），监视应用程序的CPU、GC、堆、方法区及线程的信息（jstat、jstack）等，甚至代替JConsole。在JDK 6 Update 7以后，Visual VM便作为JDK的一部分发布（VisualVM 在JDK／bin目录下）即：它完全免费。
 　　启动：cmd -> jvisualvm
+　　官方下载地址：https://visualvm.github.io/index.html
 
 <div>
-    <h5>　　主要功能：</h5>
-    <ol>
-        <li>生成/读取堆内存/线程快照</li>
-        <li>查看JVM参数和系统属性</li>
-        <li>查看运行中的虚拟机进程</li>
-        <li>程序资源的实时监控</li>
-        <li>JMX代理连接、远程环境监控、CPU分析和内存分析</li>
-    </ol>
+    <div>
+        <h5>　　插件安装的2种方式</h5>
+        <ol>
+            <li>
+                <div>
+                    <ol>
+                        <li>插件下载地址：https://visualvm.github.io/pluginscenters.html</li>
+                        <li>点击自己的vvm版本</li>
+                        <li>从Tools里面选择需要下载的插件，如Visual GC</li>
+                        <li>打开vvm 》 工具 》 插件 》 已下载 》 添加插件 》 选中刚才下载的Visual GC插件 》 安装</li>
+                    </ol>
+                </div>
+            </li>
+            <li>
+                打开vvm 》 工具 》 插件 》 可用插件 》 检查最新版本 》 勾选需要安装的 》 安装。
+            </li>
+        </ol>
+    </div>
+    <div>
+        <h5>　　在idea中安装vvm步骤</h5>
+        <ol>
+            <li>File 》 Settings 》 plugins 》 搜索VisualVM Launcher 》 install</li>
+            <li>File 》 Settings 》VisualVM Launcher(或Other Settings) 》 配置本地的可执行的vvm</li>
+        </ol>
+    </div>
+    <div>
+        <h5>　　在vvm中查看远程的服务器运行的相关信息</h5>
+        <ol>
+            <li>获取远程ip</li>
+            <li>添加JMX(通过JMX技术具体监控远端服务器哪个java进程)</li>
+            <li>修改bin/catalin.sh文件，连接远程的tomcat</li>
+            <li>在.../conf中添加jmxremote.access和jmxremote.password文件</li>
+            <li>将服务器地址改为公网ip地址</li>
+            <li>设置阿里云安全策略和防火墙策略</li>
+            <li>启动tomcat，查看tomcat启动日志和端口监听</li>
+            <li>JMX中输入端口号、用户名、密码登陆</li>
+        </ol>
+    </div>
+    <div>
+        <h5>　　主要功能：</h5>
+        <ol>
+            <li>生成/读取堆内存/线程快照</li>
+            <li>查看JVM参数和系统属性</li>
+            <li>查看运行中的虚拟机进程</li>
+            <li>程序资源的实时监控</li>
+            <li>JMX代理连接、远程环境监控、CPU分析和内存分析</li>
+        </ol>
+        <h5>　　如下图所示</h5>
+        <ol>
+            <li style="border: 2px solid red; margin-bottom: 20px;">
+                <img src="pictures/20jvm监控及诊断工具-GUI篇/20-2.png">
+                <img src="pictures/20jvm监控及诊断工具-GUI篇/20-3.png">
+                <img src="pictures/20jvm监控及诊断工具-GUI篇/20-6.png">
+            </li>
+            <li style="border: 2px solid red; margin-bottom: 20px;">
+                <img src="pictures/20jvm监控及诊断工具-GUI篇/20-1.png">
+            </li>
+            <li style="border: 2px solid red; margin-bottom: 20px;">
+                <img src="pictures/20jvm监控及诊断工具-GUI篇/20-7.png">
+            </li>
+            <li style="border: 2px solid red; margin-bottom: 20px;">
+                <img src="pictures/20jvm监控及诊断工具-GUI篇/20-4.png">
+                <img src="pictures/20jvm监控及诊断工具-GUI篇/20-5.png">
+            </li>
+            <li style="border: 2px solid red; margin-bottom: 20px;"></li>
+        </ol>
+    </div>
+    <div>
+        <h5>　　堆dump文件介绍</h5>
+        <img src="pictures/20jvm监控及诊断工具-GUI篇/20-8.png">
+    </div>
+    <div>
+        <h5>　　线程dump文件介绍</h5>
+        <img src="pictures/20jvm监控及诊断工具-GUI篇/20-9.png">
+    </div>
 </div>
 
-　　官方地址：https://visualvm.github.io/index.html
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-6.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-7.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-8.png)
 
 ## 20.4 Eclipse MAT
 
 　　MAT（Memory Analyzer Tool）工具是一款功能强大的Java堆内存分析器。可以用于查找内存泄漏以及查看内存消耗情况。MAT是基于Eclipse开发的，不仅可以单独使用，还可以作为插件的形式嵌入在Eclipse中使用。是一款免费的性能分析工具，使用起来非常方便。
 　　MAT可以分析heap dump文件。在进行内存分析时，只要获得了反映当前设备内存映像的hprof文件，通过MAT打开就可以直观地看到当前的内存信息。
 
-<div>
-    <p>　　一般说来，这些内存信息包含：</p>
-    <ul>
-        <li>所有的对象信息，包括对象实例、成员变量、存储于栈中的基本类型值和存储于堆中的其他对象的引用值。</li>
-        <li>所有的类信息，包括classloader、类名称、父类、静态变量等</li>
-        <li>GCRoot到所有的这些对象的引用路径</li>
-        <li>线程信息，包括线程的调用栈及此线程的线程局部变量（TLS）</li>
-    </ul>
-</div>
-
 　　MAT 不是一个万能工具，它并不能处理所有类型的堆存储文件。但是比较主流的厂家和格式，例如Sun，HP，SAP 所采用的 HPROF 二进制堆存储文件，以及 IBM的 PHD 堆存储文件等都能被很好的解析。
 　　最吸引人的还是能够快速为开发人员生成内存泄漏报表，方便定位问题和分析问题。虽然MAT有如此强大的功能，但是内存分析也没有简单到一键完成的程度，很多内存问题还是需要我们从MAT展现给我们的信息当中通过经验和直觉来判断才能发现。
 　　官方地址： https://www.eclipse.org/mat/downloads.php
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-9.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-10.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-11.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-12.png)
+
+　　**MAT生成dump文件**
+　　File 》Acquire Heap Dump...  》选中需要查看的进程 》选择生成位置(会生成***.hprof文件) 》Leak Suspects Report(是否生成内存泄漏可疑报告，勾选后会生成xxx_Leak_Suspects.zip) 》Finish。
+
+　　**MAT加载dump文件**
+　　File 》Open Heap Dump... 。
+
+<div>
+    <h5>　　MAT加载dump文件后界面介绍</h5>
+    <div>
+        <h5>　　Overview(概述)</h5>
+        <ul>
+            <li>Histogram(直方图)：列举每个class的实例</li>
+            <li>Dominator Tree(支配树)：列举最大的存活对象</li>
+            <li>Thread Overview(线程概述)：展示线程相关信息</li>
+            <li>Top Consumers：打印按类和包分组的最昂贵对象</li>
+            <li>Duplicate Classes：检测被多个类加载器加载的类</li>
+            <li>Leak Suspects：内存泄漏检测</li>
+            <li>Top Components：列举超过0.01堆内存的对象</li>
+        </ul>
+        <img src="pictures/20jvm监控及诊断工具-GUI篇/20-10.png">
+    </div>
+    <hr/>
+    <div>
+        <h5>　　Histogram(直方图)</h5>
+        <ul>
+            <li>Shallow Heap：浅堆，仅包含自身对象的大小，不包含其引用对象所占内存大小。</li>
+            <li>Retained Heap：深堆，包含自身对象和其引用对象所占内存大小。</li>
+            <li>Merge Shortest Paths to GC Roots 》排除所有的软、弱、虚引用：可以更好排查内存泄漏</li>
+        </ul>
+        <img src="pictures/20jvm监控及诊断工具-GUI篇/20-11.png">
+    </div>
+    <hr/>
+    <div style="border: red solid 5px; margin-bottom: 20px;">
+        <h5>　　Thread Overview(线程概述)</h5>
+        <h6>　　作用</h6>
+        <ul>
+            <li>展示系统中的java线程</li>
+            <li>查看局部变量信息</li>
+        </ul>
+        <img src="pictures/20jvm监控及诊断工具-GUI篇/20-12.png">
+        <p>对元素右键 》 List Objects 》 with outgoing references(引用了谁)、with incoming references(被谁引用了)</p>
+    </div>
+</div>
 
 ## 20.5 JProfiler
 

@@ -14,10 +14,10 @@ public class Test {
         List<byte[]> list = new ArrayList<byte[]>();
 
         for (int i = 0; i < 1000; i++) {
-            byte[] arr = new byte[1024 * 100];
+            byte[] arr = new byte[1024];
             list.add(arr);
             try {
-                Thread.sleep(120);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }

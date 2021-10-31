@@ -25,196 +25,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Test.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jvm-4/jvm-4.md" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/jvm-4.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/10stringTable/10-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/10字符串常量池/10-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/10stringTable/10-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/10字符串常量池/10-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/10stringTable/10-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/10字符串常量池/10-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/10stringTable/10-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/10字符串常量池/10-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/10stringTable/10-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/10字符串常量池/10-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/11GCAlgorithm/11-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/11GC算法/11-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/11GCAlgorithm/11-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/11GC算法/11-10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/11GCAlgorithm/11-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/11GC算法/11-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/11GCAlgorithm/11-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/11GC算法/11-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/11GCAlgorithm/11-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/11GC算法/11-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/11GCAlgorithm/11-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/11GC算法/11-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/11GCAlgorithm/11-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/11GC算法/11-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/11GCAlgorithm/11-7.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/11GC算法/11-7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/11GCAlgorithm/11-8.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/11GC算法/11-8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/11GCAlgorithm/11-9.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/11GC算法/11-9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/12GCRelative/12-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/12垃圾回收相关概念/12-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/12GCRelative/12-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/12垃圾回收相关概念/12-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/12GCRelative/12-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/12垃圾回收相关概念/12-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/12GCRelative/12-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/12垃圾回收相关概念/12-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/12GCRelative/12-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/12垃圾回收相关概念/12-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/12GCRelative/12-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/12垃圾回收相关概念/12-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-11.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-12.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-13.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-13.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-14.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-14.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-15.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-15.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-16.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-17.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-17.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-18.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-18.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-19.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-19.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-20.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-20.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-21.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-21.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-22.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-22.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-23.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-23.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-24.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-24.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-25.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-25.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-26.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-26.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-27.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-27.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-28.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-28.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-29.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-29.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-30.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-30.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-31.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-31.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-7.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-8.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/13GCRealization/13-9.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/13GC具体实现/13-9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/14ClassStructure/14-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/14class文件结构/14-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/14ClassStructure/14-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/14class文件结构/14-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/14ClassStructure/14-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/14class文件结构/14-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/14ClassStructure/14-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/14class文件结构/14-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-11.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-12.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-13.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-13.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-14.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-14.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-15.gif" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-15.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-16.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-17.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-17.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-18.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-18.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-19.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-19.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-20.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-20.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-21.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-21.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-22.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-22.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-23.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-23.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-7.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-8.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/15ClassInstruction/15-9.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/15字节码指令/15-9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/16ClassLoadProcess/16-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/16类加载过程/16-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/16ClassLoadProcess/16-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/16类加载过程/16-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/16ClassLoadProcess/16-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/16类加载过程/16-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/16ClassLoadProcess/16-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/16类加载过程/16-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/16ClassLoadProcess/16-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/16类加载过程/16-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/16ClassLoadProcess/16-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/16类加载过程/16-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-11.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-12.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-13.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-13.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-14.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-14.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-15.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-15.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-16.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-17.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-17.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-18.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-18.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-19.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-19.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-20.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-20.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-7.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-8.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/17ClassLoader2/17-9.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/17再谈类加载器/17-9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/2classloader/2-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/2类加载器/2-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/2classloader/2-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/2类加载器/2-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/2classloader/2-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/2类加载器/2-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/2classloader/2-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/2类加载器/2-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/2classloader/2-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/2类加载器/2-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/2classloader/2-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/2类加载器/2-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/3runningDataArea/3-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/3运行时数据区/3-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/3runningDataArea/3-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/3运行时数据区/3-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/3runningDataArea/3-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/3运行时数据区/3-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/4jvmStack/4-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/4虚拟机栈/4-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/4jvmStack/4-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/4虚拟机栈/4-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/4jvmStack/4-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/4虚拟机栈/4-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/4jvmStack/4-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/4虚拟机栈/4-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/4jvmStack/4-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/4虚拟机栈/4-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/4jvmStack/4-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/4虚拟机栈/4-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/5LocalMethodInterface/5-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/5本地方法接口/5-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/5LocalMethodInterface/5-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/5本地方法接口/5-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-11.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-7.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-8.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/6heap/6-9.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/6堆/6-9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-11.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-12.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-13.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-13.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-14.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-14.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-15.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-15.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-16.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-7.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-8.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-10/7-10-9.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-10/7-10-9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-11.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-12.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-13.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-13.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-14.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-14.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-7.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-8.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/7methodArea/7-9.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/7方法区/7-9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-11.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-12.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-7.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-8.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/8objInstance/8-9.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/8对象实例化及直接内存/8-9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-11.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-12.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-13.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-13.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-14.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-14.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-3.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-4.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-5.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-6.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-7.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-8.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/9exeEngine/9-9.png" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/pictures/9执行引擎/9-9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-11.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-12.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-13.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-14.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-15.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-19.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-20.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-21.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-22.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-23.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-24.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-25.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-26.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-27.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-28.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-29.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-30.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-31.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-33.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-34.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-35.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-36.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇/20-9.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jvm-4/src/com/xyb/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/src/com/xyb/Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,24 +115,28 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/jvm-4/pictures/19jvm监控及诊断工具-命令行" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/jvm-4/pictures/20jvm监控及诊断工具-GUI篇" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15332031" />
     <property name="project.structure.side.proportion" value="0.33073172" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.xyb.service.impl" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\4jvmStack" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\6" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\java-web-3\web" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\20jvm监控及诊断工具-GUI篇" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\19jvm监控及诊断工具-命令行" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures" />
       <recent name="D:\devTools\IntelliJ IDEA 2020.1.1\topWorkspace\xybWorkspace\xyb-total-project\webservice-3\ws-server\src\main\java\com\xyb\service\impl" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\4jvmStack" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.xyb.a19jvmcmd.jstack" />
@@ -296,80 +145,11 @@
       <recent name="com.xyb.filter3" />
       <recent name="com.xyb.service" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\4jvmStack" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\6" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\java-web-3\web" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xyb.service.impl" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ThreadSync">
-    <configuration name="A2ClsLoaderTest2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a17clsloader2.A2ClsLoaderTest2" />
-      <module name="jvm-4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.xyb.a17clsloader2.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="A3MyClassLoader" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a17clsloader2.A3MyClassLoader" />
-      <module name="jvm-4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.xyb.a17clsloader2.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="A4Jdk9ClsLoader" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a17clsloader2.A4Jdk9ClsLoader" />
-      <module name="jvm-4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.xyb.a17clsloader2.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ThreadDeadLock" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a19jvmcmd.jstack.ThreadDeadLock" />
-      <module name="jvm-4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.xyb.a19jvmcmd.jstack.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ThreadSync" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a19jvmcmd.jstack.ThreadSync" />
-      <module name="jvm-4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.xyb.a19jvmcmd.jstack.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.Test">
     <configuration name="java-web-3-tomcat" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.85" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="1.8">
       <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
       <deployment>
@@ -494,9 +274,9 @@
       <item itemvalue="Application.A2ClsLoaderTest2" />
       <item itemvalue="Application.A3MyClassLoader" />
       <item itemvalue="Application.A4Jdk9ClsLoader" />
-      <item itemvalue="Tomcat Server.java-web-3-tomcat" />
       <item itemvalue="Application.ThreadDeadLock" />
       <item itemvalue="Application.ThreadSync" />
+      <item itemvalue="Tomcat Server.java-web-3-tomcat" />
     </list>
     <recent_temporary>
       <list>
@@ -638,14 +418,9 @@
       <workItem from="1632439049555" duration="4000" />
       <workItem from="1632439090015" duration="3800000" />
       <workItem from="1634772395333" duration="37000" />
-      <workItem from="1634772581191" duration="17623000" />
-    </task>
-    <task id="LOCAL-00025" summary="html学习：正在学习视频266">
-      <created>1623684058239</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1623684058239</updated>
+      <workItem from="1634772581191" duration="18432000" />
+      <workItem from="1635643325415" duration="16000" />
+      <workItem from="1635643507389" duration="18208000" />
     </task>
     <task id="LOCAL-00026" summary="html学习：正在学习视频294">
       <created>1623801136130</created>
@@ -983,7 +758,14 @@
       <option name="project" value="LOCAL" />
       <updated>1630972580061</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="jvm学习：36 326节">
+      <created>1635293456898</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1635293456898</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1172,7 +954,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：16 146节" />
     <MESSAGE value="jvm学习：17 147节" />
     <MESSAGE value="jvm学习：18 151节" />
     <MESSAGE value="jvm学习：19 160节" />
@@ -1197,21 +978,18 @@
     <MESSAGE value="jvm学习：33-1 286节" />
     <MESSAGE value="jvm学习：34 291节" />
     <MESSAGE value="jvm学习：35 300节" />
-    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：35 300节" />
+    <MESSAGE value="jvm学习：36 326节" />
+    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：36 326节" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="260" y="122" width="1158" height="583" key="#Markdown" timestamp="1626870843100">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="260" y="122" width="1158" height="583" key="#Markdown/0.0.1536.824@0.0.1536.824" timestamp="1626870843100" />
     <state x="230" y="0" key="#Project_Structure" timestamp="1627522535172">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="230" y="0" key="#Project_Structure/0.0.1280.680@0.0.1280.680" timestamp="1627522535172" />
-    <state x="77" y="130" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1635035864613">
+    <state x="77" y="130" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1635645674169">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="77" y="130" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1635035864613" />
+    <state x="77" y="130" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1635645674169" />
     <state x="872" y="212" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1630281465370">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1232,10 +1010,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="512" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1627398940827" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1630972577852">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1635293452485">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1630972577852" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1635293452485" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1630344064081">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1244,26 +1022,26 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="80" y="60" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1627539060627" />
-    <state width="1493" height="222" key="GridCell.Tab.0.bottom" timestamp="1635252207839">
+    <state width="1493" height="209" key="GridCell.Tab.0.bottom" timestamp="1635695805672">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1493" height="222" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1635252207839" />
-    <state width="1493" height="222" key="GridCell.Tab.0.center" timestamp="1635252207839">
+    <state width="1493" height="209" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1635695805672" />
+    <state width="1493" height="209" key="GridCell.Tab.0.center" timestamp="1635695805672">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="222" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1635252207839" />
-    <state width="1493" height="222" key="GridCell.Tab.0.left" timestamp="1635252207839">
+    <state width="1493" height="209" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1635695805672" />
+    <state width="1493" height="209" key="GridCell.Tab.0.left" timestamp="1635695805672">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="222" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1635252207839" />
-    <state width="1493" height="222" key="GridCell.Tab.0.right" timestamp="1635252207839">
+    <state width="1493" height="209" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1635695805672" />
+    <state width="1493" height="209" key="GridCell.Tab.0.right" timestamp="1635695805672">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="222" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1635252207839" />
+    <state width="1493" height="209" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1635695805672" />
     <state width="1493" height="333" key="GridCell.Tab.1.bottom" timestamp="1627658370105">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1288,22 +1066,18 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.2.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1236" height="301" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
     <state width="939" height="221" key="GridCell.Tab.2.center" timestamp="1627539062682">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.2.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1236" height="301" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
     <state width="939" height="221" key="GridCell.Tab.2.left" timestamp="1627539062682">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.2.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1236" height="301" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
     <state width="939" height="221" key="GridCell.Tab.2.right" timestamp="1627539062682">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.2.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1236" height="301" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1626870896419" />
     <state x="408" y="43" width="861" height="593" key="NewModule_or_Project.wizard" timestamp="1627528298341">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -1312,28 +1086,28 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="458" y="113" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1629370742432" />
-    <state x="434" y="0" width="1226" height="680" key="SettingsEditor" timestamp="1630450938533">
+    <state x="434" y="0" width="1226" height="680" key="SettingsEditor" timestamp="1635695057546">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="54" y="0" width="1226" height="680" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1627529496209" />
-    <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1630450938533" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1630972593583">
+    <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1635695057546" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1635293476588">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1630972593583" />
-    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1630972582282">
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1635293476588" />
+    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1635293460676">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1630972582282" />
+    <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1635293460676" />
     <state x="425" y="186" width="672" height="677" key="run.anything.popup" timestamp="1635041363437">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="186" width="672" height="677" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1635041363437" />
-    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup" timestamp="1635041614168">
+    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup" timestamp="1635674644230">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="678" y="120" width="672" height="560" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1627538409774" />
-    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1635041614168" />
+    <state x="814" y="146" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1635674644230" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
