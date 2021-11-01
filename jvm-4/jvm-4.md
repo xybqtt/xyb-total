@@ -7812,7 +7812,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
 # 20 JVM监控及诊断工具-GUI篇
 ## 20.1 工具概述
 
-<div>
+<div style="border: solid 2px red;">
     <h5>　　使用上一章命令行工具或组合能帮您获取目标Java应用性能相关的基础信息，但它们存在下列局限：</h5>
     <ul>
         <li>无法获取方法级别的分析数据，如方法间的调用关系、各方法的调用次数和调用时间等（这对定位应用性能瓶颈至关重要）。</li>
@@ -7823,7 +7823,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
 
 　　为此，JDK提供了一些内存泄漏的分析工具，如jconsole，jvisualvm等，用于辅助开发人员定位问题，但是这些工具很多时候并不足以满足快速定位的需求。所以这里我们介绍的工具相对多一些、丰富一些。
 
-<div>
+<div style="border: solid 2px red;">
     <h5>　　JDK自带的工具</h5>
     <ul>
         <li>jconsole：JDK自带的可视化监控工具。查看Java应用程序的运行概况、监控堆信息、永久区（或元空间）使用情况、类加载情况等 </li>
@@ -7837,7 +7837,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
     </ul>
 </div>
 
-<div>
+<div style="border: solid 2px red;">
     <h5>　　dump文件</h5>
     <div>
         <h5>　　dump文件一般说来，这些内存信息包含</h5>
@@ -7848,6 +7848,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
             <li>线程信息，包括线程的调用栈及此线程的线程局部变量(TLS)</li>
         </ul>
     </div>
+　　<hr style="height: 10px; background: green;"/>
     <div>
         <h5>　　dump生成的几种方式</h5>
         <ol>
@@ -7865,13 +7866,34 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
     </div>
 </div>
 
-<div>
+<div  style="border: solid 2px red;">
     <h5>　　深堆与浅堆</h5>
     <p>　　浅堆(shallow heap)：是指一个对象所消耗的内存。在32位系统中，一个对象引用会占据4个字节，一个int类型会占据4个字节，long型变量会占据8个字节，每个对象头需要占用8个字节。根据堆快照格式不同，对象的大小可能会向8字节对齐。</p>
     <p>　　保留集(Retained Set)：对象A的保留集指当A对象被GC后，可以被释放的所有对象的集合(包含A本身)，即对象A的保留集可以被认为是<b style="color: red;">只能通过</b>对象A被直接或间接访问到的所有对象的集合。通俗地说，就是指仅被对象A所持有的对象的集合。</p>
     <p>　　深堆(shallow heap)：是指对象的保留集中所有的对象的浅堆大小之和。</p>
     <p>　　注意：浅堆指对象本身占用的内存，不包括其内部引用对象的大小。一个对象的深堆指只能通过该对象访问到的(直接或间接)所有对象的浅堆之和，即对象被回收后，可以释放的真实空间。</p>
     <p>　　另外一个常用的概念是对象的实际大小。这是，对象的实际大小定义为一个对象<b style="color:red;">所能触及</b>的所有对象的浅堆大小之和，也就是通常意义上我们说的对象大小。与深堆相比，似乎这个在日常开发中更为直观和被人接受，但实际上，这个概念和垃圾回收无关。</div>
+
+<div  style="border: solid 2px red;">
+    <h5>　　内存泄漏(memory leak)</h5>
+    <p>　　可达性分析算法来判断对象是否是不再使用的对象，本质都是判断一个对象是否还被引用。那么对于这种情况下，由于代码的实现不同就会出现很多种内存泄漏问题(让JVM误以为此对象还在引用中，无法回收，造成内存泄漏)。</p>
+    <h5>　　内存泄漏(memory leak)的理解</h5>
+    <p>　　严格来说，只有对象不再被程序用到了，但是GC又不能回收他们的情况，才叫内存泄漏。但实际情况很多时候一些不太好的实践会导致对象生命周期变得很长甚至OOM，也可以叫做宽泛意义上的"内存泄漏"。</p>
+　　<hr style="height: 10px; background: green;"/>
+    <div>
+        <h5>　　内存泄漏的8种情况</h5>
+        <ol>
+            <li>静态集合类</li>
+            <li>单例模式</li>
+            <li>内部类持有外部</li>
+            <li>各种连接，如数据库连接、网络连接、IO连接等</li>
+            <li>变量不合理的作用域</li>
+            <li>改变哈希值</li>
+            <li>缓存泄漏</li>
+            <li>监听器和回调</li>
+        </ol>
+    </div>
+</div>
 
 
 ## 20.2 JConsole
@@ -7887,7 +7909,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
 　　启动：cmd -> jvisualvm
 　　官方下载地址：https://visualvm.github.io/index.html
 
-<div>
+<div style="border: 5px solid red;">
     <div>
         <h5>　　插件安装的2种方式</h5>
         <ol>
@@ -7906,6 +7928,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
             </li>
         </ol>
     </div>
+　　<hr style="height: 10px; background: green;"/>
     <div>
         <h5>　　在idea中安装vvm步骤</h5>
         <ol>
@@ -7913,6 +7936,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
             <li>File 》 Settings 》VisualVM Launcher(或Other Settings) 》 配置本地的可执行的vvm</li>
         </ol>
     </div>
+　　<hr style="height: 10px; background: green;"/>
     <div>
         <h5>　　在vvm中查看远程的服务器运行的相关信息</h5>
         <ol>
@@ -7926,6 +7950,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
             <li>JMX中输入端口号、用户名、密码登陆</li>
         </ol>
     </div>
+　　<hr style="height: 10px; background: green;"/>
     <div>
         <h5>　　主要功能：</h5>
         <ol>
@@ -7955,10 +7980,12 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
             <li style="border: 2px solid red; margin-bottom: 20px;"></li>
         </ol>
     </div>
+　　<hr style="height: 10px; background: green;"/>
     <div>
         <h5>　　堆dump文件介绍</h5>
         <img src="pictures/20jvm监控及诊断工具-GUI篇/20-8.png">
     </div>
+　　<hr style="height: 10px; background: green;"/>
     <div>
         <h5>　　线程dump文件介绍</h5>
         <img src="pictures/20jvm监控及诊断工具-GUI篇/20-9.png">
@@ -8023,6 +8050,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
         <div>
             <p>　　支配树的概念来自于图论。</p>
             <p>　　MAT提供了一个称为支配树的对象图，体现了对象实例间的支配关系。在对象引用图中，所有指向对象B的路径都经过对象A，则认为<b style="color: red;">对象A支配对象B</b>。如果对象A是离对象B最近的一个支配对象，则认为对象A为对象B的<b style="color: red;">直接支配者</b>。支配树是基于对象间的引用图所建立的，它有以下基本性质：1、对象A的子树(所有被对象A支配的对象集合)表示对象A的保留集(retained set)，即深堆。2、如果对象A支配对象B，那么对象A的直接支配者也支配对象B。3、支配树的边与对象引用图的边不直接对应。</p>
+            <p>　　注意支配树里面仅包含了可支配的实例，如果一个实例B被多个对象支配，则对于这多个对象中的任何一个，其下面不会出现B，即只会出现保留集中的内容。</p>
         </div>
     </div>
 </div>
