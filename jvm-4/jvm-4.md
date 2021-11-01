@@ -12,6 +12,8 @@
 　　![avatar](pictures/6堆/6-1.png)
 　　每个大标题之间空2行，每个小标题之间空1行
 　　<span style="color: red;"></span>
+　　<hr style="height: 10px; background: green;"/>
+　　<div style="border: 5px black solid;"><div>
 
 ## 0.1 推荐书
 
@@ -7979,7 +7981,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
 　　**MAT加载dump文件**
 　　File 》Open Heap Dump... 。
 
-<div>
+<div style="border: 5px black solid;">
     <h5>　　MAT加载dump文件后界面介绍</h5>
     <div>
         <h5>　　Overview(概述)</h5>
@@ -7994,7 +7996,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
         </ul>
         <img src="pictures/20jvm监控及诊断工具-GUI篇/20-10.png">
     </div>
-    <hr/>
+    <hr style="height: 10px; background: green;"/>
     <div>
         <h5>　　Histogram(直方图)</h5>
         <ul>
@@ -8004,8 +8006,8 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
         </ul>
         <img src="pictures/20jvm监控及诊断工具-GUI篇/20-11.png">
     </div>
-    <hr/>
-    <div style="border: red solid 5px; margin-bottom: 20px;">
+    <hr style="height: 10px; background: green;"/>
+    <div>
         <h5>　　Thread Overview(线程概述)</h5>
         <h6>　　作用</h6>
         <ul>
@@ -8013,7 +8015,15 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
             <li>查看局部变量信息</li>
         </ul>
         <img src="pictures/20jvm监控及诊断工具-GUI篇/20-12.png">
-        <p>对元素右键 》 List Objects 》 with outgoing references(引用了谁)、with incoming references(被谁引用了)</p>
+        <p style="color: red;">　　对元素右键 》 List Objects 》 with outgoing references(引用了谁)、with incoming references(被谁引用了)</p>
+    </div>
+    <hr style="height: 10px; background: green;"/>
+    <div>
+        <h5>　　Dominator Tree(支配树)</h5>
+        <div>
+            <p>　　支配树的概念来自于图论。</p>
+            <p>　　MAT提供了一个称为支配树的对象图，体现了对象实例间的支配关系。在对象引用图中，所有指向对象B的路径都经过对象A，则认为<b style="color: red;">对象A支配对象B</b>。如果对象A是离对象B最近的一个支配对象，则认为对象A为对象B的<b style="color: red;">直接支配者</b>。支配树是基于对象间的引用图所建立的，它有以下基本性质：1、对象A的子树(所有被对象A支配的对象集合)表示对象A的保留集(retained set)，即深堆。2、如果对象A支配对象B，那么对象A的直接支配者也支配对象B。3、支配树的边与对象引用图的边不直接对应。</p>
+        </div>
     </div>
 </div>
 
