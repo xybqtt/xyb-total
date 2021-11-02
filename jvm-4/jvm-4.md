@@ -7881,7 +7881,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
     <p>　　严格来说，只有对象不再被程序用到了，但是GC又不能回收他们的情况，才叫内存泄漏。但实际情况很多时候一些不太好的实践会导致对象生命周期变得很长甚至OOM，也可以叫做宽泛意义上的"内存泄漏"。</p>
 　　<hr style="height: 10px; background: green;"/>
     <div>
-        <h5>　　内存泄漏的8种情况</h5>
+        <h5>　　内存泄漏的8种情况(具体可查看代码)</h5>
         <ol>
             <li>静态集合类</li>
             <li>单例模式</li>
@@ -7933,7 +7933,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
         <h5>　　在idea中安装vvm步骤</h5>
         <ol>
             <li>File 》 Settings 》 plugins 》 搜索VisualVM Launcher 》 install</li>
-            <li>File 》 Settings 》VisualVM Launcher(或Other Settings) 》 配置本地的可执行的vvm</li>
+            <li>File 》 Settings 》Other Settings 》 配置本地的可执行的vvm</li>
         </ol>
     </div>
 　　<hr style="height: 10px; background: green;"/>
@@ -8053,35 +8053,79 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
             <p>　　注意支配树里面仅包含了可支配的实例，如果一个实例B被多个对象支配，则对于这多个对象中的任何一个，其下面不会出现B，即只会出现保留集中的内容。</p>
         </div>
     </div>
+    <hr style="height: 10px; background: green;"/>
+    <div>
+        <h5>　　OQL语句</h5>
+        <p>　　MAT支持一种类似SQL的查询语言OQL(Object Query Language)。OQL使用类SQL语法，可以在堆中进行对象的查找和筛选。F5执行。</p>
+        <h6>　　SELECT子句</h6>
+        <ul>
+            <li>SELECT * FROM java.util.Vector v：查看结果对象的引用实例，相当于outgoing references</li>
+            <li>SELECT OBJECTS v.elementData FROM java.lang.String s：使用objects关键字，可以将返回结果集中的项以对象的形式显示。</li>
+            <li>SELECT AS RETAINED SET * FROM com.atguigu.mat.Student使用"AS RETAINED SET"关键字可以得到所得对象的保留集。</li>
+            <li>SELECT DISTINCT OBJECTS classof(s) FROM java.lang.String s："DISTINCT"关键字用于在结果储存中去除重复对象。</li>
+        </ul>
+        <h6>　　FROM子句</h6>
+        <p>　　From子句用于指定查询范围，它可以指定类名、正则表达式或对象地址。</p>
+        <ul>
+            <li>SELECT * FROM "com\.atguigu\..*"：使用正则表达式，限定搜索范围，输出所有com.atguigu包下所有类的实例</li>
+            <li>SELECT * FROM 0x37a51234：使用类地址进行搜索，好处是可以区分被不同ClassLoader加载的同一种类型。</li>
+        </ul>
+        <h6>　　WHERE子句</h6>
+        <p>　　WHERE子句用于指定OQL的查询条件。OQL查询将只返回满足WHERE子句指定条件的对象。其格式与SQL极为相似。</p>
+        <ul>
+            <li>SELECT * FROM char[] s WHERE s.@length > 10：返回长大于10的char数组。</li>
+            <li>SELECT * FROM java.lang.String s WHERE toString(s) LIKE ".*java.*"：返回包含"java"子字符串的所有字符串，使用"LIKE"操作符，操作参数为正则表达式。</li>
+            <li>SELECT * FROM java.lang.String s WHERE s.value != null：返回所有value域中不为null的字符串，使用"="操作符。</li>
+            <li>SELECT * FROM java.util.Vector v WHERE s.elementData.@length > 15 AND v.@retainedHeapSize > 1000：WHERE子句支持多个条件的AND、OR运算，如返回数组长度大于15，并且深堆 > 1000字节的所有Vector对象。</li>
+        </ul>
+        <h6>　　内置对象与方法</h6>
+        <p>　　OQL中可以访问堆内对象的属性，也可以访问堆内代理对象的属性。访问堆内对象的属性时，格式如下：[ &lt;alias&gt;. ] &lt;field&gt;. &lt;field&gt; . &lt;field&gt;]。其中alias为对象名称</p>
+        <ul>
+            <li>SELECT toString(f.path.value) FROM java.io.File f：访问java.io.File对象的path属性，并进一步访问path的value属性。</li>
+            <li>SELECT s.toString(), s.@objectId, s.@objectAddress FROM java.lang.String s：显示String对象的内容、objectid和objectAddress。>
+            <li>SELECT v.elementData.@length FROM java.util.Vector v：显示java.util.Vector内部数组的长度。</li>
+            <li>SELECT * FROM INSTANCEOF java.util.Vector：显示了所有的java.util.Vector对象及其子类型。</li>
+        </ul>
+    </div>
 </div>
 
 ## 20.5 JProfiler
 
 　　在运行Java的时候有时候想测试运行时占用内存情况，这时候就需要使用测试工具查看了。在eclipse里面有 Eclipse Memory Analyzer tool（MAT）插件可以测试，而在IDEA中也有这么一个插件，就是JProfiler。JProfiler 是由 ej-technologies 公司开发的一款 Java 应用性能诊断工具。功能强大，但是收费。
+　　官网地址：https://www.ej-technologies.com/download/jprofiler/files/overview.html
+　　链接: https://pan.baidu.com/s/1vRPRxS5t0IdPcOfR7Axn7w 提取码: f852
 
-<div>
-    <h5>　　特点：</h5>
-    <ul>
-        <li>使用方便、界面操作友好（简单且强大）</li>
-        <li>对被分析的应用影响小（提供模板）</li>
-        <li>CPU，Thread，Memory分析功能尤其强大</li>
-        <li>支持对jdbc，noSql，jsp，servlet，socket等进行分析</li>
-        <li>支持多种模式（离线，在线）的分析</li>
-        <li>支持监控本地、远程的JVM</li>
-        <li>跨平台，拥有多种操作系统的安装版本</li> 
-    </ul>
-    <h5>　　主要功能：</h5>
-    <ul>
-        <li>方法调用：对方法调用的分析可以帮助您了解应用程序正在做什么，并找到提高其性能的方法</li>
-        <li>内存分配：通过分析堆上对象、引用链和垃圾收集能帮您修复内存泄露问题，优化内存使用</li>
-        <li>线程和锁：JProfiler提供多种针对线程和锁的分析视图助您发现多线程问题</li>
-        <li>高级子系统：许多性能问题都发生在更高的语义级别上。例如，对于JDBC调用，您可能希望找出执行最慢的SQL语句。JProfiler支持对这些子系统进行集成分析</li>
-    </ul>
+<div style="border: 2px solid red;">
+    <div>
+        <h5>　　特点：</h5>
+        <ul>
+            <li>使用方便、界面操作友好（简单且强大）</li>
+            <li>对被分析的应用影响小（提供模板）</li>
+            <li>CPU，Thread，Memory分析功能尤其强大</li>
+            <li>支持对jdbc，noSql，jsp，servlet，socket等进行分析</li>
+            <li>支持多种模式（离线，在线）的分析</li>
+            <li>支持监控本地、远程的JVM</li>
+            <li>跨平台，拥有多种操作系统的安装版本</li> 
+        </ul>
+    </div>
+    <hr style="height: 10px; background: green;"/>
+    <div>
+        <h5>　　主要功能：</h5>
+        <ul>
+            <li>方法调用：对方法调用的分析可以帮助您了解应用程序正在做什么，并找到提高其性能的方法</li>
+            <li>内存分配：通过分析堆上对象、引用链和垃圾收集能帮您修复内存泄露问题，优化内存使用</li>
+            <li>线程和锁：JProfiler提供多种针对线程和锁的分析视图助您发现多线程问题</li>
+            <li>高级子系统：许多性能问题都发生在更高的语义级别上。例如，对于JDBC调用，您可能希望找出执行最慢的SQL语句。JProfiler支持对这些子系统进行集成分析</li>
+        </ul>
+    </div>
+    <hr style="height: 10px; background: green;"/>
+    <h5>　　在idea中配置JProfiler</h5>
+    <p>　　File 》 Settings 》 Plugins > 搜索并安装插件JProfiler 》 Tools 》JProfiler 》 关联到本地。</p>
+    <h5>　　在JProfiler中配置idea</h5>
+    <p>　　会话 》 ide集成 》 选择.IntellijIdea这个索引目录</p>
 </div>
 
-　　官网地址：https://www.ej-technologies.com/products/jprofiler/overview.html
-
-<div>
+<div  style="border: 2px solid red;">
     <h5>　　数据采集方式：</h5>
     <p>　　JProfier数据采集方式分为两种：Sampling（样本采集）和Instrumentation（重构模式）</p>
     <h5>　　Instrumentation</h5>
