@@ -8093,7 +8093,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
 
 　　在运行Java的时候有时候想测试运行时占用内存情况，这时候就需要使用测试工具查看了。在eclipse里面有 Eclipse Memory Analyzer tool（MAT）插件可以测试，而在IDEA中也有这么一个插件，就是JProfiler。JProfiler 是由 ej-technologies 公司开发的一款 Java 应用性能诊断工具。功能强大，但是收费。
 　　官网地址：https://www.ej-technologies.com/download/jprofiler/files/overview.html
-　　链接: https://pan.baidu.com/s/1vRPRxS5t0IdPcOfR7Axn7w 提取码: f852
+　　密钥：L-J12-STALKER#5846458-y8bdm6q8gtr7b#228a或L-J12-STALKER#8338547-qywh5933xu2r3#a4a4
 
 <div style="border: 2px solid red;">
     <div>
@@ -8125,7 +8125,7 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
     <p>　　会话 》 ide集成 》 选择.IntellijIdea这个索引目录</p>
 </div>
 
-<div  style="border: 2px solid red;">
+<div style="border: 2px solid red;">
     <h5>　　数据采集方式：</h5>
     <p>　　JProfier数据采集方式分为两种：Sampling（样本采集）和Instrumentation（重构模式）</p>
     <h5>　　Instrumentation</h5>
@@ -8143,47 +8143,60 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
     <p>　　注：JProfiler本身没有指出数据的采集类型，这里的采集类型是针对方法调用的采集类型。因为JProfiler的绝大多数核心功能都依赖方法调用采集的数据，所以可以直接认为是JProfiler的数据采集类型。</p>
 </div>
 
-　　**遥感监测 Telemetries**
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-13.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-14.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-15.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-16.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-17.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-18.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-19.png)
-
-<div>
-    <h5>　　内存视图 Live Memory</h5>
-    <p>　　Live memory 内存剖析：class／class instance的相关信息。例如对象的个数，大小，对象创建的方法执行栈，对象创建的热点。</p>
-    <ul>
-        <li>所有对象 All Objects：显示所有加载的类的列表和在堆上分配的实例数。只有Java 1.5（JVMTI）才会显示此视图。</li>
-        <li>记录对象 Record Objects：查看特定时间段对象的分配，并记录分配的调用堆栈。</li>
-        <li>分配访问树 Allocation Call Tree：显示一棵请求树或者方法、类、包或对已选择类有带注释的分配信息的J2EE组件。</li>
-        <li>分配热点 Allocation Hot Spots：显示一个列表，包括方法、类、包或分配已选类的J2EE组件。你可以标注当前值并且显示差异值。对于每个热点都可以显示它的跟踪记录树。</li>
-        <li>类追踪器 Class Tracker：类跟踪视图可以包含任意数量的图表，显示选定的类和包的实例与时间。</li>
-    </ul>
-</div>
-
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-20.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-21.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-22.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-23.png)
-
-<div>
-    <h5>　　cpu视图 cpu views</h5>
-    <p>　　JProfiler 提供不同的方法来记录访问树以优化性能和细节。线程或者线程组以及线程状况可以被所有的视图选择。所有的视图都可以聚集到方法、类、包或J2EE组件等不同层上。</p>
-    <ul>
-        <li>访问树 Call Tree：显示一个积累的自顶向下的树，树中包含所有在JVM中已记录的访问队列。JDBC，JMS和JNDI服务请求都被注释在请求树中。请求树可以根据Servlet和JSP对URL的不同需要进行拆分。</li>
-        <li>热点 Hot Spots：显示消耗时间最多的方法的列表。对每个热点都能够显示回溯树。该热点可以按照方法请求，JDBC，JMS和JNDI服务请求以及按照URL请求来进行计算。</li>
-        <li>访问图 Call Graph：显示一个从已选方法、类、包或J2EE组件开始的访问队列的图。</li>
-        <li>方法统计 Method Statistis：显示一段时间内记录的方法的调用时间细节。</li>
-    </ul>
-</div>
-
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-24.png)
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-25.png)
-
-<div>
+<div  style="border: 2px solid red;">
+    <h5>　　JProfiler使用介绍</h5>
+    <div>
+        <h5>　　Telemetries(遥感监测)</h5>
+        <ul>
+            <li>Overview(概述)：将下面几个信息汇总到此页面；</li>
+            <li>Memory(内存)：查看堆和非堆情况；</li>
+            <li>Recorded Objects(记录的对象)：</li>
+            <li>Recorded Throughput(吞吐量记录)：</li>
+            <li>GC Activity(GC情况)：记录发生的GC时间等；</li>
+            <li>Classes：已加载的类数量；</li>
+            <li>Threads：线程情况；</li>
+            <li>CPU Load：cpu和此进行的情况；</li>
+            <li>Custom Telemetries：不重要。</li>
+        </ul>
+        <img src="pictures/20jvm监控及诊断工具-GUI篇/20-13.png"/>
+    </div>
+    <hr style="height: 10px; background: green;"/>
+    <div>
+        <h5>　　内存视图 Live Memory</h5>
+        <p>　　Live memory 内存剖析：class／class instance的相关信息。例如对象的个数，大小，对象创建的方法执行栈，对象创建的热点。</p>
+        <ul>
+            <li>All Objects(所有对象)：显示所有加载的类的列表和在堆上分配的实例数。只有Java 1.5（JVMTI）才会显示此视图。通过这个视图我们可以分析是否是以下3种情况：频繁创建了对象、存在大对象(如byte[]数组读取文件，只读取不写出)、是否存在内存泄漏；
+            <img src="pictures/20jvm监控及诊断工具-GUI篇/20-14.png"/></li>
+            <li>Record Objects(记录对象)：查看特定时间段对象的分配，并记录分配的调用堆栈。<img src="pictures/20jvm监控及诊断工具-GUI篇/20-13.png"/></li>
+            <li>Allocation Call Tree(分配访问树)：显示一棵请求树或者方法、类、包或对已选择类有带注释的分配信息的J2EE组件。</li>
+            <li>Allocation Hot Spots(分配热点)：显示一个列表，包括方法、类、包或分配已选类的J2EE组件。你可以标注当前值并且显示差异值。对于每个热点都可以显示它的跟踪记录树。</li>
+            <li>Class Tracker(类追踪器)：类跟踪视图可以包含任意数量的图表，显示选定的类和包的实例与时间。</li>
+        </ul>
+    </div>
+    <hr style="height: 10px; background: green;"/>
+    <div>
+        <h5>　　Heap Walker()</h5>
+        <p>　　JProfiler 提供不同的方法来记录访问树以优化性能和细节。线程或者线程组以及线程状况可以被所有的视图选择。所有的视图都可以聚集到方法、类、包或J2EE组件等不同层上。</p>
+        <ul>
+            <li>访问树 Call Tree：显示一个积累的自顶向下的树，树中包含所有在JVM中已记录的访问队列。JDBC，JMS和JNDI服务请求都被注释在请求树中。请求树可以根据Servlet和JSP对URL的不同需要进行拆分。</li>
+            <li>热点 Hot Spots：显示消耗时间最多的方法的列表。对每个热点都能够显示回溯树。该热点可以按照方法请求，JDBC，JMS和JNDI服务请求以及按照URL请求来进行计算。</li>
+            <li>访问图 Call Graph：显示一个从已选方法、类、包或J2EE组件开始的访问队列的图。</li>
+            <li>方法统计 Method Statistis：显示一段时间内记录的方法的调用时间细节。</li>
+        </ul>
+    </div>
+    <hr style="height: 10px; background: green;"/>
+    <div>
+        <h5>　　cpu视图 cpu views</h5>
+        <p>　　JProfiler 提供不同的方法来记录访问树以优化性能和细节。线程或者线程组以及线程状况可以被所有的视图选择。所有的视图都可以聚集到方法、类、包或J2EE组件等不同层上。</p>
+        <ul>
+            <li>访问树 Call Tree：显示一个积累的自顶向下的树，树中包含所有在JVM中已记录的访问队列。JDBC，JMS和JNDI服务请求都被注释在请求树中。请求树可以根据Servlet和JSP对URL的不同需要进行拆分。</li>
+            <li>热点 Hot Spots：显示消耗时间最多的方法的列表。对每个热点都能够显示回溯树。该热点可以按照方法请求，JDBC，JMS和JNDI服务请求以及按照URL请求来进行计算。</li>
+            <li>访问图 Call Graph：显示一个从已选方法、类、包或J2EE组件开始的访问队列的图。</li>
+            <li>方法统计 Method Statistis：显示一段时间内记录的方法的调用时间细节。</li>
+        </ul>
+    </div>
+    <hr style="height: 10px; background: green;"/>
+    <div>
     <h5>　　线程视图 threads</h5>
     <p>　　JProfiler通过对线程历史的监控判断其运行状态，并监控是否有线程阻塞产生，还能将一个线程所管理的方法以树状形式呈现。对线程剖析。</p>
     <ul>
@@ -8198,20 +8211,21 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
         <li>线程死锁</li>
     </ul>
 </div>
-
-　　![avatar](pictures/20jvm监控及诊断工具-GUI篇/20-26.png)
-
-<div>
-    <h5>　　监控和锁 Monitors ＆Locks</h5>
-    <p>　　所有线程持有锁的情况以及锁的信息。观察JVM的内部线程并查看状态：</p>
-    <ul>
-        <li>死锁探测图表 Current Locking Graph：显示JVM中的当前死锁图表。</li>
-        <li>目前使用的监测器 Current Monitors：显示目前使用的监测器并且包括它们的关联线程。</li>
-        <li>锁定历史图表 Locking History Graph：显示记录在JVM中的锁定历史。</li>
-        <li>历史检测记录 Monitor History：显示重大的等待事件和阻塞事件的历史记录。</li>
-        <li>监控器使用统计 Monitor Usage Statistics：显示分组监测，线程和监测类的统计监测数据</li>
-    </ul>
+    <hr style="height: 10px; background: green;"/>
+    <div>
+        <h5>　　监控和锁 Monitors ＆Locks</h5>
+        <p>　　所有线程持有锁的情况以及锁的信息。观察JVM的内部线程并查看状态：</p>
+        <ul>
+            <li>死锁探测图表 Current Locking Graph：显示JVM中的当前死锁图表。</li>
+            <li>目前使用的监测器 Current Monitors：显示目前使用的监测器并且包括它们的关联线程。</li>
+            <li>锁定历史图表 Locking History Graph：显示记录在JVM中的锁定历史。</li>
+            <li>历史检测记录 Monitor History：显示重大的等待事件和阻塞事件的历史记录。</li>
+            <li>监控器使用统计 Monitor Usage Statistics：显示分组监测，线程和监测类的统计监测数据</li>
+        </ul>
+    </div>
 </div>
+
+
 
 ## 20.6 Arthas
 
