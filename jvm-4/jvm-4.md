@@ -8183,6 +8183,9 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
             <li>访问图 Call Graph：显示一个从已选方法、类、包或J2EE组件开始的访问队列的图。</li>
             <li>方法统计 Method Statistis：显示一段时间内记录的方法的调用时间细节。</li>
         </ul>
+        <img src="pictures/20jvm监控及诊断工具-GUI篇/20-16.png"/>
+        <img src="pictures/20jvm监控及诊断工具-GUI篇/20-17.png"/>
+        <img src="pictures/20jvm监控及诊断工具-GUI篇/20-18.png"/>
     </div>
     <hr style="height: 10px; background: green;"/>
     <div>

@@ -27,7 +27,6 @@
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jvm-4/jvm-4.md" beforeDir="false" afterPath="$PROJECT_DIR$/jvm-4/jvm-4.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jvm-4/src/com/xyb/a17clsloader2/Demo1.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -408,14 +407,7 @@
       <workItem from="1635934575007" duration="777000" />
       <workItem from="1635936557701" duration="13000" />
       <workItem from="1635936594926" duration="11000" />
-      <workItem from="1635936643789" duration="5485000" />
-    </task>
-    <task id="LOCAL-00030" summary="html学习：正在学习视频320">
-      <created>1624164054669</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1624164054669</updated>
+      <workItem from="1635936643789" duration="7773000" />
     </task>
     <task id="LOCAL-00031" summary="jvm学习">
       <created>1624807300682</created>
@@ -753,7 +745,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635893290571</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="jvm学习：41 345节">
+      <created>1635984764558</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1635984764559</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -942,7 +941,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：21 171节" />
     <MESSAGE value="jvm学习：22 193节" />
     <MESSAGE value="jvm学习：22-2 193节" />
     <MESSAGE value="jvm学习：23 209节" />
@@ -967,7 +965,8 @@
     <MESSAGE value="jvm学习：38 333节" />
     <MESSAGE value="jvm学习：39 336节" />
     <MESSAGE value="jvm学习：40 343节" />
-    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：40 343节" />
+    <MESSAGE value="jvm学习：41 345节" />
+    <option name="LAST_COMMIT_MESSAGE" value="jvm学习：41 345节" />
   </component>
   <component name="WindowStateProjectService">
     <state x="230" y="0" key="#Project_Structure" timestamp="1627522535172">
@@ -998,10 +997,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="512" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1627398940827" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1635893287574">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1635984761049">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1635893287574" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1635984761049" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1630344064081">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1011,26 +1010,26 @@
     </state>
     <state x="80" y="60" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1627539060627" />
     <state x="96" y="73" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1635860349014" />
-    <state width="1493" height="175" key="GridCell.Tab.0.bottom" timestamp="1635938208260">
+    <state width="1493" height="203" key="GridCell.Tab.0.bottom" timestamp="1636070461709">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1493" height="175" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1635938208260" />
-    <state width="1493" height="175" key="GridCell.Tab.0.center" timestamp="1635938208260">
+    <state width="1493" height="203" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1636070461709" />
+    <state width="1493" height="203" key="GridCell.Tab.0.center" timestamp="1636070461709">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="175" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1635938208260" />
-    <state width="1493" height="175" key="GridCell.Tab.0.left" timestamp="1635938208260">
+    <state width="1493" height="203" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1636070461709" />
+    <state width="1493" height="203" key="GridCell.Tab.0.left" timestamp="1636070461709">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="175" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1635938208260" />
-    <state width="1493" height="175" key="GridCell.Tab.0.right" timestamp="1635938208260">
+    <state width="1493" height="203" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1636070461709" />
+    <state width="1493" height="203" key="GridCell.Tab.0.right" timestamp="1636070461709">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="175" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1635938208260" />
+    <state width="1493" height="203" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1636070461709" />
     <state width="1493" height="333" key="GridCell.Tab.1.bottom" timestamp="1627658370105">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1080,10 +1079,10 @@
     </state>
     <state x="54" y="0" width="1226" height="680" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1627529496209" />
     <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1635860351913" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1635893302332">
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1635984769825">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1635893302332" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1635984769825" />
     <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1635293460676">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
