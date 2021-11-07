@@ -4,6 +4,10 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 线程间通信，即本线程任务完成，唤醒其它线程，在进入到本线程时，如果不符合条件，则本线程wait()，但
+ * 是需要保证，被notifyAll()的线程中至少有一个的条件可以判定不用wait()，不然所有的线程会一直wait()，而没有人唤醒。
+ */
 public class A2LockThreadCorrespond {
 
     public static void main(String[] args) {
@@ -89,7 +93,7 @@ class LShare {
             // 通知其它线程
             condition.signalAll();
         } catch (Exception e) {
-
+            e.printStackTrace();
         } finally {
             lock.unlock();
         }
@@ -113,7 +117,7 @@ class LShare {
             // 通知其它线程
             condition.signalAll();
         } catch (Exception e) {
-
+            e.printStackTrace();
         } finally {
             lock.unlock();
         }

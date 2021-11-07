@@ -147,6 +147,10 @@ Lock可以提高多个线程进行读操作的效率。
 
 　　即通过wait()、notifyAll()方法进行线程间通信。
 
+## 3.2 使用Lock
+
+　　即通过lock.newCondition()的await()、signalAll()方法去进行通信。
+
 
 
 
