@@ -2,7 +2,7 @@
   <configuration default="false" name="Test" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="com.xyb.Test" />
     <module name="jvm-4" />
-    <option name="VM_PARAMETERS" value="-Xms600m -Xmx600m -XX:SurvivorRatio=8" />
+    <option name="VM_PARAMETERS" value="-Xms60m -Xmx60m -XX:SurvivorRatio=8 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.xyb.*" />

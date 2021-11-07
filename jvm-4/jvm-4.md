@@ -15,9 +15,9 @@
 　　<hr style="height: 10px; background: green;"/>
 　　<div style="border: 5px black solid;"><div>
 
-## 0.1 推荐书
+## 0.1 推荐书及用到的工具
 
-　　《深入理解java虚拟机》
+　　《深入理解java虚拟机》、idea、jvisual vm、JProfiler、MAT、Arthas、GCeasy、GCViewer
 
 ## 0.2 用到的工具
 
@@ -58,7 +58,7 @@
 　　-XX:NewRatio=8：表示老年代的占比为8，新生代的占比为1。
 
 　　**设置新生代的Eden、S0、S1的比例**
-　　-XX:SurvivorRatio=3：表示Eden区占比为3，S0和S1的占比各为1。注意需要与 -XX:-UseAdaptiveSizePolicy联用。
+　　-XX:SurvivorRatio=3：表示Eden区占比为3，S0和S1的占比各为1。
 
 　　**设置新生代的大小**
 　　-Xmn100m：设置新生代的大小为100m，不带单位则为byte，还可以是k、m、g；这个参数的优先级高于"-XX:NewRatio"。
@@ -3742,130 +3742,7 @@ obj = null;
 
 ## 13.9 GC日志分析
 
-<div>
-    <h5>　　通过阅读Gc日志，我们可以了解Java虚拟机内存分配与回收策略。 内存分配与垃圾回收的参数列表</h5>
-    <ul>
-        <li>-XX:+PrintGC 输出GC日志。类似：-verbose:gc</li>
-        <li>-XX:+PrintGCDetails 输出GC的详细日志</li>
-        <li>-XX:+PrintGCTimestamps 输出GC的时间戳（以基准时间的形式）</li>
-        <li>-XX:+PrintGCDatestamps 输出GcC的时间戳（以日期的形式，如2013-05-04T21：53：59.234+0800）</li>
-        <li>-XX:+PrintHeapAtGC 在进行GC的前后打印出堆的信息</li>
-        <li>-Xloggc:../logs/gc.log 日志文件的输出路径</li>
-    </ul>
-</div>
-
-　　打开GC日志：-verbose:gc
-　　这个只会显示总的GC堆的变化，如下：
-~~~
-[GC (Allocation Failure) 80832K->19298K(227840K),0.0084018 secs]
-[GC (Metadata GC Threshold) 109499K->21465K(228352K),0.0184066 secs]
-[Full GC (Metadata GC Threshold) 21465K->16716K(201728K),0.0619261 secs]
-~~~
-
-<div>
-    <h5>　　参数解析</h5>
-    <ol>
-        <li>GC、Full GC：GC的类型，GC只在新生代上进行，Full GC包括永生代，新生代，老年代。</li>
-        <li>Allocation Failure：GC发生的原因。</li>
-        <li>80832K->19298K：堆在GC前的大小和GC后的大小。</li>
-        <li>228840k：现在的堆大小。</li>
-        <li>0.0084018 secs：GC持续的时间</li>
-    </ol>
-</div>
-
-　　打开GC日志：-verbose:gc -XX:+PrintGCDetails
-　　输入信息如下：
-~~~
-[GC (Allocation Failure) [PSYoungGen:70640K->10116K(141312K)] 80541K->20017K(227328K),0.0172573 secs] [Times:user=0.03 sys=0.00,real=0.02 secs]
-[GC (Metadata GC Threshold) [PSYoungGen:98859K->8154K(142336K)] 108760K->21261K(228352K),0.0151573 secs] [Times:user=0.00 sys=0.01,real=0.02 secs]
-[Full GC (Metadata GC Threshold)[PSYoungGen:8154K->0K(142336K)]
-[ParOldGen:13107K->16809K(62464K)] 21261K->16809K(204800K),[Metaspace:20599K->20599K(1067008K)],0.0639732 secs]
-[Times:user=0.14 sys=0.00,real=0.06 secs]
-~~~
-
-<div>
-    <h5>　　参数解析</h5>
-    <ol>
-        <li>GC，Full FC：同样是GC的类型</li>
-        <li>Allocation Failure：GC原因</li>
-        <li>PSYoungGen：使用了Parallel Scavenge并行垃圾收集器的新生代GC前后大小的变化</li>
-        <li>ParOldGen：使用了Parallel Old并行垃圾收集器的老年代GC前后大小的变化</li>
-        <li>Metaspace： 元数据区GC前后大小的变化，JDK1.8中引入了元数据区以替代永久代</li>
-        <li>xxx secs：指GC花费的时间</li>
-        <li>Times：user：指的是垃圾收集器花费的所有CPU时间，sys：花费在等待系统调用或系统事件的时间，real：GC从开始到结束的时间，包括其他进程占用时间片的实际时间。</li>
-    </ol>
-</div>
-
-　　打开GC日志：-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimestamps -XX:+PrintGCDatestamps
-　　输入信息如下：
-~~~
-2019-09-24T22:15:24.518+0800: 3.287: [GC (Allocation Failure) [PSYoungGen:136162K->5113K(136192K)] 141425K->17632K(222208K),0.0248249 secs] [Times:user=0.05 sys=0.00,real=0.03 secs]
-2019-09-24T22:15:25.559+0800: 4.329: [GC (Metadata GC Threshold) [PSYoungGen:97578K->10068K(274944K)] 110096K->22658K(360960K),0.0094071 secs] [Times: user=0.00 sys=0.00,real=0.01 secs]
-2019-09-24T22:15:25.569+0800: 4.338: [Full GC (Metadata GC Threshold) [PSYoungGen:10068K->0K(274944K)][ParoldGen:12590K->13564K(56320K)] 22658K->13564K(331264K),[Metaspace:20590K->20590K(1067008K)],0.0494875 secs] [Times: user=0.17 sys=0.02,real=0.05 secs]
-~~~
-
-　　说明：带上了日期和时间
-　　如果想把GC日志存到文件的话，是下面的参数：-Xloggc:/path/to/gc.log
-
-<div>
-    <h5>　　日志补充说明</h5>
-    <ul>
-        <li>"[GC"和"[Full GC"说明了这次垃圾收集的停顿类型，如果有"Full"则说明GC发生了"Stop The World" </li>
-        <li>使用Serial收集器在新生代的名字是Default New Generation，因此显示的是"[DefNew" </li>
-        <li>使用ParNew收集器在新生代的名字会变成"[ParNew"，意思是"Parallel New Generation" </li>
-        <li>使用Parallel scavenge收集器在新生代的名字是”[PSYoungGen" </li>
-        <li>老年代的收集和新生代道理一样，名字也是收集器决定的 </li>
-        <li>使用G1收集器的话，会显示为"garbage-first heap" </li>
-        <li>Allocation Failure：表明本次引起GC的原因是因为在年轻代中没有足够的空间能够存储新的数据了。 </li>
-        <li>[PSYoungGen：5986K->696K(8704K) ]  5986K->704K(9216K)，中括号内：GC回收前年轻代大小，回收后大小，（年轻代总大小）；括号外：GC回收前年轻代和老年代大小，回收后大小，（年轻代和老年代总大小） </li>
-        <li>user代表用户态回收耗时，sys内核态回收耗时，rea实际耗时。由于多核的原因，时间总和可能会超过real时间 </li>
-    </ul>
-</div>
-
-~~~
-Heap（堆）
-PSYoungGen（Parallel Scavenge收集器新生代）total 9216K，used 6234K [0x00000000ff600000,0x0000000100000000,0x0000000100000000)
-eden space（堆中的Eden区默认占比是8）8192K，768 used [0x00000000ff600000,0x00000000ffc16b08,0x00000000ffe00000)
-from space（堆中的Survivor，这里是From Survivor区默认占比是1）1024K， 0% used [0x00000000fff00000,0x00000000fff00000,0x0000000100000000)
-to space（堆中的Survivor，这里是to Survivor区默认占比是1，需要先了解一下堆的分配策略）1024K, 0% used [0x00000000ffe00000,0x00000000ffe00000,0x00000000fff00000)
-                                                                         
-ParOldGen（老年代总大小和使用大小）total 10240K， used 7001K ［0x00000000fec00000,0x00000000ff600000,0x00000000ff600000)
-object space（显示个使用百分比）10240K，688 used [0x00000000fec00000,0x00000000ff2d6630,0x00000000ff600000)
-
-PSPermGen（永久代总大小和使用大小）total 21504K， used 4949K [0x00000000f9a00000,0x00000000faf00000,0x00000000fec00000)
-object space（显示个使用百分比，自己能算出来）21504K， 238 used [0x00000000f9a00000,0x00000000f9ed55e0,0x00000000faf00000)
-~~~
-
-　　**Minor GC日志**
-　　![avatar](pictures/13GC具体实现/13-22.png)
-
-　　**Full GC日志**
-　　![avatar](pictures/13GC具体实现/13-23.png)
-
-　　**举例**
-~~~
-private static final int _1MB = 1024 * 1024;
-
-public static void testAllocation() {
-    byte [] allocation1, allocation2, allocation3, allocation4;
-    allocation1 = new byte[2 *_1MB];
-    allocation2 = new byte[2 *_1MB];
-    allocation3 = new byte[2 *_1MB];
-    allocation4 = new byte[4 *_1MB];
-}
-
-public static void main(String[] args) {
-    testAllocation();
-}
-~~~
-
-　　设置JVM参数：-Xms10m -Xmx10m -XX:+PrintGCDetails
-　　**图示**
-　　![avatar](pictures/13GC具体实现/13-24.png)
-　　![avatar](pictures/13GC具体实现/13-25.png)
-
-　　可以用一些工具去分析这些GC日志
-　　常用的日志分析工具有：GCViewer、GCEasy、GCHisto、GCLogViewer、Hpjmeter、garbagecat等。
+　　参考22.2
 
 ## 13.10 垃圾回收器的新发展
 
@@ -8200,20 +8077,21 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
     </div>
     <hr style="height: 10px; background: green;"/>
     <div>
-    <h5>　　线程视图 threads</h5>
-    <p>　　JProfiler通过对线程历史的监控判断其运行状态，并监控是否有线程阻塞产生，还能将一个线程所管理的方法以树状形式呈现。对线程剖析。</p>
-    <ul>
-        <li>线程历史 Thread History：显示一个与线程活动和线程状态在一起的活动时间表。</li>
-        <li>线程监控 Thread Monitor：显示一个列表，包括所有的活动线程以及它们目前的活动状况。</li>
-        <li>线程转储 Thread Dumps：显示所有线程的堆栈跟踪。</li>
-    </ul>
-    <h6>　　线程分析主要关心三个方面：</h6>
-    <ul>
-        <li>web容器的线程最大数。比如：Tomcat的线程容量应该略大于最大并发数。</li>
-        <li>线程阻塞</li>
-        <li>线程死锁</li>
-    </ul>
-</div>
+        <h5>　　线程视图 threads</h5>
+        <p>　　JProfiler通过对线程历史的监控判断其运行状态，并监控是否有线程阻塞产生，还能将一个线程所管理的方法以树状形式呈现。对线程剖析。</p>
+        <ul>
+            <li>Thread History(线程历史)：显示一个与线程活动和线程状态在一起的活动时间表。</li>
+            <li>Thread Monitor(线程监控)：显示一个列表，包括所有的活动线程以及它们目前的活动状况。</li>
+            <li>Thread Dumps(线程转储)：显示所有线程的堆栈跟踪。</li>
+        </ul>
+        <h6>　　线程分析主要关心三个方面：</h6>
+        <ul>
+            <li>web容器的线程最大数。比如：Tomcat的线程容量应该略大于最大并发数。</li>
+            <li>线程阻塞</li>
+            <li>线程死锁</li>
+        </ul>
+        <img src="pictures/20jvm监控及诊断工具-GUI篇/20-19.png"/>
+    </div>
     <hr style="height: 10px; background: green;"/>
     <div>
         <h5>　　监控和锁 Monitors ＆Locks</h5>
@@ -8228,16 +8106,14 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
     </div>
 </div>
 
-
-
-## 20.6 Arthas
+## 20.6 Arthas(可查看官网学习)
 
 　　上述工具都必须在服务端项目进程中配置相关的监控参数，然后工具通过远程连接到项目进程，获取相关的数据。这样就会带来一些不便，比如线上环境的网络是隔离的，本地的监控工具根本连不上线上环境。并且类似于Jprofiler这样的商业工具，是需要付费的。
-　　那么有没有一款工具不需要远程连接，也不需要配置监控参数，同时也提供了丰富的性能监控数据呢？
+<p style="color: red;">　　那么有没有一款工具不需要远程连接，也不需要配置监控参数，同时也提供了丰富的性能监控数据呢？</p>
 　　阿里巴巴开源的性能分析神器Arthas应运而生。
 　　Arthas是Alibaba开源的Java诊断工具，深受开发者喜爱。在线排查问题，无需重启；动态跟踪Java代码；实时监控JVM状态。Arthas 支持JDK 6＋，支持Linux／Mac／Windows，采用命令行交互模式，同时提供丰富的 Tab 自动补全功能，进一步方便进行问题的定位和诊断。当你遇到以下类似问题而束手无策时，Arthas可以帮助你解决：
 
-<div>
+<div style="border: solid 2px red;">
     <div>
         <p>　　可解决如下问题</p>
             <ul>
@@ -8250,17 +8126,48 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
                 <li>怎么快速定位应用的热点，生成火焰图？</li>
             </ul>
             <p>　　官方地址：https://arthas.aliyun.com/doc/quick-start.html</p>
-            <p>　　安装方式：如果速度较慢，可以尝试国内的码云Gitee下载。</p>
+            <p>　　安装方式：如果速度较慢，可以尝试国内的码云Gitee下载，然后推送到Linux上。</p>
             <p>　　wget https://io/arthas/arthas-boot.jar</p>
             <p>　　wget https://arthas/gitee/io/arthas-boot.jar</p>
+            <p>　　卸载方式：Linux/Unix/Mac删除rm -rf ~/.arthas/   rm -rf ~/logs/arthas，Windows直接删除user home下面的.arthas和logs/arthas目录</p>
     </div>
+　　<hr style="height: 10px; background: green;"/>
     <div>
-        <p>　　Arthas只是一个java程序，所以可以直接用java -jar运行。</p>
+        <h5>　　arthas的工程目录</h5>
+        <ul>
+            <li>arthas-agent：基于JavaAgent技术的代理；</li>
+            <li>bin：一些启动脚本；</li>
+            <li>arthas-boot：Java版本的一键安装启动脚本；</li>
+            <li>arthas-client：telnet client代码；</li>
+            <li>arthas-common：一些共用的工具类和枚举类；</li>
+            <li>arthas-core：核心库，各种arthas命令的交互和实现；</li>
+            <li>arthas-demo：示例代码；</li>
+            <li>arthas-memorycompiler：内存编码代码，Fork from https://github.com/skalogs/SkaETL/tree/master/compiler</li>
+            <li>arthas-packaging：maven打包相关；</li>
+            <li>arthas-site：arthas站点；</li>
+            <li>arthas-spy：编织到目标类中的各个切面；</li>
+            <li>static：静态资源；</li>
+            <li>arthas-testcase：测试。</li>
+        </ul>
+    </div>
+　　<hr style="height: 10px; background: green;"/>
+    <div>
+        <h5>　　启动方式</h5>
+        <ol>
+            <li>Arthas只是一个java程序，所以可以直接用java -jar运行。java -jar arthas-boot.jar，再输入java进程前面的序号(不是进程id)</li>
+            <li>java -jar arthas-boot.jar [PID]，进程id</li>
+        </ol>
+        <h5>　　关闭方式</h5>
+        <ol>
+            <li>quit/exit 退出当前 Arthas客户端，其他 Arthas客户端不受影响</li>
+            <li>stop/shutdown 关闭 Arthas服务端，所有 Arthas客户端全部退出</li>
+        </ol>
+    </div>
+　　<hr style="height: 10px; background: green;"/>
+    <div>
         <p>　　除了在命令行查看外，Arthas目前还支持 Web Console。在成功启动连接进程之后就已经自动启动,可以直接访问 http://127.0.0.1:8563/ 访问，页面上的操作模式和控制台完全一样。</p>
         <h5>　　基础指令</h5>
         <ul>
-            <li>quit/exit 退出当前 Arthas客户端，其他 Arthas喜户端不受影响</li>
-            <li>stop/shutdown 关闭 Arthas服务端，所有 Arthas客户端全部退出</li>
             <li>help 查看命令帮助信息</li>
             <li>cat 打印文件内容，和linux里的cat命令类似</li>
             <li>echo 打印参数，和linux里的echo命令类似</li>
@@ -8432,59 +8339,8 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
 
 ### 21.1.1 类型一：标准参数选项
 
-~~~
-> java -help
-用法: java [-options] class [args...]
-           (执行类)
-   或  java [-options] -jar jarfile [args...]
-           (执行 jar 文件)
-其中选项包括:
-    -d32          使用 32 位数据模型 (如果可用)
-    -d64          使用 64 位数据模型 (如果可用)
-    -server       选择 "server" VM
-                  默认 VM 是 server.
-
-    -cp <目录和 zip/jar 文件的类搜索路径>
-    -classpath <目录和 zip/jar 文件的类搜索路径>
-                  用 ; 分隔的目录, JAR 档案
-                  和 ZIP 档案列表, 用于搜索类文件。
-    -D<名称>=<值>
-                  设置系统属性
-    -verbose:[class|gc|jni]
-                  启用详细输出
-    -version      输出产品版本并退出
-    -version:<值>
-                  警告: 此功能已过时, 将在
-                  未来发行版中删除。
-                  需要指定的版本才能运行
-    -showversion  输出产品版本并继续
-    -jre-restrict-search | -no-jre-restrict-search
-                  警告: 此功能已过时, 将在
-                  未来发行版中删除。
-                  在版本搜索中包括/排除用户专用 JRE
-    -? -help      输出此帮助消息
-    -X            输出非标准选项的帮助
-    -ea[:<packagename>...|:<classname>]
-    -enableassertions[:<packagename>...|:<classname>]
-                  按指定的粒度启用断言
-    -da[:<packagename>...|:<classname>]
-    -disableassertions[:<packagename>...|:<classname>]
-                  禁用具有指定粒度的断言
-    -esa | -enablesystemassertions
-                  启用系统断言
-    -dsa | -disablesystemassertions
-                  禁用系统断言
-    -agentlib:<libname>[=<选项>]
-                  加载本机代理库 <libname>, 例如 -agentlib:hprof
-                  另请参阅 -agentlib:jdwp=help 和 -agentlib:hprof=help
-    -agentpath:<pathname>[=<选项>]
-                  按完整路径名加载本机代理库
-    -javaagent:<jarpath>[=<选项>]
-                  加载 Java 编程语言代理, 请参阅 java.lang.instrument
-    -splash:<imagepath>
-                  使用指定的图像显示启动屏幕
-有关详细信息, 请参阅 http://www.oracle.com/technetwork/java/javase/documentation/index.html。
-~~~
+　　特点：比较稳定，后续版本基本不会变化，以-开头
+　　cmd运行java或java -help可以看到所有的标准选项
 
 <div>
     <h5>　　Server模式和Client模式</h5>
@@ -8498,55 +8354,20 @@ format=b表示以生成二进制文件binary，file表示生成文件的位置�
 　　官网地址：https://docs.oracle.com/javase/8/docs/technotes/guides/vm/server-class.html
 　　如何知道系统默认使用的是那种模式呢？
 　　通过java -version命令：可以看到Server VM字样，代表当前系统使用是Server模式
-~~~
-> java -version
-java version "1.8.0_201"
-Java(TM) SE Runtime Environment (build 1.8.0_201-b09)
-Java HotSpot(TM) 64-Bit Server VM (build 25.201-b09, mixed mode)
-~~~
 
 ### 21.1.2. 类型二：-X参数选项
 
-~~~
-> java -X
-    -Xmixed           混合模式执行 (默认)
-    -Xint             仅解释模式执行
-    -Xbootclasspath:<用 ; 分隔的目录和 zip/jar 文件>
-                      设置搜索路径以引导类和资源
-    -Xbootclasspath/a:<用 ; 分隔的目录和 zip/jar 文件>
-                      附加在引导类路径末尾
-    -Xbootclasspath/p:<用 ; 分隔的目录和 zip/jar 文件>
-                      置于引导类路径之前
-    -Xdiag            显示附加诊断消息
-    -Xnoclassgc       禁用类垃圾收集
-    -Xincgc           启用增量垃圾收集
-    -Xloggc:<file>    将 GC 状态记录在文件中 (带时间戳)
-    -Xbatch           禁用后台编译
-    -Xms<size>        设置初始 Java 堆大小
-    -Xmx<size>        设置最大 Java 堆大小
-    -Xss<size>        设置 Java 线程堆栈大小
-    -Xprof            输出 cpu 配置文件数据
-    -Xfuture          启用最严格的检查, 预期将来的默认值
-    -Xrs              减少 Java/VM 对操作系统信号的使用 (请参阅文档)
-    -Xcheck:jni       对 JNI 函数执行其他检查
-    -Xshare:off       不尝试使用共享类数据
-    -Xshare:auto      在可能的情况下使用共享类数据 (默认)
-    -Xshare:on        要求使用共享类数据, 否则将失败。
-    -XshowSettings    显示所有设置并继续
-    -XshowSettings:all
-                      显示所有设置并继续
-    -XshowSettings:vm 显示所有与 vm 相关的设置并继续
-    -XshowSettings:properties
-                      显示所有属性设置并继续
-    -XshowSettings:locale
-                      显示所有与区域设置相关的设置并继续
+　　特点：非标准化参数、功能基本稳定但后续版本可能会更改、以-X开头。
+　　cmd运行java -X可以看到所有的-X参数选项
 
--X 选项是非标准选项, 如有更改, 恕不另行通知。
-~~~
 　　如何知道JVM默认使用的是混合模式呢？
 　　同样地，通过java -version命令：可以看到 mixed mode 字样，代表当前系统使用的是混合模式
 
 ### 21.1.3 类型三：-XX参数选项
+
+　　特点：非标准化参数、使用最多的参数类型、属于实验性的不稳定、以-XX开头。
+　　作用：用于开发和高度jvm。
+　　分类：Boolean类型格式和非Boolean类型格式(k-v)
 
 　　**Boolean类型格式**
 ~~~
@@ -8558,6 +8379,12 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.201-b09, mixed mode)
 ~~~
 -XX:<option>=<number>  设置option数值，可以带单位如k/K/m/M/g/G
 -XX:<option>=<string>  设置option字符值
+~~~
+
+　　**特别地**
+~~~
++XX:+PrintFlagFinal：输出所有参数的名称和默认值，但默认不包括Diagnostic和Experimental的参数，
+可以配合-XX:+UnlockDiagnosticVMOptions和-XX:+UnlockExperimentalVMOptions使用。
 ~~~
 
 ## 21.2 添加JVM参数选项
@@ -8589,27 +8416,30 @@ jinfo -flag <name>=<value> <pid>
 ### 21.3.1 打印设置的XX选项及值
 
 ~~~
--XX:+PrintCommandLineFlags 程序运行时JVM默认设置或用户手动设置的XX选项
--XX:+PrintFlagsInitial 打印所有XX选项的默认值
--XX:+PrintFlagsFinal 打印所有XX选项的实际值
--XX:+PrintVMOptions 打印JVM的参数
+-XX:+PrintCommandLineFlags 可以让在程序运行前打印用户手动设置或JVM自动设置的XX选项；
+-XX:+PrintFlagsInitial 表示打印出所有XX选项的默认值；
+-XX:+PrintFlagsFinal 表示打印出XX选项在运行程序时生效的值；
+-XX:+PrintVMOptions 打印JVM的参数。
 ~~~
 
-### 21.3.2 堆、栈、方法区等内存大小设置
+ ### 21.3.2 堆、栈、方法区等内存大小设置
 
 ~~~
 # 栈
--Xss128k <==> -XX:ThreadStackSize=128k 设置线程栈的大小为128K
+-Xss128k <==> -XX:ThreadStackSize=128k 设置线程栈的大小为128K；
 
 # 堆
 -Xms2048m <==> -XX:InitialHeapSize=2048m 设置JVM初始堆内存为2048M
 -Xmx2048m <==> -XX:MaxHeapSize=2048m 设置JVM最大堆内存为2048M
--Xmn2g <==> -XX:NewSize=2g -XX:MaxNewSize=2g 设置年轻代大小为2G
--XX:SurvivorRatio=8 设置Eden区与Survivor区的比值，默认为8
--XX:NewRatio=2 设置老年代与年轻代的比例，默认为2
--XX:+UseAdaptiveSizePolicy 设置大小比例自适应，默认开启
--XX:PretenureSizeThreadshold=1024 设置让大于此阈值的对象直接分配在老年代，只对Serial、ParNew收集器有效
+-Xmn2g <==> (-XX:NewSize=2g -XX:MaxNewSize=2g) ，设置年轻代初始大小和最大大小都是2g
+-XX:NewSize=2g 设置年轻代初始值为2g，官方推荐为堆大小的3/8
+-XX:MaxNewSize=2g 设置年轻代大小为2G
+-XX:NewRatio=2 设置老年代与年轻代的比例，默认为2，表示Old:young = 2:1
+-XX:SurvivorRatio=8 设置Eden区与Survivor区的比值，默认为8，表示Eden:s0:s1 = 8:1:1，优先级高于-XX:+UseAdaptiveSizePolicy
+-XX:+UseAdaptiveSizePolicy 设置大小比例自适应，默认开启，默认是Eden:s0:s1 = 6:1:1
+-XX:PretenureSizeThreadshold=1024 设置让大于此阈值的对象直接分配在老年代，单位是byte，只对Serial、ParNew收集器有效
 -XX:MaxTenuringThreshold=15 设置新生代晋升老年代的年龄限制，默认为15
+-XX:+PrintTenuringDistribution 让JVM在每次MinorGC后打印出当前使用的Surviovr中对象的分布年龄
 -XX:TargetSurvivorRatio 设置MinorGC结束后Survivor区占用空间的期望比例
 
 # 方法区
@@ -8626,8 +8456,8 @@ jinfo -flag <name>=<value> <pid>
 ### 21.3.3 OutOfMemory相关的选项
 
 ~~~
--XX:+HeapDumpOnOutMemoryError 内存出现OOM时生成Heap转储文件，两者互斥
--XX:+HeapDumpBeforeFullGC 出现FullGC时生成Heap转储文件，两者互斥
+-XX:+HeapDumpOnOutMemoryError 内存出现OOM时生成Heap转储文件，与下面互斥
+-XX:+HeapDumpBeforeFullGC 出现FullGC时生成Heap转储文件，与上面互斥
 -XX:HeapDumpPath=<path> 指定heap转储文件的存储路径，默认当前目录
 -XX:OnOutOfMemoryError=<path> 指定可行性程序或脚本的路径，当发生OOM时执行脚本
 ~~~
@@ -8644,6 +8474,9 @@ jinfo -flag <name>=<value> <pid>
 </div>
 
 　　![avatar](pictures/21jvm运行时参数/21-1.png)
+
+　　查看默认垃圾回收器
+　　-XX:PrintCommandLineFlags 查看命令行相关参数(包含使用的垃圾收集器)
 
 ~~~
 # Serial回收器
@@ -8698,10 +8531,11 @@ jinfo -flag <name>=<value> <pid>
 -XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses
 	这两个参数用户指定hotspot虚拟在执行System.gc()时使用CMS周期
 -XX:+CMSPrecleaningEnabled  指定CMS是否需要进行Pre cleaning阶段
+特别说明，jdk9被弃用，jdk14中被删除了。
 ~~~
 
 ~~~
-# G1回收器
+# G1回收器(不建议使用-Xmn、-XX:NewRatio设置新老代的比例)
 -XX:+UseG1GC 手动指定使用G1收集器执行内存回收任务。
 -XX:G1HeapRegionSize 设置每个Region的大小。
 	值是2的幂，范围是1MB到32MB之间，目标是根据最小的Java堆大小划分出约2048个区域。默认是堆内存的1/2000。
@@ -8733,11 +8567,11 @@ jinfo -flag <name>=<value> <pid>
 ### 21.3.5 GC日志相关选项
 
 ~~~
--XX:+PrintGC <==> -verbose:gc  打印简要日志信息
--XX:+PrintGCDetails            打印详细日志信息
--XX:+PrintGCTimeStamps  打印程序启动到GC发生的时间，搭配-XX:+PrintGCDetails使用
--XX:+PrintGCDateStamps  打印GC发生时的时间戳，搭配-XX:+PrintGCDetails使用
--XX:+PrintHeapAtGC  打印GC前后的堆信息，如下图
+-XX:+PrintGC <==> -verbose:gc  输出GC日志，默认输出到标准输出，即简化的GC日志；
+-XX:+PrintGCDetails 在发生GC时打印内存回收详细的日志，并在进程退出时输出当前内存各区域分配情况；
+-XX:+PrintGCTimeStamps 打印程序启动到GC发生的时间戳，搭配-XX:+PrintGCDetails使用；
+-XX:+PrintGCDateStamps  打印GC发生时的时间戳(以日期形式，如2021-11-06T20:00:00.234+0800)，搭配-XX:+PrintGCDetails使用；
+-XX:+PrintHeapAtGC  打印每一次GC前和GC后的堆信息；
 -Xloggc:<file> 输出GC导指定路径下的文件中
 ~~~
 
@@ -8792,11 +8626,206 @@ public class MemoryMonitor {
 ~~~
 
 
-　　
-　　
-　　
-　　
-　　
+
+# 22 分析GC日志
+## 22.1 GC日志参数
+
+　　参考上一章。
+
+## 22.2 GC日志格式
+### 22.2.1 GC分类
+
+~~~
+针对Hot Spot VM的实现，它里面的GC按照回收区域又分为2大种类型：一种是部分收集(Partial GC)，一种是整堆收集(Full GC)。
+部分收集：不是完整收集整个Java堆的垃圾收集。其中又分为：
+    新生代收集(Minor GC / Young GC)：只是新生代(Eden、SO、S1)的垃圾收集；
+    老年代收集(Major GC / Old GC)：只是老年代的垃圾收集。
+        目前，只有CMS GC会有单独收集老年代的行为。
+        注意，很多时候Major GC会和Full GC混淆使用，需要具体分辨是老年代回收还是整堆回收。
+    混合收集(Mixed GC)：收集整个新生代及部分老年代的垃圾收集。
+        目前，只有GC GC会有这种行为。
+整堆收集(Full GC)：收集整个java堆和方法区的垃圾收集。
+~~~
+
+　　**Full GC的触发情况**
+~~~
+老年代空间不足；
+方法区空间不足(如动态加载类)；
+显式调用System.gc()；
+Minor GC进入老年代的数据的平均大小 > 老年代的可用内存；
+大对象直接进入老年代。
+~~~
+
+### 22.2.2 GC日志分类
+
+　　**通过阅读GC日志，我们可以了解Java虚拟机内存分配与回收策略。 内存分配与垃圾回收的参数列表**
+~~~
+-XX:+PrintGC 输出GC日志。类似：-verbose:gc
+-XX:+PrintGCDetails 输出GC的详细日志
+-XX:+PrintGCTimestamps 输出GC的时间戳（以基准时间的形式）
+-XX:+PrintGCDatestamps 输出GcC的时间戳（以日期的形式，如2013-05-04T21：53：59.234+0800）
+-XX:+PrintHeapAtGC 在进行GC的前后打印出堆的信息
+-Xloggc:../logs/gc.log 日志文件的输出路径
+~~~
+
+　　**查看所使用的垃圾回收器的类型**
+~~~
+新生代：
+    Serial："Default New Generation"，显示为"DefNew"；
+    ParNew："Parallel New Generation"，显示为"ParNew"；
+    Parallel Scavenge："PSYoungGen"，显示为"PSYoungGen"；        
+老年代：
+    Parallel Old Generation：显示为"ParOldGen"；
+G1：显示为"garbage-first heap"。
+
+~~~
+
+　　**GC原因**
+~~~
+Allocation Failure：表示本次GC的原因是年轻代中没有足够的空间储存新数据了；
+Metadata GCThreshold：Metaspace区不够用了；
+FErgonomics：JVM自适应调整导致的GC；
+System：调用了System.gc()方法。
+~~~
+
+　　**日志补充说明**
+~~~
+"[GC"和"[Full GC"说明了这次垃圾收集的停顿类型，如果有"Full"则说明GC发生了"Stop The World" ；
+[PSYoungGen：5986K->696K(8704K) ]  5986K->704K(9216K)，中括号内：GC回收前年轻代大小，回收后大小，（年轻代总大小）；括号外：GC回收前年轻代和老年代大小，回收后大小，（年轻代和老年代总大小）；
+Times：
+    user：进程执行用户态代码（核心之外）所使用的时间。这是执行此进程所使用的实际CPU时间，其他进程和此进程阻塞的时间并不包括在内。在垃圾收集的情况下，表示GC线程执行所使用的 CPU 总时间；
+    sys：进程在内核态消耗的 CPU 时间，即在内核执行系统调用或等待系统事件所使用的CPU 时间；
+    real：程序从开始到结束所用的时钟时间。这个时间包括其他进程使用的时间片和进程阻塞的时间（比如等待 I/O 完成）。对于并行gc，这个数字应该接近（用户时间＋系统时间）除以垃圾收集器使用的线程数。
+由于多核的原因，一般的GC事件中，real time是小于sys time＋user time的，因为一般是多个线程并发的去做GC，所以real time是要小于sys＋user time的。如果real＞sys＋user的话，则你的应用可能存在下列问题：IO负载非常重或CPU不够用。
+~~~
+
+<hr style="height: 10px; background: green;"/>
+
+　　**打开GC日志：-verbose:gc 或 -XX:+PrintGC**
+~~~
+这个只会显示总的GC堆的变化，如下：
+[GC (Allocation Failure) 80832K->19298K(227840K),0.0084018 secs]
+[GC (Metadata GC Threshold) 109499K->21465K(228352K),0.0184066 secs]
+[Full GC (Metadata GC Threshold) 21465K->16716K(201728K),0.0619261 secs]
+
+[GC类型 (本次GC原因)  GC前堆大小->GC后堆大小(堆大小), 此次GC用时 secs]
+
+参数解析
+GC、Full GC：GC的类型，GC只在新生代上进行，Full GC包括永生代，新生代，老年代；
+Allocation Failure：GC发生的原因；
+80832K->19298K：堆在GC前的大小和GC后的大小；
+228840k：现在的堆大小；
+0.0084018 secs：GC持续的时间。
+~~~
+
+<hr style="height: 10px; background: green;"/>
+
+　　**打开GC日志：-XX:+PrintGCDetails**
+~~~
+输入信息如下：具体信息可以查点下图22-1
+[GC (Allocation Failure) [PSYoungGen:70640K->10116K(141312K)] 80541K->20017K(227328K),0.0172573 secs] [Times:user=0.03 sys=0.00,real=0.02 secs]
+[GC (Metadata GC Threshold) [PSYoungGen:98859K->8154K(142336K)] 108760K->21261K(228352K),0.0151573 secs] [Times:user=0.00 sys=0.01,real=0.02 secs]
+[Full GC (Metadata GC Threshold)[PSYoungGen:8154K->0K(142336K)]
+[ParOldGen:13107K->16809K(62464K)] 21261K->16809K(204800K),[Metaspace:20599K->20599K(1067008K)],0.0639732 secs]
+[Times:user=0.14 sys=0.00,real=0.06 secs]
+
+参数解析
+GC，Full FC：同样是GC的类型；
+Allocation Failure：GC原因；
+PSYoungGen：使用了Parallel Scavenge并行垃圾收集器的新生代GC前后大小的变化；
+ParOldGen：使用了Parallel Old并行垃圾收集器的老年代GC前后大小的变化；
+Metaspace：元数据区GC前后大小的变化，JDK1.8中引入了元数据区以替代永久代；
+xxx secs：指GC花费的时间；
+Times：
+    user：指的是垃圾收集器花费的所有CPU时间；
+    sys：花费在等待系统调用或系统事件的时间；
+    real：GC从开始到结束的时间，包括其他进程占用时间片的实际时间。
+~~~
+
+<hr style="height: 10px; background: green;"/>
+
+　　**打开GC日志：-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps**
+~~~
+输入信息如下：
+2019-09-24T22:15:24.518+0800: 3.287: [GC (Allocation Failure) [PSYoungGen:136162K->5113K(136192K)] 141425K->17632K(222208K),0.0248249 secs] [Times:user=0.05 sys=0.00,real=0.03 secs]
+2019-09-24T22:15:25.559+0800: 4.329: [GC (Metadata GC Threshold) [PSYoungGen:97578K->10068K(274944K)] 110096K->22658K(360960K),0.0094071 secs] [Times: user=0.00 sys=0.00,real=0.01 secs]
+
+Minor GC解释如下：
+yyyy-mm-ddTHH:MM:SS.sss+东八区: jvm启动到现在的时间: [GC (GC原因) [young区收集器:young区收集前大小->收集后大小(young区总大小，仅计算一个S区)] 堆收集前大小->堆收集后大小(堆大小，仅计算1个S区),本次GC所用时间][Times:用户所用时间, 内核所用时间, 真实时间]
+
+
+2019-09-24T22:15:25.569+0800: 4.338: [Full GC (Metadata GC Threshold) [PSYoungGen:10068K->0K(274944K)][ParoldGen:12590K->13564K(56320K)] 22658K->13564K(331264K),[Metaspace:20590K->20590K(1067008K)],0.0494875 secs] [Times: user=0.17 sys=0.02,real=0.05 secs]
+
+Full GC解释如下：
+yyyy-mm-ddTHH:MM:SS.sss+东八区: jvm启动到现在的时间: [GC类型 (Full GC原因) [young GC收集器:young区GC前大小->GC后大小(young区总大小，仅计算一个S区)][old区收集器:old区GC前大小->GC后大小(old区总大小)] 堆GC前大小->堆GC后大小(堆总大小，仅计算1个S区), [方法区(或元空间):GC前大小->GC后大小(方法区总大小)],此次Full GC时间][Times:用户所用时间, 内核所用时间, 真实时间]
+
+
+
+Heap（堆）
+    PSYoungGen（Parallel Scavenge收集器新生代）total 9216K，used 6234K [0x00000000ff600000,0x0000000100000000,0x0000000100000000)
+        eden space（堆中的Eden区默认占比是8）8192K，768 used [0x00000000ff600000,0x00000000ffc16b08,0x00000000ffe00000)
+        from space（堆中的Survivor，这里是From Survivor区默认占比是1）1024K， 0% used [0x00000000fff00000,0x00000000fff00000,0x0000000100000000)
+        to space（堆中的Survivor，这里是to Survivor区默认占比是1，需要先了解一下堆的分配策略）1024K, 0% used [0x00000000ffe00000,0x00000000ffe00000,0x00000000fff00000)
+                                                                         
+    ParOldGen（老年代总大小和使用大小）total 10240K， used 7001K ［0x00000000fec00000,0x00000000ff600000,0x00000000ff600000)
+        object space（显示个使用百分比）10240K，688 used [0x00000000fec00000,0x00000000ff2d6630,0x00000000ff600000)
+
+    PSPermGen（永久代总大小和使用大小）total 21504K， used 4949K [0x00000000f9a00000,0x00000000faf00000,0x00000000fec00000)
+        object space（显示个使用百分比，自己能算出来）21504K， 238 used [0x00000000f9a00000,0x00000000f9ed55e0,0x00000000faf00000)
+
+~~~
+
+　　说明：带上了日期和时间
+　　如果想把GC日志存到文件的话，是下面的参数：-Xloggc:/path/to/gc.log
+
+
+
+　　**Minor GC日志**
+　　![avatar](pictures/22GC日志分析/22-1.png)
+
+　　**Full GC日志**
+　　![avatar](pictures/22GC日志分析/22-2.png)
+
+　　**举例**
+~~~
+private static final int _1MB = 1024 * 1024;
+
+public static void testAllocation() {
+    byte [] allocation1, allocation2, allocation3, allocation4;
+    allocation1 = new byte[2 *_1MB];
+    allocation2 = new byte[2 *_1MB];
+    allocation3 = new byte[2 *_1MB];
+    allocation4 = new byte[4 *_1MB];
+}
+
+public static void main(String[] args) {
+    testAllocation();
+}
+~~~
+
+　　设置JVM参数：-Xms10m -Xmx10m -XX:+PrintGCDetails
+　　**图示**
+　　![avatar](pictures/22GC日志分析/22-3.png)
+　　![avatar](pictures/22GC日志分析/22-4.png)
+
+### 22.2.3 GC日志分析工具
+
+　　**GCEasy**
+　　GCEasy是一款在线的GC日志分析器，可以通过GC日志分析进行内存泄露检测、GC暂停原因分析、JVM配置建议优化等功能，大多数功能是免费的。
+　　官网地址：https://gceasy.io/
+
+　　**GCViewer**
+　　GCViewer是一款离线的GC日志分析器，用于可视化Java VM选项 -verbose:gc 和 .NET生成的数据 -Xloggc:<file>。还可以计算与垃圾回收相关的性能指标（吞吐量、累积的暂停、最长的暂停等）。当通过更改世代大小或设置初始堆大小来调整特定应用程序的垃圾回收时，此功能非常有用。
+　　源码下载：https://github.com/chewiebug/GCViewer
+　　运行版本下载：https://github.com/chewiebug/GCViewer/wiki/Changelog
+
+　　**GChisto**
+　　官网上没有下载的地方，需要自己从SVN上拉下来编译
+　　不过这个工具似乎没怎么维护了，存在不少bug
+
+　　**HPjmeter**
+　　工具很强大，但是只能打开由以下参数生成的GC log，-verbose:gc  -Xloggc:gc.log。添加其他参数生成的gc.log无法打开
+　　HPjmeter集成了以前的HPjtune功能，可以分析在HP机器上产生的垃圾回收日志文件
 　　
 　　
 　　
