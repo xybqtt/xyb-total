@@ -125,9 +125,6 @@ Lock和synchronized有一点非常大的不同，采用synchronized不需要用�
 
 
 
-
-
-
 ## 2.5 小结(重点)
 
 　　**Lock和synchronized有以下几点不同**
@@ -142,10 +139,13 @@ Lock可以提高多个线程进行读操作的效率。
 ~~~
 
 
+
 # 3 线程间的通信
 ## 3.1 使用synchronized
 
 　　即通过wait()、notifyAll()方法进行线程间通信。
+
+
 
 ## 3.2 使用Lock
 
@@ -153,8 +153,56 @@ Lock可以提高多个线程进行读操作的效率。
 
 
 
+# 4 线程的定制化通信
+
+　　即要唤醒确定的线程，synchronized无法实现，但Lock.newCondition().signal()方法可以唤醒确定的线程。
 
 
 
+# 5 集合的线程安全
+
+　　**为了解决线程不安全的问题可以使用以下3种方法**
+~~~
+List<String> list = new Vector<>(); 效率差
+List<String> list = Collections.synchronizedList(new ArrayList<>()); 效率差
+List<String> list = new CopyOnWriteArrayList<>(); 写时复制技术，通过JUC包下的这个类去解决，效率好。
+~~~
+
+　　**CopyOnWriteArrayList原理**
+~~~
+可以查看其add方法，本质如下：
+进入add方法后，用ReentrantLock加锁；
+复制一份当前数组A为B，并令B的长度比A大1，将新元素插入B；
+将B赋值给A；
+解锁。
+
+这样可以多个线程读，一个线程写。
+对应的Set有CopyOnWriteArraySet。
+Map有ConcurrentHashMap。
+~~~
+
+
+
+# 6 多线程锁
+## 6.1 synchronized锁的是谁
+
+　　synchronized实现同步的基础：java中的每一个对象都可以作为锁，具体表现为以下3种形式。
+~~~
+对于普通同步方法，锁的是当前实例对象；
+对于静态同步方法，锁的是当前类的Class对象；
+对于同步方法块，锁是synchronized括号里配置的对象。
+~~~
+
+
+
+## 6.2 公平锁和非公平锁
+
+　　new ReentrantLock(true); true为公平锁，false或空为非公平锁。
+　　非公平锁特点：会导致某些线程饿死(即线程没活干)、效率高；
+　　公平锁特点：阳光普照(即所有线程都有活干)、效率相对低；
+
+## 6.3 可重入锁
+
+　　synchronized和Lock都是可重入锁，不过前面是隐式的，即jvm自己去处理的，Lock需要手动加锁和解锁。
 
 

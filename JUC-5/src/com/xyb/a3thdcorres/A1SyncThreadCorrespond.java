@@ -1,10 +1,10 @@
-package com.xyb.a1sync;
+package com.xyb.a3thdcorres;
 
 /**
  * 线程间通信，即当对象的A线程完成时，唤醒对象的B线程。
  * 交替执行2个线程，A：当为0时加1，B：当为1时-1，C同A，D同B。
  */
-public class A2SyncThreadCorrespond {
+public class A1SyncThreadCorrespond {
 
     // 第3步，创建多个线程，调用资源类的操作方法；
     public static void main(String[] args) {

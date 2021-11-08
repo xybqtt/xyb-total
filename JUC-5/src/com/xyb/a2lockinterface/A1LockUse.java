@@ -46,7 +46,7 @@ class LTicket {
     private int number = 30;
 
     // 创建可重入锁
-    private final ReentrantLock lock = new ReentrantLock();
+    private final ReentrantLock lock = new ReentrantLock(true); // true是公平锁，false或空是非公平锁。
 
     /**
      * 不使用synchronized，使用Lock实现

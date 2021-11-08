@@ -1,4 +1,4 @@
-package com.xyb.a2lockinterface;
+package com.xyb.a3thdcorres;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

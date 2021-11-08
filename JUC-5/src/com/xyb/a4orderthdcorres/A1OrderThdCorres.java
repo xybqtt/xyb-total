@@ -1,4 +1,4 @@
-package com.xyb.a2lockinterface;
+package com.xyb.a4orderthdcorres;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 定制线程间通信，即每个线程的任务完成后，后面运行的线程顺序是固定的，即不唤醒所有线程，而是唤醒固定线程，synchronized实现不了。
  * 先运行A、再运行B、再C
  */
-public class A3OrderThdCorres {
+public class A1OrderThdCorres {
 
 
     public static void main(String[] args) {
