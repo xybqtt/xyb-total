@@ -27,11 +27,6 @@
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JUC-5/JUC-5.md" beforeDir="false" afterPath="$PROJECT_DIR$/JUC-5/JUC-5.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JUC-5/src/com/xyb/A1Thread.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/JUC-5/src/com/xyb/a1sync/A2SyncThreadCorrespond.java" beforeDir="false" afterPath="$PROJECT_DIR$/JUC-5/src/com/xyb/a3thdcorres/A1SyncThreadCorrespond.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JUC-5/src/com/xyb/a2lockinterface/A1LockUse.java" beforeDir="false" afterPath="$PROJECT_DIR$/JUC-5/src/com/xyb/a2lockinterface/A1LockUse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JUC-5/src/com/xyb/a2lockinterface/A2LockThreadCorrespond.java" beforeDir="false" afterPath="$PROJECT_DIR$/JUC-5/src/com/xyb/a3thdcorres/A2LockThreadCorrespond.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JUC-5/src/com/xyb/a2lockinterface/A3OrderThdCorres.java" beforeDir="false" afterPath="$PROJECT_DIR$/JUC-5/src/com/xyb/a4orderthdcorres/A1OrderThdCorres.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +121,7 @@
       <recent name="com.xyb.service.impl" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.A1LockUse">
+  <component name="RunManager" selected="Application.A1Rlock">
     <configuration name="A1LockUse" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xyb.a2lockinterface.A1LockUse" />
       <module name="JUC-5" />
@@ -140,12 +135,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="A1NotSafeThdList" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a5thdsafeoflist.A1NotSafeThdList" />
+    <configuration name="A1Rlock" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.a6thdslock.A1Rlock" />
       <module name="JUC-5" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.xyb.a5thdsafeoflist.*" />
+          <option name="PATTERN" value="com.xyb.a6thdslock.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -319,19 +314,19 @@
       <item itemvalue="Application.ThreadDeadLock" />
       <item itemvalue="Application.ThreadSync" />
       <item itemvalue="Tomcat Server.java-web-3-tomcat" />
-      <item itemvalue="Application.A1NotSafeThdList" />
       <item itemvalue="Application.A2NotSafeThdHashSet" />
       <item itemvalue="Application.A3NotSafeThdHashMap" />
       <item itemvalue="Application.A1Show8Lock" />
       <item itemvalue="Application.A1LockUse" />
+      <item itemvalue="Application.A1Rlock" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.A1Rlock" />
         <item itemvalue="Application.A1LockUse" />
         <item itemvalue="Application.A1Show8Lock" />
         <item itemvalue="Application.A3NotSafeThdHashMap" />
         <item itemvalue="Application.A2NotSafeThdHashSet" />
-        <item itemvalue="Application.A1NotSafeThdList" />
       </list>
     </recent_temporary>
   </component>
@@ -479,14 +474,7 @@
       <workItem from="1635936594926" duration="11000" />
       <workItem from="1635936643789" duration="8784000" />
       <workItem from="1636121722945" duration="25000" />
-      <workItem from="1636121798882" duration="48663000" />
-    </task>
-    <task id="LOCAL-00035" summary="jvm学习：5">
-      <created>1625282635770</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1625282635770</updated>
+      <workItem from="1636121798882" duration="51480000" />
     </task>
     <task id="LOCAL-00036" summary="jvm学习：6">
       <created>1625303542491</created>
@@ -824,7 +812,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636329352623</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="juc学习：3 20节">
+      <created>1636384724438</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1636384724438</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1013,7 +1008,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：25 219节" />
     <MESSAGE value="jvm学习：25-1 219节" />
     <MESSAGE value="jvm学习：26 238节" />
     <MESSAGE value="jvm学习：27 253节" />
@@ -1038,7 +1032,8 @@
     <MESSAGE value="jvm学习：42 381节 完结洒花" />
     <MESSAGE value="juc学习：1 12节" />
     <MESSAGE value="juc学习：2 14节" />
-    <option name="LAST_COMMIT_MESSAGE" value="juc学习：2 14节" />
+    <MESSAGE value="juc学习：3 20节" />
+    <option name="LAST_COMMIT_MESSAGE" value="juc学习：3 20节" />
   </component>
   <component name="WindowStateProjectService">
     <state x="276" y="0" key="#Project_Structure" timestamp="1636263586327">
@@ -1062,10 +1057,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="391" y="335" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1635040702085" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1636329351330">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1636384722629">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1636329351330" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1636384722629" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1630344064081">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1075,26 +1070,26 @@
     </state>
     <state x="80" y="60" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1627539060627" />
     <state x="96" y="73" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1635860349014" />
-    <state width="1493" height="226" key="GridCell.Tab.0.bottom" timestamp="1636384288362">
+    <state width="1493" height="226" key="GridCell.Tab.0.bottom" timestamp="1636415549146">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1627539062682" />
-    <state width="1493" height="226" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1636384288362" />
-    <state width="1493" height="226" key="GridCell.Tab.0.center" timestamp="1636384288362">
+    <state width="1493" height="226" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1636415549146" />
+    <state width="1493" height="226" key="GridCell.Tab.0.center" timestamp="1636415549146">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="226" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1636384288362" />
-    <state width="1493" height="226" key="GridCell.Tab.0.left" timestamp="1636384288361">
+    <state width="1493" height="226" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1636415549146" />
+    <state width="1493" height="226" key="GridCell.Tab.0.left" timestamp="1636415549146">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="226" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1636384288361" />
-    <state width="1493" height="226" key="GridCell.Tab.0.right" timestamp="1636384288362">
+    <state width="1493" height="226" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1636415549146" />
+    <state width="1493" height="226" key="GridCell.Tab.0.right" timestamp="1636415549146">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="939" height="221" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1627539062681" />
-    <state width="1493" height="226" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1636384288362" />
+    <state width="1493" height="226" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1636415549146" />
     <state width="1493" height="333" key="GridCell.Tab.1.bottom" timestamp="1627658370105">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1144,10 +1139,10 @@
     </state>
     <state x="54" y="0" width="1226" height="680" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1627529496209" />
     <state x="434" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1636282827748" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1636329357730">
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1636384728357">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1636329357730" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1636384728357" />
     <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1636283247475">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
