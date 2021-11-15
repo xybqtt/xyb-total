@@ -278,14 +278,49 @@ call()方法可以抛出异常，而run()则不能；
 
 　　是一个同步辅助类，它允许一组线程互相等待，直到到达某个公共屏障点(common barrier point)。在涉及一组固定大小的线程的程序中，这些线程必须不时地相互等待，此时CyclicBarrier很有用。因为该barrier在释放等待线程后可以重用，所以称它为循环的barrier。
 　　CyclicBarrier构造方法的第一个参数为目标障碍数，每执行一次CyclicBarrier的await()方法，障碍数就会加1，如果达到了目标障碍数，都会执行await()后面的代码。可以将CyclicBarrier理解为加1操作。
-
-
-
+<hr/>
 　　**执行顺序**
 ~~~
 线程的await()之前的代码，直到await()；
 等到执行到目标障碍数，执行cb.runnable中的代码；
 执行线程await()之后的代码。
+以下过程相同，可查看com\xyb\a8assistcls\A2CyclicBarrier.java
+~~~
+<hr/>
+　　**方法介绍**
+~~~
+public CyclicBarrier(int parties)：构造方法，初始化相互等待的线程数量的构造方法。
+
+public CyclicBarrier(int parties, Runnable barrierAction)：初始化相互等待的线程数量以及屏障线程的构造方法，当 CyclicBarrier 的计数器变为 0 时，会执行 barrierAction 构造方法。
+
+getParties()：获取 CyclicBarrier 打开屏障的线程数量，也称为方数。
+
+getNumberWaiting()：获取正在CyclicBarrier上等待的线程数量。
+
+await()：在 CyclicBarrier 上进行阻塞等待，直到发生以下情形之一： 
+    在 CyclicBarrier 上等待的线程数量达到 parties，则所有线程被释放，继续执行；
+    当前线程被中断，则抛出 InterruptedException 异常，并停止等待，继续执行；
+    其他等待的线程被中断，则当前线程抛出 BrokenBarrierException 异常，并停止等待，继续执行；
+    其他等待的线程超时，则当前线程抛出 BrokenBarrierException 异常，并停止等待，继续执行；
+    其他线程调用 CyclicBarrier.reset() 方法，则当前线程抛出 BrokenBarrierException 异常，并停止等待，继续执行。
+    
+await(timeout,TimeUnit)：在 CyclicBarrier 上进行限时的阻塞等待，直到发生以下情形之一：
+    在 CyclicBarrier 上等待的线程数量达到 parties，则所有线程被释放，继续执行；
+    当前线程被中断，则抛出 InterruptedException 异常，并停止等待，继续执行；
+    当前线程等待超时，则抛出 TimeoutException 异常，并停止等待，继续执行；
+    其他等待的线程被中断，则当前线程抛出 BrokenBarrierException 异常，并停止等待，继续执行；
+    其他等待的线程超时，则当前线程抛出 BrokenBarrierException 异常，并停止等待，继续执行；
+    其他线程调用 CyclicBarrier.reset() 方法，则当前线程抛出 BrokenBarrierException 异常，并停止等待，继续执行。
+    
+isBroken()：获取是否破损标志位 broken 的值，此值有以下几种情况：
+    CyclicBarrier 初始化时，broken=false，表示屏障未破损；
+    如果正在等待的线程被中断，则 broken=true，表示屏障破损；
+    如果正在等待的线程超时，则 broken=true，表示屏障破损；
+    如果有线程调用 CyclicBarrier.reset() 方法，则 broken=false，表示屏障回到未破损状态。
+    
+reset()：使得CyclicBarrier回归初始状态，直观来看它做了两件事：
+    如果有正在等待的线程，则会抛出 BrokenBarrierException 异常，且这些线程停止等待，继续执行。
+    将是否破损标志位 broken 置为 false。
 ~~~
 
 
