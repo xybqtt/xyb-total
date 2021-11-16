@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ThreadSync" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="com.xyb.a19jvmcmd.jstack.ThreadSync" />
-    <module name="jvm-4" />
+    <module name="4_jvm" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.xyb.a19jvmcmd.jstack.*" />

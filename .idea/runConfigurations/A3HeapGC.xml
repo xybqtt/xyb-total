@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="EscapeAnalysis4" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="A3HeapGC" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
-    <option name="MAIN_CLASS_NAME" value="com.xyb.a6heap.EscapeAnalysis4" />
+    <option name="MAIN_CLASS_NAME" value="com.xyb.a6heap.A3HeapGC" />
     <module name="4_jvm" />
-    <option name="VM_PARAMETERS" value="-server -Xms1G -Xmx1G -XX:+DoEscapeAnalysis -XX:+EliminateAllocations -XX:+PrintGCDetails" />
+    <option name="VM_PARAMETERS" value="-Xms400m -Xmx400m -XX:NewRatio=3 -XX:SurvivorRatio=2 -XX:-UseAdaptiveSizePolicy -XX:+UseTLAB" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.xyb.a6heap.*" />

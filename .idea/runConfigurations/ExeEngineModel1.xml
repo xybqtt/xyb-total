@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ExeEngineModel1" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="com.xyb.a9executeengine.ExeEngineModel1" />
-    <module name="jvm-4" />
+    <module name="4_jvm" />
     <option name="VM_PARAMETERS" value="-Xmixed" />
     <extension name="coverage">
       <pattern>
