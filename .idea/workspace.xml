@@ -25,11 +25,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/java_web_3_war_exploded.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/java_web_3_lib.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/EscapeAnalysis4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/A4EscapeAnalysis.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/6_design-pattern/设计模式.md" beforeDir="false" afterPath="$PROJECT_DIR$/6_design-pattern/设计模式.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +121,7 @@
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.3_java-web-tomcat">
+  <component name="RunManager" selected="Application.A3SingleRespon">
     <configuration name="A1CompletableFutureDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xyb.a13completable.A1CompletableFutureDemo" />
       <module name="5_JUC" />
@@ -138,25 +135,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="A1CreateThreadPoolDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a11threadpool.A1CreateThreadPoolDemo" />
-      <module name="5_JUC" />
+    <configuration name="A1SingleResponsibility1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.a1principle.a1singleresponsibility.A1SingleResponsibility1" />
+      <module name="6_design-pattern" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.xyb.a11threadpool.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="A1ForkJoinDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a12forkjoin.A1ForkJoinDemo" />
-      <module name="5_JUC" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.xyb.a12forkjoin.*" />
+          <option name="PATTERN" value="com.xyb.a1principle.a1singleresponsibility.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -177,12 +161,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="A2ThreadPoolDemo2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a11threadpool.A2ThreadPoolDemo2" />
-      <module name="5_JUC" />
+    <configuration name="A2SingleRespon2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.a1principle.a1singleresponsibility.A2SingleRespon2" />
+      <module name="6_design-pattern" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.xyb.a11threadpool.*" />
+          <option name="PATTERN" value="com.xyb.a1principle.a1singleresponsibility.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="A3SingleRespon" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.a1principle.a1singleresponsibility.A3SingleRespon" />
+      <module name="6_design-pattern" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xyb.a1principle.a1singleresponsibility.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -371,9 +368,6 @@
       <item itemvalue="Application.A4Jdk9ClsLoader" />
       <item itemvalue="Application.ThreadDeadLock" />
       <item itemvalue="Application.ThreadSync" />
-      <item itemvalue="Application.A1CreateThreadPoolDemo" />
-      <item itemvalue="Application.A2ThreadPoolDemo2" />
-      <item itemvalue="Application.A1ForkJoinDemo" />
       <item itemvalue="Application.A1CompletableFutureDemo" />
       <item itemvalue="Application.A2CyclicBarrier" />
       <item itemvalue="Application.A1VmsTest" />
@@ -389,14 +383,17 @@
       <item itemvalue="Application.A2CanReliveObj" />
       <item itemvalue="Application.A4ReferenceTest" />
       <item itemvalue="Tomcat Server.3_java-web-tomcat" />
+      <item itemvalue="Application.A1SingleResponsibility1" />
+      <item itemvalue="Application.A2SingleRespon2" />
+      <item itemvalue="Application.A3SingleRespon" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.A3SingleRespon" />
+        <item itemvalue="Application.A2SingleRespon2" />
+        <item itemvalue="Application.A1SingleResponsibility1" />
         <item itemvalue="Application.A2CyclicBarrier" />
         <item itemvalue="Application.A1CompletableFutureDemo" />
-        <item itemvalue="Application.A1ForkJoinDemo" />
-        <item itemvalue="Application.A2ThreadPoolDemo2" />
-        <item itemvalue="Application.A1CreateThreadPoolDemo" />
       </list>
     </recent_temporary>
   </component>
@@ -547,13 +544,6 @@
       <workItem from="1636121798882" duration="66176000" />
       <workItem from="1636584952828" duration="27000" />
       <workItem from="1636585111786" duration="25892000" />
-    </task>
-    <task id="LOCAL-00040" summary="jvm学习：10">
-      <created>1625757929275</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1625757929275</updated>
     </task>
     <task id="LOCAL-00041" summary="jvm学习：11">
       <created>1626014751257</created>
@@ -891,7 +881,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637069174713</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="设计模式：1 第6节">
+      <created>1637075559606</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1637075559606</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1080,7 +1077,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：28-2 271节" />
     <MESSAGE value="jvm学习：29 278节" />
     <MESSAGE value="jvm学习：30 285节" />
     <MESSAGE value="jvm学习：31 277节" />
@@ -1105,7 +1101,8 @@
     <MESSAGE value="juc学习：5 34节" />
     <MESSAGE value="juc学习：6 CyclicBarrier深入" />
     <MESSAGE value="更改模块名" />
-    <option name="LAST_COMMIT_MESSAGE" value="更改模块名" />
+    <MESSAGE value="设计模式：1 第6节" />
+    <option name="LAST_COMMIT_MESSAGE" value="设计模式：1 第6节" />
   </component>
   <component name="WindowStateProjectService">
     <state x="276" y="0" key="#Project_Structure" timestamp="1636263586327">
@@ -1120,10 +1117,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="872" y="212" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1630281465370" />
-    <state x="958" y="117" key="#com.intellij.ide.util.MemberChooser" timestamp="1636870057956">
+    <state x="958" y="117" key="#com.intellij.ide.util.MemberChooser" timestamp="1637106415970">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="958" y="117" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1636870057956" />
+    <state x="958" y="117" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1637106415970" />
     <state x="352" y="264" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1637069273964">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1140,10 +1137,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="512" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1637068882412" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1637069168014">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1637075558000">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1637069168014" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1637075558000" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1630344064081">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1152,22 +1149,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="454" y="79" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1637069678628" />
-    <state width="1493" height="269" key="GridCell.Tab.0.bottom" timestamp="1637072630382">
+    <state width="1493" height="269" key="GridCell.Tab.0.bottom" timestamp="1637105247359">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="269" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1637072630382" />
-    <state width="1493" height="269" key="GridCell.Tab.0.center" timestamp="1637072630382">
+    <state width="1493" height="269" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1637105247359" />
+    <state width="1493" height="269" key="GridCell.Tab.0.center" timestamp="1637105247358">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="269" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1637072630382" />
-    <state width="1493" height="269" key="GridCell.Tab.0.left" timestamp="1637072630382">
+    <state width="1493" height="269" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1637105247358" />
+    <state width="1493" height="269" key="GridCell.Tab.0.left" timestamp="1637105247358">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="269" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1637072630382" />
-    <state width="1493" height="269" key="GridCell.Tab.0.right" timestamp="1637072630382">
+    <state width="1493" height="269" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1637105247358" />
+    <state width="1493" height="269" key="GridCell.Tab.0.right" timestamp="1637105247359">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="269" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1637072630382" />
+    <state width="1493" height="269" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1637105247359" />
     <state width="1236" height="301" key="GridCell.Tab.1.bottom" timestamp="1637072529260">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1240,10 +1237,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="204" y="6" width="1332" height="818" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1637070509116" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1637069300009">
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1637075568461">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1637069300009" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1637075568461" />
     <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1636283247475">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
