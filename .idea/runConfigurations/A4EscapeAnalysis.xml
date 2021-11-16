@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="EscapeAnalysis4" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="A4EscapeAnalysis" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
-    <option name="MAIN_CLASS_NAME" value="com.xyb.a6heap.EscapeAnalysis4" />
+    <option name="MAIN_CLASS_NAME" value="com.xyb.a6heap.A4EscapeAnalysis" />
     <module name="4_jvm" />
     <option name="VM_PARAMETERS" value="-server -Xms1G -Xmx1G -XX:+DoEscapeAnalysis -XX:+EliminateAllocations -XX:+PrintGCDetails" />
     <extension name="coverage">

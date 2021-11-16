@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/3_java-web/3_java-web.iml" filepath="$PROJECT_DIR$/3_java-web/3_java-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/4_jvm/4_jvm.iml" filepath="$PROJECT_DIR$/4_jvm/4_jvm.iml" />
       <module fileurl="file://$PROJECT_DIR$/5_JUC/5_JUC.iml" filepath="$PROJECT_DIR$/5_JUC/5_JUC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/6_design-pattern/6_design-pattern.iml" filepath="$PROJECT_DIR$/6_design-pattern/6_design-pattern.iml" />
       <module fileurl="file://$PROJECT_DIR$/parse-combin/parse-combin.iml" filepath="$PROJECT_DIR$/parse-combin/parse-combin.iml" />
       <module fileurl="file://$PROJECT_DIR$/webservice-3/webservice-3.iml" filepath="$PROJECT_DIR$/webservice-3/webservice-3.iml" />
       <module fileurl="file://$PROJECT_DIR$/webservice-3/ws-client/ws-client.iml" filepath="$PROJECT_DIR$/webservice-3/ws-client/ws-client.iml" />

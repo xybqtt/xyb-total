@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="java-web-3-lib">
+  <library name="3_java-web-lib">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/3_java-web/web/WEB-INF/lib/commons-fileupload-1.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/3_java-web/web/WEB-INF/lib/commons-io-2.9.0.jar!/" />
