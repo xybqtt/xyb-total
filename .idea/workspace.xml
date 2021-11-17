@@ -26,7 +26,6 @@
   <component name="ChangeListManager">
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/6_design-pattern/src/com/xyb/a1principle/a2segregation/A1SegregationProblem.java" beforeDir="false" afterPath="$PROJECT_DIR$/6_design-pattern/src/com/xyb/a1principle/a2segregation/A1SegregationProblem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/6_design-pattern/设计模式.md" beforeDir="false" afterPath="$PROJECT_DIR$/6_design-pattern/设计模式.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,24 +87,24 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/6_design-pattern" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/6_design-pattern/src/com/xyb/a1principle/a4liskov" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15332031" />
     <property name="project.structure.side.proportion" value="0.14887892" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Markdown" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.xyb.service.impl" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern\src\com\xyb\a1principle\a4liskov" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\JUC-5\src\com\xyb\a8assistcls" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\JUC-5" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\JUC-5\pictures\11ThreadPool" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.xyb.a5thdsafeoflist" />
@@ -122,7 +121,20 @@
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.A2DIImprove">
+  <component name="RunManager" selected="Application.A2LiskovImprove">
+    <configuration name="A1Liskov" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.a1principle.a4liskov.A1Liskov" />
+      <module name="6_design-pattern" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xyb.a1principle.a4liskov.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="A1SegregationProblem" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xyb.a1principle.a2segregation.A1SegregationProblem" />
       <module name="6_design-pattern" />
@@ -149,38 +161,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="A2LiskovImprove" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.a1principle.a4liskov.A2LiskovImprove" />
+      <module name="6_design-pattern" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xyb.a1principle.a4liskov.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="A2SegregationImprove" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xyb.a1principle.a2segregation.A2SegregationImprove" />
       <module name="6_design-pattern" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.xyb.a1principle.a2segregation.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="A2SingleRespon2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a1principle.a1singleresponsibility.A2SingleRespon2" />
-      <module name="6_design-pattern" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.xyb.a1principle.a1singleresponsibility.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="A3SingleRespon" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a1principle.a1singleresponsibility.A3SingleRespon" />
-      <module name="6_design-pattern" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.xyb.a1principle.a1singleresponsibility.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -382,19 +381,19 @@
       <item itemvalue="Application.A2CanReliveObj" />
       <item itemvalue="Application.A4ReferenceTest" />
       <item itemvalue="Tomcat Server.3_java-web-tomcat" />
-      <item itemvalue="Application.A2SingleRespon2" />
-      <item itemvalue="Application.A3SingleRespon" />
       <item itemvalue="Application.A2SegregationImprove" />
       <item itemvalue="Application.A1SegregationProblem" />
       <item itemvalue="Application.A2DIImprove" />
+      <item itemvalue="Application.A1Liskov" />
+      <item itemvalue="Application.A2LiskovImprove" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.A2LiskovImprove" />
+        <item itemvalue="Application.A1Liskov" />
         <item itemvalue="Application.A2DIImprove" />
         <item itemvalue="Application.A1SegregationProblem" />
         <item itemvalue="Application.A2SegregationImprove" />
-        <item itemvalue="Application.A3SingleRespon" />
-        <item itemvalue="Application.A2SingleRespon2" />
       </list>
     </recent_temporary>
   </component>
@@ -545,13 +544,6 @@
       <workItem from="1636121798882" duration="66176000" />
       <workItem from="1636584952828" duration="27000" />
       <workItem from="1636585111786" duration="25892000" />
-    </task>
-    <task id="LOCAL-00042" summary="jvm学习：12 110节">
-      <created>1626047432980</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1626047432980</updated>
     </task>
     <task id="LOCAL-00043" summary="jvm学习：13 118节">
       <created>1626101343365</created>
@@ -889,7 +881,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637107031076</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="设计模式：3 第14节">
+      <created>1637161744750</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1637161744750</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1078,7 +1077,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：30 285节" />
     <MESSAGE value="jvm学习：31 277节" />
     <MESSAGE value="jvm学习：32 282节" />
     <MESSAGE value="jvm学习：33 286节" />
@@ -1103,7 +1101,8 @@
     <MESSAGE value="更改模块名" />
     <MESSAGE value="设计模式：1 第6节" />
     <MESSAGE value="设计模式：2 第9节" />
-    <option name="LAST_COMMIT_MESSAGE" value="设计模式：2 第9节" />
+    <MESSAGE value="设计模式：3 第14节" />
+    <option name="LAST_COMMIT_MESSAGE" value="设计模式：3 第14节" />
   </component>
   <component name="WindowStateProjectService">
     <state x="276" y="0" key="#Project_Structure" timestamp="1636263586327">
@@ -1138,10 +1137,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="512" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1637068882412" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1637107029408">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1637161743121">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1637107029408" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1637161743121" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1630344064081">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1150,22 +1149,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="454" y="79" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1637069678628" />
-    <state width="724" height="269" key="GridCell.Tab.0.bottom" timestamp="1637161419650">
+    <state width="724" height="261" key="GridCell.Tab.0.bottom" timestamp="1637192125771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="269" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1637161419650" />
-    <state width="724" height="269" key="GridCell.Tab.0.center" timestamp="1637161419650">
+    <state width="724" height="261" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1637192125771" />
+    <state width="724" height="261" key="GridCell.Tab.0.center" timestamp="1637192125771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="269" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1637161419650" />
-    <state width="724" height="269" key="GridCell.Tab.0.left" timestamp="1637161419650">
+    <state width="724" height="261" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1637192125771" />
+    <state width="724" height="261" key="GridCell.Tab.0.left" timestamp="1637192125771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="269" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1637161419650" />
-    <state width="724" height="269" key="GridCell.Tab.0.right" timestamp="1637161419650">
+    <state width="724" height="261" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1637192125771" />
+    <state width="724" height="261" key="GridCell.Tab.0.right" timestamp="1637192125771">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="269" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1637161419650" />
+    <state width="724" height="261" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1637192125771" />
     <state width="1236" height="301" key="GridCell.Tab.1.bottom" timestamp="1637072529260">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1234,14 +1233,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="458" y="113" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1629370742432" />
-    <state x="204" y="6" width="1332" height="818" key="SettingsEditor" timestamp="1637107100241">
+    <state x="204" y="6" width="1332" height="818" key="SettingsEditor" timestamp="1637190243165">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="204" y="6" width="1332" height="818" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1637107100241" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1637107040442">
+    <state x="204" y="6" width="1332" height="818" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1637190243165" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1637161750469">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1637107040442" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1637161750469" />
     <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1636283247475">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
