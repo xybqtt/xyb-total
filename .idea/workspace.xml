@@ -24,10 +24,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/6_design-pattern/设计模式.md" beforeDir="false" afterPath="$PROJECT_DIR$/6_design-pattern/设计模式.md" afterDir="false" />
-    </list>
+    <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -89,7 +86,7 @@
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/6_design-pattern/src/com/xyb/a1principle/a4liskov" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15332031" />
     <property name="project.structure.side.proportion" value="0.14887892" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -121,7 +118,7 @@
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.A2LiskovImprove">
+  <component name="RunManager" selected="Tomcat Server.3_java-web-tomcat">
     <configuration name="A1Liskov" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xyb.a1principle.a4liskov.A1Liskov" />
       <module name="6_design-pattern" />
@@ -545,13 +542,6 @@
       <workItem from="1636584952828" duration="27000" />
       <workItem from="1636585111786" duration="25892000" />
     </task>
-    <task id="LOCAL-00043" summary="jvm学习：13 118节">
-      <created>1626101343365</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1626101343365</updated>
-    </task>
     <task id="LOCAL-00044" summary="jvm学习：13 118节">
       <created>1626214608345</created>
       <option name="number" value="00044" />
@@ -888,7 +878,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637161744750</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="设计模式：4 第17节">
+      <created>1637193147379</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1637193147379</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1077,7 +1074,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：31 277节" />
     <MESSAGE value="jvm学习：32 282节" />
     <MESSAGE value="jvm学习：33 286节" />
     <MESSAGE value="html学习：添加笔记" />
@@ -1102,7 +1098,8 @@
     <MESSAGE value="设计模式：1 第6节" />
     <MESSAGE value="设计模式：2 第9节" />
     <MESSAGE value="设计模式：3 第14节" />
-    <option name="LAST_COMMIT_MESSAGE" value="设计模式：3 第14节" />
+    <MESSAGE value="设计模式：4 第17节" />
+    <option name="LAST_COMMIT_MESSAGE" value="设计模式：4 第17节" />
   </component>
   <component name="WindowStateProjectService">
     <state x="276" y="0" key="#Project_Structure" timestamp="1636263586327">
@@ -1137,10 +1134,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="512" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1637068882412" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1637161743121">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1637193145625">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1637161743121" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1637193145625" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1630344064081">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1233,14 +1230,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="458" y="113" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1629370742432" />
-    <state x="204" y="6" width="1332" height="818" key="SettingsEditor" timestamp="1637190243165">
+    <state x="204" y="6" width="1332" height="818" key="SettingsEditor" timestamp="1637193201859">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="204" y="6" width="1332" height="818" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1637190243165" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1637161750469">
+    <state x="204" y="6" width="1332" height="818" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1637193201859" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1637193155157">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1637161750469" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1637193155157" />
     <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1636283247475">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

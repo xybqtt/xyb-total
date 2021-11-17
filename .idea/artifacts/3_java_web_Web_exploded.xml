@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" build-on-make="true" name="3_java-web:Web exploded">
-    <output-path>$PROJECT_DIR$/3_java-web/target/artifacts/3_java_web_Web_exploded</output-path>
+    <output-path>$PROJECT_DIR$/target/artifacts/3_java_web_Web_exploded</output-path>
     <root id="root">
       <element id="javaee-facet-resources" facet="3_java-web/web/Web" />
       <element id="directory" name="WEB-INF">
