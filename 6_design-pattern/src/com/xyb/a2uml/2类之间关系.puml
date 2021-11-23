@@ -1,0 +1,50 @@
+@startuml
+
+C1 ..> C2 : 依赖，即C1用到了C2
+C3 --> C4 : 关联，C4作为C3的属性
+
+newpage
+
+C5 <|-- C6 : 泛化表示1，即C6 extends C5
+C7 ^-- C8 : 泛化表示2，即C8 extends C7
+C9 <|.. C10 : 实现表示1，C10 implements C9
+C11 ^.. C12 : 实现表示2，C12 implements C11
+
+
+class A7 extends A8
+interface A9 implements A10
+class A8 implements A9
+
+newpage
+
+left to right direction
+
+class C1
+class C2
+class C3
+
+C1 *--- C2 : 这是组合关系，c2变量和C1对象一起出生，生命周期一致。
+C1 o--- C3 : 这是聚和关系，c3变量不一定被赋值。
+
+class C1 {
+    {field} + c2 : C2 = new C2()
+    + c3 : C3
+
+    + setC3(c3 : C3) : void
+
+}
+
+
+newpage
+
+Class21 #-- Class22
+Class23 x-- Class24
+Class25 }-- Class26
+Class27 +-- Class28
+Class29 ^-- Class30
+
+newpage
+
+类01 "备注1" *-- "备注2" 类02 : 线上备注，加(空格>可以指向类) >
+
+@enduml

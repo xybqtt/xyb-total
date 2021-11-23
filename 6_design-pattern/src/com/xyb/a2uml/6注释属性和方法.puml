@@ -1,0 +1,52 @@
+@startuml
+class A {
+    {static} counter : int
+    + {abstract} start(int timeout) : void
+}
+
+note left of A::counter
+  该成员已注释
+end note
+
+note right of A::start
+  在 UML 注释了此方法
+end note
+
+newpage
+note "注释同名属性和方法" as N3
+
+class A {
+    {static} int counter
+    + {abstract} start(int timeoutms) : void
+    + {abstract} start(Duration timeout) : void
+}
+note left of A::counter
+  该成员已注释
+end note
+
+note right of A::"start(int timeoutms)"
+  这个start方法的参数是int类型
+end note
+
+note right of A::"start(Duration timeout)"
+  这个start方法的参数是Duration类型
+end note
+
+newpage
+
+note "链接的注释" as N4
+
+class Dummy
+Dummy --> Foo : A link
+note on link #red: note that is red
+
+Dummy --> Foo2 : Another link
+note right on link #blue
+this is my note on right link
+and in blue
+end note
+
+
+
+
+@enduml

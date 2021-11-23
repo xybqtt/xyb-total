@@ -1,0 +1,29 @@
+@startuml
+class Object << 类备注 >>
+Object <|--- ArrayList
+
+note top of Object: 在Object上面备注.
+
+note "声明一个备注作为N1" as N1
+note "声明一个备注作为N2" as N2
+Object .. N2
+N2 .. ArrayList
+
+class Foo
+note left: 在Foo下面一行写一个note left就\n可以在Foo左侧备注，其它方法同理
+
+newpage
+
+class cl2
+note right of cl2
+    <b>备注</b><u>可以</u>使用html，
+    可以换行
+end note
+
+note as N3
+    也可以使用别名，在这中间换行
+end note
+
+cl2 .. N3
+
+@enduml

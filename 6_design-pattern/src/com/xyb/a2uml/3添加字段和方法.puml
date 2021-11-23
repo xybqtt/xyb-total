@@ -1,0 +1,27 @@
+@startuml
+
+class MyClass {
+    field0
+    - field1 : String
+    # field2 : String
+    ~ field3 : String
+    + field4 : String
+    + {static} field5 : int
+    {field} m6()
+
+    {method} f6() : void
+    method1()
+    - {static} m2(param1 : String) : void
+    # {classifier} String m3() : void
+    ~ String m4() : void
+    + String m5() : void
+}
+
+enum TimeUnit {
+    DAYS
+    HOURS
+    MINUTES
+}
+note right: 枚举类
+
+@enduml

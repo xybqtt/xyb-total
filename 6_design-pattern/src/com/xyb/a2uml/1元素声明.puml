@@ -1,0 +1,15 @@
+@startuml
+interface       接口
+abstract        抽象类类名(斜体)
+abstract class  抽象类(等同abstract)
+class           类
+annotation      注解
+enum            枚举
+entity          实例
+
+
+circle          圆
+()              圆缩写形式
+diamond         菱形
+<>              菱形写形式
+@enduml
