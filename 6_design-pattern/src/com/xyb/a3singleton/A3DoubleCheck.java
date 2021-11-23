@@ -36,7 +36,8 @@ public class A3DoubleCheck {
  */
 class A3Singleton1 {
 
-    private static A3Singleton1 s1;
+    // 必须加上volatile
+    private static volatile A3Singleton1 s1;
 
     private A3Singleton1() {
     }
