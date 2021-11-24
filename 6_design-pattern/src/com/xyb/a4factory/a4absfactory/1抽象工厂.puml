@@ -1,0 +1,68 @@
+@startuml
+
+interface DrinksFactory
+class ColaFactory
+class FantaFactory
+class ACola
+class AFanta
+class BCola
+class BFanta
+
+
+DrinksFactory <|.. ColaFactory
+DrinksFactory <|.. FantaFactory
+
+ColaFactory <.. ACola
+ColaFactory <.. BCola
+FantaFactory <.. AFanta
+FantaFactory <.. BFanta
+ACola ..|> ADrink
+AFanta ..|> ADrink
+BCola ..|> BDrink
+BFanta ..|> BDrink
+
+
+
+interface DrinksFactory {
+    + createADrink() : ADrink
+    + createBDrink() : BDrink
+}
+
+interface ColaFactory {
+    + createADrink() : ADrink
+    + createBDrink() : BDrink
+}
+
+interface FantaFactory {
+    + createADrink() : ADrink
+    + createBDrink() : BDrink
+}
+
+
+interface ADrink {
+    + getDrinkName() : String
+}
+
+class ACola {
+    + getDrinkName() : String
+}
+
+class AFanta {
+    + getDrinkName() : String
+}
+
+
+interface BDrink {
+    + getDrinkName() : String
+}
+
+class BCola {
+    + getDrinkName() : String
+}
+
+class BFanta {
+    + getDrinkName() : String
+}
+
+
+@enduml

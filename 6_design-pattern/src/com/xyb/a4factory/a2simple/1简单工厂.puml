@@ -1,0 +1,17 @@
+@startuml
+
+abstract class Drink
+class Cola
+class Fanta
+class DrinkFactory
+
+Drink ^-- Cola
+Drink ^-- Fanta
+DrinkFactory --> Drink
+
+class DrinkFactory {
+    + createDrink(drinkType : String) : Drink
+}
+
+
+@enduml
