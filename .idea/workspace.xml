@@ -26,8 +26,6 @@
   <component name="ChangeListManager">
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/6_design-pattern/src/com/xyb/a2uml/2类之间关系.puml" beforeDir="false" afterPath="$PROJECT_DIR$/6_design-pattern/src/com/xyb/a2uml/2类之间关系.puml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/6_design-pattern/设计模式.md" beforeDir="false" afterPath="$PROJECT_DIR$/6_design-pattern/设计模式.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,12 +97,8 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\22GC日志分析" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\4jvmStack" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\6" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.xyb.service.impl" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern\src\com\xyb\a4factory\a4absfactory" />
@@ -114,36 +108,27 @@
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern\src\com\xyb\a1principle\a4liskov" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.xyb.a4factory.a4absfactory" />
       <recent name="com.xyb.a5thdsafeoflist" />
       <recent name="com.xyb.a20jvmgui.leakmemory" />
       <recent name="com.xyb.a19jvmcmd.jstack" />
       <recent name="com.xyb.servlet" />
-      <recent name="com.xyb.entity" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.xyb.service.impl" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\22GC日志分析" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\4jvmStack" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4\pictures\6" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\jvm-4" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.A1FactoryMethod">
+  <component name="RunManager" selected="Application.Test (1)">
     <configuration name="A1FactoryMethod" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xyb.a4factory.a3factorymethod.A1FactoryMethod" />
       <module name="6_design-pattern" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.xyb.a4factory.a3factorymethod.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="A2Singleton" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a3singleton.A2Singleton" />
-      <module name="6_design-pattern" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.xyb.a3singleton.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -183,6 +168,19 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.xyb.a3singleton.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.a4factory.a4absfactory.Test" />
+      <module name="6_design-pattern" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xyb.a4factory.a4absfactory.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -336,21 +334,21 @@
       <item itemvalue="Application.A1RefCountGCTest" />
       <item itemvalue="Application.A2CanReliveObj" />
       <item itemvalue="Application.A4ReferenceTest" />
-      <item itemvalue="Application.A2Singleton" />
-      <item itemvalue="Tomcat Server.java-web-3-tomcat" />
-      <item itemvalue="Tomcat Server.3_java-web-tomcat" />
       <item itemvalue="Application.A3DoubleCheck" />
       <item itemvalue="Application.A4StaticInnerClass" />
       <item itemvalue="Application.A5Enum" />
       <item itemvalue="Application.A1FactoryMethod" />
+      <item itemvalue="Tomcat Server.java-web-3-tomcat" />
+      <item itemvalue="Tomcat Server.3_java-web-tomcat" />
+      <item itemvalue="Application.Test (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Test (1)" />
         <item itemvalue="Application.A1FactoryMethod" />
         <item itemvalue="Application.A5Enum" />
         <item itemvalue="Application.A4StaticInnerClass" />
         <item itemvalue="Application.A3DoubleCheck" />
-        <item itemvalue="Application.A2Singleton" />
       </list>
     </recent_temporary>
   </component>
@@ -505,6 +503,8 @@
       <workItem from="1637500936613" duration="8000" />
       <workItem from="1637500990277" duration="7937000" />
       <workItem from="1637623452330" duration="15528000" />
+      <workItem from="1637797341201" duration="103000" />
+      <workItem from="1637797498408" duration="495000" />
     </task>
     <task id="LOCAL-00049" summary="jvm学习：16 146节">
       <created>1627230180501</created>
