@@ -1,0 +1,63 @@
+@startuml
+
+title 原型模式
+
+Cloneable <|.. Prototype
+Prototype <|-- RealizeType
+Client ..> RealizeType
+
+
+interface Cloneable
+
+abstract class Prototype <<抽象原型类>> {
+    + clone() : Object
+}
+
+class RealizeType <<原型类>> {
+    + clone() : RealizeType
+}
+
+class Client <<访问类>> {
+    + main() : void
+}
+
+
+newpage
+
+title 带原型管理器的原型模式
+
+Client .> PrototypeManager
+PrototypeManager ..> Prototype
+Prototype ...right...|> Cloneable
+Prototype <|.. RealizeType1
+Prototype <|.. RealizeType2
+
+
+class PrototypeManager <<原型管理器>> {
+    - map : HashMap<String, Object>
+
+    + setPrototype(id String, prototype Prototype) : void
+    + getPrototype(id String) : Prototype
+}
+note top of PrototypeManager : Client通过PrototypeManager来设置\n原型或获取原型.clone()对象。
+
+interface Cloneable
+
+abstract class Prototype <<抽象原型类>> {
+    + clone() : Object
+}
+
+class RealizeType1 <<原型类1>> {
+    + clone() : RealizeType1
+}
+
+class RealizeType2 <<原型类2>> {
+    + clone() : RealizeType2
+}
+
+class Client <<访问类>> {
+    + main() : void
+}
+
+
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+
+left to right direction
+
+Entity A {
+    + b : B
+    + c : C
+    + i : int
+    + str : String
+}
+
+Entity B {
+    + name : String
+    + age : int
+    + d : D
+}
+
+Entity D {
+    + field1 : String
+    + field2 : String
+}
+
+Entity C {
+    + name : String
+    + age : int
+}
+
+A::b --> B
+A::c --> C
+B::d --> D
+
+@enduml
