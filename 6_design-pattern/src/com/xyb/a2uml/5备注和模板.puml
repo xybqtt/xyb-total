@@ -1,4 +1,7 @@
 @startuml
+
+title 备注写法
+
 class Object << 类备注 >>
 Object <|--- ArrayList
 
@@ -13,6 +16,8 @@ class Foo
 note left: 在Foo下面一行写一个note left就\n可以在Foo左侧备注，其它方法同理
 
 newpage
+
+title 备注方向
 
 class cl2
 note right of cl2

@@ -1,0 +1,84 @@
+@startuml
+
+title 建造者模式1：本质是获取一个含有设定\n(默认)属性的对象，但不能自定义设置值
+
+class Product <<产品>>
+abstract class AbsProductBuilder <<抽象建造者>>
+class ProductBuilder1 <<具体建造者1>>
+class ProductBuilder2 <<具体建造者2>>
+class Director <<指导者>>
+class Client <<客户端>>
+
+
+
+Director *-right- AbsProductBuilder
+AbsProductBuilder *-right- Product
+Client .> Director
+
+
+
+
+note top of Client : 客户端，最终要使用Product的人。
+
+class Director {
+    - absProductBuilder : AbsProductBuilder
+    + buildProduct(AbsProductBuilder) : Product
+}
+note top of Director : AbsProductBuilder实现类里面\n的每个属性的set方法设置了这\n个属性应该为多少，Director可\n以设置需不需要设置某个属性，\n和属性设定的先后顺序，并最\n终返回产品。
+
+class Product {
+    - field1
+    - ..
+    - fieldn
+    --
+    + setField1()
+    + ..
+    + setFieldn()
+    + getField1()
+    + ..
+    + getFieldn()
+}
+note top of Product : 产品的数据结构，仅\n提供结构，业务数据\n不应在这里设置
+
+abstract class AbsProductBuilder {
+    ~ product : Product
+    + abstract setField1() : void
+    {method} + abstract .. : void
+    + abstract setFieldn() : void
+    + build() : Product
+}
+note top of AbsProductBuilder : 设定抽象方法，可以调用\nProduct.setFieldn()方法，\n给对象设定的值就是在\nset方法的实现中设置的,\n和最终获取Product的方法。
+
+class ProductBuilder1 extends AbsProductBuilder {
+    + setField1() : Product
+    {method} + .. : Product
+    + setFieldn() : Product
+}
+
+class ProductBuilder2 extends AbsProductBuilder {
+    + setField1() : Product
+    {method} + .. : Product
+    + setFieldn() : Product
+}
+
+note as N1
+    具体的建造者，例如Product就是JVM，JVM有几百个参数，
+    写个main方法没必要把所有JVM参数设置一遍，所以我们需
+    要一个默认JVM参数，于是我们就可以在ProductBuilder1
+    中对所有参数设置默认值。
+    但不同版本JDK使用GC不一样，JDK8默认使用ParallelGC，
+    JDK9默认使用G1GC，等到JDK9的时候也需要自己的默认值，
+    则新增一个ProductBuilder2，在JDK9时使用这个默认值
+    即可，不仅GC有这个情况，其它属性也有，当再新增JDK版本
+    时，新增具体建造者即可。
+end note
+
+ProductBuilder1 .down. N1
+ProductBuilder2 .down. N1
+
+
+newpage
+
+title 建造者模式2：可以自定义值，且直接最终结果是一个最终对象(相比set设置值)
+
+@enduml
