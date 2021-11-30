@@ -26,7 +26,6 @@
   <component name="ChangeListManager">
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/6_design-pattern/src/com/xyb/a2uml/5备注和模板.puml" beforeDir="false" afterPath="$PROJECT_DIR$/6_design-pattern/src/com/xyb/a2uml/5备注和模板.puml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/6_design-pattern/设计模式.md" beforeDir="false" afterPath="$PROJECT_DIR$/6_design-pattern/设计模式.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,9 +39,9 @@
         <option value="Kotlin Class" />
         <option value="HTML File" />
         <option value="Jsp File" />
-        <option value="UML Class" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="UML Class" />
       </list>
     </option>
   </component>
@@ -509,14 +508,7 @@
       <workItem from="1637797498408" duration="609000" />
       <workItem from="1637844878207" duration="27000" />
       <workItem from="1637844926112" duration="10000" />
-      <workItem from="1637844965706" duration="9024000" />
-    </task>
-    <task id="LOCAL-00051" summary="jvm学习：18 151节">
-      <created>1627344478582</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1627344478582</updated>
+      <workItem from="1637844965706" duration="11165000" />
     </task>
     <task id="LOCAL-00052" summary="jvm学习：19 160节">
       <created>1627404400862</created>
@@ -854,7 +846,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638018703187</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL-00100" summary="设计模式：12 第61节">
+      <created>1638197811767</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1638197811767</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1043,7 +1042,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：37 331节" />
     <MESSAGE value="jvm学习：38 333节" />
     <MESSAGE value="jvm学习：39 336节" />
     <MESSAGE value="jvm学习：40 343节" />
@@ -1068,7 +1066,8 @@
     <MESSAGE value="设计模式：9 第39节" />
     <MESSAGE value="设计模式：10 第39节" />
     <MESSAGE value="设计模式：11 第55节" />
-    <option name="LAST_COMMIT_MESSAGE" value="设计模式：11 第55节" />
+    <MESSAGE value="设计模式：12 第61节" />
+    <option name="LAST_COMMIT_MESSAGE" value="设计模式：12 第61节" />
   </component>
   <component name="WindowStateProjectService">
     <state x="276" y="0" key="#Project_Structure" timestamp="1636263586327">
@@ -1103,10 +1102,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="512" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1637068882412" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1638018701239">
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1638197809784">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1638018701239" />
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1638197809784" />
     <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1630344064081">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1219,10 +1218,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="204" y="6" width="1332" height="818" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1637506824071" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1638018711314">
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1638197816259">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1638018711314" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1638197816259" />
     <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1636283247475">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
