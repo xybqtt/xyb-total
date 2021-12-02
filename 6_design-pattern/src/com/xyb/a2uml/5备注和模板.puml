@@ -25,6 +25,21 @@ note right of cl2
     可以换行
 end note
 
+note left of cl2
+    <b>备注</b><u>可以</u>使用html，
+    可以换行
+end note
+
+note top of cl2
+    <b>备注</b><u>可以</u>使用html，
+    可以换行
+end note
+
+note bottom of cl2
+    <b>备注</b><u>可以</u>使用html，
+    可以换行
+end note
+
 note as N3
     也可以使用别名，在这中间换行
 end note

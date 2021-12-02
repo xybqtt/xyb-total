@@ -1,0 +1,76 @@
+@startuml
+
+title 类适配器
+
+class Phone {
+    + charging() : void
+}
+
+interface Voltage5V <<目标类>> {
+    + output5V() : void
+}
+
+class Voltage220V <<源类>> {
+    + output220V() : void
+}
+
+class VoltageAdapter extends Voltage220V implements Voltage5V {
+    + output5V() : void
+}
+note bottom of VoltageAdapter : 类适配器
+
+
+Phone .> Voltage5V
+
+
+newpage
+
+title 对象适配器模式，源类作为适配器成员变量
+
+class Phone {
+    + charging() : void
+}
+
+interface Voltage5V <<目标类>> {
+    + output5V() : void
+}
+
+class Voltage220V <<源类>> {
+    + output220V() : void
+}
+
+class VoltageAdapter implements Voltage5V {
+    - voltage220V : Voltage220V
+    + output5V() : void
+}
+note bottom of VoltageAdapter : 类适配器
+
+
+Phone .> Voltage5V
+Voltage220V --o VoltageAdapter
+
+
+
+newpage
+
+title 接口适配器模式(JDK8后可以用default替代)
+
+interface I1 {
+    + m1() : void
+    + m2() : void
+    + m3() : int
+}
+
+abstract class Adapter implements I1 {
+    + m1() : void
+    + m2() : void
+    + m3() : int
+}
+note right of Adapter : 把I1里面的方法全部都搞成空实现，\n所有想实现I1接口的类继承Adapter，\n就只用重写想实现的方法了，JDK8\n后可以用default修饰接口方法实现。
+
+class Cls extends Adapter {
+    + m1() : void
+}
+
+
+@enduml

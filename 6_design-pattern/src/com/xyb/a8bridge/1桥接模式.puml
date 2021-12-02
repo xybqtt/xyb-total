@@ -1,0 +1,55 @@
+@startuml
+
+class Client <<客户端>> {
+
+}
+
+abstract class Abstraction <<抽象化角色>> {
+    - implementor : Implementor
+    + Abstraction(implementor : Implementor)
+    + abstract m3()
+    + abstract m4()
+}
+note top of Abstraction : 定义抽象类，并包含一个对实现化\n对象的引用，建议2个维度中较为主\n要的作为抽象化角色，如手机和颜\n色，手机相比较为重要。
+
+class RefindAbstraction1 <<扩展抽象化角色1>> extends Abstraction {
+    + RefindAbstraction1(implementor : Implementor)
+    + m3()
+    + m4()
+}
+
+class RefindAbstraction2 <<扩展抽象化角色2>> extends Abstraction {
+    + RefindAbstraction2(implementor : Implementor)
+    + m3()
+    + m4()
+}
+note as N1
+    给出实现化角色接口的具体实现，可扩
+    充抽象化角色，比如添加手机类型：小
+    米、华为等。
+    可以在m3()、m4()中通过implementor
+    调用其传入实现类，如implementor。
+end note
+RefindAbstraction1 .. N1
+RefindAbstraction2 .. N1
+
+interface Implementor <<实现化角色>> {
+    + m1()
+    + m2()
+}
+note top of Implementor : 定义实现化角色的接口，供扩展抽\n象化角色调用。
+
+class ImplementorImp1 <<具体实现化角色1>> implements Implementor {
+    + m1()
+    + m2()
+}
+
+class ImplementorImp2 <<具体实现化角色2>> implements Implementor {
+    + m1()
+    + m2()
+}
+
+Client .right.> Abstraction
+Abstraction o-right-> Implementor : 维护了一个引用 >
+
+@enduml
