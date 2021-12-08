@@ -1,0 +1,101 @@
+@startuml
+
+title 普通外观模式，不符合开闭原则
+
+class Facade <<外观角色>> {
+    - obj1 : SubSystem1
+    - obj2 : SubSystem2
+    - objn : SubSystemn
+
+    + m1() : void
+    + m2() : void
+}
+
+class SubSystem1 {
+    + method11() : void
+    + method12() : void
+}
+
+class SubSystem2 {
+    + method21() : void
+    + method22() : void
+    + method23() : void
+}
+
+class SubSystemn {
+    + methodn1() : void
+    + methodn2() : void
+    + methodn3() : void
+}
+
+Facade o-- SubSystem1
+Facade o-- SubSystem2
+Facade o-- SubSystemn
+
+
+
+note top of Facade
+    为多个子系统对外提供一个共同的接口
+end note
+
+note as N1
+    实现系统的部分功能，客户可以通过外观角色访问它
+end note
+
+SubSystem1 .. N1
+SubSystem2 .. N1
+SubSystemn .. N1
+
+
+
+newpage
+
+title 抽象外观模式，当新增子系统时，可以重新写一个Facade2，而不用修改Facade1
+
+abstract class AbsFacade {
+    + m1() : void
+    + m2() : void
+}
+
+class Facade1 <<外观角色1>> extends AbsFacade {
+    - obj1 : SubSystem1
+    - obj2 : SubSystem2
+
+    + m1() : void
+    + m2() : void
+}
+
+class Facade2 <<外观角色2>> extends AbsFacade {
+    - obj1 : SubSystem1
+    - obj2 : SubSystem2
+    - objn : SubSystemn
+
+    + m1() : void
+    + m2() : void
+}
+
+class SubSystem1 {
+    + method11() : void
+    + method12() : void
+}
+
+class SubSystem2 {
+    + method21() : void
+    + method22() : void
+    + method23() : void
+}
+
+class SubSystemn {
+    + methodn1() : void
+    + methodn2() : void
+    + methodn3() : void
+}
+
+Facade1 o-- SubSystem1
+Facade1 o-- SubSystem2
+
+Facade2 o-- SubSystemn
+Facade2 o-- SubSystem1
+Facade2 o-- SubSystem2
+
+@enduml

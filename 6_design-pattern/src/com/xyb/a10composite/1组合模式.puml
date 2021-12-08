@@ -1,0 +1,79 @@
+@startuml
+
+title 透明模式
+
+interface Component {
+    + add(Component)(): void
+    + remove(Component)(): void
+    + operation(): void
+    + getChild(int)() : Component
+}
+
+class Leaf <<树叶构件>> implements Component {
+    - name
+    + Leaf(String name)
+    + add(Component)(): void
+    + remove(Component)(): void
+    + operation(): void
+    + getChild(int)() : Component
+}
+
+class Composite <<树枝构件>> implements Component {
+    - children : ArrayList<Component>
+    + add(Component)(): void
+    + remove(Component)(): void
+    + operation(): void
+    + getChild(int)() : Component
+}
+
+
+
+Component <--o Composite
+
+
+
+note top of Component
+    Component：这是组合中对象声明接口，在适当情况下，
+    实现所有类共有的接口默认行为，用于访问和管理Compo
+    nent 子部件, Component 可以是抽象类或者接口
+end note
+
+note bottom of Leaf
+    Leaf : 在组合中表示叶子节点，叶子节点没有子节点
+end note
+
+note bottom of Composite
+    Composite :非叶子节点，用于存储子部件，在Compo
+    nent 接口中实现 子部件的相关操作，比如增加(add)，
+    删除
+end note
+
+
+newpage
+
+title 安全模式
+
+
+interface Component {
+    + operation(): void
+}
+
+class Leaf <<树叶构件>> implements Component {
+    - name
+    + Leaf(String name)
+    + operation(): void
+}
+
+class Composite <<树枝构件>> implements Component {
+    - children : ArrayList<Component>
+    + add(Component)(): void
+    + remove(Component)(): void
+    + operation(): void
+    + getChild(int)() : Component
+}
+
+
+
+Component <--o Composite
+
+@enduml

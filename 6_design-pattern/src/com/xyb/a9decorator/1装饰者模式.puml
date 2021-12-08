@@ -1,0 +1,94 @@
+@startuml
+
+interface Component <<抽象构建角色>> {
+    + operator() : void
+}
+
+class ConcreteComponent1 <<具体构建角色|被装饰者1>> implements Component {
+    + operator() : void
+}
+
+class ConcreteComponent2 <<具体构建角色|被装饰者2>> implements Component {
+    + operator() : void
+}
+
+abstract class Decorator <<抽象装饰类>> implements Component {
+    - component : Component
+    + Decorator(component : Component)
+    + operator() : void
+}
+
+class ConcreteDecorator1 <<具体装饰者1>> extends Decorator {
+    + operator() : void
+}
+
+class ConcreteDecorator2 <<具体装饰者2>> extends Decorator {
+    + operator() : void
+}
+
+
+
+Component --o Decorator
+
+
+
+note left of Component : 定义一个抽象接口以规范准备接收附加责任的对象。
+
+note top of Decorator : 继承抽象构件，并包含具体构件的实例，可以通过其子类扩展具体构件的功能，\n在operator方法中调用component.opertor()方法。
+
+note as N1
+    实现抽象构件，通过装饰角色为其添加一些职责
+end note
+
+note as N2
+    实现抽象装饰的相关方法，并给具体构件对象添加附加的责任。
+    在operator方法中调用super.opertor()，并在后面添加需要增加的功能。
+end note
+
+ConcreteComponent1 .. N1
+ConcreteComponent2 .. N1
+
+ConcreteDecorator1 .. N2
+ConcreteDecorator2 .. N2
+
+
+newpage
+
+title 装饰者模式在JDK中的使用
+
+
+abstract class InputStream {
+    + {abstract} read() : int
+}
+
+class FileInputStream extends InputStream {
+    + read() : int
+}
+
+class StringBufferInputStream extends InputStream {
+    + read() : int
+}
+
+class ByteArrayInputStream extends InputStream {
+    + read() : int
+}
+
+class FilterInputStream <<装饰者>> extends InputStream {
+    ~ in : InputStream
+    ~ FilterInputStream(in ： InputStream)
+    + read() : int
+}
+
+class BufferedInputStream extends FilterInputStream {
+    + read() : int
+}
+
+class DataInputStream extends FilterInputStream {
+    + read() : int
+}
+
+
+
+InputStream --o FilterInputStream
+
+@enduml
