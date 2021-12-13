@@ -26,6 +26,7 @@
   <component name="ChangeListManager">
     <list default="true" id="89314dc6-48c4-45c1-a526-a22537f4beab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/6_design-pattern/设计模式.md" beforeDir="false" afterPath="$PROJECT_DIR$/6_design-pattern/设计模式.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,9 +90,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../xyb-spring" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/6_design-pattern/lib/cglib-3.3.0.jar!/" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15332031" />
     <property name="project.structure.side.proportion" value="0.14887892" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -102,11 +103,11 @@
       <recent name="com.xyb.service.impl" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern\src\com\xyb\a11facade" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern\src\com\xyb\a10composite" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern\lib" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern\src\com\xyb" />
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern" />
-      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern\src\com\xyb\a6builder" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern\src\com\xyb\a11facade" />
+      <recent name="D:\java\idea200101\topWorkspace\xyb-total-project\6_design-pattern\src\com\xyb\a10composite" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.xyb.a4factory.a4absfactory" />
@@ -123,20 +124,7 @@
       <recent name="D:\java\idea200101\topWorkspace\xyb-total-project" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.A2AbsFacadeDemo">
-    <configuration name="A1CompositeDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.xyb.a10composite.A1CompositeDemo" />
-      <module name="6_design-pattern" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.xyb.a10composite.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.A2JdkDynamicProxy">
     <configuration name="A1FacadeDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xyb.a11facade.A1FacadeDemo" />
       <module name="6_design-pattern" />
@@ -169,6 +157,19 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.xyb.A20composite.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="A2JdkDynamicProxy" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xyb.a13proxy.A2JdkDynamicProxy" />
+      <module name="6_design-pattern" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xyb.a13proxy.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -335,21 +336,21 @@
       <item itemvalue="Application.A1RefCountGCTest" />
       <item itemvalue="Application.A2CanReliveObj" />
       <item itemvalue="Application.A4ReferenceTest" />
-      <item itemvalue="Application.A1CompositeDemo" />
       <item itemvalue="Application.A2CompositeSafe" />
       <item itemvalue="Application.A3BuyGoodsDemo" />
       <item itemvalue="Application.A1FacadeDemo" />
       <item itemvalue="Application.A2AbsFacadeDemo" />
+      <item itemvalue="Application.A2JdkDynamicProxy" />
       <item itemvalue="Tomcat Server.java-web-3-tomcat" />
       <item itemvalue="Tomcat Server.3_java-web-tomcat" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.A2JdkDynamicProxy" />
         <item itemvalue="Application.A2AbsFacadeDemo" />
         <item itemvalue="Application.A1FacadeDemo" />
         <item itemvalue="Application.A3BuyGoodsDemo" />
         <item itemvalue="Application.A2CompositeSafe" />
-        <item itemvalue="Application.A1CompositeDemo" />
       </list>
     </recent_temporary>
   </component>
@@ -514,13 +515,8 @@
       <workItem from="1638889923750" duration="22000" />
       <workItem from="1638889972529" duration="3000" />
       <workItem from="1638890012260" duration="11457000" />
-    </task>
-    <task id="LOCAL-00055" summary="jvm学习：22 193节">
-      <created>1628990248204</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1628990248205</updated>
+      <workItem from="1638976483292" duration="3471000" />
+      <workItem from="1639400655608" duration="1604000" />
     </task>
     <task id="LOCAL-00056" summary="jvm学习：22-2 193节">
       <created>1628990480144</created>
@@ -858,7 +854,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638975990334</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="设计模式：16 第88节">
+      <created>1638976538463</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1638976538463</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1047,7 +1050,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jvm学习：41 345节" />
     <MESSAGE value="jvm学习：41 347节" />
     <MESSAGE value="jvm学习：42 381节 完结洒花" />
     <MESSAGE value="juc学习：1 12节" />
@@ -1072,13 +1074,14 @@
     <MESSAGE value="设计模式：13 第61节" />
     <MESSAGE value="设计模式：14 第75节" />
     <MESSAGE value="设计模式：15 第88节" />
-    <option name="LAST_COMMIT_MESSAGE" value="设计模式：15 第88节" />
+    <MESSAGE value="设计模式：16 第88节" />
+    <option name="LAST_COMMIT_MESSAGE" value="设计模式：16 第88节" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="276" y="0" key="#Project_Structure" timestamp="1636263586327">
+    <state x="276" y="0" key="#Project_Structure" timestamp="1639400523251">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="276" y="0" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1636263586327" />
+    <state x="276" y="0" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1639400523251" />
     <state x="77" y="130" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1637070399166">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1095,6 +1098,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="742" y="318" key="#com.intellij.javaee.module.view.web.EditWebRootDialog/0.0.1536.824@0.0.1536.824" timestamp="1637068055230" />
+    <state x="701" y="126" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog" timestamp="1639400430925">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="701" y="126" key="#com.intellij.openapi.roots.ui.configuration.libraryEditor.LibraryEditorDialog/0.0.1536.824@0.0.1536.824" timestamp="1639400430925" />
     <state x="391" y="335" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1635040702085">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1103,34 +1110,34 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="512" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1637068882412" />
-    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1638975987654">
+    <state x="601" y="170" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1639400444369">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1638975987654" />
-    <state x="246" y="64" width="1228" height="688" key="DiffContextDialog" timestamp="1630344064081">
+    <state x="601" y="170" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1536.824@0.0.1536.824" timestamp="1639400444369" />
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1638976537265">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="246" y="64" width="1228" height="688" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1630344064081" />
-    <state x="454" y="79" key="FileChooserDialogImpl" timestamp="1638976441456">
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1638976537265" />
+    <state x="454" y="79" key="FileChooserDialogImpl" timestamp="1639401661953">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="454" y="79" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1638976441456" />
-    <state width="1493" height="231" key="GridCell.Tab.0.bottom" timestamp="1638976444335">
+    <state x="454" y="79" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1639401661953" />
+    <state width="1493" height="231" key="GridCell.Tab.0.bottom" timestamp="1639400535727">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="231" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1638976444335" />
-    <state width="1493" height="231" key="GridCell.Tab.0.center" timestamp="1638976444335">
+    <state width="1493" height="231" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1639400535727" />
+    <state width="1493" height="231" key="GridCell.Tab.0.center" timestamp="1639400535727">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="231" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1638976444335" />
-    <state width="1493" height="231" key="GridCell.Tab.0.left" timestamp="1638976444334">
+    <state width="1493" height="231" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1639400535727" />
+    <state width="1493" height="231" key="GridCell.Tab.0.left" timestamp="1639400535727">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="231" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1638976444334" />
-    <state width="1493" height="231" key="GridCell.Tab.0.right" timestamp="1638976444335">
+    <state width="1493" height="231" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1639400535727" />
+    <state width="1493" height="231" key="GridCell.Tab.0.right" timestamp="1639400535727">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="231" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1638976444335" />
+    <state width="1493" height="231" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1639400535727" />
     <state width="1493" height="333" key="GridCell.Tab.1.bottom" timestamp="1638976444330">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -1215,14 +1222,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="358" y="79" key="PlantUMLSettings2/0.0.1536.824@0.0.1536.824" timestamp="1637415504652" />
-    <state x="204" y="6" width="1332" height="818" key="SettingsEditor" timestamp="1637506824071">
+    <state x="204" y="6" width="1332" height="818" key="SettingsEditor" timestamp="1639401671695">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="204" y="6" width="1332" height="818" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1637506824071" />
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1638975996216">
+    <state x="204" y="6" width="1332" height="818" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1639401671695" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2" timestamp="1638976542743">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1638975996216" />
+    <state x="361" y="145" width="810" height="534" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1638976542743" />
     <state x="564" y="325" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1636283247475">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -1,0 +1,47 @@
+@startuml
+
+title 代理模式本质
+
+class Client {
+    + main(args : String[]) : void
+}
+
+interface Subject <<抽象主题>> {
+    + request() : void
+}
+note top of Subject : 通过接口或抽象类声明真实主题\n和代理对象实现的业务方法
+
+class RealSubject <<真实主题>> implements Subject {
+    + request() : void
+}
+note bottom of RealSubject : 实现了抽象主题中的具体业务，\n是代理对象所代表的真实对象，\n是最终要引用的对象
+
+class Proxy <<代理>> implements Subject {
+    - realSubject : RealSubject
+    + Proxy(realSubject : RealSubject)
+    + preRequest() : void
+    + request() : void
+    + postRequest() : void
+}
+note bottom of Proxy : 提供了与真实主题相同的接口，\n其内部含有对真实主题的引用，\n它可以访问、控制或扩展真实主题的功能。
+
+note as N1
+    preRequest();
+    this.realSubject.request();
+    postRequest();
+end note
+
+note as N2
+    Proxy p = new Proxy();
+    p.request();
+end note
+
+
+Proxy o- RealSubject
+Client --> Proxy
+
+
+Proxy::request -left- N1
+Client::main -left- N2
+
+@enduml

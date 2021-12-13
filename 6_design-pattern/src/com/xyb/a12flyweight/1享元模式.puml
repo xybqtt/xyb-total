@@ -1,0 +1,76 @@
+@startuml
+
+class Client <<客户端>> {
+    + main(args : String[]) : void
+}
+
+class UnsharedConcreteFlyweight <<非享元角色>> {
+    - info : String
+    + UnsharedConcreteFlyweight(info : String)
+    + setInfo(info : String) : void
+    + getInfo() : String
+}
+
+interface FlyWeight <<抽象享元角色>> {
+    + operation(state : UnsharedConcreteFlyweight) : void
+}
+
+class ConcreteFlyweight1 <<具体享元角色1>> implements FlyWeight {
+    - key : String
+    + ConcreteFlyweight(key : String)
+    + operation(outState : UnsharedConcreteFlyweight) : void
+}
+
+class ConcreteFlyweight2 <<具体享元角色2>> implements FlyWeight {
+    - key : String
+    + ConcreteFlyweight(key : String)
+    + operation(outState : UnsharedConcreteFlyweight) : void
+}
+
+
+class FlyweightFactory <<享元工厂角色>> {
+    - flyweightMap : HashMap<String, FlyWeight>
+    + getFlyweight(key : String) : FlyWeight
+}
+
+
+
+Client .right.> FlyweightFactory
+Client ..> FlyWeight
+FlyWeight .right.> UnsharedConcreteFlyweight
+FlyweightFactory o-- FlyWeight
+
+
+note left of FlyWeight
+    是所有的具体享元类的基类，为
+    具体享元规范需要实现的公共接
+    口，非享元的外部状态以参数的
+    形式通过方法传入
+end note
+
+note bottom of ConcreteFlyweight1
+    实现抽象享元角色中所规定的接
+    口，是可以共享的部分，可以有
+    多个具体享元类，如围棋中黑棋、
+    白棋各是一个具体享元类。
+end note
+
+note bottom of UnsharedConcreteFlyweight
+    是不可以共享的外部状态，它以
+    参数的形式注入具体享元的相关
+    方法中，如围棋中每个棋子的位
+    置。
+end note
+
+note right of FlyweightFactory
+    负责创建和管理享元角色。当客
+    户对象请求一个享元对象时，享
+    元工厂检査系统中是否存在符合
+    要求的享元对象，如果存在则提
+    供给客户；如果不存在的话，则
+    创建一个新的享元对象。如查看
+    有无白棋子，有则返回此对象，
+    无则创建。
+end note
+
+@enduml
