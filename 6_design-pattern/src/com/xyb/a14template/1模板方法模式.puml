@@ -1,0 +1,73 @@
+@startuml
+
+abstract class AbsCls <<抽象类>> {
+    + final templateMethod() : void
+    + final specificMethod() : void
+    + hookSpecificMethod() : boolean
+    + {abstract} absMethod1() : void
+    + {abstract} absMethod2() : void
+}
+note left of AbsCls::templateMethod
+    public final void templateMethod() {
+        if(hookSpecificMethod())
+            specificMethod();
+        absMethod1();
+        absMethod2();
+    }
+    定义了算法的骨架，按某种顺序调
+    用其包含的基本方法，比如玩电脑：
+    开电脑、玩电脑、关电脑，这3个
+    流程是固定的，且开、关电脑操作
+    是不变的，但是你怎么玩就因人而
+    异了。一般加final，防止子类重
+    写。
+end note
+
+note right of AbsCls::hookSpecificMethod
+    public void hookSpecificMethod() {
+        return true;
+    }
+    钩子方法，由于specificMethod()是final，不
+    可重写，但某个子类并不需要运行这个方法，就在调
+    用此方法处添加一个判断方法，由子类重写这个判断
+    方法，就可以不用运行这个方法了，这个方法就是钩
+    子方法。
+end note
+
+class ConcreteClass1 <<具体子类1>> extends AbsCls {
+    + absMethod1() : void
+    + absMethod2() : void
+}
+
+
+class ConcreteClass2 <<具体子类2>> extends AbsCls {
+    + absMethod1() : void
+    + absMethod2() : void
+    + hookSpecificMethod() : boolean
+}
+note left of ConcreteClass2::hookSpecificMethod
+    public void hookSpecificMethod() {
+        return false;
+    }
+    重写钩子方法，则可以不运行抽象类的specificMethod()方法。
+end note
+
+
+Class Client <<客户端>> {
+    + main(args : String[]) : void
+}
+note right of Client::main
+    // 可以用不同的子类，实现不同的算法，就像
+    // 不同的人用电脑做不同的工作
+    AbsCls a = new ConcreteClass1();
+    a.templateMethod();
+
+    AbsCls a1 = new ConcreteClass2();
+    a1.templateMethod();
+end note
+
+
+
+Client ..> AbsCls
+
+@enduml

@@ -1,0 +1,80 @@
+@startuml
+
+class Client {
+    + {static} main(args : String[]) : void
+}
+note left of Client::main
+    public static void main() {
+        Invoker invoker = new Invoker(new ConcreteCommand());
+        invoker.call();
+    }
+end note
+
+class Invoker <<调用者>> {
+    - command : Command
+    + Invoker(command : Command)
+    + setCommand(command : Command) : void
+    + call() : void
+}
+note top of Invoker
+    是请求的发送者，它通常拥有很多的命
+    令对象，并通过访问命令对象来执行相
+    关请求，它不直接访问接收者。
+end note
+
+note left of Invoker::call
+    public void call() {
+        this.command.execute();
+    }
+end note
+
+
+interface Command <<命令>> {
+    + execute() : void
+}
+note right of Command
+    声明执行命令的接口，拥有执行命令的
+    抽象方法 execute()
+end note
+
+class ConcreteCommand <<具体命令类，可扩展多个这样的类>> implements Command {
+    - receiver : Receiver
+    + ConcreteCommand(receiver : Receiver)
+    + execute() : void
+}
+note right of ConcreteCommand
+    是抽象命令类的具体实现类，它拥有接收者对象，
+    并通过调用接收者的功能来完成命令要执行的操
+    作，比如命令："电视开"、"电视关"、"冰箱开"、
+    "冰箱关"，具体命令里面的Receiver可以是
+    冰箱、电视等，也便于扩展新的命令，如洗衣机
+    甩衣服。
+    命令类有2个地方需要注意：1、新增的命令类的
+    具体执行者是谁，比如新增个洗衣机，则receiver
+    就是洗衣机类；2、新增的命令是什么，如果开洗
+    衣机，则action()调用的就是洗衣机.open()
+    方法。
+end note
+
+note left of ConcreteCommand::execute
+    public void main() {
+        this.receiver.action1();
+    }
+end note
+
+class Receiver <<接收者>> {
+    + action1() : void
+    + action2() : void
+}
+note bottom of Receiver
+    执行命令功能的相关操作，是具体命令对象业务的真正实现者
+end note
+
+
+
+Invoker o-> Command
+ConcreteCommand o--> Receiver
+Client ..> Invoker
+
+
+@enduml
