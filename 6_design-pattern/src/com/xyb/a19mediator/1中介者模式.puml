@@ -1,0 +1,106 @@
+@startuml
+
+abstract class Mediator <<抽象中介者>> {
+    + {abstract} register(Colleague) : void
+    + {abstract} relay(Colleague) : void
+}
+note top of Mediator
+    中介者的接口，提供了同事对象注册与
+    转发同事对象信息的抽象方法。
+end note
+
+note left of Mediator::register
+    抽象注册方法，让角色注册到中介，并将
+    角色保持对中介的引用。
+end note
+
+note left of Mediator::relay
+    抽象转发方法，中介转发消息，但不要转
+    发给消息发出者。
+end note
+
+
+class ConcreteMediator <<具体中介者>> extends Mediator {
+    - list : List<Colleague>
+    + register(Colleague) : void
+    + relay(Colleague) : void
+}
+note bottom of ConcreteMediator
+    实现中介者接口，定义一个List来管
+    理同事对象，协调各个同事角色之间的
+    交互关系，因此它依赖于同事角色。
+end note
+
+note left of ConcreteMediator::register
+    public void relay(Colleague cl) {
+        if(!this.list.contains(cl))
+            this.list.add(cl);
+    }
+end note
+
+note left of ConcreteMediator::relay
+    public void relay(Colleague cl) {
+        for(Colleague c : this.list) {
+            if(c != cl)
+                // 其他同事接收消息
+                c.receive();
+        }
+    }
+end note
+
+
+abstract Colleague <<抽象同事角色>> {
+    # mediator : Mediator
+    + setMediator(Mediator) : void
+    + {abstract} receive() : void
+    + {abstract} send() : void
+}
+note top of Colleague
+    定义同事类的接口，保存中介者对象，
+    提供同事对象交互的抽象方法，实现
+    所有相互影响的同事类的公共功能。
+end note
+
+note right of Colleague::mediator
+    同事角色对中介的引用
+end note
+
+note right of Colleague::receive
+    中介调用此方法，向此角色传达其它
+    角色发出的消息。
+end note
+
+note right of Colleague::send
+    本同事角色在此方法内，调用中介给
+    其它同发消息的方法。
+end note
+
+
+class ConcreteColleague1 <<具体同事角色1>> extends Colleague {
+    + receive() : void
+    + send() : void
+}
+note bottom of ConcreteColleague1
+    是抽象同事类的实现者，当需要与其他
+    同事对象交互时，由中介者对象负责后
+    续的交互。
+end note
+
+note right of ConcreteColleague1::send
+    public void send() {
+        // 让中介帮此同事转发
+        this.mediator.relay(this);
+    }
+end note
+
+
+class ConcreteColleague2 <<具体同事角色2>> extends Colleague {
+    + receive() : void
+    + send() : void
+}
+
+
+Mediator -o Colleague
+Colleague -o ConcreteMediator
+
+@enduml

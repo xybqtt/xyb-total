@@ -1,0 +1,101 @@
+@startuml
+
+interface Visitor <<抽象访问者角色>> {
+    + visit(ConcreteElementA) : void
+    + visit(ConcreteElementB) : void
+}
+note top of Visitor
+    定义一个访问具体元素的接口，为每个具体元
+    素类对应一个访问操作visit()(如对A.a += 10)，
+    该操作中的参数类型标识了被访问的具体元素，
+    即参数不是抽象类或接口，而具体实现类。
+end note
+
+class ConcreteVisitorA <<具体访问者A>> implements Visitor {
+    + visit(ConcreteElementA) : void
+    + visit(ConcreteElementB) : void
+}
+
+class ConcreteVisitorB <<具体访问者B>> {
+    + visit(ConcreteElementA) : void
+    + visit(ConcreteElementB) : void
+}
+note right of ConcreteVisitorB::visit(ConcreteElementA)
+    public void visit(ConcreteElementA element) {
+        element.operation(); // 在里面操作element的方法
+    }
+end note
+
+note top of ConcreteVisitorB
+    实现抽象访问者角色中声明的各个访问操作，
+    确定访问者访问一个元素时该做什么，即对
+    被访问者的元素如何操作。
+end note
+
+interface Element <<抽象元素角色>> {
+    + accept(Visitor) : void
+}
+note left of Element
+    声明一个包含接受操作accept()的接口，被
+    接受的访问者对象作为accept()方法的参数。
+end note
+
+class ConcreteElementA <<具体元素角色A>> implements Element {
+    + accept(Visitor) : void
+    + operation() : void
+}
+note left of ConcreteElementA::accept
+    public void accept(Visitor visit) {
+        visit.visit(this);
+    }
+end note
+
+note bottom of ConcreteElementA
+    实现抽象元素角色提供的accept()操作，其
+    方法体通常都是visitor.visit(this)，
+    另外具体元素中可能还包含本身业务逻辑的相
+    关操作
+end note
+
+class ConcreteElementB <<具体元素角色B>> {
+    + accept(Visitor) : void
+    + operation() : void
+}
+
+class ObjectStructure <<对象结构角色>> {
+    - list : ArrayList<Element>
+    + accept(Visitor)
+    + addElement(Element)
+    - removeElement(Element)
+}
+note left of ObjectStructure
+    是一个包含元素角色的容器，提供让访问者
+    对象遍历容器中的所有元素的方法，通常由
+    List、Set、Map等聚合类实现
+end note
+
+class Client <<客户端角色>> {
+    + {static} main(String[]) : void
+}
+note left of Client::main
+    pubic static void main(String[] args) {
+        ObjectStructure ob = new ObjectStructure();
+        ob.addElement(new ConcreteElementA());
+        ob.addElement(new ConcreteElementB());
+        // 访问者A处理相关被访问元素
+        ob.accept(new ConcreteVisitorA());
+
+        // 访问者B处理相关被访问元素
+        ob.accept(new ConcreteVisitorB());
+    }
+end note
+
+
+Client ..> ObjectStructure
+Client .right.> Visitor
+ObjectStructure o--> Element
+Visitor <|. ConcreteVisitorB
+Element <|. ConcreteElementB
+
+
+@enduml

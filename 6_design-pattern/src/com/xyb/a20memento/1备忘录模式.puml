@@ -1,0 +1,83 @@
+@startuml
+
+class Originator <<发起者角色>> {
+    - state : String
+    + getState() : String
+    + setState(String) : void
+    + createMemento() : MementoIF
+    + restoreMemento(MementoIF) : void
+}
+note top of Originator
+    记录当前时刻的内部状态信息，提供创
+    建备忘录和恢复备忘录数据的功能，实
+    现其他业务功能，它可以访问备忘录里
+    的所有信息。即被保存状态的对象。
+end note
+
+note left of Originator::state
+    需要被记录的属性，可以是多个属性。
+end note
+
+note left of Originator::createMemento
+    public Memento createMemento() {
+        return new Memento(this.state);
+    }
+end note
+
+note left of Originator::restoreMemento
+    public void restoreMemento(MementoIF m) {
+        this.state = ((Memento) m).getState();
+    }
+end note
+
+
+interface MementoIF {
+
+}
+note right of MementoIF
+    空接口，为了让管理者能保存备忘录(发
+    起者的私有内部类)。
+end note
+
+class Memento <<备忘录角色>> {
+    - state : String
+    + getState() : String
+    - setState(String) : void
+}
+note left of Memento
+    负责存储发起人的内部状态，在需
+    要的时候提供这些内部状态给发起
+    人。为保证只有发起者能操作，需
+    要作为发起者的私有内部类。
+end note
+
+class Caretaker <<管理者角色>> {
+    - list : List<MementoIF>
+    + saveMementoIF(MementoIF) : void
+    + retrieveMementoIF() : MementoIF
+}
+note top of Caretaker
+    对备忘录进行管理，提供保存与获取
+    备忘录的功能，但其不能对备忘录的
+    内容进行访问与修改。
+end note
+
+note right of Caretaker::saveMementoIF
+    public void saveMementoIF(MementoIF m) {
+        this.list.add(m);
+    }
+end note
+
+note right of Caretaker::retrieveMementoIF()
+    public MementoIF saveMementoIF(int i) {
+        return this.list.get(i);
+    }
+end note
+
+
+Originator +-- Memento
+Caretaker --> MementoIF
+Memento .|> MementoIF
+
+
+@enduml

@@ -1,0 +1,77 @@
+@startuml
+
+interface Aggregate <<抽象聚合角色>> {
+    + iterator() : Iterator
+}
+note left of Aggregate
+    定义存储、添加、删除聚合对象
+    (即容器元素)以及创建迭代器对
+    象的接口
+end note
+
+
+class ConcreteAggregate <<具体聚合角色>> implements Aggregate {
+    - list : List<Object>
+    + add(Object) : void
+    + remove(Object) : void
+    + getIterator() : Iterator
+}
+note bottom of ConcreteAggregate
+    实现抽象聚合类，返回一个具
+    体迭代器的实例。
+end note
+
+note left of ConcreteAggregate::list
+    这个list不一定非要是list，只要
+    是容器就可以，可以是Map、红黑树、
+    数组，还可以是一个ArrayList<Map>
+    等等。
+end note
+
+
+
+
+class Iterator <<抽象迭代器角色>> {
+    + first() : Object
+    + next() : Object
+    + hasNext() : boolean
+}
+note right of Iterator
+    定义访问和遍历聚合元素的接口，
+    通常包含 hasNext()、first()、
+    next() 等方法。
+end note
+
+
+class ConcreteIterator <<具体迭代器角色>> implements Iterator {
+    - list : List<Object>
+    + ConcreteIterator(List<Object>)
+    + first() : Object
+    + next() : Object
+    + hasNext() : boolean
+}
+note right of ConcreteIterator
+    实现抽象迭代器接口中所定义的方
+    法，完成对聚合对象的遍历，记录
+    遍历的当前位置。
+end note
+
+
+
+ConcreteAggregate -> ConcreteIterator
+@enduml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

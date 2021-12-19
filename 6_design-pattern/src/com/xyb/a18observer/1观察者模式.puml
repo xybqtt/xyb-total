@@ -1,0 +1,75 @@
+@startuml
+
+abstract class Subject <<抽象目标>> {
+    - observerList : List<Observer>
+    + add(Observer) : void
+    + remove(Observer) : void
+    + {abstract} notifyObserver() : void
+}
+note left of Subject::observerList
+    维护了因具体目标修改而需要做出
+    改变的对象。如关注菜价的居民。
+end note
+
+note left of Subject::notifyObserver
+    当被观察的目标作出改变时，需要
+    在此方法的实现类中通知各观察者，
+    即调用观察者对应的方法。
+end note
+
+note top of Subject
+    提供了一个用于保存观察者对象的
+    聚集类和增加、删除观察者对象的
+    方法，以及通知所有观察者的抽象
+    方法
+end note
+
+
+class ConcreteSubject <<具体目标>> extends Subject {
+    + notifyObserver() : void
+}
+note left of ConcreteSubject::notifyObserver
+    public void notifyObserver() {
+        for(int i = 0; i < observerList.size(); i++) {
+            observerList.get(i).response();
+        }
+    }
+end note
+
+note bottom of ConcreteSubject
+    它实现抽象目标中的通知方法，
+    当具体主题的内部状态发生改
+    变时，通知所有注册过的观察
+    者对象。
+end note
+
+
+interface Observer <<抽象观察者>> {
+    + response() : void
+}
+note top of Observer
+    它包含了一个更新自己的抽象
+    方法，当接到具体主题的更改
+    通知时被调用。可以修改response()，
+    添加参数，以便得到修改后的值。
+end note
+
+
+class ConcreteObserver1 <<具体观察者1>> implements Observer {
+    + response() : void
+}
+note bottom of ConcreteObserver1
+    实现抽象观察者中定义的抽象
+    方法，以便在得到目标的更改
+    通知时更新自身的状态。
+end note
+
+class ConcreteObserver2 <<具体观察者2>> implements Observer {
+    + response() : void
+}
+
+
+
+Subject o- Observer
+
+@enduml
