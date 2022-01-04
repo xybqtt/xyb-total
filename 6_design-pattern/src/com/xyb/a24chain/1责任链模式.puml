@@ -1,0 +1,71 @@
+@startuml
+
+class Client {
+    + {static} main(args : String[]) : void
+}
+note left of Client::main
+    public static void main(String[] args) {
+        // 组装责任链
+        Handler handler = new ConcreteHandler1(
+            new ConcreteHandler2(
+                new ConcreteHandler3(null)
+            )
+        );
+        handler.handleRequest("aa");
+    }
+end note
+
+note top of Client
+    客户类（Client）角色：创建处理链，
+    并向链头的具体处理者对象提交请求，
+    它不关心处理细节和请求的传递过程。
+end note
+
+
+abstract class Handler <<抽象处理者>> {
+    - next : Handler
+    + Handler(Handler)
+    + setNext(Handler) : void
+    + getNext() : Handler
+    + {abstract} handleRequest(String) : void
+}
+note top of Handler
+    定义一个处理请求的接口，包含抽象
+    处理方法和一个后继连接。
+end note
+
+class ConcreteHandler1 <<具体处理者1>> extends Handler {
+    + Handler(Handler)
+    + handleRequest(String) : void
+}
+note left of ConcreteHandler1::handleRequest
+    public void handleRequest(String request) {
+        // 自己能处理处理，不能处理交给下一个处理者
+        if(request == "")
+            return;
+        else
+            super.next.handleRequest(request);
+    }
+end note
+
+note bottom of ConcreteHandler1
+    实现抽象处理者的处理方法，判断
+    能否处理本次请求，如果可以处理
+    请求则处理，否则将该请求转给它
+    的后继者。
+end note
+
+class ConcreteHandler2 <<具体处理者2>> extends Handler {
+    + Handler(Handler)
+    + handleRequest(String) : void
+}
+
+class ConcreteHandler3 <<具体处理者2>> extends Handler {
+    + Handler(Handler)
+    + handleRequest(String) : void
+}
+
+Client .> Handler
+Handler o-- Handler
+
+@enduml

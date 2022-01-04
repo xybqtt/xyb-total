@@ -1,0 +1,40 @@
+@startuml
+
+interface Strategy <<抽象策略类>> {
+    + void strategyMethod();
+}
+note top of Strategy
+    定义了一个公共接口，各种不同的算法
+    以不同的方式实现这个接口，环境角色
+    使用这个接口调用不同的算法，一般使
+    用接口或抽象类实现。
+end note
+
+class ConcreteStrategy1 <<具体策略1>> {
+    + void strategyMethod();
+}
+note left of ConcreteStrategy1
+    实现了抽象策略定义的接口，
+    提供具体的算法实现
+end note
+
+class ConcreteStrategy2 <<具体策略2>> {
+    + void strategyMethod();
+}
+
+class Context <<环境类>> {
+    - strategy : Strategy
+    + setStrategy(Strategy) : void
+    + getStrategy() : Strategy
+    + strategyMethod() : void
+}
+note left of Context
+    持有一个策略类的引用，
+    最终给客户端调用。
+end note
+
+Context o- Strategy
+Strategy <|.. ConcreteStrategy1
+Strategy <|.. ConcreteStrategy2
+
+@enduml

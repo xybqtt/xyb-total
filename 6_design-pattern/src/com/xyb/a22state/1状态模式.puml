@@ -1,0 +1,55 @@
+@startuml
+
+class Context <<环境类>> {
+    - state : State
+    + Context()
+    + getState() : State
+    + setState(State) : void
+    + handle() : void
+}
+note left of Context::handle
+    public void handle() {
+        this.state.handle(this);
+    }
+end note
+
+note top of Context
+    也称为上下文，它定义了客户端需要
+    的接口，内部维护一个当前状态，并
+    负责具体状态的切换。简单来说就是
+    被心情影响的人。
+end note
+
+abstract class State <<抽象状态类>> {
+    + handle(Context) : void
+}
+note top of State
+    定义一个接口，用以封装环境对象中的
+    特定状态所对应的行为，可以有一个或
+    多个行为。
+end note
+
+class ConcreteStateA <<具体状态A>> {
+    + handle(Context) : void
+}
+note top of ConcreteStateA
+    实现抽象状态所对应的行为，并且在需要
+    的情况下进行状态切换。
+end note
+
+class ConcreteStateB <<具体状态B>> {
+    + handle(Context) : void
+}
+note left of ConcreteStateB::handle
+    public void handle(Context context) {
+        // 修改context状态，或进行其它操作
+        context.setState(new ConcreteStateA());
+    }
+end note
+
+State <|-- ConcreteStateA
+State <|-- ConcreteStateB
+Context o-> State
+
+
+@enduml
