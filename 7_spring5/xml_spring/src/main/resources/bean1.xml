@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 配置User对象创建 -->
+    <!--
+        id属性：唯一标识；
+        class属性：类全限定名
+     -->
+    <bean id="user" class="com.atguigu.spring5.User">
+        <!--
+            使用property完成属性set注入：
+                name：属性名称
+                value：属性值。
+         -->
+        <property name="username" value="张三"></property>
+
+        <!--
+            有参数构造注入属性：
+                name：构造方法参数名；
+                value：参数值。
+         -->
+        <constructor-arg name="age" value="18"></constructor-arg>
+        <constructor-arg name="sex" value="男"></constructor-arg>
+
+        <!-- 设置属性为null -->
+        <property name="pwd">
+            <null/>
+        </property>
+
+        <!--
+            设置属性包含特殊字符：
+                1、把字符转义；
+                2、把带特殊符号内容写到<![CDATA[特殊字符]]>
+        -->
+        <property name="pwd2">
+            <value><![CDATA[<<北京>>]]></value>
+        </property>
+
+        <!-- 注入类型为对象的属性 -->
+        <property name="son" ref="user2"></property>
+
+        <!-- 内部bean注入 -->
+        <property name="son2">
+            <bean id="son2" class="com.atguigu.spring5.User">
+                <property name="username" value="王五"></property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean id="user2" class="com.atguigu.spring5.User">
+        <property name="username" value="李四"></property>
+    </bean>
+</beans>

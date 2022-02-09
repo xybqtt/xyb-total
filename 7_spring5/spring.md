@@ -49,33 +49,82 @@ spring入门案例创建
     schema：
 工程创建：
     创建普通java工程或Maven工程；
-    核心部分导入相关jar包：spring-beans、spring-context、spring-core、spring-expression；
+    核心部分导入相关jar包：spring-beans、spring-context、spring-core、spring-expression，另外需要一个commons-logging-1.1.1.jar的包。
+创建配置文件：
+    
 ~~~
 
 # 2 IOC容器
 ## 2.1 IOC底层原理
 
-IOC
+什么是 IOC
 ~~~
-概念：控制反转（Inversion of Control，缩写为IoC），把对象创建和对象之间的调用过程，交给Spring管理；
-目的：降低耦合度。
+控制反转，把对象创建和对象之间的调用过程，交给 Spring 进行管理
+使用 IOC 目的：为了耦合度降低
+做入门案例就是 IOC 实现
 ~~~
-
-<hr style="height: 10px; background: green;"/>
 
 IOC底层原理：xml解析、工厂模式、反射。
 
-
-
-
-
-
 ## 2.2 IOC接口(BeanFactory)
 
+IOC 思想基于 IOC 容器完成，IOC 容器底层就是对象工厂。
+
+Spring 提供 IOC 容器实现两种方式：（两个接口）
+~~~
+BeanFactory：IOC 容器基本实现，是 Spring 内部的使用接口，不提供开发人员进行使用
+    加载配置文件时候不会创建对象，在获取对象（使用）才去创建对象
+ApplicationContext：BeanFactory 接口的子接口，提供更多更强大的功能，一般由开发人员进行使用
+    加载配置文件时候就会把在配置文件对象进行创建
+~~~
+
+ApplicationContext 接口有实现类
+
+## 2.3 IOC操作Bean管理
+
+什么是 Bean 管理
+~~~
+Bean 管理指的是两个操作
+Spring 创建对象
+Spirng 注入属性
+~~~
 
 
-## 2.3 IOC操作Bean管理(基于xml)
+Bean管理操作有两种方式
+~~~
+基于 xml 配置文件方式实现
+基于注解方式实现
+~~~
+
+
+## 2.4 IOC操作Bean管理(基于xml)
+
+基于xml方式创建对象
+~~~
+在 spring 配置文件中，使用 bean 标签，标签里面添加对应属性，就可以实现对象创建
+在 bean 标签有很多属性，介绍常用的属性
+    id 属性：唯一标识
+    class 属性：类全路径（包类路径）
+创建对象时候，默认也是执行无参数构造方法完成对象创建
+~~~
+
+基于 xml 方式注入属性
+DI：依赖注入，就是注入属性
+
+spring常用的注入方式：
+~~~
+set注入；
+使用有参数构造进行注入。
+~~~
 
 
 
-## 2.4 IOC操作Bean管理(基于注解)
+
+
+
+
+
+
+
+
+
