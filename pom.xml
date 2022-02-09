@@ -13,5 +13,6 @@
         <module>xyb-mybatis</module>
         <module>webservice-3</module>
         <module>parse-combin</module>
+        <module>7_spring5</module>
     </modules>
 </project>
