@@ -117,12 +117,29 @@ set注入；
 使用有参数构造进行注入。
 ~~~
 
+## 2.5 IOC 操作 Bean 管理（bean 生命周期）
 
+生命周期：从对象创建到对象销毁的过程
 
+bean 生命周期(7步)，第3、5步需要配置BeanPostProcessor
+~~~
+通过构造器创建 bean 实例（无参数构造）
+为 bean 的属性设置值和对其他 bean 引用（调用 set 方法）
+把 bean 实例传递 bean 后置处理器的方法 postProcessBeforeInitialization 
+调用 bean 的初始化的方法（需要进行配置初始化的方法）
+把 bean 实例传递 bean 后置处理器的方法 postProcessAfterInitialization
+bean 可以使用了（对象获取到了）
+当容器关闭时候，调用 bean 的销毁的方法（需要进行配置销毁的方法）
+~~~
 
+### 2.5.1 BeanPostProcessor bean后置处理器
 
+在Bean对象在实例化和依赖注入完毕后，在显示调用初始化方法的前后添加我们自己的逻辑。注意是Bean实例化完毕后及依赖注入完成后触发的。自定义的后置处理器需要实现其中的方法。
 
+我们可以在Spring配置文件中添加多个BeanPostProcessor(后置处理器)接口实现类，在默认情况下Spring容器会根据后置处理器的定义顺序来依次调用。
 
+显式指定顺序
+在Spring机制中可以指定后置处理器调用顺序，通过让BeanPostProcessor接口实现类实现Ordered接口getOrder方法，该方法返回一整数，默认值为 0，优先级最高，值越大优先级越低.
 
 
 

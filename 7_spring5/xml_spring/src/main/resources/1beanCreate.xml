@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-4.0.xsd"
+>
+
+    <!-- 配置User对象创建 -->
+    <!--
+        id属性：唯一标识；
+        class属性：类全限定名
+        scope属性：
+            prototype：多例，在调用getBean 方法时候创建多实例对象
+            singleton：单例，默认情况，加载 spring 配置文件时候就会创建单实例对象
+     -->
+    <bean id="user" class="com.atguigu.spring5.a1create.User" scope="prototype">
+        <!-- 注入类型为对象的属性 -->
+        <property name="userBasicInfo" ref="userBasicInfo"></property>
+        <property name="userBasicInfo2" ref="userBasicInfo2"></property>
+        <property name="userCollectionDI" ref="userCollectionDI"></property>
+
+        <!-- 内部bean注入 -->
+        <property name="userSon">
+            <bean id="son" class="com.atguigu.spring5.a1create.User">
+
+            </bean>
+        </property>
+    </bean>
+
+    <!--
+        有参数构造注入属性：
+            name：构造方法参数名；
+            value：参数值。
+    -->
+    <bean id="userBasicInfo" class="com.atguigu.spring5.a1create.UserBasicInfo">
+        <constructor-arg name="userName" value="张三"></constructor-arg>
+        <constructor-arg name="sex" value="男"></constructor-arg>
+    </bean>
+
+    <!--
+        set注入：
+            name：构造方法参数名；
+            value：参数值。
+    -->
+    <bean id="userBasicInfo2" class="com.atguigu.spring5.a1create.UserBasicInfo2">
+        <property name="age" value="18"></property>
+        <property name="idNo" value="142703200001010789"></property>
+        <property name="phone" value="135xxxxxxxx"></property>
+
+        <!-- 注入null值 -->
+        <property name="nullField">
+            <null></null>
+        </property>
+
+        <!--
+            设置属性包含特殊字符：
+            1、把字符转义；
+            2、把带特殊符号内容写到<![CDATA[特殊字符]]>
+        -->
+        <property name="address">
+            <value><![CDATA[<<北京>>]]></value>
+        </property>
+    </bean>
+
+    <!--
+        注入集合
+    -->
+    <bean id="userCollectionDI" class="com.atguigu.spring5.a1create.UserCollectionDI">
+        <!-- 注入数组 -->
+        <property name="usedPhoneArr">
+            <array>
+                <value>华为</value>
+                <value>小米</value>
+            </array>
+        </property>
+
+        <!-- 引用外部list，需要添加 xmlns:util 命名空间 -->
+        <property name="shcoolList" ref="shcoolList"></property>
+
+        <!-- 注入map -->
+        <property name="accountMap">
+            <map>
+                <entry key="网易" value="123456"></entry>
+                <entry key="腾讯" value="456789"></entry>
+            </map>
+        </property>
+
+        <!-- 注入set -->
+        <property name="friendSet">
+            <set>
+                <value>李四</value>
+                <value>王五</value>
+            </set>
+        </property>
+
+        <!-- 注入元素为对象的list，其它同理 -->
+        <property name="courseList">
+            <list>
+                <ref bean="course1"></ref>
+                <ref bean="course2"></ref>
+            </list>
+        </property>
+    </bean>
+
+    <!--
+        把list提取出来，可以让多个对象同时注入，而不用每个对象写一次，需要添加如下内容：
+        xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation中需要添加如下内容"http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-4.0.xsd"
+     -->
+    <util:list id="shcoolList">
+        <value>小学</value>
+        <value>初中</value>
+    </util:list>
+
+    <bean id="course1" class="com.atguigu.spring5.a1create.Course">
+        <property name="courseName" value="语文"></property>
+    </bean>
+
+    <bean id="course2" class="com.atguigu.spring5.a1create.Course">
+        <property name="courseName" value="数学"></property>
+    </bean>
+
+</beans>
