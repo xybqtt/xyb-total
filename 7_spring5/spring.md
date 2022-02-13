@@ -143,5 +143,104 @@ bean 可以使用了（对象获取到了）
 
 
 
+## 2.6 IOC操作Bean管理(基于注解)
+
+使用注解的目的是简化xml配置。
+基于注解方式实现对象创建步骤：
+~~~
+引入依赖 spring-aop-5.2.6.RELEASE.jar
+引入命名空间：
+    xml文件添加 xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+开启组件扫描：
+    <context:component-scan base-package="com.atguigu.spring5.a2anno"></context:component-scan>，多个包用逗号隔开。
+在类上添加@Service注解，相当于<bean id="ddd" class="sdaf.ad.ad"/>
+~~~
+
+
+基于注解方式实现属性注入：
+~~~
+@Autowired：根据属性类型进行自动装配
+    第一步 把 service 和 dao 对象创建，在 service 和 dao 类添加创建对象注解
+    第二步 在 service 注入 dao 对象，在 service 类添加 dao 类型属性，在属性上面使用注解
+
+@Qualifier：根据名称进行注入
+    这个@Qualifier 注解的使用，和上面@Autowired 一起使用，@Qualifier(value = "userDaoImpl1")
+
+@Resource：
+    @Resource：可以根据类型注入，
+    @Resource(name = "abc")：可以根据名称注入
+
+@Value：注入普通类型属性
+    @Value(value = "张三")
+
+~~~
+
+**完全注解开发**，即完全不需要xml，使用注解代替开启组件扫描
+~~~
+创建配置类，替代 xml 配置文件，类名自定
+    @Configuration //作为配置类，替代 xml 配置文件，让spring知道这个类是配置类
+    @ComponentScan(basePackages = {"com.atguigu"}) // 开启组件扫描
+    public class SpringConfig {
+    }
+因为没有文件了，使用下面这种方式进行加载：
+    ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+
+~~~
+
+
+
+# 3 AOP
+## 3.1 什么是Aop
+
+面向切面编程（方面），利用 AOP 可以对业务逻辑的各个部分进行隔离，从而使得 业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。
+通俗描述：不通过修改源代码方式，在主干功能里面添加新功能。
+
+## 3.2 AOP（底层原理）
+
+JDK动态代理：需要有接口，创建接口实现类代理对象，增强类的方法。
+CGLIB代理：没有接口，创建子类代理对象，增强类的方法。
+
+## 3.3 Aop术语
+
+~~~
+连接点(JointPoint)：连接点是程序执行过程中明确的点，一般是类中方法的调用。连接点是程序在运行过程中能够插入切面的地点，比如方法调用、异常抛出、字段修改等；
+切入点(PointCout)：切入点是可以插入增强处理的连接点，当某个连接点满足执行要求时，该连接点将被连接增强处理，该连接点也就变成了切入点。切入点是拦截的方法，连接点JointPoint拦截后将变成切入点
+通知(增强)Advice：
+    实际增强的逻辑部分称为通知(增强)；
+    通知的多种类型：前置、后置、环绕、异常、最终通知；
+切面：切面通常是一个类，可以定义切入点和通知。类是对物体特征的抽象，切面是对横切关注点的抽象。
+~~~
+
+## 3.4 Aop操作(准备工作)
+
+添加AspectJ：AspectJ 不是 Spring 组成部分，独立 AOP 框架，一般把 AspectJ 和 Spirng 框架一起使 用，进行 AOP 操作。
+
+## 3.5 切入点表达式
+
+切入点表达式作用：知道对哪个类里面的哪个方法进行增强
+语法结构： execution([权限修饰符] [返回类型] [类全路径] [方法名称]([参数列表]) )
+
+举例 1：对 com.atguigu.dao.BookDao 类里面的 add 进行增强
+execution(* com.atguigu.dao.BookDao.add(..))
+举例 2：对 com.atguigu.dao.BookDao 类里面的所有的方法进行增强
+execution(* com.atguigu.dao.BookDao.* (..))
+举例 3：对 com.atguigu.dao 包里面所有类，类里面所有方法进行增强
+execution(* com.atguigu.dao.*.* (..))
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
