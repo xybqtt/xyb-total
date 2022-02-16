@@ -217,23 +217,115 @@ CGLIB代理：没有接口，创建子类代理对象，增强类的方法。
 ## 3.4 Aop操作(准备工作)
 
 添加AspectJ：AspectJ 不是 Spring 组成部分，独立 AOP 框架，一般把 AspectJ 和 Spirng 框架一起使 用，进行 AOP 操作。
+需要添加的包：
+~~~
+aop相关：
+    com.springsource.net.sf.cglib-2.2.0.jar
+    com.springsource.org.aopalliance-1.0.0.jar
+    com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar
+    spring-aop-5.3.15.jar
+    spring-aspects-5.2.6.RELEASE.jar
+spring基本相关：
+    spring-beans-5.3.15.jar
+    spring-context-5.3.15.jar
+    spring-core-5.3.15.jar
+    spring-expression-5.3.15.jar
+    commons-logging-1.1.1.jar
+junit相关：
+    hamcrest-core-1.3.jar
+    junit-4.12.jar
+其它：
+    druid-1.1.9.jar
+~~~
+
 
 ## 3.5 切入点表达式
 
 切入点表达式作用：知道对哪个类里面的哪个方法进行增强
-语法结构： execution([权限修饰符] [返回类型] [类全路径] [方法名称]([参数列表]) )
-
-举例 1：对 com.atguigu.dao.BookDao 类里面的 add 进行增强
-execution(* com.atguigu.dao.BookDao.add(..))
-举例 2：对 com.atguigu.dao.BookDao 类里面的所有的方法进行增强
-execution(* com.atguigu.dao.BookDao.* (..))
-举例 3：对 com.atguigu.dao 包里面所有类，类里面所有方法进行增强
-execution(* com.atguigu.dao.*.* (..))
+语法结构： execution([权限修饰符] 返回类型 [类全路径] 方法名称(参数列表) 方法申明抛出的异常)
+比较特殊的为形参表部分，其支持两种通配符
+    "*"：代表一个任意类型的参数；
+    “..”：代表零个或多个任意类型的参数。
 
 
 
+## 3.6 几种通知类型
 
+前置通知：@Before
+~~~
+在目标方法执行之前执行执行的通知。
+前置通知方法，可以没有参数，也可以额外接收一个JoinPoint，Spring会自动将该对象传入，代表当前的连接点，通过该对象可以获取目标对象 和 目标方法相关的信息。 
+注意，如果接收JoinPoint，必须保证其为方法的第一个参数，否则报错。
+~~~
 
+环绕通知：@Around
+~~~
+在目标方法执行之前和之后都可以执行额外代码的通知。
+在环绕通知中必须显式的调用目标方法，目标方法才会执行，这个显式调用时通过ProceedingJoinPoint来实现的，可以在环绕通知中接收一个此类型的形参，spring容器会自动将该对象传入，注意这个参数必须处在环绕通知的第一个形参位置。
+要注意，只有环绕通知可以接收ProceedingJoinPoint，而其他通知只能接收JoinPoint。
+环绕通知需要返回返回值，否则真正调用者将拿不到返回值，只能得到一个null。
+环绕通知有控制目标方法是否执行、有控制是否返回值、有改变返回值的能力。
+环绕通知虽然有这样的能力，但一定要慎用，不是技术上不可行，而是要小心不要破坏了软件分层的“高内聚 低耦合”的目标。
+~~~
+
+后置(返回)通知：@AfterReturning
+~~~
+在目标方法执行之后执行的通知。
+在后置通知中也可以选择性的接收一个JoinPoint来获取连接点的额外信息，但是这个参数必须处在参数列表的第一个。
+在后置通知中，还可以通过配置获取返回值
+~~~
+
+异常通知：@AfterThrowing
+~~~
+在目标方法抛出异常时执行的通知。
+可以配置传入JoinPoint获取目标对象和目标方法相关信息，但必须处在参数列表第一位
+另外，还可以配置参数，让异常通知可以接收到目标方法抛出的异常对象。
+~~~
+
+最终通知：@After
+~~~
+是在目标方法执行之后执行的通知。
+和后置通知不同之处在于，后置通知是在方法正常返回后执行的通知，如果方法没有正常返-例如抛出异常，则后置通知不会执行。
+而最终通知无论如何都会在目标方法调用过后执行，即使目标方法没有正常的执行完成。
+另外，后置通知可以通过配置得到返回值，而最终通知无法得到。
+最终通知也可以额外接收一个JoinPoint参数，来获取目标对象和目标方法相关信息，但一定要保证必须是第一个参数。
+~~~
+
+## 3.6 aop注解形式
+
+步骤：
+~~~
+添加aop依赖：
+    com.springsource.net.sf.cglib-2.2.0.jar
+    com.springsource.org.aopalliance-1.0.0.jar
+    com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar
+    spring-aop-5.3.15.jar
+    spring-aspects-5.2.6.RELEASE.jar
+xml文件：
+    添加名称空间：
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
+    xml添加配置：
+        <context:component-scan base-package="com.atguigu.spring5.a3aop"></context:component-scan>
+        <aop:aspectj-autoproxy></aop:aspectj-autoproxy> // 开启生成代理对象
+或者不使用xml文件，完全使用注解：
+    @Configuration // 让spring知道这个是配置类
+    @ComponentScan(value = {"com.atguigu.spring5.a3aop"})  相当于xml添加组件扫描
+    @EnableAspectJAutoProxy // 启动生成代理对象， 相当于xml添加生成代理对象
+添加注解：
+    代理类：
+        @Component
+        @Aspect
+        @Order(数字类型)，数字越小，优先级越高
+    代理类中的代理方法：
+        增强方法添加对应注解和切入点表达式，如@Before(value = "execution(* void com.atguigu.spring5.a3aop.User.*(..))")
+        @Pointcut：把相同的切入点进行抽取
+            @Point(value = "execution(* void com.atguigu.spring5.a3aop.User.*(..))")
+            public void fn1(){}
+            
+            @Before(value = "fn1()")
+            public void proxy1(){}
+~~~
 
 
 

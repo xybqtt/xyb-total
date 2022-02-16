@@ -11,9 +11,6 @@
 
     <artifactId>7_spring5</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>xml_spring</module>
-    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
