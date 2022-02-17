@@ -306,21 +306,21 @@ xml文件：
         xmlns:aop="http://www.springframework.org/schema/aop"
         xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
     xml添加配置：
-        <context:component-scan base-package="com.atguigu.spring5.a3aop"></context:component-scan>
+        <context:component-scan base-package="com.atguigu.spring5.a2aop"></context:component-scan>
         <aop:aspectj-autoproxy></aop:aspectj-autoproxy> // 开启生成代理对象
 或者不使用xml文件，完全使用注解：
     @Configuration // 让spring知道这个是配置类
-    @ComponentScan(value = {"com.atguigu.spring5.a3aop"})  相当于xml添加组件扫描
-    @EnableAspectJAutoProxy // 启动生成代理对象， 相当于xml添加生成代理对象
+    @ComponentScan(value = {"com.atguigu.spring5.a2aop"})  相当于xml添加组件扫描
+    @EnableAspectJAutoProxy(proxyTargetClass = true) // 启动生成代理对象， 相当于xml添加生成代理对象，只要写了此注解，后面默认是true。
 添加注解：
     代理类：
         @Component
         @Aspect
         @Order(数字类型)，数字越小，优先级越高
     代理类中的代理方法：
-        增强方法添加对应注解和切入点表达式，如@Before(value = "execution(* void com.atguigu.spring5.a3aop.User.*(..))")
+        增强方法添加对应注解和切入点表达式，如@Before(value = "execution(* void com.atguigu.spring5.a2aop.User.*(..))")
         @Pointcut：把相同的切入点进行抽取
-            @Point(value = "execution(* void com.atguigu.spring5.a3aop.User.*(..))")
+            @Point(value = "execution(* void com.atguigu.spring5.a2aop.User.*(..))")
             public void fn1(){}
             
             @Before(value = "fn1()")
@@ -329,9 +329,31 @@ xml文件：
 
 
 
+# 4 JdbcTemplate
+## 4.1 什么是JdbcTemplate
+
+Spring 框架对 JDBC 进行封装，使用 JdbcTemplate 方便实现对数据库操
+
+## 4.2 开发流程
 
 
-
+~~~
+引入jar包：
+    druid-1.1.9.jar
+    mysql-connector-java-5.1.7-bin.jar
+    spring-jdbc-5.3.15.jar
+    spring-orm-5.3.15.jar // orm映射
+    spring-tx-5.3.15.jar // 事务
+配置dataSource：
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <property name="url" value="jdbc:mysql:///xyb"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="root"></property>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+    </bean>
+配置 JdbcTemplate 对象，注入 DataSource：
+    
+~~~
 
 
 

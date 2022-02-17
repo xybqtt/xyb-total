@@ -1,8 +1,7 @@
 package com.xyb;
 
-import com.atguigu.spring5.a1xml.a3autowired.Emp;
-import com.atguigu.spring5.a2anno.SpringConfig;
-import com.atguigu.spring5.a2anno.UserService;
+import com.atguigu.spring5.a1ioc.anno.SpringConfig;
+import com.atguigu.spring5.a1ioc.anno.UserService;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -15,7 +14,7 @@ public class A2AnnoTest {
     @Test
     public void testAnno() {
         // 1、加载spring 配置文件
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("a2anno/1annoVersion.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("a1ioc/anno/1annoVersion.xml");
 
         // 2、测试自动装配
         UserService userService = context.getBean("userService", UserService.class);

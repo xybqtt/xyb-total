@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-4.0.xsd"
+>
+
+    <!--
+        bean生命周期测试：
+            init-method：初始化方法；
+            destroy-method：销毁方法；
+    -->
+    <bean id="orders" class="com.atguigu.spring5.a1ioc.xml.a2lifecycle.Orders"
+          init-method="initMethod" destroy-method="destroyMethod">
+        <property name="oname" value="手机"></property>
+    </bean>
+
+    <!-- 添加bean后置处理器，对本xml配置文件中的所有bean都生效， -->
+    <bean id="myBeanPost2" class="com.atguigu.spring5.a1ioc.xml.a2lifecycle.MyBeanPost2"></bean>
+
+    <!-- 添加bean后置处理器，对本xml配置文件中的所有bean都生效， -->
+    <bean id="myBeanPost1" class="com.atguigu.spring5.a1ioc.xml.a2lifecycle.MyBeanPost1"></bean>
+
+
+</beans>
