@@ -10,8 +10,8 @@ public class UserBasicInfo {
     private String sex;
 
     public UserBasicInfo(String userName, String sex) {
-        this.userName = userName;
-        this.sex = sex;
+        userName = userName;
+        sex = sex;
     }
 
     @Override

@@ -10,7 +10,7 @@ public class Orders {
     }
 
     public void setOname(String oname) {
-        this.oname = oname;
+        oname = oname;
         System.out.println("第二步 调用Orders的 set 方法设置属性值");
     }
 

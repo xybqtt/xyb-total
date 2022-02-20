@@ -19,23 +19,23 @@ public class UserBasicInfo2 {
     }
 
     public void setAge(int age) {
-        this.age = age;
+        age = age;
     }
 
     public void setIdNo(String idNo) {
-        this.idNo = idNo;
+        idNo = idNo;
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        phone = phone;
     }
 
     public void setNullField(String nullField) {
-        this.nullField = nullField;
+        nullField = nullField;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        address = address;
     }
 
     @Override

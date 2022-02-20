@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class A2AnnoTest {
+public class A1AnnoTest {
 
     /**
      * 使用注解进行注入

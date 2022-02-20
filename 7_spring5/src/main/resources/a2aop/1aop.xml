@@ -25,8 +25,9 @@
         <aop:pointcut id="p" expression="execution(public int com.atguigu.spring5.a2aop.xml.User1.*(..))"/>
         <!-- 配置切面 -->
         <aop:aspect ref="userProxy">
-            <!-- 增强在具体的方法上 -->
+            <!-- 增强在具体的方法上，before、after等等是userProxy的方法 -->
             <aop:before method="before" pointcut-ref="p"></aop:before>
+            <aop:after method="after" pointcut-ref="p"></aop:after>
         </aop:aspect>
     </aop:config>
 </beans>

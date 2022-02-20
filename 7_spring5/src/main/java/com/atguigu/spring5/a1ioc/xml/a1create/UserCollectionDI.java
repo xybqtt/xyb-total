@@ -21,23 +21,23 @@ public class UserCollectionDI {
     private Set<String> friendSet;
 
     public void setCourseList(List<Course> courseList) {
-        this.courseList = courseList;
+        courseList = courseList;
     }
 
     public void setUsedPhoneArr(String[] usedPhoneArr) {
-        this.usedPhoneArr = usedPhoneArr;
+        usedPhoneArr = usedPhoneArr;
     }
 
     public void setShcoolList(List<String> shcoolList) {
-        this.shcoolList = shcoolList;
+        shcoolList = shcoolList;
     }
 
     public void setAccountMap(Map<String, String> accountMap) {
-        this.accountMap = accountMap;
+        accountMap = accountMap;
     }
 
     public void setFriendSet(Set<String> friendSet) {
-        this.friendSet = friendSet;
+        friendSet = friendSet;
     }
 
     @Override

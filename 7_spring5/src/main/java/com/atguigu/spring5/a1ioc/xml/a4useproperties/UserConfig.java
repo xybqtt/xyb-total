@@ -7,11 +7,11 @@ public class UserConfig {
     private String password;
 
     public void setName(String name) {
-        this.name = name;
+        name = name;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        password = password;
     }
 
     @Override

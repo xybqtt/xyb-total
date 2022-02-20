@@ -14,19 +14,19 @@ public class User {
     }
 
     public void setUserSon(User userSon) {
-        this.userSon = userSon;
+        userSon = userSon;
     }
 
     public void setUserBasicInfo(UserBasicInfo userBasicInfo) {
-        this.userBasicInfo = userBasicInfo;
+        userBasicInfo = userBasicInfo;
     }
 
     public void setUserBasicInfo2(UserBasicInfo2 userBasicInfo2) {
-        this.userBasicInfo2 = userBasicInfo2;
+        userBasicInfo2 = userBasicInfo2;
     }
 
     public void setUserCollectionDI(UserCollectionDI userCollectionDI) {
-        this.userCollectionDI = userCollectionDI;
+        userCollectionDI = userCollectionDI;
     }
 
     public void add() {

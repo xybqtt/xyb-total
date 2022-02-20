@@ -22,10 +22,10 @@ public class JdbcConfig {
      *      name属性：给当前@Bean注解方法创建的对象指定一个id，如果没有写此属性，则默认是方法名。
      * @return
      */
-    @Bean(name = "dataSource")
+    @Bean(name = "dataSource", destroyMethod = "", initMethod = "")
     public DataSource createDataSource() {
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setDriverClassName(this.driver);
+        dataSource.setDriverClassName(driver);
         return dataSource;
     }
 
