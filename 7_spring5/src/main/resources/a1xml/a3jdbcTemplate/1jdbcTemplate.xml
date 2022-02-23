@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath*:a1xml/a3jdbcTemplate/jdbc.properties"></context:property-placeholder>
+
+    <!-- 配置数据库连接池 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <property name="url" value="${jdbc.url}"></property>
+        <property name="username" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+        <property name="driverClassName" value="${jdbc.driverClassName}"></property>
+    </bean>
+
+    <!-- 配置jdbcTemplate，并注入dataSource -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <bean id="userDaoImpl" class="com.atguigu.spring5.a1xml.dao.UserDaoImpl">
+        <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"></constructor-arg>
+    </bean>
+
+    <bean id="userServiceImpl" class="com.atguigu.spring5.a1xml.service.UserServiceImpl">
+        <constructor-arg name="userDao" ref="userDaoImpl"></constructor-arg>
+    </bean>
+</beans>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

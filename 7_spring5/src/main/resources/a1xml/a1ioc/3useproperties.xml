@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:util="http://www.springframework.org/schema/util"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/util
-       http://www.springframework.org/schema/util/spring-util-4.0.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context-4.0.xsd"
->
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
     <!--
         引入外部properties文件，需要
@@ -20,11 +16,11 @@
 
         2、使用context:property-placeholder引入文件。
 
-        3、将文件中的值赋值给需要的对象
+        3、将文件中的值赋值给需要的对象，通${}导入
     -->
-    <context:property-placeholder location="classpath*:a1ioc/xml/config.properties"></context:property-placeholder>
+    <context:property-placeholder location="classpath*:a1xml/config.properties"></context:property-placeholder>
 
-    <bean id="userConfig" class="com.atguigu.spring5.a1ioc.xml.a4useproperties.UserConfig">
+    <bean id="userConfig" class="com.atguigu.spring5.a1xml.a1ioc.a3importProp.UserConfig">
         <property name="name" value="${config.name}"></property>
         <property name="password" value="${config.password}"></property>
     </bean>

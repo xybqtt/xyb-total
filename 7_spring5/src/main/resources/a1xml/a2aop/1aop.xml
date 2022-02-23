@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+
+    <!--
+        使用注解：
+        1、xmlns:context="http://www.springframework.org/schema/context
+            xmlns:aop="http://www.springframework.org/schema/aop"
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    -->
+    <!-- 注册切面类 -->
+    <bean id="userProxy" class="com.atguigu.spring5.a1xml.a2aop.UserProxy"></bean>
+    <bean id="userProxy1" class="com.atguigu.spring5.a1xml.a2aop.UserProxy1"></bean>
+
+    <!-- 注册bean -->
+    <bean id="userServiceImplAop" class="com.atguigu.spring5.a1xml.service.UserServiceImpl">
+
+    </bean>
+
+    <!-- 配置aop -->
+    <aop:config>
+        <!-- 切入点 -->
+        <aop:pointcut id="p" expression="execution(public void com.atguigu.spring5.a1xml.service.UserServiceImpl.aop*(..))"/>
+        <!-- 配置切面1，order越小，优先级越高 -->
+        <aop:aspect ref="userProxy" order="1">
+            <!-- 增强在具体的方法上，before、after等等是userProxy的方法 -->
+            <aop:before method="before" pointcut-ref="p"></aop:before>
+            <aop:after method="after" pointcut-ref="p"></aop:after>
+            <aop:after-returning method="afterReturning" pointcut-ref="p"></aop:after-returning>
+            <aop:after-throwing method="afterThrowing" pointcut-ref="p"></aop:after-throwing>
+            <aop:around method="around" pointcut-ref="p"></aop:around>
+        </aop:aspect>
+
+        <!-- 配置切面2 -->
+        <aop:aspect ref="userProxy1" order="0">
+            <!-- 增强在具体的方法上，before、after等等是userProxy的方法 -->
+            <aop:before method="before" pointcut-ref="p"></aop:before>
+        </aop:aspect>
+    </aop:config>
+</beans>

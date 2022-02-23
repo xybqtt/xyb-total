@@ -1,4 +1,4 @@
-package com.atguigu.spring5.a1ioc.xml.a4useproperties;
+package com.atguigu.spring5.a1xml.a1ioc.a3importProp;
 
 public class UserConfig {
 
@@ -7,11 +7,11 @@ public class UserConfig {
     private String password;
 
     public void setName(String name) {
-        name = name;
+        this.name = name;
     }
 
     public void setPassword(String password) {
-        password = password;
+        this.password = password;
     }
 
     @Override

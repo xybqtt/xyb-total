@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--
+        id：bean唯一编码；
+        class：对应的类；
+        autowire：
+            值byName：根据字段名查找beanId为字段名的同类型bean进行注入；
+            值byType：通过类型注入属性，若类有多个bean，则抛出异常。
+     -->
+    <bean id="user" class="com.atguigu.spring5.a1xml.entity.User">
+        <!--
+            有参数构造注入属性：
+                name：构造方法参数名；
+                value：参数值。
+        -->
+        <constructor-arg name="userId" value="1"></constructor-arg>
+        <constructor-arg name="userName" value="Zhang San"></constructor-arg>
+        <!--
+            set注入属性：
+                name：属性名；
+                value：参数值；
+                ref：引用bean的id。
+        -->
+        <property name="sex" value="男"></property>
+        <property name="otherInfo" ref="otherInfo"></property>
+    </bean>
+
+    <bean id="otherInfo" class="com.atguigu.spring5.a1xml.entity.OtherInfo">
+        <!-- 注入数组 -->
+        <property name="courseArr">
+            <array>
+                <value>Chinese</value>
+                <value>Math</value>
+                <value>English</value>
+            </array>
+        </property>
+
+        <!-- 注入map -->
+        <property name="accountMap">
+            <map>
+                <entry key="qq" value="123"></entry>
+                <entry key="wechat" value="456"></entry>
+            </map>
+        </property>
+
+        <!-- 注入set -->
+        <property name="programLanSet">
+            <set>
+                <value>java</value>
+                <value>C++</value>
+                <value>python</value>
+            </set>
+        </property>
+
+        <!-- 注入list<基本类型> -->
+        <property name="shcoolList">
+            <list>
+                <value>小学</value>
+                <value>中学</value>
+                <value>大学</value>
+            </list>
+        </property>
+
+        <!-- 注入List<引用类型> -->
+        <property name="maleFriendList">
+            <list>
+                <ref bean="user1"></ref>
+                <ref bean="user2"></ref>
+            </list>
+        </property>
+
+        <property name="properties">
+            <props>
+                <prop key="1">1</prop>
+                <prop key="2">2</prop>
+            </props>
+        </property>
+
+        <!-- 从外部引入，其它几个集合类型类似 -->
+        <property name="femaleFriendList" ref="femaleFriendList"></property>
+    </bean>
+
+    <!--
+        把list提取出来，可以让多个对象同时注入，而不用每个对象写一次，需要添加如下内容：
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation中需要添加如下内容"http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.0.xsd"
+    -->
+    <util:list id="femaleFriendList">
+        <ref bean="user3"></ref>
+        <ref bean="user3"></ref>
+    </util:list>
+
+    <bean id="user1" class="com.atguigu.spring5.a1xml.entity.User">
+        <constructor-arg name="userId" value="2"></constructor-arg>
+        <constructor-arg name="userName" value="Li Si"></constructor-arg>
+    </bean>
+
+    <bean id="user2" class="com.atguigu.spring5.a1xml.entity.User">
+        <constructor-arg name="userId" value="2"></constructor-arg>
+        <constructor-arg name="userName" value="Wang Wu"></constructor-arg>
+    </bean>
+
+    <bean id="user3" class="com.atguigu.spring5.a1xml.entity.User">
+        <constructor-arg name="userId" value="3"></constructor-arg>
+        <constructor-arg name="userName" value="小A"></constructor-arg>
+    </bean>
+</beans>

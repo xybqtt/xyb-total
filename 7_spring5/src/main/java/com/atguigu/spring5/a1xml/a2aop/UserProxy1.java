@@ -1,4 +1,4 @@
-package com.atguigu.spring5.a2aop.xml;
+package com.atguigu.spring5.a1xml.a2aop;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,7 +16,7 @@ public class UserProxy1 {
 
     @Before(value = "pointcut1()")
     public void before(JoinPoint joinPoint) {
-        System.out.println("UserProxy1.前置通知...");
+        System.out.println("UserProxy1.前置通知：" + UserProxy.getJPInfo(joinPoint));
     }
 
 
