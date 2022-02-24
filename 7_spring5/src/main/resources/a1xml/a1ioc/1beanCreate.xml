@@ -14,7 +14,7 @@
             值byName：根据字段名查找beanId为字段名的同类型bean进行注入；
             值byType：通过类型注入属性，若类有多个bean，则抛出异常。
      -->
-    <bean id="user" class="com.atguigu.spring5.a1xml.entity.User">
+    <bean id="userInjection" class="com.atguigu.spring5.a1xml.a1ioc.a1beanCreate.UserInjection">
         <!--
             有参数构造注入属性：
                 name：构造方法参数名；
@@ -32,7 +32,7 @@
         <property name="otherInfo" ref="otherInfo"></property>
     </bean>
 
-    <bean id="otherInfo" class="com.atguigu.spring5.a1xml.entity.OtherInfo">
+    <bean id="otherInfo" class="com.atguigu.spring5.a1xml.a1ioc.a1beanCreate.OtherInfo">
         <!-- 注入数组 -->
         <property name="courseArr">
             <array>
@@ -59,20 +59,12 @@
             </set>
         </property>
 
-        <!-- 注入list<基本类型> -->
+        <!-- 注入list<基本类型>，引用类型用<ref bean="user1"></ref>，其它集合类似 -->
         <property name="shcoolList">
             <list>
                 <value>小学</value>
                 <value>中学</value>
                 <value>大学</value>
-            </list>
-        </property>
-
-        <!-- 注入List<引用类型> -->
-        <property name="maleFriendList">
-            <list>
-                <ref bean="user1"></ref>
-                <ref bean="user2"></ref>
             </list>
         </property>
 
@@ -84,7 +76,7 @@
         </property>
 
         <!-- 从外部引入，其它几个集合类型类似 -->
-        <property name="femaleFriendList" ref="femaleFriendList"></property>
+        <property name="friendList" ref="friendList"></property>
     </bean>
 
     <!--
@@ -92,24 +84,11 @@
         xmlns:util="http://www.springframework.org/schema/util"
         xsi:schemaLocation中需要添加如下内容"http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-4.0.xsd"
+        如果属性是对象使用<ref bean="user3"></ref>
     -->
-    <util:list id="femaleFriendList">
-        <ref bean="user3"></ref>
-        <ref bean="user3"></ref>
+    <util:list id="friendList">
+        <value>小王</value>
+        <value>小八</value>
     </util:list>
 
-    <bean id="user1" class="com.atguigu.spring5.a1xml.entity.User">
-        <constructor-arg name="userId" value="2"></constructor-arg>
-        <constructor-arg name="userName" value="Li Si"></constructor-arg>
-    </bean>
-
-    <bean id="user2" class="com.atguigu.spring5.a1xml.entity.User">
-        <constructor-arg name="userId" value="2"></constructor-arg>
-        <constructor-arg name="userName" value="Wang Wu"></constructor-arg>
-    </bean>
-
-    <bean id="user3" class="com.atguigu.spring5.a1xml.entity.User">
-        <constructor-arg name="userId" value="3"></constructor-arg>
-        <constructor-arg name="userName" value="小A"></constructor-arg>
-    </bean>
 </beans>

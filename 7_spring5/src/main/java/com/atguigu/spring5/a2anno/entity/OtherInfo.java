@@ -1,4 +1,4 @@
-package com.atguigu.spring5.a1xml.entity;
+package com.atguigu.spring5.a2anno.entity;
 
 
 import java.util.*;

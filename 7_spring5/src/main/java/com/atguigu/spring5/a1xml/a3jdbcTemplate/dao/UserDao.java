@@ -1,7 +1,7 @@
-package com.atguigu.spring5.a1xml.dao;
+package com.atguigu.spring5.a1xml.a3jdbcTemplate.dao;
 
 
-import com.atguigu.spring5.a1xml.entity.User;
+import com.atguigu.spring5.a1xml.a3jdbcTemplate.entity.User;
 
 import java.util.List;
 

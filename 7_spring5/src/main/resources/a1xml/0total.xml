@@ -11,5 +11,6 @@
 
     <import resource="classpath:a1xml/a2aop/1aop.xml"></import>
     <import resource="classpath:a1xml/a3jdbcTemplate/1jdbcTemplate.xml"></import>
+    <import resource="classpath:a1xml/a4tx/1tx.xml"></import>
 
 </beans>

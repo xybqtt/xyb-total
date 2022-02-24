@@ -1,29 +1,26 @@
-package com.atguigu.spring5.a1xml.service;
+package com.atguigu.spring5.a2anno.dao;
 
 
-
-import com.atguigu.spring5.a1xml.entity.User;
+import com.atguigu.spring5.a2anno.entity.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserDao {
 
     /**
-     * jdbcTemplate对一条参数的curd
+     * 只有一条参数的crud
      * @param user
      */
     public void operaOneUser(User user);
 
     /**
-     * jdbcTemplate参数为多条时的操作
+     * 参数是多条数据的crud
      * @param insData
      * @param updData
      * @param delData
      */
     public void batchOperate(List<Object[]> insData, List<Object[]> updData, List<Object[]> delData);
 
-    public void deleteAllUser();
-
-    public void aopTest();
+    public void delAllUser();
 
 }

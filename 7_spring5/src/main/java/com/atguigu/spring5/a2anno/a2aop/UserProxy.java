@@ -1,13 +1,16 @@
-package com.atguigu.spring5.a1xml.a2aop;
+package com.atguigu.spring5.a2anno.a2aop;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Modifier;
 
+@Component
+@Aspect(value = "userProxy")
+@Order(value = 0)
 public class UserProxy {
 
     /**

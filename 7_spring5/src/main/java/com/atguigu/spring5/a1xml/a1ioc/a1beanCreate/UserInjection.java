@@ -1,6 +1,9 @@
-package com.atguigu.spring5.a1xml.entity;
+package com.atguigu.spring5.a1xml.a1ioc.a1beanCreate;
 
-public class User {
+/**
+ * 测试属性注入
+ */
+public class UserInjection {
 
     // 构造器注入
     private int userId;
@@ -14,10 +17,10 @@ public class User {
     // set注入对象
     private OtherInfo otherInfo;
 
-    public User() {
+    public UserInjection() {
     }
 
-    public User(int userId, String userName) {
+    public UserInjection(int userId, String userName) {
         this.userId = userId;
         this.userName = userName;
     }

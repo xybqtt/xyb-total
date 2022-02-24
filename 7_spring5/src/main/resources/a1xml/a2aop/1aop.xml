@@ -14,18 +14,18 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
     -->
     <!-- 注册切面类 -->
-    <bean id="userProxy" class="com.atguigu.spring5.a1xml.a2aop.UserProxy"></bean>
-    <bean id="userProxy1" class="com.atguigu.spring5.a1xml.a2aop.UserProxy1"></bean>
+    <bean id="userProxy" class="com.atguigu.spring5.a1xml.a2aop.MyAspect1"></bean>
+    <bean id="userProxy1" class="com.atguigu.spring5.a1xml.a2aop.MyAspect2"></bean>
 
     <!-- 注册bean -->
-    <bean id="userServiceImplAop" class="com.atguigu.spring5.a1xml.service.UserServiceImpl">
+    <bean id="userCls" class="com.atguigu.spring5.a1xml.a2aop.UserCls">
 
     </bean>
 
     <!-- 配置aop -->
     <aop:config>
         <!-- 切入点 -->
-        <aop:pointcut id="p" expression="execution(public void com.atguigu.spring5.a1xml.service.UserServiceImpl.aop*(..))"/>
+        <aop:pointcut id="p" expression="execution(public void com.atguigu.spring5.a1xml.a2aop.*.*(..))"/>
         <!-- 配置切面1，order越小，优先级越高 -->
         <aop:aspect ref="userProxy" order="1">
             <!-- 增强在具体的方法上，before、after等等是userProxy的方法 -->

@@ -6,7 +6,6 @@
             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath*:a1xml/a3jdbcTemplate/jdbc.properties"></context:property-placeholder>
 
     <!-- 配置数据库连接池 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
@@ -21,11 +20,11 @@
         <property name="dataSource" ref="dataSource"></property>
     </bean>
 
-    <bean id="userDaoImpl" class="com.atguigu.spring5.a1xml.dao.UserDaoImpl">
+    <bean id="userDaoImpl" class="com.atguigu.spring5.a1xml.a3jdbcTemplate.dao.UserDaoImpl">
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"></constructor-arg>
     </bean>
 
-    <bean id="userServiceImpl" class="com.atguigu.spring5.a1xml.service.UserServiceImpl">
+    <bean id="userServiceImpl" class="com.atguigu.spring5.a1xml.a3jdbcTemplate.service.UserServiceImpl">
         <constructor-arg name="userDao" ref="userDaoImpl"></constructor-arg>
     </bean>
 </beans>

@@ -1,23 +1,18 @@
-package com.atguigu.spring5.a1xml.service;
+package com.atguigu.spring5.a2anno.service;
 
 
-import com.atguigu.spring5.a1xml.dao.UserDao;
-import com.atguigu.spring5.a1xml.entity.User;
+import com.atguigu.spring5.a2anno.dao.UserDao;
+import com.atguigu.spring5.a2anno.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class UserServiceImpl implements UserService{
+@Service(value = "userServiceImpl")
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
-
-    public UserServiceImpl() {
-    }
-
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     /**
      * jdbcTemplate对一条参数的curd
