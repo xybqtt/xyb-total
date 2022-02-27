@@ -20,7 +20,7 @@ public class A1XmlTest {
      * @throws InterruptedException
      */
     @Test
-    public void testIoc() throws InterruptedException {
+    public void testBeanCreate() throws InterruptedException {
         // 1、加载spring 配置文件
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:a1xml/0total.xml");
 
@@ -110,7 +110,6 @@ public class A1XmlTest {
         insList.add(new Object[]{2, "c++", "1"});
         insList.add(new Object[]{3, "python", "1"});
         insList.add(new Object[]{4, "go", "1"});
-
 
         List updList = new ArrayList<String[]>();
         updList.add(new Object[]{"c++1", "1", 2});
