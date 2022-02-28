@@ -21,7 +21,7 @@ public interface UserTxIsoDao {
 //
 //    public void serializable();
 
-    public void cooperateShow(UserTx user, int waitTime, CyclicBarrier cb) throws Exception;
+    public void createExceptionData(UserTx user, int waitTime, CyclicBarrier cb) throws Exception;
 
     public void insertOneData(UserTx user);
     public void showAll();

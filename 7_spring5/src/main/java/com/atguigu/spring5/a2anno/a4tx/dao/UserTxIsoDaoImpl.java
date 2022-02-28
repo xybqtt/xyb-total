@@ -46,19 +46,18 @@ public class UserTxIsoDaoImpl implements UserTxIsoDao {
      * @param cb
      * @throws Exception
      */
-    public void cooperateShow(UserTx user, int waitTime, CyclicBarrier cb) throws Exception {
-        System.out.println(Thread.currentThread().getName() + "开始演示“脏读”：");
+    public void createExceptionData(UserTx user, int waitTime, CyclicBarrier cb) throws Exception {
+
         cb.await();
 
-        cooperateDirtyRead(user, waitTime);
-//        System.out.println(Thread.currentThread().getName() + "开始演示“不可重复读”：");
+        createDirtyRead(user, waitTime, cb);
         cb.await();
 
-//        cooperateNotRepeatRead(user,waitTime);
-//        System.out.println(Thread.currentThread().getName() + "开始演示“幻读”：");
-//        cb.await();
+        createNotRepeatRead(user,waitTime, cb);
+        System.out.println(Thread.currentThread().getName() + "开始演示“幻读”：");
+        cb.await();
 //
-//        cooperatePhantomRead(user,waitTime);
+//        createPhantomRead(user,waitTime);
 //        cb.await();
     }
 
@@ -68,9 +67,10 @@ public class UserTxIsoDaoImpl implements UserTxIsoDao {
      */
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public void readUncommited(UserTx user, int waitTime, CyclicBarrier cb) throws Exception {
-        System.out.println(Thread.currentThread().getName() + " readUncommited准备就绪：");
+        System.out.println(Thread.currentThread().getName() + " readUncommited演示：查看READ_UNCOMMITTED隔离级别是否能读取“脏读”数据：");
         cb.await();
-        showDirtyRead(user, waitTime);
+
+        showDirtyRead(user, waitTime, cb);
         cb.await();
 //
 //        showNotRepeatRead(user, waitTime);
@@ -103,7 +103,7 @@ public class UserTxIsoDaoImpl implements UserTxIsoDao {
      * 配合演示幻读
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    private void cooperatePhantomRead(UserTx user, int waitTime) throws InterruptedException {
+    private void createPhantomRead(UserTx user, int waitTime) throws InterruptedException {
         System.out.println("配合演示幻读开始：");
 
         TimeUnit.SECONDS.sleep(waitTime / 2); // 等待其它事务读取添加另一条数据前的值
@@ -138,15 +138,38 @@ public class UserTxIsoDaoImpl implements UserTxIsoDao {
      * 配合演示不可重复读
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    private void cooperateNotRepeatRead(UserTx user, int waitTime) throws InterruptedException {
-        System.out.println("配合演示不可重复读开始：");
+    private void createNotRepeatRead(UserTx user, int money, CyclicBarrier cb) throws Exception {
+//        System.out.println("配合演示不可重复读开始：");
+//
+//        TimeUnit.SECONDS.sleep(waitTime / 2); // 等待其它事务读取修改前的值
+//
+//        String sql = "UPDATE UserTx SET money = ? WHERE userId = ?";
+//        jdbcTemplate.update(sql, user.getMoney() + 100, user.getUserId());
+//        System.out.println("配合演示不可重复读结束：修改money为" + (user.getMoney() + 100));
 
-        TimeUnit.SECONDS.sleep(waitTime / 2); // 等待其它事务读取修改前的值
+        // ----------------------------
 
-        String sql = "UPDATE UserTx SET money = ? WHERE userId = ?";
-        jdbcTemplate.update(sql, user.getMoney() + 100, user.getUserId());
-        System.out.println("配合演示不可重复读结束：修改money为" + (user.getMoney() + 100));
+        // 手动控制事务
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW); // 事物隔离级别，开启新事务，这样会比较安全些。
+        TransactionStatus status = dataSourceTransactionManager.getTransaction(def); // 获得事务状态
 
+        try {
+            System.out.println("    " + Thread.currentThread().getName() + "开始制造“不可重复读”数据：(即同一事务中多次读取同一事务，但读取的数据不一致)");
+            String sql = "UPDATE UserTx SET money = ? WHERE userId = ?";
+            jdbcTemplate.update(sql, money, user.getUserId());
+            System.out.println("        " + Thread.currentThread().getName() + "制造“脏读”数据，修改money，但不提交(等待其它线程读取修改但未提交的值)：修改money为" + money + "。");
+            cb.await(); // 1
+            cb.await(); // 2
+
+            throw new RuntimeException();
+        } catch (Exception e) {
+            dataSourceTransactionManager.rollback(status); // 手动回滚
+            String sql = "SELECT userId, userName, money FROM UserTx WHERE userId = ?";
+            UserTx userTx = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserTx.class), user.getUserId());
+            System.out.println("    " + Thread.currentThread().getName() + "抛出异常，回滚“脏读”数据：回滚money = " + user.getMoney() + "。当前数据库数据为：" + userTx.toString());
+            cb.await(); // 3
+        }
     }
 
     /**
@@ -155,44 +178,51 @@ public class UserTxIsoDaoImpl implements UserTxIsoDao {
      *
      * @param user
      */
-    private void showDirtyRead(UserTx user, int waitTime) throws InterruptedException {
-        System.out.println(Thread.currentThread().getName() + " 读取“脏读”数据开始：");
+    private void showDirtyRead(UserTx user, int money, CyclicBarrier cb) throws Exception {
 
-        TimeUnit.SECONDS.sleep(waitTime); // 等3s，等待其它线程修改money的值，但其它线程不提交。
+        cb.await(); // 1
+        System.out.println("    " + Thread.currentThread().getName() + " 读取“脏读”数据开始：");
 
         String sql = "SELECT userId, userName, money FROM UserTx WHERE userId = ?";
         UserTx userTx = (UserTx) jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper(UserTx.class), user.getUserId());
-        System.out.println("    " + Thread.currentThread().getName() +  "读取“脏读”已修改、未提交数据：" + userTx.toString());
+        if(userTx.getMoney() == money)
+            System.out.println("    " + Thread.currentThread().getName() + " 读取“脏读”数据结束：读取到了脏数据，即其它事务已经修改，但未提交的money，" + userTx.toString());
+        else if(userTx.getMoney() == 0)
+            System.out.println("    " + Thread.currentThread().getName() + " 读取“脏读”数据结束：未读取到脏数据，即其它事务已经修改，但未提交的money，" + userTx.toString());
+        cb.await(); // 2
+        cb.await(); // 3
 
-        TimeUnit.SECONDS.sleep(waitTime); // 等3s，在这3s中，其它事务回滚
-
-        System.out.println(Thread.currentThread().getName() + " 读取“脏读”数据结束：读取到了其它事务未提交的数据，得到money，其实100还没有提交，如果其它事务回滚了，money就为0。");
+        if(userTx.getMoney() == money)
+            System.out.println("    " + Thread.currentThread().getName() + " 结论：READ_UNCOMMITTED无法处理”脏读“问题。");
+         else if(userTx.getMoney() == 0)
+            System.out.println("    " + Thread.currentThread().getName() + " 结论：READ_UNCOMMITTED可以处理”脏读“问题。");
     }
 
     /**
      * 配合演示脏读
      */
-    private void cooperateDirtyRead(UserTx user, int waitTime) {
+    private void createDirtyRead(UserTx user, int money, CyclicBarrier cb) throws Exception {
 
         // 手动控制事务
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW); // 事物隔离级别，开启新事务，这样会比较安全些。
         TransactionStatus status = dataSourceTransactionManager.getTransaction(def); // 获得事务状态
 
-
         try {
-            System.out.println(Thread.currentThread().getName() + "配合“脏读”，造“脏读”数据：");
+            System.out.println("    " + Thread.currentThread().getName() + "开始制造“脏读”数据：");
             String sql = "UPDATE UserTx SET money = ? WHERE userId = ?";
-            jdbcTemplate.update(sql, user.getMoney() + 100, user.getUserId());
-            System.out.println("    " + Thread.currentThread().getName() + "配合演示“脏读”修改数据，但不提交：修改money为" + (user.getMoney() + 100) + "。");
+            jdbcTemplate.update(sql, money, user.getUserId());
+            System.out.println("        " + Thread.currentThread().getName() + "制造“脏读”数据，修改money，但不提交(等待其它线程读取修改但未提交的值)：修改money为" + money + "。");
+            cb.await(); // 1
+            cb.await(); // 2
 
-            TimeUnit.SECONDS.sleep(waitTime + 2);
             throw new RuntimeException();
         } catch (Exception e) {
             dataSourceTransactionManager.rollback(status); // 手动回滚
             String sql = "SELECT userId, userName, money FROM UserTx WHERE userId = ?";
             UserTx userTx = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserTx.class), user.getUserId());
-            System.out.println("    " + Thread.currentThread().getName() + "配合演示“脏读”：抛出异常，回滚money = " + user.getMoney() + "。当前数据库数据为：" + userTx.toString());
+            System.out.println("    " + Thread.currentThread().getName() + "抛出异常，回滚“脏读”数据：回滚money = " + user.getMoney() + "。当前数据库数据为：" + userTx.toString());
+            cb.await(); // 3
         }
     }
 

@@ -113,6 +113,8 @@ public class UserTxPropagationDao2 implements UserTxPropagationDao {
         while (iterator.hasNext()) {
             System.out.println(iterator.next().toString());
         }
+        System.out.println();
+        System.out.println();
     }
 
 

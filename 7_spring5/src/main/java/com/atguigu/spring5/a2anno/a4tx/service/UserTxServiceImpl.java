@@ -64,12 +64,12 @@ public class UserTxServiceImpl implements UserTxService {
                     @Override
                     public void run() {
                         try {
-                            userTxIsoDao.cooperateShow(userTx, waitTime, cb);
+                            userTxIsoDao.createExceptionData(userTx, waitTime, cb);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                }).start();
+                }, "制造异常数据线程---").start();
 
                 userTxIsoDao.readUncommited(userTx, waitTime, cb);
                 break;
