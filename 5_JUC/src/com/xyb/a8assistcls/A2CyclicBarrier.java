@@ -35,7 +35,6 @@ public class A2CyclicBarrier {
         // 创建CyclicBarrier，这个第一个number参数代表有几个线程达到标时，运行后面的Runnable。
         CyclicBarrier cb = new CyclicBarrier(NUMBER, () -> {
 
-//            int a = 5 / 0;
             System.out.println();
             System.out.println();
             try {

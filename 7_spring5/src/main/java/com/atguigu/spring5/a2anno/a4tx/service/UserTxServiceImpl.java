@@ -1,6 +1,8 @@
 package com.atguigu.spring5.a2anno.a4tx.service;
 
 
+import com.atguigu.spring5.a2anno.a4tx.dao.UserTxIsoDao;
+import com.atguigu.spring5.a2anno.a4tx.dao.UserTxIsoDaoImpl;
 import com.atguigu.spring5.a2anno.a4tx.dao.UserTxPropagationDao;
 import com.atguigu.spring5.a2anno.a4tx.entity.UserTx;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.TimeUnit;
 
 @Service(value = "userTxServiceImpl")
 public class UserTxServiceImpl implements UserTxService {
@@ -23,13 +27,65 @@ public class UserTxServiceImpl implements UserTxService {
     @Qualifier(value = "userTxPropagationDao2")
     private UserTxPropagationDao userTxDao2;
 
+    @Autowired
+    @Qualifier(value = "userTxIsoDaoImpl")
+    private UserTxIsoDao userTxIsoDao;
+
+    /**
+     * 演示7种事务传播行为
+     *
+     * @param prepareData
+     * @param money
+     * @param tx
+     */
+    @Override
+    public void showTx(Map<String, List<UserTx>> prepareData, int money, String tx) {
+        switch (tx) {
+            case "tx":
+                modifyMoneyWithTx(prepareData, money);
+                break;
+            case "nottx":
+                modifyMoneyNotTx(prepareData, money);
+                break;
+        }
+    }
+
+    /**
+     * 演示事务隔离级别
+     *
+     * @param choose
+     */
+    public void showisolation(UserTx userTx, int waitTime, String choose) throws Exception {
+        CyclicBarrier cb = new CyclicBarrier(2);
+
+        switch (choose) {
+            case "1":
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            userTxIsoDao.cooperateShow(userTx, waitTime, cb);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
+                userTxIsoDao.readUncommited(userTx, waitTime, cb);
+                break;
+            default:
+
+        }
+
+
+    }
 
     /**
      * 无事务
      * 本方法中所有被调用方法只在本方法没有事务下考虑
+     *
      * @param money
      */
-    @Override
     public void modifyMoneyNotTx(Map<String, List<UserTx>> userListMap, int money) {
         userTxDao.updateData(userListMap.get("begindata").get(0), money); // 验证事务是否回滚
 
@@ -67,9 +123,9 @@ public class UserTxServiceImpl implements UserTxService {
     /**
      * 有事务
      * 本方法中所有被调用方法只在本方法有事务下考虑
+     *
      * @param money
      */
-    @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyMoneyWithTx(Map<String, List<UserTx>> userListMap, int money) {
         userTxDao2.updateData(userListMap.get("begindata").get(0), money); // 验证事务是否回滚
@@ -113,7 +169,14 @@ public class UserTxServiceImpl implements UserTxService {
     }
 
     @Override
+    public void insertOneData(UserTx user) {
+        userTxIsoDao.insertOneData(user);
+    }
+
+    @Override
     public void deleteAllUser() {
         userTxDao.delAllUser();
     }
+
+
 }

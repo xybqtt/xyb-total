@@ -60,7 +60,7 @@ public class JdbcTxConfig {
     }
 
     @Bean(value = "transactionManager")
-    public TransactionManager transactionManager(@Qualifier(value = "dataSourceTx") DataSource dataSource) {
+    public DataSourceTransactionManager transactionManager(@Qualifier(value = "dataSourceTx") DataSource dataSource) {
         DataSourceTransactionManager tx = new DataSourceTransactionManager();
         tx.setDataSource(dataSource);
         return tx;

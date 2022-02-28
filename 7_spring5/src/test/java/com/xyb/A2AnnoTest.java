@@ -147,7 +147,8 @@ public class A2AnnoTest {
         // 4、测试service类无事务情况下，Dao层的各个传播行为
         System.out.println();
         System.out.println("开始修改数据");
-        service.modifyMoneyNotTx(prepareData(), 100);
+        service.showTx(prepareData(), 100, "tx"); // 有事务
+//        service.showTx(prepareData(), 100, "nottx"); // 无事务
         System.out.println("修改数据结束");
         System.out.println();
 
@@ -161,28 +162,28 @@ public class A2AnnoTest {
     }
 
     /**
-     * 测试调用方法有事务，被调用方法的各种事务传播行为
+     * 测试事务隔离级别
      * @throws InterruptedException
      */
     @Test
-    public void testWithTx() throws InterruptedException {
+    public void testIsolation() throws Exception {
         // 1、加载spring 配置文件
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
         UserTxService service = context.getBean("userTxServiceImpl", UserTxService.class);
         service.deleteAllUser();
-        service.insertData(prepareData());
+
+        UserTx userTx = new UserTx(1, "java", 0);
+        service.insertOneData(userTx);
         System.out.println("显示测试前数据：");
         service.showAllUserTx();
 
 
-        // 4、测试service类有事务情况下，Dao层的各个传播行为
-        System.out.println();
-        System.out.println("开始修改数据");
-        service.modifyMoneyWithTx(prepareData(), 100);
-        System.out.println("修改数据结束");
-        System.out.println();
-
+        // 4、测试4个事务隔离级别，所能解决的问题
+        service.showisolation(userTx, 3, "1"); // 演示“读未提交”
+//        service.showisolation(userTx, 3, "2"); // 演示“读已提交”
+//        service.showisolation(userTx, 3, "3"); // 演示“可重读”
+//        service.showisolation(userTx, 3, "4"); // 演示“可串行化”
 
         // 6、查询所有数据，并显示
         System.out.println("显示测试后数据：");
