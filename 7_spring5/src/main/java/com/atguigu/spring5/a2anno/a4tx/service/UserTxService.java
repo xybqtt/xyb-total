@@ -12,7 +12,7 @@ public interface UserTxService {
 
     public void showTx(Map<String, List<UserTx>> prepareData, int i, String tx);
 
-    public void showisolation(UserTx userTx, int waitTime, String choose) throws Exception;
+    public void showisolation(UserTx userTx, int money, String choose) throws Exception;
 
     public void showAllUserTx();
 

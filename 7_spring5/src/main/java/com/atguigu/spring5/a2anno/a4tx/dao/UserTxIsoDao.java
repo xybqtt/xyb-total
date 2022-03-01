@@ -13,19 +13,17 @@ public interface UserTxIsoDao {
 
 
 
-    public void readUncommited(UserTx user, int waitTime, CyclicBarrier cb) throws Exception;
+    public void readUncommited(UserTx user, int money, CyclicBarrier cb, String isolation) throws Exception;
 
-//    public void readCommited();
-//
-//    public void repeatableRead();
-//
-//    public void serializable();
+    public void readCommited(UserTx user, int money, CyclicBarrier cb, String isolation) throws Exception;
+
+    public void repeatableRead(UserTx user, int money, CyclicBarrier cb, String isolation) throws Exception;
+
+    public void serializable(UserTx user, int money, CyclicBarrier cb, String isolation) throws Exception;
 
     public void createExceptionData(UserTx user, int waitTime, CyclicBarrier cb) throws Exception;
 
     public void insertOneData(UserTx user);
-    public void showAll();
     public void delAllUser();
-    public void insertBatchData(Map<String, List<UserTx>> prepareData);
 
 }

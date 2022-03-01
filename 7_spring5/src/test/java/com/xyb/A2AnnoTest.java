@@ -11,6 +11,8 @@ import com.atguigu.spring5.a2anno.a4tx.entity.UserTx;
 import com.atguigu.spring5.a2anno.a4tx.service.UserTxService;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -180,10 +182,10 @@ public class A2AnnoTest {
 
 
         // 4、测试4个事务隔离级别，所能解决的问题
-        service.showisolation(userTx, 3, "1"); // 演示“读未提交”
-//        service.showisolation(userTx, 3, "2"); // 演示“读已提交”
-//        service.showisolation(userTx, 3, "3"); // 演示“可重读”
-//        service.showisolation(userTx, 3, "4"); // 演示“可串行化”
+//        service.showisolation(userTx, 100, "READ_UNCOMMITTED"); // 演示“读未提交”
+//        service.showisolation(userTx, 100, "READ_COMMITTED"); // 演示“读已提交”
+        service.showisolation(userTx, 100, "REPEATABLE_READ"); // 演示“可重读”
+//        service.showisolation(userTx, 100, "SERIALIZABLE"); // 演示“可串行化”，这里不能演示，因为串行化，只能同时处理一个事务，在一个事务中表被加锁了，其它事务不能进行增删改
 
         // 6、查询所有数据，并显示
         System.out.println("显示测试后数据：");

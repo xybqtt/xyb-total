@@ -53,28 +53,35 @@ public class UserTxServiceImpl implements UserTxService {
     /**
      * 演示事务隔离级别
      *
-     * @param choose
+     * @param isolation
      */
-    public void showisolation(UserTx userTx, int waitTime, String choose) throws Exception {
+    public void showisolation(UserTx userTx, int waitTime, String isolation) throws Exception {
         CyclicBarrier cb = new CyclicBarrier(2);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    userTxIsoDao.createExceptionData(userTx, waitTime, cb);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "制造异常数据线程---").start();
 
-        switch (choose) {
-            case "1":
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            userTxIsoDao.createExceptionData(userTx, waitTime, cb);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, "制造异常数据线程---").start();
-
-                userTxIsoDao.readUncommited(userTx, waitTime, cb);
+        switch (isolation) {
+            case "READ_UNCOMMITTED":
+                userTxIsoDao.readUncommited(userTx, waitTime, cb, "READ_UNCOMMITTED");
+                break;
+            case "READ_COMMITTED":
+                userTxIsoDao.readCommited(userTx, waitTime, cb, "READ_COMMITTED");
+                break;
+            case "REPEATABLE_READ":
+                userTxIsoDao.repeatableRead(userTx, waitTime, cb, "REPEATABLE_READ");
+                break;
+            case "SERIALIZABLE":
+                userTxIsoDao.serializable(userTx, waitTime, cb, "SERIALIZABLE");
                 break;
             default:
-
         }
 
 
