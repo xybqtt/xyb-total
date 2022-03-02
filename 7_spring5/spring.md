@@ -436,8 +436,56 @@ a方法调用的B方法，A方法有自己的事务，B方法也有自己的事�
 
 
 
+# 6 Spring5框架新功能
 
+整个 Spring5 框架的代码基于 Java8，运行时兼容 JDK9，许多不建议使用的类和方法在代码库中删除。
 
+## 6.1 日志
+
+Spring5 已经移除 Log4jConfigListener，官方建议使用 Log4j2 。
+
+Spring5 框架整合 Log4j2整合步骤：
+~~~
+引入jar：
+    log4j-api-2.11.2.jar
+    log4j-core-2.11.2.jar
+    log4j-slf4j-impl-2.11.2.jar
+    slf4j-api-1.7.30.jar
+
+创建 log4j2.xml 配置文件：
+    具体查看本项目中的log4j2.xml(文件名必须是这个)。
+
+使用logger输出：
+    // 声明一个成员变量，用log.info(""); 输出即可
+    private static final Logger log = LoggerFactory.getLogger(SpringConfig.class);
+~~~
+
+## 6.2 @Nullable 注解
+
+@Nullable 注解可以使用在方法上面，属性上面，参数上面，表示方法返回可以为空，属性值可以 为空，参数值可以为空。
+注解用在方法上面，方法返回值可以为空。
+注解使用在方法参数里面，方法参数可以为空。
+注解使用在属性上面，属性值可以为空。
+
+## 6.3 函数式风格 GenericApplicationContext
+
+函数式风格创建对象，交给 spring 进行管理，具体查看com/atguigu/spring5/a3sp5newfunc/SpringConfig.java。
+
+## 6.4 spring5支持整合junit5
+### 6.4.1 整合junit4
+
+步骤：
+~~~
+导包：
+    hamcrest-core-1.3.jar
+    junit-4.12.jar
+    spring-test-5.3.15.jar
+    spring-test-5.3.15-javadoc.jar
+    spring-test-5.3.15-sources.jar
+
+创建测试类，使用注解完成：
+    
+~~~
 
 
 

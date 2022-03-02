@@ -11,8 +11,6 @@ import com.atguigu.spring5.a2anno.a4tx.entity.UserTx;
 import com.atguigu.spring5.a2anno.a4tx.service.UserTxService;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;

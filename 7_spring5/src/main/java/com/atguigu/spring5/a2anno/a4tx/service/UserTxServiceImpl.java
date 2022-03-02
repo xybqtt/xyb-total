@@ -5,6 +5,8 @@ import com.atguigu.spring5.a2anno.a4tx.dao.UserTxIsoDao;
 import com.atguigu.spring5.a2anno.a4tx.dao.UserTxIsoDaoImpl;
 import com.atguigu.spring5.a2anno.a4tx.dao.UserTxPropagationDao;
 import com.atguigu.spring5.a2anno.a4tx.entity.UserTx;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import java.util.concurrent.TimeUnit;
 
 @Service(value = "userTxServiceImpl")
 public class UserTxServiceImpl implements UserTxService {
+
+    private static final Logger log = LoggerFactory.getLogger(UserTxServiceImpl.class);
 
     @Autowired
     @Qualifier(value = "userTxPropagationDao1")
@@ -56,6 +60,7 @@ public class UserTxServiceImpl implements UserTxService {
      * @param isolation
      */
     public void showisolation(UserTx userTx, int waitTime, String isolation) throws Exception {
+        log.info("使用log4j2输出");
         CyclicBarrier cb = new CyclicBarrier(2);
         new Thread(new Runnable() {
             @Override
