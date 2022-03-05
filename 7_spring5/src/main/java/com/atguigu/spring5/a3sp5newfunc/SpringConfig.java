@@ -22,6 +22,10 @@ public class SpringConfig {
      */
     private static final Logger log = LoggerFactory.getLogger(SpringConfig.class);
 
+    /**
+     * 函数式注入bean
+     * @return
+     */
     public User registerBean() {
 
         //1 创建 GenericApplicationContext 对象

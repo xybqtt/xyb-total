@@ -16,30 +16,21 @@ import javax.sql.DataSource;
 @PropertySource(value = "classpath:a2anno/config.properties") // 导入properties文件，只能有一个prop文件
 public class JdbcTemplateConfig {
 
-    @Value(value = "${jdbc.url}")
-    private String url;
-
-    @Value(value = "${jdbc.driverClassName}")
-    private String driverClassName;
-
-    @Value(value = "${jdbc.username}")
-    private String userName;
-
-    @Value(value = "${jdbc.password}")
-    private String password;
-
     /**
      * 通过beanId获取，如果没有写value，默认是方法名，写了，则按value来
      * @return
      * initMethod、destroyMethod必须是被声明的类的方法
      */
     @Bean(value = "dataSource", initMethod = "", destroyMethod = "")
-    public DataSource createDataSource() {
+    public DataSource createDataSource(@Value(value = "${jdbc.url}") String url,
+                                       @Value(value = "${jdbc.driverClassName}") String driverClassName,
+                                       @Value(value = "${jdbc.username}") String userName,
+                                       @Value(value = "${jdbc.password}") String password) {
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUrl(this.url);
-        dataSource.setDriverClassName(this.driverClassName);
-        dataSource.setUsername(this.userName);
-        dataSource.setPassword(this.password);
+        dataSource.setUrl(url);
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUsername(userName);
+        dataSource.setPassword(password);
         return dataSource;
     }
 

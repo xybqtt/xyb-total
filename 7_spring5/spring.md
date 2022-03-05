@@ -18,6 +18,7 @@ Spring是轻量级开源JavaEE框架；
 有2个核心部分：IOC和AOP
     IOC：控制反转，把创建对象过程交给Spring管理；
     AOP：面向切面，不修改源代码进行功能增强。
+
 特点：
     方便解耦，简化开发；
     AOP编程的支持；
@@ -41,10 +42,12 @@ spring入门案例创建
     Artifacts > release > org > springframework > spring > 拼接：https://repo.spring.io/和Repository Path部分内容
     即下载地址https://repo.spring.io/release/org/springframework/spring/
     找到合适的GA版本进行下载，下载dist.zip
+
 解压：
     docs：
     libs：spring需要用到的依赖；
     schema：
+
 工程创建：
     创建普通java工程或Maven工程；
     核心部分导入相关jar包：spring-beans、spring-context、spring-core、spring-expression，另外需要一个commons-logging-1.1.1.jar的包。
@@ -72,6 +75,7 @@ Spring 提供 IOC 容器实现两种方式：（两个接口）
 ~~~
 BeanFactory：IOC 容器基本实现，是 Spring 内部的使用接口，不提供开发人员进行使用
     加载配置文件时候不会创建对象，在获取对象（使用）才去创建对象
+
 ApplicationContext：BeanFactory 接口的子接口，提供更多更强大的功能，一般由开发人员进行使用
     加载配置文件时候就会把在配置文件对象进行创建
 ~~~
@@ -146,12 +150,15 @@ bean 可以使用了（对象获取到了）
 使用注解的目的是简化xml配置。
 基于注解方式实现对象创建步骤：
 ~~~
-引入依赖 spring-aop-5.2.6.RELEASE.jar
+引入依赖：
+    spring-aop-5.2.6.RELEASE.jar
+
 引入命名空间：
     xml文件添加 xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+
 开启组件扫描：
     <context:component-scan base-package="com.atguigu.spring5.a2anno"></context:component-scan>，多个包用逗号隔开。
 在类上添加@Service注解，相当于<bean id="ddd" class="sdaf.ad.ad"/>
@@ -183,6 +190,7 @@ bean 可以使用了（对象获取到了）
     @ComponentScan(basePackages = {"com.atguigu"}) // 开启组件扫描
     public class SpringConfig {
     }
+
 因为没有文件了，使用下面这种方式进行加载：
     ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
@@ -205,37 +213,15 @@ CGLIB代理：没有接口，创建子类代理对象，增强类的方法。
 
 ~~~
 连接点(JointPoint)：连接点是程序执行过程中明确的点，一般是类中方法的调用。连接点是程序在运行过程中能够插入切面的地点，比如方法调用、异常抛出、字段修改等；
+
 切入点(PointCout)：切入点是可以插入增强处理的连接点，当某个连接点满足执行要求时，该连接点将被连接增强处理，该连接点也就变成了切入点。切入点是拦截的方法，连接点JointPoint拦截后将变成切入点
+
 通知(增强)Advice：
     实际增强的逻辑部分称为通知(增强)；
     通知的多种类型：前置、后置、环绕、异常、最终通知；
+
 切面：切面通常是一个类，可以定义切入点和通知。类是对物体特征的抽象，切面是对横切关注点的抽象。
 ~~~
-
-## 3.4 Aop操作(准备工作)
-
-添加AspectJ：AspectJ 不是 Spring 组成部分，独立 AOP 框架，一般把 AspectJ 和 Spirng 框架一起使 用，进行 AOP 操作。
-需要添加的包：
-~~~
-aop相关：
-    com.springsource.net.sf.cglib-2.2.0.jar
-    com.springsource.org.aopalliance-1.0.0.jar
-    com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar
-    spring-aop-5.3.15.jar
-    spring-aspects-5.2.6.RELEASE.jar
-spring基本相关：
-    spring-beans-5.3.15.jar
-    spring-context-5.3.15.jar
-    spring-core-5.3.15.jar
-    spring-expression-5.3.15.jar
-    commons-logging-1.1.1.jar
-junit相关：
-    hamcrest-core-1.3.jar
-    junit-4.12.jar
-其它：
-    druid-1.1.9.jar
-~~~
-
 
 ## 3.5 切入点表达式
 
@@ -289,42 +275,65 @@ junit相关：
 最终通知也可以额外接收一个JoinPoint参数，来获取目标对象和目标方法相关信息，但一定要保证必须是第一个参数。
 ~~~
 
+
 ## 3.6 aop开发流程
 
-步骤：
+导包：添加AspectJ：AspectJ 不是 Spring 组成部分，独立 AOP 框架，一般把 AspectJ 和 Spirng 框架一起使 用，进行 AOP 操作。
 ~~~
-添加aop依赖：
+aop相关：
     com.springsource.net.sf.cglib-2.2.0.jar
     com.springsource.org.aopalliance-1.0.0.jar
     com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar
     spring-aop-5.3.15.jar
     spring-aspects-5.2.6.RELEASE.jar
-开启动态代理：
-    xml：
-        添加名称空间：
-            xmlns:aop="http://www.springframework.org/schema/aop"
-            xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
-        xml添加配置：
-            <aop:aspectj-autoproxy></aop:aspectj-autoproxy> // 开启生成代理对象
-    anno：
-        @EnableAspectJAutoProxy(proxyTargetClass = true) // 启动生成代理对象， 相当于xml添加生成代理对象，只要写了此注解，后面默认是true。
-声明切面、切入点、：
-    xml：
-        <!-- 配置aop -->
-        <aop:config>
-            <!-- 切入点 -->
-            <aop:pointcut id="p" expression="execution(public int com.atguigu.spring5.a2aop.xml.User1.*(..))"/>
-            <!-- 配置切面 -->
-            <aop:aspect ref="userProxy">
-                <!-- 增强在具体的方法上，before、after等等是userProxy的方法 -->
-                <aop:before method="before" pointcut-ref="p"></aop:before>
-                <aop:after method="after" pointcut-ref="p"></aop:after>
-            </aop:aspect>
-        </aop:config>
-    anno：
-        切面：@Aspect修饰的类，@Order(数字类型)，数字越小，优先级越高
-        切入点：@Point(value = "execution(* void com.atguigu.spring5.a2aop.User.*(..))") 修饰的方法fn1()
-        各种通知：@Before(value = "fn1()")
+
+spring基本包：
+    spring-beans-5.3.15.jar
+    spring-context-5.3.15.jar
+    spring-core-5.3.15.jar
+    spring-expression-5.3.15.jar
+    commons-logging-1.1.1.jar
+~~~
+
+### 3.6.1 完全xml开发
+
+开启aop动态代理：
+~~~
+添加名称空间：
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd"
+xml添加配置：
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy> // 开启生成代理对象
+~~~
+
+注册切面、配置切入点及各种通知：
+~~~
+<!-- 配置aop -->
+<aop:config>
+    <!-- 切入点 -->
+    <aop:pointcut id="p" expression="execution(public int com.atguigu.spring5.a2aop.xml.User1.*(..))"/>
+    <!-- 配置切面 -->
+    <aop:aspect ref="userProxy">
+        <!-- 增强在具体的方法上，before、after等等是userProxy的方法 -->
+        <aop:before method="before" pointcut-ref="p"></aop:before>
+        <aop:after method="after" pointcut-ref="p"></aop:after>
+    </aop:aspect>
+</aop:config>
+~~~
+
+### 3.6.2 完全anno开发
+
+开启aop代理
+~~~
+在配置类上添加此注解
+@EnableAspectJAutoProxy(proxyTargetClass = true) // 启动生成代理对象， 相当于xml添加生成代理对象，只要写了此注解，后面默认是true。
+~~~
+
+注册切面、配置切入点及各种通知：
+~~~
+切面：@Aspect修饰的类，@Order(数字类型)，数字越小，优先级越高
+切入点：@Point(value = "execution(* void com.atguigu.spring5.a2aop.User.*(..))") 修饰的方法fn1()
+各种通知添加在对应方法上：@Before(value = "fn1()")
 ~~~
 
 
@@ -336,45 +345,81 @@ Spring 框架对 JDBC 进行封装，使用 JdbcTemplate 方便实现对数据�
 
 ## 4.2 开发流程
 
+导包：
 ~~~
-引入jar包：
+spring基本包：
+    spring-beans-5.3.15.jar
+    spring-context-5.3.15.jar
+    spring-core-5.3.15.jar
+    spring-expression-5.3.15.jar
+    commons-logging-1.1.1.jar
+
+jdbc相关包jar包：
     druid-1.1.9.jar
     mysql-connector-java-5.1.7-bin.jar
     spring-jdbc-5.3.15.jar
     spring-orm-5.3.15.jar // orm映射
     spring-tx-5.3.15.jar // 事务
-配置dataSource：
-    xml版：
-        <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
-            <property name="url" value="jdbc:mysql:///xyb"></property>
-            <property name="username" value="root"></property>
-            <property name="password" value="root"></property>
-            <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-        </bean>
-    anno版：
-        @Bean(value = "dataSource")
-        public DataSource createDataSource() {
-            DruidDataSource dataSource = new DruidDataSource();
-            dataSource.setDriverClassName(driverClassName);
-            dataSource.setUrl(url);
-            dataSource.setUsername(username);
-            dataSource.setPassword(password);
-            return dataSource;
-        }
-配置 JdbcTemplate 对象，注入 DataSource：
-    xml版：
-        <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-            <property name="dataSource" ref="dataSource"></property>
-        </bean>
-    anno版：
-        @Bean(value = "jdbcTemplate")
-        public JdbcTemplate createJdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-使用JdbcTemplate，创建一个Dao，注入JdbcTemplate，进行使用：
-    可以进行增删改查操作，也是用占位符，本质是把jdbc封装了下，增删改(都是用update操作)查看
-    查看：com/atguigu/spring5/a3jdbcTemplate/anno/dao/UserDaoImpl.java。
 ~~~
+
+### 4.2.1 完全xml开发
+
+配置dataSource：
+~~~
+<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+    <property name="url" value="jdbc:mysql:///xyb"></property>
+    <property name="username" value="root"></property>
+    <property name="password" value="root"></property>
+    <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+</bean>
+~~~
+
+配置JdbcTemplate:
+~~~
+<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <property name="dataSource" ref="dataSource"></property>
+</bean>
+~~~
+
+查看：a1xml/a3jdbcTemplate/1jdbcTemplate.xml
+
+
+### 4.2.2 完全anno开发
+
+配置dataSource：
+~~~
+@Bean(value = "dataSource", initMethod = "", destroyMethod = "")
+public DataSource createDataSource(@Value(value = "${jdbc.url}") String url,
+                                   @Value(value = "${jdbc.driverClassName}") String driverClassName,
+                                   @Value(value = "${jdbc.username}") String userName,
+                                   @Value(value = "${jdbc.password}") String password) {
+    DruidDataSource dataSource = new DruidDataSource();
+    dataSource.setUrl(url);
+    dataSource.setDriverClassName(driverClassName);
+    dataSource.setUsername(userName);
+    dataSource.setPassword(password);
+    return dataSource;
+}
+~~~
+
+配置JdbcTemplate:
+~~~
+@Bean(value = "jdbcTemplateTx")
+public JdbcTemplate createJdbcTemplate(@Qualifier(value = "dataSource beanId") DataSource dataSource) {
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    jdbcTemplate.setDataSource(dataSource);
+    return jdbcTemplate;
+}
+~~~
+
+查看：com/atguigu/spring5/a2anno/a3jdbcTemplate/JdbcTemplateConfig.java
+
+### 4.2.3 使用
+
+使用JdbcTemplate，创建一个Dao，注入JdbcTemplate，进行使用。
+可以进行增删改查操作，也是用占位符，本质是把jdbc封装了下，增删改(都是用update操作)查看。
+有2种操作，一种是针对一行参数的操作，一种是批量批作，即针对多行参数的操作。
+查看：com/atguigu/spring5/a2anno/a3jdbcTemplate/dao/UserDaoImpl.java。
 
 
 
@@ -393,48 +438,133 @@ Spring 框架对 JDBC 进行封装，使用 JdbcTemplate 方便实现对数据�
 持久性(durability)：持久性也称永久性（permanence），指一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。接下来的其他操作或故障不应该对其有任何影响。
 ~~~
 
-## 5.3 事务操作（搭建事务操作环境）
+## 5.3 开发流程（搭建事务操作环境）
 
-声明式事务管理：
+导包：
 ~~~
+spring基本包：
+    spring-beans-5.3.15.jar
+    spring-context-5.3.15.jar
+    spring-core-5.3.15.jar
+    spring-expression-5.3.15.jar
+    commons-logging-1.1.1.jar
+
+jdbc相关包jar包：
+    druid-1.1.9.jar
+    mysql-connector-java-5.1.7-bin.jar
+    spring-jdbc-5.3.15.jar
+    spring-orm-5.3.15.jar // orm映射
+    spring-tx-5.3.15.jar // 事务
+~~~
+
+### 5.3.1 完全xml开发
+
 导入名称空间：
-    xml：
-        xmlns:tx="http://www.springframework.org/schema/tx"
-        xsi:schemaLocation="http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
-    anno：
-配置事务管理器：
-    每个操作数据库的方式有对应的事务管理器，它们都是"org.springframework.transaction.TransactionManager"的实现类，如JdbcTemplate对应的是DataSourceTransacionManager。
-    xml：
-        需要声明DataSource、JdbcTemplate；
-        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-            <property name="dataSource" ref="dataSource"></property>
-        </bean>
-    anno：
-        需要声明DataSource、JdbcTemplate；
-        @Bean(value = "transactionManager")
-        public DataSourceTransactionManager createJdbcTx(DataSource dataSource) {
-            DataSourceTransactionManager tx = new DataSourceTransactionManager();
-            tx.setDataSource(dataSource);
-            return tx;
-        }
-开启事务管理：
-    xml：<tx:annotation-driven transaction-manager="org.springframework.jdbc.datasource.DataSourceTransactionManager的beanId"></tx:annotation-driven>
-    anno：@EnableTransactionManagement(proxyTargetClass = true) // 开启事务管理，有这个注解就不用导入名称空间了
-添加事务：
-    xml：
-    anno：@Transactional，这个注解添加到类上面，也可以添加方法上面，如果把这个注解添加类上面，这个类里面所有的方法都添加事务，如果把这个注解添加方法上面，为这个方法添加事务。
 ~~~
+xmlns:tx="http://www.springframework.org/schema/tx"
+xsi:schemaLocation="http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+~~~
+
+配置事务管理器：
+~~~
+每个操作数据库的方式有对应的事务管理器，它们都是"org.springframework.transaction.TransactionManager"的实现类，如JdbcTemplate对应的是DataSourceTransacionManager。
+需要先注册DataSource、JdbcTemplate；
+<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"></property>
+</bean>
+~~~
+
+开启事务管理：
+~~~
+<tx:annotation-driven transaction-manager="org.springframework.jdbc.datasource.DataSourceTransactionManager的beanId"></tx:annotation-driven>
+~~~
+
+使用事务及配置传播特性：
+~~~
+<!-- 配置事务的传播特性 -->
+<tx:advice id="txadvice" transaction-manager="transactionManager">
+    <!-- 配置事务参数 -->
+    <tx:attributes>
+        <!-- 在哪种规则的方法上添加事务 -->
+        <tx:method name="account*" propagation="REQUIRED" isolation="REPEATABLE_READ"/>
+        <tx:method name="save*" propagation="REQUIRED" isolation="REPEATABLE_READ"/>
+    </tx:attributes>
+</tx:advice>
+
+<!-- 配置对哪些类或方法启用事务 -->
+<!-- 配置aop -->
+<aop:config>
+    <!-- 切入点 -->
+    <aop:pointcut id="p" expression="execution(* com.atguigu.spring5.a1xml.a4tx.dao.UserTxDaoImpl.*(..))"/>
+    <!-- 配置切面 -->
+    <aop:advisor advice-ref="txadvice" pointcut-ref="p"></aop:advisor>
+</aop:config>
+~~~
+
+查看：a1xml/a4tx/1tx.xml
+
+### 5.3.2 完全anno开发
+
+配置事务管理器：
+~~~
+需要声明DataSource、JdbcTemplate；
+@Bean(value = "transactionManager")
+public DataSourceTransactionManager transactionManager(
+        @Qualifier(value = "dataSourceTx") DataSource dataSource) {
+    DataSourceTransactionManager tx = new DataSourceTransactionManager();
+    tx.setDataSource(dataSource);
+    return tx;
+}
+~~~
+
+开启事务管理：
+~~~
+在配置类添加：
+@EnableTransactionManagement(proxyTargetClass = true) // 开启事务管理，有这个注解就不用导入名称空间了
+~~~
+
+使用事务及配置传播特性：
+~~~
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_UNCOMMITTED)
+这个注解添加到类上面，也可以添加方法上面，如果把这个注解添加类上面，这个类里面所有的方法都添加事务，如果把这个注解添加方法上面，为这个方法添加事务。
+~~~
+
+查看：com/atguigu/spring5/a2anno/a4tx/dao
 
 ## 5.4 事务注解原理
 
 Spring 的注解方式的事务实现机制:在应用系统调用声明@Transactional 的目标方法时，Spring Framework 默认使用 AOP 代理，在代码运行时生成一个代理对象，根据@Transactional 的属性配置信息，这个代理对象决定该声明@Transactional 的目标方法是否由拦截器 TransactionInterceptor 来使用拦截，在 TransactionInterceptor 拦截时，会在在目标方法开始执行之前创建并加入事务，并执行目标方法的逻辑, 最后根据执行情况是否出现异常，利用抽象事务管理器。
 
-## 5.5 事务传播行为
+## 5.5 事务传播行为及隔离级别
+### 5.5.1 传播行为
 
-a方法调用的B方法，A方法有自己的事务，B方法也有自己的事务，那么B方法应该按A事务处理，还是B事务处理。
-@Transactional(propagation = )
+~~~
+PROPAGATION_REQUIRED – 支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择。
+PROPAGATION_SUPPORTS – 支持当前事务，如果当前没有事务，就以非事务方式执行。
+PROPAGATION_MANDATORY – 支持当前事务，如果当前没有事务，就抛出异常。
+PROPAGATION_REQUIRES_NEW – 新建事务，如果当前存在事务，把当前事务挂起。
+PROPAGATION_NOT_SUPPORTED – 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
+PROPAGATION_NEVER – 以非事务方式执行，如果当前存在事务，则抛出异常。
+PROPAGATION_NESTED – 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。
+~~~
 
+### 5.5.2 事务隔离级别
 
+3种读数据问题：A事务是要操作的事务，B事务是其它事务
+~~~
+脏读：A事务读取了B事务未提交的数据；
+不可重复读：在A事务中，根据同一条件多次读取数据，由于B事务在A事务运行过程中修改了对应数据，导致A事务多次读取的值不一致；
+幻读(Phantom Read)：在A事务中，先根据条件查询了一次数据(查出一篥)，B事物在A事务查询一次后添加了一条数据，当A事务再次查询时，会读取到2条数据。
+    注意，在A事务中Select了一次后，如果不进行增删改操作，后面再次查询的时候快照读，就是在第一次查询的结果上进行查询，当进行了增删改后，再次查询时才是当前读。
+~~~
+
+4种隔离级别：
+~~~
+读未提交(read Uncommited): 在该隔离级别，所有的事务都可以读取到别的事务中未提交的数据，会产生脏读问题，在项 目中基本不怎么用， 安全性太差；
+读已提交(read commited): 这是大多数数据库默认的隔离级别，但是不是 MySQL 的默认隔离级别；这个隔离级别满足 了简单的隔离要求：一个事务只能看见已经提交事务所做的改变，所以会避免脏读问题； 由于一个事务可以看到别的事务已经提交的数据，于是随之而来产生了不可重复读和虚读等 问题（下面详细介绍这种问题，结合问题来理解隔离级别的含义）；
+可重复读(Repeatable read)： 这是 MySQL 的默认隔离级别，它确保了一个事务中多个实例在并发读取数据的时候会读取 到一样的数据；不过理论上，这会导致另一个棘手的问题：幻读(Phantom Read)。简 单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当 36 用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB 和 Falcon 存储引擎通 过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。
+可串行化(serializable)： 事物的最高级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之， 它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争，一 般为了提升程序的吞吐量不会采用这个；
+~~~
 
 # 6 Spring5框架新功能
 
@@ -460,7 +590,9 @@ Spring5 框架整合 Log4j2整合步骤：
     private static final Logger log = LoggerFactory.getLogger(SpringConfig.class);
 ~~~
 
-## 6.2 @Nullable 注解
+查看：com/atguigu/spring5/a3sp5newfunc/SpringConfig.java。
+
+## 6.2 @Nullable注解
 
 @Nullable 注解可以使用在方法上面，属性上面，参数上面，表示方法返回可以为空，属性值可以 为空，参数值可以为空。
 注解用在方法上面，方法返回值可以为空。
@@ -469,12 +601,11 @@ Spring5 框架整合 Log4j2整合步骤：
 
 ## 6.3 函数式风格 GenericApplicationContext
 
-函数式风格创建对象，交给 spring 进行管理，具体查看com/atguigu/spring5/a3sp5newfunc/SpringConfig.java。
+函数式风格创建对象，交给 spring 进行管理，具体查看：com/atguigu/spring5/a3sp5newfunc/SpringConfig.java。
 
 ## 6.4 spring5支持整合junit5
 ### 6.4.1 整合junit4
 
-步骤：
 ~~~
 导包：
     hamcrest-core-1.3.jar
@@ -482,12 +613,23 @@ Spring5 框架整合 Log4j2整合步骤：
     spring-test-5.3.15.jar
     spring-test-5.3.15-javadoc.jar
     spring-test-5.3.15-sources.jar
-
-创建测试类，使用注解完成：
-    
 ~~~
 
+创建测试类，使用注解完成：
+~~~
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {SpringConfig.class}, locations = {""}) // 导入配置类(classes)，或配置文件(locations)，有了这个以后，在@Test修饰的方法内部，就不用再手动获取context，
+public class A3Sp5NewFuncTest {
+    @Autowired
+    private SpringConfig springConfig;
+    
+    @Test
+    public void f1() {
+        springConfig.m1(); // 在测试类中直接可以使用，不用再先获取context，再获取注册的bean了。
+    }
+~~~
 
+查看：com/xyb/A3Sp5NewFuncTest.java。
 
 
 # 7 spring注解与xml配置对应关系
@@ -497,11 +639,13 @@ Spring5 框架整合 Log4j2整合步骤：
 @Configuration：
     位置：类；
     作用：被修饰的类，相当于xml文件。
+
 @ComponentScan：
     位置：类；
     作用：组件扫描，告诉spring去扫哪些包；
     举例：@ComponentScan(value = {"com.atguigu.spring5.a1ioc.anno"})：
     等价：<context:component-scan base-package="com.atguigu.spring5.a1ioc.anno"></context:component-scan>
+
 @Import：
     位置：类；
     作用：
@@ -514,11 +658,13 @@ Spring5 框架整合 Log4j2整合步骤：
         @Import(value = JdbcConfig.class) // 导入另一个@Configuration注解的类
     等价：
         <import resource="1annoVersion.xml"></import>
+
 @PropertySource：
     位置：类；
     作用：导入properties文件；指定文件地址。提供了一种方便的、声明性的机制，用于向Spring的环境添加PropertySource。与@configuration类一起使用。
     举例：@PropertySource(value = "a1ioc/xml/config.properties")
     等价：<context:property-placeholder location="classpath*:a1ioc/xml/config.properties"></context:property-placeholder>。
+
 @EnableAsync:
     位置：注解在配置类上；
     作用：开启异步任务支持。
@@ -530,12 +676,13 @@ IOC相关
 @Service：
 @Repository：
 @Component：
-@Autowired：
+@Autowired：属性、方法参数；
 @Resource：
 @Qualifier：
     位置：被注入的属性(对象)上；
     作用：与@Autowire联用，可按byName注入；
-    举例：@Qualifier(value = "dataSource")
+    举例：@Qualifier(value = "dataSource")；
+
 @Bean：
     位置：方法；
     作用：注解在方法上，声明当前方法的返回值为一个Bean。用于使用注解声明非自定义的bean和返回确定集合数据；
@@ -546,8 +693,9 @@ IOC相关
         initMethod：初始化方法，是被声明类中的方法；
     等价：<bean id="user" class="com.atguigu.spring5.a1ioc.xml.a1create.User"/>
     注意：此注解所有的类"必须被@Configuration修饰，或被其它@Configuration修饰的类@Import"；
+
 @Value：
-    位置：属性；
+    位置：属性、方法参数
     作用：值注入，经常与Sping EL表达式语言一起使用，注入普通字符，系统属性，表达式运算结果，其他Bean的属性，文件内容，网址请求内容，配置文件属性值等等；
     举例：
         @Value(value = "张三")
@@ -565,12 +713,14 @@ Aop
 @Aspect：
     位置：类；
     作用：声明一个切面（就是说这是一个额外功能），即增加的功能。
+
 @PointCut：
     位置：方法；
     作用：声明切点，即定义拦截规则，确定有哪些方法会被切入，其它的通知的切入点表达式引用此注解修饰的方法名如a()，即可使用此切入点表达式；
     举例：@Pointcut(value = "execution(public int com.atguigu.spring5.a2aop.anno.User.*(..))")
     属性：
         value：切入点表达式。
+
 @After：
     位置：方法；
     作用：后置通过；
