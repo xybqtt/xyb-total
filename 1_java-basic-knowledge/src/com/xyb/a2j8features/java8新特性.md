@@ -225,6 +225,44 @@ Collectors 实用类提供了很多静态方法，可以方便地创建常见收
 
 
 
+# 5 Optional
+## 5.1 概述
+
+为了解决 java 中的空指针问题而生！
+Optional<T> 类(java.util.Optional) 是一个容器类，它可以保存类型 T 的值，代表这个值存在。或者仅仅保存 null，表示这个值不存在。原来用 null 表示一个值不存在，现在 Optional 可以更好的表达这个概念。并且可以避免空指针异常。
+
+## 5.2 创建 Optional 类对象的方法
+
+Optional.of(T t) : 创建一个 Optional 实例，t 必须非空；
+Optional.empty() : 创建一个空的 Optional 实例
+Optional.ofNullable(T t)：t 可以为 null
+
+## 5.3 判断Optional容器是否包含对象
+
+boolean isPresent()：判断是否包含对象
+void ifPresent(Consumer<? super T> consumer)：如果有值，就执行 Consumer 接口的实现代码，并且该值会作为参数传给它。
+
+## 5.4 获取 Optional 容器的对象
+
+T get()：如果调用对象包含值，返回该值，否则抛异常
+T orElse(T other)：如果有值则将其返回，否则返回指定的 other 对象
+T orElseGet(Supplier<? extends t> other)：如果有值则将其返回，否则返回由 Supplier 接口实现提供的对象。
+T orElseThrow(Supplier<? extends X> exceptionSupplier)：如果有值则将其返回，否则抛出由 Supplier 接口实现提供的异常。
+
+## 5.5 搭配使用
+
+of() 和 get() 方法搭配使用，明确对象非空
+ofNullable() 和 orElse() 搭配使用，不确定对象非空
+
+
+
+
+
+
+
+
+
+
 
 
 
