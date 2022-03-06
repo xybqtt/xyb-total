@@ -13,7 +13,7 @@ public class A2JdkObserver {
         observable.addObserver(new A2ConcreteObserver());
         observable.addObserver(new A2ConcreteObserver());
 
-        observable.setPrice(10);
+        observable.setPrice(5);
 
     }
 
@@ -23,6 +23,7 @@ public class A2JdkObserver {
  * 具体目标，被观察者
  */
 class A2ConcreteObservable extends Observable {
+
     private int price;
 
     /**
@@ -30,11 +31,21 @@ class A2ConcreteObservable extends Observable {
      * @param price
      */
     public void setPrice(int price) {
+        int a = this.price;
+
         super.setChanged();
-        super.notifyObservers(price);
         this.price = price;
+        super.notifyObservers(a);
+
     }
 
+
+    @Override
+    public String toString() {
+        return "A2ConcreteObservable{" +
+                "price=" + price +
+                '}';
+    }
 }
 
 /**
@@ -45,10 +56,10 @@ class A2ConcreteObserver implements Observer {
     /**
      *
      * @param o 被观察对象
-     * @param arg 改变的值
+     * @param arg 改变前的值
      */
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("修改后的price = " + arg + "，所属对象 = " + o.toString());
+        System.out.println("A2ConcreteObserver观察者，被观察者现在为：" + o.toString() + "，价格修改前为：" + arg);
     }
 }

@@ -606,13 +606,11 @@ Spring5 框架整合 Log4j2整合步骤：
 ## 6.4 spring5支持整合junit5
 ### 6.4.1 整合junit4
 
-~~~
 导包：
-    hamcrest-core-1.3.jar
-    junit-4.12.jar
-    spring-test-5.3.15.jar
-    spring-test-5.3.15-javadoc.jar
-    spring-test-5.3.15-sources.jar
+~~~
+hamcrest-core-1.3.jar
+junit-4.12.jar
+spring-test-5.3.15.jar
 ~~~
 
 创建测试类，使用注解完成：
@@ -630,6 +628,37 @@ public class A3Sp5NewFuncTest {
 ~~~
 
 查看：com/xyb/A3Sp5NewFuncTest.java。
+
+### 6.4.2 整合junit5
+
+导包：
+~~~
+apiguardian-api-1.1.2.jar
+junit-jupiter-5.8.1.jar
+junit-jupiter-api-5.8.1.jar
+junit-jupiter-engine-5.8.1.jar
+junit-jupiter-params-5.8.1.jar
+junit-platform-commons-1.8.1.jar
+junit-platform-engine-1.8.1.jar
+opentest4j-1.2.0.jar
+spring-test-5.3.15.jar
+~~~
+
+创建测试类，使用注解完成：
+~~~
+方式1：
+    类上加注解：
+    @ExtendWith(SpringExtension.class)
+    @ContextConfiguration(classes = {SpringConfig.class}) // 相当于spring加载配置类，加载配置文件用locations = {"classpath:", ""}
+    
+    方法上加注解，注意是org.junit.jupiter.api.Test;包下的
+    @Test 
+
+方式2：
+    类上加注解，相当于方式1的2个注解合并
+    @SpringJUnitConfig(classes = {SpringConfig.class}) // 相当于整合了方式2的2个注解
+~~~
+
 
 
 # 7 spring注解与xml配置对应关系

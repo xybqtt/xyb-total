@@ -10,12 +10,12 @@ import java.util.List;
 public class A1ObserverClient {
 
     public static void main(String[] args) {
-        A1Subject a = new A1ConcreteSubject();
+        A1ConcreteSubject a = new A1ConcreteSubject();
         a.addObserver(new A1ConcreteObserver1());
         a.addObserver(new A1ConcreteObserver2());
 
         // 通知所有观察者
-        a.notifyObservers();
+        a.setPrice(10);
     }
 
 }
@@ -25,22 +25,22 @@ public class A1ObserverClient {
  * 观察者应该被调用的方法
  */
 interface A1Observer {
-    public void response();
+    public void response(Object observeralbe, Object arg);
 }
 
 class A1ConcreteObserver1 implements A1Observer {
 
     @Override
-    public void response() {
-        System.out.println("A1ConcreteObserver1观察到变化");
+    public void response(Object observeralbe, Object arg) {
+        System.out.println("A1ConcreteObserver1观察者，被观察者现在为：" + observeralbe.toString() + "，修改前为：" + arg);
     }
 }
 
 class A1ConcreteObserver2 implements A1Observer {
 
     @Override
-    public void response() {
-        System.out.println("A1ConcreteObserver2观察到变化");
+    public void response(Object observeralbe, Object arg) {
+        System.out.println("A1ConcreteObserver2观察者，被观察者现在为：" + observeralbe.toString() + "，修改前为：" + arg);
     }
 }
 
@@ -58,7 +58,7 @@ abstract class A1Subject {
         this.list.remove(a1Observer);
     }
 
-    public abstract void notifyObservers();
+    public abstract void notifyObservers(Object o);
 
 }
 
@@ -67,11 +67,27 @@ abstract class A1Subject {
  */
 class A1ConcreteSubject extends A1Subject {
 
+    private int price;
+
+    public void setPrice(int price) {
+        int a = this.price;
+        this.price = price;
+        notifyObservers(a);
+    }
+
     @Override
-    public void notifyObservers() {
+    public void notifyObservers(Object o) {
         Iterator it = this.list.iterator();
         while (it.hasNext()) {
-            ((A1Observer) (it.next())).response();
+            ((A1Observer) (it.next())).response(this, o);
         }
+    }
+
+
+    @Override
+    public String toString() {
+        return "A1ConcreteSubject{" +
+                "price=" + price +
+                '}';
     }
 }

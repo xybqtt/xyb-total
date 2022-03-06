@@ -25,7 +25,7 @@ note top of Subject
 end note
 
 
-class ConcreteSubject <<具体目标>> extends Subject {
+class ConcreteSubject <<具体目标(被观察都类)>> extends Subject {
     + notifyObserver() : void
 }
 note left of ConcreteSubject::notifyObserver
@@ -45,7 +45,7 @@ end note
 
 
 interface Observer <<抽象观察者>> {
-    + response() : void
+    + response(Subject sub, Object arg) : void
 }
 note top of Observer
     它包含了一个更新自己的抽象
@@ -56,16 +56,18 @@ end note
 
 
 class ConcreteObserver1 <<具体观察者1>> implements Observer {
-    + response() : void
+    + response(Subject sub, Object arg) : void
 }
 note bottom of ConcreteObserver1
     实现抽象观察者中定义的抽象
     方法，以便在得到目标的更改
     通知时更新自身的状态。
+    sub：被观察对象；
+    arg：被观察对象想给观察都传递的数据。
 end note
 
 class ConcreteObserver2 <<具体观察者2>> implements Observer {
-    + response() : void
+    + response(Subject sub, Object arg) : void
 }
 
 

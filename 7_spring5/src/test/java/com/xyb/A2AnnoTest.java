@@ -10,7 +10,10 @@ import com.atguigu.spring5.a2anno.SpringConfig;
 import com.atguigu.spring5.a2anno.a4tx.entity.UserTx;
 import com.atguigu.spring5.a2anno.a4tx.service.UserTxService;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
