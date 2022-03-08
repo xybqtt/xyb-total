@@ -3,8 +3,6 @@ package com.xyb.servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Session相关操作，

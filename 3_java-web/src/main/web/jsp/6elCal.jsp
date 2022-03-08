@@ -61,8 +61,8 @@
             <p>p.name = ${p.name}</p>
             <p>p.age = ${p.age}</p>
 
-            <p>获取数组句柄：p.lovers = ${p.lovers}</p>
-            <p>获取数组的第0个元素：p.lovers[0] = ${p.lovers[0]}</p><br/>
+            <p>获取数组句柄：p.hobby = ${p.hobby}</p>
+            <p>获取数组的第0个元素：p.hobby[0] = ${p.hobby[0]}</p><br/>
 
             <p>获取list的所有元素：p.schoolList = ${p.schoolList}</p>
             <p>获取list的第1个元素：p.schoolList[0] = ${p.schoolList[1]}</p><br/>

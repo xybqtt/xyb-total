@@ -97,7 +97,7 @@
 
             <h2>13、ajax的使用</h2>
             <p>访问地址${webUri}jsp/14ajax.jsp</p>
-            <a href="${webUri}jsp/14ajax.jsp" target="_blank">json的使用</a>
+            <a href="${webUri}jsp/14ajax.jsp" target="_blank">ajax的使用</a>
             <hr/>
         </div>
     </body>

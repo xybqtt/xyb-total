@@ -165,7 +165,7 @@
         - 创建web.xml：
             - 对A右键，Add Framework Support；
             - 勾选Web Application，勾选 Create web.xml；
-            - 项目中就会在src的同一级出现web目录(黑色目录、蹭2靠左有个蓝点、eclipse可能是webapp)；
+            - 项目中就会在src的同一级出现web目录(黑色目录、中间靠左有个蓝点、eclipse可能是webapp)；
             - 在web/WEB-INF/下创建lib目录，用于存放依赖的jar包。
     - web项目：在Facets中设置。
 2. 模块设置：File -> Project Structure ->

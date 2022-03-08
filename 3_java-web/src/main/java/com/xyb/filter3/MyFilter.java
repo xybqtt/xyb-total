@@ -1,10 +1,7 @@
 package com.xyb.filter3;
 
-import com.xyb.servlet.BaseServlet;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**

@@ -9,7 +9,7 @@
         <%
             Utils.addWebUriToReq(request, "webUri");
             System.out.println(request.getAttribute("webUri"));
-            // webUri = http://127.0.0.1:8080/java_web_3/
+            // webUri = http://127.0.0.1:8080/
         %>
         <a href="${webUri}top/servletTop.jsp" target="_self">servlet学习页面</a>
         <a href="${webUri}top/jspTop.jsp" target="_self">jsp学习页面</a>
