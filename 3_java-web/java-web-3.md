@@ -143,11 +143,14 @@
 ## 3.2 javaweb动态工程目录说明
 
 1. 工程名(对应开发过程中的web目录)
-    - src：java代码开发目录
-    - web：专门用来存放web工程的资源文件，如html、css、js等
-        - WEB-INF：是一个受服务器保护的目录，浏览器无法直接访问到此目录内容
-            - lib：存放第三方的jar包(idea还需要自己配置导入)
-            - web.xml：是整个动态web工程的配置部署描述文件，可以在这里配置很多web工程的组件，如Servlet程序、Filter过滤器、Listener监听器、Session超时等。
+    - src：
+      - main
+        - java：java代码开发目录
+        - resources：资源目录
+        - web：专门用来存放web工程的资源文件，如html、css、js等
+            - WEB-INF：是一个受服务器保护的目录，浏览器无法直接访问到此目录内容
+                - lib：存放第三方的jar包(idea还需要自己配置导入)
+                  - web.xml：是整个动态web工程的配置部署描述文件，可以在这里配置很多web工程的组件，如Servlet程序、Filter过滤器、Listener监听器、Session超时等。
 
 ## 3.3 如何给动态web工程添加额外的jar包
 
@@ -160,14 +163,22 @@
 
 ## 3.4 如何将非java模块A变成java web模块 Aweb或导入已有的web模块
 
+变为web项目的关键是有webpp(或webroot、web)目录，有webapp\WEB-INF\web.xml文件，并让idea识别这2个
 1. 变为web模块
-    - 非web项目：
-        - 创建web.xml：
-            - 对A右键，Add Framework Support；
-            - 勾选Web Application，勾选 Create web.xml；
-            - 项目中就会在src的同一级出现web目录(黑色目录、中间靠左有个蓝点、eclipse可能是webapp)；
-            - 在web/WEB-INF/下创建lib目录，用于存放依赖的jar包。
-    - web项目：在Facets中设置。
+~~~
+方式一：
+    File -> Project Structure -> modules -> 右键模块 -> add -> Web
+    点击Web：
+        Web Resource Directories：设置webapp
+        Deployment Descriptors：设置web.xml
+
+方式2：
+    对模块右键，Add Framework Support；
+    勾选Web Application，勾选 Create web.xml；
+    项目中就会在src的同一级出现web目录(黑色目录、中间靠左有个蓝点、eclipse可能是webapp)；
+    在web/WEB-INF/下创建lib目录，用于存放依赖的jar包。
+~~~
+
 2. 模块设置：File -> Project Structure ->
     - Modules：
         - 点选A模块

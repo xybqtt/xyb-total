@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>获取请求参数测试</title>
+    </head>
+    <body>
+        <h1>获取请求参数测试</h1>
+        <a th:href="@{/getByServletAPI(username='a', password=123456)}">通过servletAPI获取参数</a>
+        <a th:href="@{/testParamByServletAPI}">测试获取http请求参数</a>
+    </body>
+</html>

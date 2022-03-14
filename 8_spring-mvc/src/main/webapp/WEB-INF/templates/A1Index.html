@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>index</title>
+    </head>
+    <body>
+        <h1>首页</h1>
+        <p>这个不是默认启动访问的index.html，而是根据 / ，找到对应RequestMapping对应方法返回值A1Index，进行前后缀拼接后，访问的webapp/WEB-INF/templates/A1Index.html的页面。</p>
+        <!--
+            th:href=@{/target} = href="http://localhost:ip/上下文路径/"，如果不这么写的话，就是http://localhost:ip/springmvc/。
+         -->
+        <a th:href="@{/A2RequestMapping}">访问测试"RequestMapping注解"页面</a><br/>
+        <a th:href="@{/A3ParamGet}">访问测试"获取http请求参数"页面</a><br/>
+    </body>
+</html>
