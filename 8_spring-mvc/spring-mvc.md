@@ -129,7 +129,7 @@ DispatcherServlet {
         // 第五步：处理器适配器去执行Handler，并获取ModelAndView，此处即是调用被@RequestMapping注解的方法
         ModelAndView mv = ha.handle(request, response, mappedHandler.getHandler());
         
-        // 第六步：前端控制器请求视图解析器（ViewResolver）去进行视图解析，并在解析处理完成后，
+        // 第六步：前端控制器请求视图解析器（ViewResolver）去进行视图解析，并在解析处理完成后进行拦截
         this.processDispatchResult(req, resp, mappedHandler, mv, (Exception)dispatchException) {
             render(mv, request, response) {
                 // 第六步：进行视图解析及处理，对视图进行渲染，此时view就是SpringMVC.xml中配置的视图解析器
@@ -311,9 +311,11 @@ springMVC.xml
 </bean>
 
 <!-- 
-   处理静态资源，例如html、js、css、jpg
+  开放对静态资源的访问，例如html、js、css、jpg
   若只设置该标签，则只能访问静态资源，其他请求则无法访问
-  此时必须设置<mvc:annotation-driven/>解决问题
+  此时必须设置<mvc:annotation-driven/>解决问题。
+  此标签作用是，当SpringMVC(只有MVC有这个问题)的RequestMapping无法匹配访问资源时，使用默认的servlet处理，返回静态资源。
+  当访问时，先由SpringMVC处理，处理不了会使用默认Servlet处理。
  -->
 <mvc:default-servlet-handler/>
 
@@ -461,11 +463,184 @@ public String testParam(String username, String password){
 }
 ~~~
 注：
-若请求所传输的请求参数中有多个同名的请求参数，此时可以在控制器方法的形参中设置字符串数组或者字符串类型的形参接收此请求参数。
-若使用字符串数组类型的形参，此参数的数组中包含了每一个数据。
-若使用字符串类型的形参，此参数的值为每个数据中间使用逗号拼接的结果。
+    若请求所传输的请求参数中有多个同名的请求参数，此时可以在控制器方法的形参中设置字符串数组或者字符串类型的形参接收此请求参数。
+    若使用字符串数组类型的形参，此参数的数组中包含了每一个数据。
+    若使用字符串类型的形参，此参数的值为每个数据中间使用逗号拼接的结果。
 
 ## 4.3 @RequestParam
+
+@RequestParam是将请求参数和控制器方法的形参创建映射关系
+@RequestParam注解一共有三个属性：
+    value：指定为形参赋值的请求参数的参数名
+    required：设置是否必须传输此请求参数，默认值为true
+        若设置为true时，则当前请求必须传输value所指定的请求参数，若没有传输该请求参数，且没有设置defaultValue属性，则页面报错400：Required String parameter ‘xxx’ is not present；若设置为false，则当前请求不是必须传输value所指定的请求参数，若没有传输，则注解所标识的形参的值为null
+    defaultValue：不管required属性值为true或false，当value所指定的请求参数没有传输或传输的值为""时，则使用默认值为形参赋值
+
+## 4.4 @RequestHeader、@CookieValue
+
+@RequestHeader是将请求头信息和控制器方法的形参创建映射关系
+@RequestHeader注解一共有三个属性：value、required、defaultValue，用法同@RequestParam
+@CookieValue是将cookie数据和控制器方法的形参创建映射关系
+@CookieValue注解一共有三个属性：value、required、defaultValue，用法同@RequestParam
+
+## 4.5 通过POJO获取请求参数
+
+可以在控制器方法的形参位置设置一个实体类类型的形参，此时若浏览器传输的请求参数的参数名和实体类中的属性名一致，那么请求参数就会为此属性赋值。
+
+## 4.6 解决获取请求参数的乱码问题
+
+get请求：Tomcat_HOME/conf/server.xml，为Connector添加属性URIEncoding="UTF-8"，或者用String的转码方法。
+post请求：必须在使用request前进行设置编码格式，但是当进入到@RequestMapping修饰的方法时，request已经被使用了，再设置编码已经来不及了，所以只有在web过滤器中设置(顺序：监听器->过滤器->servlet)，spring有默认的过滤器，配置即可。或者自定义一个过滤器也可以。**SpringMVC中处理编码的过滤器一定要配置到其他过滤器之前，否则无效。**
+~~~
+<!--配置springMVC的编码过滤器-->
+<filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+        <param-name>forceResponseEncoding</param-name>
+        <param-value>true</param-value>
+    </init-param>
+</filter>
+<filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+~~~
+
+
+
+# 5 域对象共享数据
+
+查看A4ScopeDataController类。
+Model、ModelMap、Map类型的参数其实本质上都是 BindingAwareModelMap 类型的。
+~~~
+ModelAndView有Model和View的功能
+Model主要用于向请求域共享数据
+View主要用于设置视图，实现页面跳转
+~~~
+
+
+
+# 6 SpringMVC的视图
+
+SpringMVC中的视图是View接口，视图的作用渲染数据，将模型Model中的数据展示给用户。
+SpringMVC视图的种类很多，默认有转发视图和重定向视图。
+当工程引入jstl的依赖，转发视图会自动转换为JstlView。
+若使用的视图技术为Thymeleaf，在SpringMVC的配置文件中配置了Thymeleaf的视图解析器，由此视图解析器解析之后所得到的是ThymeleafView。
+
+## 6.1 常用View
+## 6.1.1 ThymeleafView
+
+当控制器方法中所设置的视图名称没有任何前缀时，此时的视图名称会被SpringMVC配置文件中所配置的视图解析器解析，视图名称拼接视图前缀和视图后缀所得到的最终路径，会通过转发的方式实现跳转。
+
+## 6.1.2 InternalResourceViewResolver
+
+我们在使用SpringMVC的时候，想必都知道，为了安全性考虑，我们的JSP文件都会放在WEB-INF下，但是我们在外部是不可以直接访问/WEB-INF/目录下的资源对吧，只能通过内部服务器进行转发的形式进行访问，那么InternalResourceViewResolver底层通过转发形式帮我们解决了这个问题！
+~~~
+<!--  自定义视图解析器  -->
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/"/>
+    <property name="suffix" value=".jsp"/>
+</bean>
+~~~
+
+
+## 6.2 转发视图
+
+SpringMVC中默认的转发视图是InternalResourceView。
+SpringMVC中创建转发视图的情况：
+    **当控制器方法中所设置的视图名称以"forward:"为前缀时，创建InternalResourceView视图，**此时的视图名称不会被SpringMVC配置文件中所配置的ThymeleafView视图解析器解析，而是会将前缀"forward:"去掉，剩余部分作为最终路径通过转发的方式实现跳转，例如"forward:/"，“forward:/employee”，注意此处的forward后面的是RequestMapping的value属性，相当于前端http访问。
+
+## 6.3 重定向视图
+
+SpringMVC中默认的重定向视图是RedirectView。
+    **当控制器方法中所设置的视图名称以"redirect:"为前缀时，创建RedirectView视图，**此时的视图名称不会被SpringMVC配置文件中所配置的ThymeleafView视图解析器解析，而是会将前缀"redirect:"去掉，剩余部分作为最终路径通过重定向的方式实现跳转，例如"redirect:/"，“redirect:/employee”。注意此处的redirect后面的是RequestMapping的value属性，相当于前端http访问。
+**注：重定向视图在解析时，会先将redirect:前缀去掉，然后会判断剩余部分是否以/开头，若是则会自动拼接上下文路径。**
+
+## 6.4 视图控制器view-controller
+
+当控制器方法中，仅仅用来实现页面跳转，即只需要设置视图名称时，可以将处理器方法使用view-controller标签进行表示。
+~~~
+<!--
+    path：设置处理的请求地址
+    view-name：设置请求地址所对应的视图名称
+-->
+<mvc:view-controller path="/testView" view-name="success"></mvc:view-controller>
+~~~
+
+**注：当SpringMVC中设置任何一个view-controller时，其他控制器中的请求映射将全部失效，此时需要在SpringMVC的核心配置文件中设置开启mvc注解驱动的标签，<mvc:annotation-driven />。**
+
+
+
+# 7 RESTful
+## 7.1 RESTful简介
+
+REST：Representational State Transfer，表现层资源状态转移。
+
+资源：
+资源是一种看待服务器的方式，即，将服务器看作是由很多离散的资源组成。每个资源是服务器上一个可命名的抽象概念。因为资源是一个抽象的概念，所以它不仅仅能代表服务器文件系统中的一个文件、数据库中的一张表等等具体的东西，可以将资源设计的要多抽象有多抽象，只要想象力允许而且客户端应用开发者能够理解。与面向对象设计类似，资源是以名词为核心来组织的，首先关注的是名词。一个资源可以由一个或多个URI来标识。URI既是资源的名称，也是资源在Web上的地址。对某个资源感兴趣的客户端应用，可以通过资源的URI与其进行交互。
+
+资源的表述：
+资源的表述是一段对于资源在某个特定时刻的状态的描述。可以在客户端-服务器端之间转移（交换）。资源的表述可以有多种格式，例如HTML/XML/JSON/纯文本/图片/视频/音频等等。资源的表述格式可以通过协商机制来确定。请求-响应方向的表述通常使用不同的格式。
+
+状态转移：
+状态转移说的是：在客户端和服务器端之间转移（transfer）代表资源状态的表述。通过转移和操作资源的表述，来间接实现操作资源的目的。
+
+## 7.2 RESTful的实现
+
+具体说，就是 HTTP 协议里面，四个表示操作方式的动词：GET、POST、PUT、DELETE。
+它们分别对应四种基本操作：GET 用来获取资源，POST 用来新建资源，PUT 用来更新资源，DELETE 用来删除资源。
+REST 风格提倡 URL 地址使用统一的风格设计，从前到后各个单词使用斜杠分开，不使用问号键值对方式携带请求参数，而是将要发送给服务器的数据作为 URL 地址的一部分，以保证整体风格的一致性。
+
+|操作|传统方式|REST风格|
+|:--|:--|:--|
+|查询|getUserById?id=1|user/1->get请求方式|
+|保存|saveUser|user->post请求方式|
+|删除|deleteUser?id=1|user/1->delete请求方式|
+|更新|updateUser|user->put请求方式|
+
+## 7.3 HiddenHttpMethodFilter
+
+由于浏览器只支持发送get和post方式的请求，那么该如何发送put和delete请求呢？
+SpringMVC 提供了 HiddenHttpMethodFilter 帮助我们将 POST 请求转换为 DELETE 或 PUT 请求
+HiddenHttpMethodFilter 处理put和delete请求的条件：
+    a>当前请求的请求方式必须为post
+    b>当前请求必须传输请求参数_method
+    满足以上条件，HiddenHttpMethodFilter 过滤器就会将当前请求的请求方式转换为请求参数_method的值，因此请求参数_method的值才是最终的请求方式
+
+在web.xml中注册HiddenHttpMethodFilter
+~~~
+<filter>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+~~~
+
+~~~
+注：
+目前为止，SpringMVC中提供了两个过滤器：CharacterEncodingFilter和HiddenHttpMethodFilter
+
+在web.xml中注册时，必须先注册CharacterEncodingFilter，再注册HiddenHttpMethodFilter
+原因：
+    在 CharacterEncodingFilter 中通过 request.setCharacterEncoding(encoding) 方法设置字符集，
+    request.setCharacterEncoding(encoding) 方法要求前面不能有任何获取请求参数的操作
+    而HiddenHttpMethodFilter 恰恰有一个获取请求方式的操作：
+        String paramValue = request.getParameter(this.methodParam);
+~~~
+
+# 8 RESTful案例
+记录tomcat.conf.web.xml和本项目web.xml的关系
+
+
+
 
 
 

@@ -44,4 +44,24 @@ public class A1IndexController {
         // 返回视图名称
         return "A3ParamGet";
     }
+
+    /**
+     * 测试 域对象共享数据
+     * @return
+     */
+    @RequestMapping(value = "/A4ScopeData") // 此处的"/"代表："http://localhost:ip/上下文路径/"
+    public String toScopeData() {
+        // 返回视图名称
+        return "A4ScopeData";
+    }
+
+    /**
+     * 测试转发和重定向
+     * @return
+     */
+    @RequestMapping(value = "/A5ForwardAndRedirect") // 此处的"/"代表："http://localhost:ip/上下文路径/"
+    public String toFAR() {
+        // 返回视图名称
+        return "A5ForwardAndRedirect";
+    }
 }

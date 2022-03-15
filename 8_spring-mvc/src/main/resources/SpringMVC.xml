@@ -32,7 +32,20 @@
     </bean>
 
     <!--
-       处理静态资源，例如html、js、css、jpg
+        当控制器方法中，仅仅用来实现页面跳转，即只需要设置视图名称时，可以将处理器方法使用view-controller标签进行表示，但需要添加<mvc:annotation-driven>注解，要不然所有的控制器中的请求映射将失效
+    -->
+<!--    <mvc:view-controller path="/" view-name="A1Index"></mvc:view-controller>-->
+
+
+    <bean id="viewResolver2" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 视图前缀 -->
+        <property name="prefix" value="/WEB-INF/templates/"/>
+        <!-- 视图后缀 -->
+        <property name="suffix" value=".html"/>
+    </bean>
+
+    <!--
+      处理静态资源，例如html、js、css、jpg
       若只设置该标签，则只能访问静态资源，其他请求则无法访问
       此时必须设置<mvc:annotation-driven/>解决问题
      -->
