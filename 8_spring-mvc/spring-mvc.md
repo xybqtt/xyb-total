@@ -147,7 +147,12 @@ DispatcherServlet {
 第十一步：前端控制器向用户响应结果
 ~~~
 
-## 1.5 备注
+## 1.5 名词解释
+
+Handler：处理器，真正负责处理请求的方法，UserController.f1();
+HandlerMapping的实现类的作用：将请求映射到带@RequestMapping注释的控制器方法，将URL路径映射到控制器bean名称。
+HandlerAdapter的实现类的作用：实现类RequestMappingHandlerAdapter，处理请求的适配器，确定调用哪个类的哪个方法，并且构造方法参数，返回值。
+HandlerExecutionChain：将handler与所有匹配的 HandlerInterceptor(拦截器)绑定到创建的 HandlerExecutionChain 对象上并返回。
 
 视图解析器：视图解析器会根据ModelAndView中的view，拼接设定的前后缀得到资源路径，去渲染资源，不同的解析器对资源的解释不同，就像使用ThymeleafViewResolver渲染html，就可以在html使用Thymeleaf语法，不同的视图解析器有各自的语法。
 
@@ -284,11 +289,15 @@ public class HelloController {
 ## 2.5 创建springMVC的配置文件
 
 springMVC.xml
+配置自动扫包：
 ~~~
 <!-- 自动扫描包 -->
 <context:component-scan base-package="com.atguigu.mvc.controller"/>
+~~~
 
-<!-- 配置Thymeleaf视图解析器 -->
+配置Thymeleaf视图解析器或其它视图解析器(**只配置一个，不然MVC不知道使用的是哪一个**)：
+~~~
+<!-- Thymeleaf视图解析器 -->
 <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
     <property name="order" value="1"/>
     <property name="characterEncoding" value="UTF-8"/>
@@ -310,16 +319,34 @@ springMVC.xml
     </property>
 </bean>
 
+
 <!-- 
-  开放对静态资源的访问，例如html、js、css、jpg
+    配置内部资源解析器：InternalResourceViewResolver为"内部资源视图解析器"，是日常开发中最常用的视图解析器类型。它是 URLBasedViewResolver 的子类，拥有 URLBasedViewResolver 的一切特性。InternalResourceViewResolver 能自动将返回的视图名称解析为 InternalResourceView 类型的对象。InternalResourceView 会把 Controller 处理器方法返回的模型属性都存放到对应的 request 属性中，然后通过 RequestDispatcher 在服务器端把请求 forword 重定向到目标 URL。也就是说，使用 InternalResourceViewResolver 视图解析时，无需再单独指定 viewClass 属性。
+-->
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceViewResolver"/> <!--可以省略-->
+    <!--前缀-->
+    <property name="prefix" value="/WEB-INF/jsp/"/>
+    <!--后缀-->
+    <property name="suffix" value=".jsp"/>  
+ </bean>
+~~~
+
+配置默认servlet处理器：
+注解的目的：开放对静态资源的访问，例如html、js、css、jpg
+~~~
+<!-- 
+    
   若只设置该标签，则只能访问静态资源，其他请求则无法访问
   此时必须设置<mvc:annotation-driven/>解决问题。
   此标签作用是，当SpringMVC(只有MVC有这个问题)的RequestMapping无法匹配访问资源时，使用默认的servlet处理，返回静态资源。
   当访问时，先由SpringMVC处理，处理不了会使用默认Servlet处理。
  -->
-<mvc:default-servlet-handler/>
+<mvc:default-servlet-handler />
+~~~
 
-<!-- 开启mvc注解驱动 -->
+开启mvc注解驱动：
+~~~
 <mvc:annotation-driven>
     <mvc:message-converters>
         <!-- 处理响应中文内容乱码 -->
@@ -610,7 +637,7 @@ SpringMVC 提供了 HiddenHttpMethodFilter 帮助我们将 POST 请求转换为 
 HiddenHttpMethodFilter 处理put和delete请求的条件：
     a>当前请求的请求方式必须为post
     b>当前请求必须传输请求参数_method
-    满足以上条件，HiddenHttpMethodFilter 过滤器就会将当前请求的请求方式转换为请求参数_method的值，因此请求参数_method的值才是最终的请求方式
+    满足以上条件，HiddenHttpMethodFilter 过滤器就会将当前请求的请求方式转换为请求参数_method的值，因此请求参数_method的值才是最终的请求方式。
 
 在web.xml中注册HiddenHttpMethodFilter
 ~~~

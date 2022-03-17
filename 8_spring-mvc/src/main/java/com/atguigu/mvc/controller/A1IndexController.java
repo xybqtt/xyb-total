@@ -64,4 +64,14 @@ public class A1IndexController {
         // 返回视图名称
         return "A5ForwardAndRedirect";
     }
+
+    /**
+     * RestFul案例测试
+     * @return
+     */
+    @RequestMapping(value = "/A6RestFul") // 此处的"/"代表："http://localhost:ip/上下文路径/"
+    public String toRestFul() {
+        // 返回视图名称
+        return "A6RestFul";
+    }
 }

@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 public class User {
 
+    private int id;
+
     private String username;
 
     private String password;
@@ -13,10 +15,19 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password, String[] hobby) {
+    public User(int id, String username, String password, String[] hobby) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.hobby = hobby;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -47,7 +58,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", hobby=" + Arrays.toString(hobby) +
                 '}';

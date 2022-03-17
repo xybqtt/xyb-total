@@ -24,7 +24,8 @@
             /所匹配的请求可以是/login或.html或.js或.css方式的请求路径
             但是/不能匹配.jsp请求路径的请求
         -->
-        <url-pattern>/</url-pattern>
+<!--        <url-pattern>/</url-pattern>-->
+        <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 
 

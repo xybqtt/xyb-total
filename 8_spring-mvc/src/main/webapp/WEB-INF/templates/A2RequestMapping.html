@@ -9,7 +9,7 @@
         <div>
             <h2>测试@value属性，可以进行多种访问路径的访问</h2>
             <a th:href="@{/reqMapping/aba}">通过"/a?a"访问(?代表任意单个字符)</a><br/>
-            <a th:href="@{/reqMapping/aa}">通过"/aa"访问"/a*a"(*代表0个或多个任意字符)</a><br/>
+            <a th:href="@{/reqMapping/ab}">通过"/ab"访问"/a*b"(*代表0个或多个任意字符)</a><br/>
             <a th:href="@{/reqMapping/a/b}">通过"/a/b"访问"/a/**"，匹配任意路径</a><br/>
         </div>
 

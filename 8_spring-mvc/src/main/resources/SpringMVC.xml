@@ -34,15 +34,7 @@
     <!--
         当控制器方法中，仅仅用来实现页面跳转，即只需要设置视图名称时，可以将处理器方法使用view-controller标签进行表示，但需要添加<mvc:annotation-driven>注解，要不然所有的控制器中的请求映射将失效
     -->
-<!--    <mvc:view-controller path="/" view-name="A1Index"></mvc:view-controller>-->
-
-
-    <bean id="viewResolver2" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <!-- 视图前缀 -->
-        <property name="prefix" value="/WEB-INF/templates/"/>
-        <!-- 视图后缀 -->
-        <property name="suffix" value=".html"/>
-    </bean>
+    <!-- <mvc:view-controller path="/" view-name="A1Index"></mvc:view-controller>-->
 
     <!--
       处理静态资源，例如html、js、css、jpg
