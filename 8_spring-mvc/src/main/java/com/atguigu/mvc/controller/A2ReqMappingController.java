@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @RequestMapping注解测试
@@ -55,5 +57,16 @@ public class A2ReqMappingController {
     public String headersTest() {
         System.out.println("访问到了/headersTest");
         return "target";
+    }
+
+    /**
+     * 测试headers属性，这个和params一样
+     * @return
+     */
+    @RequestMapping(value = "/voidRet")
+    public void voidRet(HttpServletResponse response) throws IOException {
+        System.out.println("访问到了/voidRet");
+        response.setContentType("text/html; charset=UTF-8");
+        response.getWriter().println("这是返回参数为void，或返回值为null时的情况，就不会跳转页面了。");
     }
 }

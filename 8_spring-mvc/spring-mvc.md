@@ -123,20 +123,23 @@ DispatcherServlet {
             }
         }
         
-        // 第4.5步 执行前进行拦截器校验
+        // 第4.5步 执行handler前进行拦截器校验
         mappedHandler.applyPreHandle(processedRequest, response)
         
         // 第五步：处理器适配器去执行Handler，并获取ModelAndView，此处即是调用被@RequestMapping注解的方法
         ModelAndView mv = ha.handle(request, response, mappedHandler.getHandler());
         
-        // 第六步：前端控制器请求视图解析器（ViewResolver）去进行视图解析，并在解析处理完成后进行拦截
+        // 执行handler后的拦截器校验
+        mappedHandler.applyPostHandle(processedRequest, response, mv)
+        
+        // 第六步：前端控制器请求视图解析器（ViewResolver）去进行视图解析，并在渲染完成后进行拦截
         this.processDispatchResult(req, resp, mappedHandler, mv, (Exception)dispatchException) {
             render(mv, request, response) {
                 // 第六步：进行视图解析及处理，对视图进行渲染，此时view就是SpringMVC.xml中配置的视图解析器
                 view.render(mv.getModelInternal(), request, response);
             }
             
-            // 第七步：进行后拦截器校验。
+            // 第七步：进行渲染后的拦截器校验。
             mappedHandler.triggerAfterCompletion(request, response, (Exception)null);
         }
         
@@ -221,11 +224,6 @@ new -> module -> 创建一个maven工程
 </servlet>
 <servlet-mapping>
     <servlet-name>springMVC</servlet-name>
-    <!--
-        设置springMVC的核心控制器所能处理的请求的请求路径
-        /所匹配的请求可以是/login或.html或.js或.css方式的请求路径
-        但是/不能匹配.jsp请求路径的请求
-    -->
     <url-pattern>/</url-pattern>
 </servlet-mapping>
 ~~~
@@ -263,10 +261,6 @@ new -> module -> 创建一个maven工程
     <url-pattern>/</url-pattern>
 </servlet-mapping>
 ~~~
-
-注：
-标签中使用/和/*的区别：
-    /所匹配的请求可以是/login或.html或.js或.css方式的请求路径，但是/不能匹配.jsp请求路径的请求，因此就可以避免在访问jsp页面时，该请求被DispatcherServlet处理，从而找不到相应的页面，/*则能够匹配所有请求，例如在使用过滤器时，若需要对所有请求进行过滤，就需要使用/*的写法。
 
 ## 2.4 创建请求控制器
 
@@ -335,13 +329,6 @@ springMVC.xml
 配置默认servlet处理器：
 注解的目的：开放对静态资源的访问，例如html、js、css、jpg
 ~~~
-<!-- 
-    
-  若只设置该标签，则只能访问静态资源，其他请求则无法访问
-  此时必须设置<mvc:annotation-driven/>解决问题。
-  此标签作用是，当SpringMVC(只有MVC有这个问题)的RequestMapping无法匹配访问资源时，使用默认的servlet处理，返回静态资源。
-  当访问时，先由SpringMVC处理，处理不了会使用默认Servlet处理。
- -->
 <mvc:default-servlet-handler />
 ~~~
 
@@ -363,7 +350,33 @@ springMVC.xml
 </mvc:annotation-driven>
 ~~~
 
-## 2.6 总结
+## 2.6 注意
+### 2.6.1 url-pattern中使用/和/*的区别：
+
+~~~
+首先为了DispatcherServlet能处理所有的请求，我们必须能匹配所有请求，那么必须使用"/"(默认匹配)或"/*"(路径匹配)，为什么不能使用"/*"。
+相关内容可查看java-web中路径匹配内容，首先这不是正则表达式。
+匹配模式优先级从高到低依次为(http://localhost:8080/上下文路径context/path?params)，：
+    精确匹配："url-pattern"与"/path"一模一样；
+    路径匹配："/*"，会匹配"http://localhost:8080/context/"后所有的请求；
+    后缀匹配："*.jsp"，会匹配所有的".jsp"请求，如果没有显式配置，则tomcat/conf/web.xml中有默认JspServlet去匹配并处理。且路径匹配不能与后缀匹配一起使用，即/*.jsp、/user/*.action是会启动报错的。
+    默认匹配："/"，会匹配所有请求，如果没有显式配置，则tomcat/conf/web.xml中有默认DefaultServlet去匹配并处理，但我们这里显式配置了DispatcherServlet。
+如果我们DispatcherServlet用"/*"来匹配，则会在路径匹配那里匹配所有的请求，包括jsp请求，但DispatcherServlet不会为jsp页面去配置一个RequestMapping，那么匹配不到就会报404，那么就不能访问jsp文件了，所以要使用"/"，这样会先进行后缀匹配，将jsp页面处理交给tomcat/conf/web.xml中的JspServlet处理，如果不是jsp页面，再由DispatcherServlet处理。
+但是设置为了"/"，又会有另一个问题，无法处理静态页面。
+~~~
+
+### 2.6.2 <mvc:default-servlet-handler />作用
+
+在2.6.1我们对DispatcherServlet使用的"/"去匹配，但是无法访问静态页面，如css、html、js等 。
+因为tomcat/conf/web.xml里面使用了"/"匹配DefaultServlet来处理静态资源数据，但现在"/"被DispatcherServlet使用了，DispatcherServlet不会为任何一个资源页面去配置一个RequestMapping，那么匹配不到就会报404。
+解决方案：需要在SpringMVC.xml加上配置"\<mvc:default-servlet-handler/\>"，当DispatcherServlet无法处理静态资源时，它内部会调用tomcat的DefaultServlet去处理静态页面。
+
+### 2.6.3 \<mvc:annotation-driven\>作用
+
+\<mvc:annotation-driven\>会自动注册RequestMappingHandlerMapping与RequestMappingHandlerAdapter两个Bean,这是Spring MVC为@Controller分发请求所必需的，并且提供了数据绑定支持。
+即有了这个注解，mvc就会自动扫描，@Controller和@RequestMapping注解的类和方法，进行请求时，就能根据path访问对应的handler，进而转发到页面。
+
+## 2.7 总结
 
 浏览器发送请求，若请求地址符合前端控制器的url-pattern，该请求就会被前端控制器DispatcherServlet处理。前端控制器会读取SpringMVC的核心配置文件，通过扫描组件找到控制器，将请求地址和控制器中@RequestMapping注解的value属性值进行匹配，若匹配成功，该注解所标识的控制器方法就是处理请求的方法。处理请求的方法需要返回一个字符串类型的视图名称，该视图名称会被视图解析器解析，加上前缀和后缀组成视图的路径，通过Thymeleaf对视图进行渲染，最终转发到视图所对应页面。
 
@@ -443,7 +456,16 @@ method属性是一个RequestMethod类型的数组，表示该请求映射能够�
 若当前请求满足@RequestMapping注解的value和method属性，但是不满足headers属性，此时页面显示404错误，即资源未找到
 ~~~
 
-## 3.4 @PathVariable注解
+## 3.4 @RequestMapping注解的方法的返回值
+
+如果有@ResponseBody修饰：类似用resp.getWrite().println()输出，不会返回页面
+    返回对象，会被转为json，或json数组(需要导jackson包)；
+    返回字符串，则会返回字符串。
+如果没有@ResponseBody修饰：
+    返回字符串，则进行转发和重定向；
+    返回void或null，用一个空白网页展示，想要回显的内容。
+
+## 3.5 @PathVariable注解
 
 对于原始的请求方式：原始方式：/deleteUser?id=1
 对于restful的请求方式：/deleteUser/1
@@ -636,7 +658,7 @@ REST 风格提倡 URL 地址使用统一的风格设计，从前到后各个单�
 SpringMVC 提供了 HiddenHttpMethodFilter 帮助我们将 POST 请求转换为 DELETE 或 PUT 请求
 HiddenHttpMethodFilter 处理put和delete请求的条件：
     a>当前请求的请求方式必须为post
-    b>当前请求必须传输请求参数_method
+    b>当前请求必须传输请求参数"\_method"
     满足以上条件，HiddenHttpMethodFilter 过滤器就会将当前请求的请求方式转换为请求参数_method的值，因此请求参数_method的值才是最终的请求方式。
 
 在web.xml中注册HiddenHttpMethodFilter
@@ -663,14 +685,222 @@ HiddenHttpMethodFilter 处理put和delete请求的条件：
         String paramValue = request.getParameter(this.methodParam);
 ~~~
 
-# 8 RESTful案例
-记录tomcat.conf.web.xml和本项目web.xml的关系
+## 7.4 实现原理
+
+注意http只有get、post请求，为了让DispatcherServlet接收到的req为DELETE请求，必须在拦截器(hiddenHttpMethodFilter为已有实现的拦截器)进行如下操作：
+1、首先请求必须是Post，将Request赋值给另一个自定义的ARequest；
+2、request.getParameter("_method")，获取这个值，如果是DELETE，则将ARequest.method = RequestMethod.DELETE；
+3、将ARequest传给DispatcherServlet，会去匹配method = DELETE的方法，其它同理。
 
 
 
+# 8 HttpMessageConverter
+
+HttpMessageConverter，报文信息转换器，将请求报文转换为Java对象，或将Java对象转换为响应报文。
+HttpMessageConverter提供了两个注解和两个类型：@RequestBody、@ResponseBody、RequestEntity、ResponseEntity。
+
+## 8.1 @RequestBody
+
+@RequestBody可以获取请求体，需要在控制器方法设置一个形参，使用@RequestBody进行标识，当前请求的请求体就会为当前注解所标识的形参赋值。
+~~~
+@RequestMapping("/testRequestBody")
+public String testRequestBody(@RequestBody String requestBody){
+    System.out.println("requestBody:"+requestBody);
+    return "success";
+}
+~~~
+
+## 8.2 RequestEntity
+
+RequestEntity封装请求报文的一种类型，需要在控制器方法的形参中设置该类型的形参，当前请求的请求报文就会赋值给该形参，可以通过getHeaders()获取请求头信息，通过getBody()获取请求体信息。
+~~~
+@RequestMapping("/testRequestEntity")
+public String testRequestEntity(RequestEntity<String> requestEntity){
+    System.out.println("requestHeader:"+requestEntity.getHeaders());
+    System.out.println("requestBody:"+requestEntity.getBody());
+    return "success";
+}
+~~~
+
+## 8.3 @ResponseBody(非常重要)
+
+@ResponseBody用于标识一个控制器方法，可以将该方法的返回值直接作为响应报文的响应体响应到浏览器，即返回值的含义不再是跳转页面，需要使用ModelAndView去跳转页面。
+微服务的交互都是用的json，所以此注解基本上所有的微服务都使用。
+~~~
+@RequestMapping("/testResponseBody")
+@ResponseBody
+public String testResponseBody(){
+    return "success";
+}
+~~~
+
+## 8.4 ResponseEntity
+
+ResponseEntity用于控制器方法的返回值类型，该控制器方法的返回值就是响应到浏览器的响应报文。主要作用是用于文件下载。这个相当于自定义了一份响应。
+
+## 8.5 SpringMVC处理json
+
+@ResponseBody处理json的步骤：
+~~~
+1、导入jackson的依赖
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.12.1</version>
+</dependency>
+
+2、在SpringMVC的核心配置文件中开启mvc的注解驱动，此时在HandlerAdaptor中会自动装配一个消息转换器：MappingJackson2HttpMessageConverter，可以将响应到浏览器的Java对象转换为Json格式的字符串
+<mvc:annotation-driven />
+
+3、在处理器方法上使用@ResponseBody注解进行标识
+
+4、将Java对象直接作为控制器方法的返回值返回，就会自动转换为Json格式的字符串
+@RequestMapping("/testResponseUser")
+@ResponseBody
+public User testResponseUser(){
+    return new User(1001,"admin","123456",23,"男");
+}
+
+浏览器的页面中展示的结果：{“id”:1001,“username”:“admin”,“password”:“123456”,“age”:23,“sex”:“男”}
+~~~
+
+## 8.6 SpringMVC处理ajax
+
+## 8.7 @RestController注解
+
+@RestController注解是springMVC提供的一个复合注解，标识在控制器的类上，就相当于为类添加了@Controller注解，并且为其中的每个方法添加了@ResponseBody注解。
 
 
 
+# 9 文件上载和下载
+## 9.1 文件下载
+
+使用ResponseEntity实现下载文件的功能。查看A8FileUpAndDowController.java。
+
+## 9.2 文件上载
+
+文件上传要求form表单的请求方式必须为post，并且添加属性enctype=“multipart/form-data”。
+SpringMVC中将上传的文件封装到MultipartFile对象中，通过此对象可以获取文件相关信息。
+
+步骤：
+~~~
+1、添加依赖：
+    <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+        <version>1.3.1</version>
+    </dependency>
+
+2、在SpringMVC的配置文件中添加配置：
+    <!--必须通过文件解析器的解析才能将文件转换为MultipartFile对象，id必须是multipartResolver-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+
+3、控制器庐江
+    @RequestMapping("/testUp")
+    public String testUp(MultipartFile photo, HttpSession session) throws IOException {
+        //获取上传的文件的文件名
+        String fileName = photo.getOriginalFilename();
+        //处理文件重名问题
+        String hzName = fileName.substring(fileName.lastIndexOf("."));
+        fileName = UUID.randomUUID().toString() + hzName;
+        //获取服务器中photo目录的路径
+        ServletContext servletContext = session.getServletContext();
+        String photoPath = servletContext.getRealPath("photo");
+        File file = new File(photoPath);
+        if(!file.exists()){
+            file.mkdir();
+        }
+        String finalPath = photoPath + File.separator + fileName;
+        //实现上传功能
+        photo.transferTo(new File(finalPath));
+        return "success";
+    }
+
+~~~
+
+
+
+# 10 拦截器
+## 10.1 拦截器的配置
+
+SpringMVC中的拦截器用于**拦截控制器方法**的执行。
+SpringMVC中的拦截器需要实现HandlerInterceptor。
+SpringMVC的拦截器必须在SpringMVC的配置文件中进行配置：
+~~~
+<!-- 添加拦截器 -->
+<mvc:interceptors>
+    <mvc:interceptor>
+        <!-- 设置对哪些请求进行拦截 -->
+        <mvc:mapping path="/**"/>
+        <!-- 设置对哪些请求不拦截 -->
+        <mvc:exclude-mapping path="/testRequestEntity/user"/>
+        <!-- 哪个拦截器处理，也可以通过bean标签 -->
+        <ref bean="firstInterceptor"></ref>
+    </mvc:interceptor>
+</mvc:interceptors>
+~~~
+
+## 10.2 拦截器的三个抽象方法
+
+SpringMVC中的拦截器有三个抽象方法：
+~~~
+preHandle：控制器方法执行之前执行preHandle()，其boolean类型的返回值表示是否拦截或放行，返回true为放行，即调用控制器方法；返回false表示拦截，即不调用控制器方法
+postHandle：控制器方法执行之后执行postHandle()
+afterComplation：处理完视图和模型数据，渲染视图完毕之后执行afterComplation()
+~~~
+
+## 10.3 多个拦截器的执行顺序
+
+若每个拦截器的preHandle()都返回true：
+    此时多个拦截器的执行顺序和拦截器在SpringMVC的配置文件的配置顺序有关：
+    preHandle()会按照配置的顺序执行，而postHandle()和afterComplation()会按照配置的反序执行
+
+若某个拦截器的preHandle()返回了false：
+    preHandle()返回false和它之前的拦截器的preHandle()都会执行，postHandle()都不执行，返回false的拦截器之前的拦截器的afterComplation()会执行
+
+
+
+# 11 异常处理器
+## 11.1 基于配置的异常处理
+
+SpringMVC提供了一个处理控制器方法执行过程中所出现的异常的接口：HandlerExceptionResolver
+HandlerExceptionResolver接口的实现类有：DefaultHandlerExceptionResolver和SimpleMappingExceptionResolver
+SpringMVC提供了自定义的异常处理器SimpleMappingExceptionResolver，使用方式：
+~~~
+<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <property name="exceptionMappings">
+        <props>
+            <!--
+                properties的键表示处理器方法执行过程中出现的异常
+                properties的值表示若出现指定异常时，设置一个新的视图名称，跳转到指定页面
+            -->
+            <prop key="java.lang.ArithmeticException">error</prop>
+        </props>
+    </property>
+    <!--
+        exceptionAttribute属性设置一个属性名，将出现的异常信息在请求域中进行共享
+    -->
+    <property name="exceptionAttribute" value="ex"></property>
+</bean>
+~~~
+
+## 11.2 基于注解的异常处理
+
+~~~
+//@ControllerAdvice将当前类标识为异常处理的组件
+@ControllerAdvice
+public class ExceptionController {
+
+    //@ExceptionHandler用于设置所标识方法处理的异常
+    @ExceptionHandler(ArithmeticException.class)
+    //ex表示当前请求处理中出现的异常对象
+    public String handleArithmeticException(Exception ex, Model model){
+        model.addAttribute("ex", ex);
+        return "error";
+    }
+
+}
+~~~
 
 
 

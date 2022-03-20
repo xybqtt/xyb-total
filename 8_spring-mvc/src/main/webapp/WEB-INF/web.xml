@@ -20,12 +20,9 @@
     <servlet-mapping>
         <servlet-name>springMVC</servlet-name>
         <!--
-            设置springMVC的核心控制器所能处理的请求的请求路径
-            /所匹配的请求可以是/login或.html或.js或.css方式的请求路径
-            但是/不能匹配.jsp请求路径的请求
+            此处只能设置为/(默认匹配)，不能设置"/*"(路径匹配)，不然访问不到jsp。
         -->
-<!--        <url-pattern>/</url-pattern>-->
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
 

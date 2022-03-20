@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>测试请求体和响应体获取</title>
+        <style type="text/css">
+            .cls1 {
+                border: 3px solid #ff0000;
+                margin-right: 50px;
+                float: right;
+                width: 40%;
+                height: 100%;
+            }
+        </style>
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            /**
+             * jq的get类型、返回为json的ajax请求，是对上面的简化4个参数分别为：url、data、回调函数
+             */
+            $("#getAjax").click(function (event) {
+                // 阻止超链接的默认行为
+                event.target.preventDefault();
+                $.get(event.target.href, "username=张三", function (data) {
+                    alert(JSON.stringify(data));
+                }, "json");
+            });
+        </script>
+    </head>
+    <body>
+        <iframe id="showIFrame" name="target" width="40%" height="100%" class="cls1"></iframe>
+        <form th:action="@{/httpController/reqBodyAnno}" method="post" th:target="target">
+            <p>测试@RequestBody获取请求体信息</p>
+            username：<input name="username" th:value="aaa"><br/>
+            password：<input name="password" th:value="123">
+            <input type="submit">
+        </form>
+        <hr/>
+
+        <form th:action="@{/httpController/reqEntity}" method="post" th:target="target">
+            <p>测试将请求信息自动转换为RequestEntity的java实体类</p>
+            username：<input name="username" th:value="aaa"><br/>
+            password：<input name="password" th:value="123">
+            <input type="submit">
+        </form>
+        <hr/>
+
+        <a th:href="@{/httpController/respBodyAnno}">使用"@ResponseBody注解"返回json或json数组对象</a>
+        <hr/>
+
+        <a id="getAjax" th:href="@{/httpController/ajax}">测试ajax</a>
+        <hr/>
+
+    </body>
+</html>

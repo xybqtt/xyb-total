@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class User {
 
-    private int id;
+    private Integer id;
 
     private String username;
 
@@ -15,18 +15,18 @@ public class User {
     public User() {
     }
 
-    public User(int id, String username, String password, String[] hobby) {
+    public User(Integer id, String username, String password, String[] hobby) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.hobby = hobby;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

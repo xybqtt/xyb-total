@@ -4,7 +4,8 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- 自动扫描包 -->
     <context:component-scan base-package="com.atguigu.mvc"/>
@@ -35,6 +36,22 @@
         当控制器方法中，仅仅用来实现页面跳转，即只需要设置视图名称时，可以将处理器方法使用view-controller标签进行表示，但需要添加<mvc:annotation-driven>注解，要不然所有的控制器中的请求映射将失效
     -->
     <!-- <mvc:view-controller path="/" view-name="A1Index"></mvc:view-controller>-->
+    <mvc:view-controller path="/restFul/toAdd" view-name="restful/AddUser" />
+    <!-- 测试 获取 http请求参数 -->
+    <mvc:view-controller path="/a3ParamGet" view-name="A3ParamGet" />
+    <!-- 测试 域对象共享数据 -->
+    <mvc:view-controller path="/a4ScopeData" view-name="A4ScopeData" />
+    <!-- 测试转发和重定向 -->
+    <mvc:view-controller path="/a5ForwardAndRedirect" view-name="A5ForwardAndRedirect" />
+    <!-- 测试RESTful风格 -->
+    <mvc:view-controller path="/a6RestFulShow" view-name="A6RestFulShow" />
+    <!-- 测试@RequestBody、RequestEntity、@ResponseBody、ResponseEntity的使用 -->
+    <mvc:view-controller path="/a7HttpReqAndResp" view-name="A7HttpReqAndResp" />
+    <!-- 文件上下载 -->
+    <mvc:view-controller path="/a8FileUpAndDown" view-name="A8FileUpAndDownLod" />
+    <!-- 拦截器浿 -->
+    <mvc:view-controller path="/a9Interceptor" view-name="A9Interceptor" />
+
 
     <!--
       处理静态资源，例如html、js、css、jpg
@@ -59,4 +76,19 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+    <!-- 文件上载需要注入的bean，必须通过文件解析器的解析才能将文件转换为MultipartFile对象，id必须是multipartResolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+
+
+    <!-- 添加拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 设置对哪些请求进行拦截 -->
+            <mvc:mapping path="/**"/>
+            <!-- 设置对哪些请求不拦截 -->
+            <mvc:exclude-mapping path="/testRequestEntity/user"/>
+            <!-- 哪个拦截器处理 -->
+            <ref bean="firstInterceptor"></ref>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
