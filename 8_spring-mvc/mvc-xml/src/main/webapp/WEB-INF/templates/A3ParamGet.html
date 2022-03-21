@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>获取请求参数测试</title>
+        <!-- link标签用来引入css代码 -->
+        <link rel="stylesheet" type="text/css" href="static/css/total.css" />
+    </head>
+    <body>
+        <iframe id="showIFrame" name="target" width="40%" height="100%" class="cls1"></iframe>
+        <a th:href="@{/}">返回首页</a>
+        <h1>通过原始ServletAPI请求参数测试</h1>
+        <form th:action="@{/paramGet/getByServletAPI}" method="post" target="target">
+            <table>
+                <tr>
+                    <td>param1：</td>
+                    <td>
+                        <input type="text" name="username" value="张三">
+                        <input type="text" name="password" value="123456">
+                    </td>
+                </tr>
+                <tr>
+                    <td>爱好：</td>
+                    <td>
+                        <input type="checkbox" name="hobby" value="chess"/>下棋
+                        <input type="checkbox" name="hobby" value="swim"/>游泳
+                    </td>
+                </tr>
+            </table>
+            <input type="submit">
+        </form>
+        <hr/>
+
+        <h1>通过MVC的方法获取参数</h1>
+        <form th:action="@{/paramGet/getByMVCAPI}" method="post" target="target">
+            <table>
+                <tr>
+                    <td>param1：</td>
+                    <td>
+                        <input type="text" name="username" value="张三">
+                        <input type="text" name="password" value="123456">
+                    </td>
+                </tr>
+                <tr>
+                    <td>爱好：</td>
+                    <td>
+                        <input type="checkbox" name="hobby" value="chess"/>下棋
+                        <input type="checkbox" name="hobby" value="swim"/>游泳
+                    </td>
+                </tr>
+            </table>
+            <input type="submit">
+        </form>
+        <hr/>
+
+        <h1>通过MVC的@RequestParam进行映射获取参数</h1>
+        <form th:action="@{/paramGet/getByRequestParam}" method="post" target="target">
+            <table>
+                <tr>
+                    <td>param1：</td>
+                    <td>
+                        <input type="text" name="username" value="张三">
+                        <input type="text" name="password" value="123456">
+                    </td>
+                </tr>
+                <tr>
+                    <td>爱好：</td>
+                    <td>
+                        <input type="checkbox" name="hobby" value="chess"/>下棋
+                        <input type="checkbox" name="hobby" value="swim"/>游泳
+                    </td>
+                </tr>
+            </table>
+            <input type="submit">
+        </form>
+        <hr/>
+
+        <h1>通过MVC的@RequestHeader、@CookieValue进行映射获取参数，分别获取请求头、cookie信息，此处不测试了</h1>
+        <hr/>
+
+        <h1>MVC：通过映射实体类的参数名与请求参数名一致，来获取参数</h1>
+        <form th:action="@{/paramGet/getByEntity}" method="post" target="target">
+            <table>
+                <tr>
+                    <td>param1：</td>
+                    <td>
+                        <input type="text" name="username" value="张三">
+                        <input type="text" name="password" value="123456">
+                    </td>
+                </tr>
+                <tr>
+                    <td>爱好：</td>
+                    <td>
+                        <input type="checkbox" name="hobby" value="chess"/>下棋
+                        <input type="checkbox" name="hobby" value="swim"/>游泳
+                    </td>
+                </tr>
+            </table>
+            <input type="submit">
+        </form>
+        <hr/>
+    </body>
+</html>

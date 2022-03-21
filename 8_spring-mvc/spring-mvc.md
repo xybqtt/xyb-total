@@ -827,7 +827,7 @@ SpringMVC中的拦截器用于**拦截控制器方法**的执行。
 SpringMVC中的拦截器需要实现HandlerInterceptor。
 SpringMVC的拦截器必须在SpringMVC的配置文件中进行配置：
 ~~~
-<!-- 添加拦截器 -->
+<!-- 添加拦截器方式1 -->
 <mvc:interceptors>
     <mvc:interceptor>
         <!-- 设置对哪些请求进行拦截 -->
@@ -837,6 +837,12 @@ SpringMVC的拦截器必须在SpringMVC的配置文件中进行配置：
         <!-- 哪个拦截器处理，也可以通过bean标签 -->
         <ref bean="firstInterceptor"></ref>
     </mvc:interceptor>
+</mvc:interceptors>
+
+<!-- 添加拦截器方式2 -->
+<mvc:interceptors>
+    <ref bean="secondInterceptor"></ref>
+    <ref bean="firstInterceptor"></ref>
 </mvc:interceptors>
 ~~~
 
@@ -856,7 +862,7 @@ afterComplation：处理完视图和模型数据，渲染视图完毕之后执�
     preHandle()会按照配置的顺序执行，而postHandle()和afterComplation()会按照配置的反序执行
 
 若某个拦截器的preHandle()返回了false：
-    preHandle()返回false和它之前的拦截器的preHandle()都会执行，postHandle()都不执行，返回false的拦截器之前的拦截器的afterComplation()会执行
+    preHandle()返回false和它之前的拦截器的preHandle()都会执行，postHandle()都不执行(因为handler没执行，执行post没意义)，返回false的拦截器之前的拦截器的afterComplation()会执行。
 
 
 
@@ -865,7 +871,7 @@ afterComplation：处理完视图和模型数据，渲染视图完毕之后执�
 
 SpringMVC提供了一个处理控制器方法执行过程中所出现的异常的接口：HandlerExceptionResolver
 HandlerExceptionResolver接口的实现类有：DefaultHandlerExceptionResolver和SimpleMappingExceptionResolver
-SpringMVC提供了自定义的异常处理器SimpleMappingExceptionResolver，使用方式：
+SpringMVC提供了自定义的异常处理器SimpleMappingExceptionResolver(即配置异常与出现此异常需要跳转的页面的对应关系)，使用方式：
 ~~~
 <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
     <property name="exceptionMappings">

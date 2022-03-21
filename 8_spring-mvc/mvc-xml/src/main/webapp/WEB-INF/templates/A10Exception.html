@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>异常映射</title>
+        <!-- link标签用来引入css代码 -->
+        <link rel="stylesheet" type="text/css" href="static/css/total.css" />
+    </head>
+    <body>
+        <iframe id="showIFrame" name="target" width="40%" height="100%" class="cls1"></iframe>
+        <a th:href="@{/}">返回首页</a>
+        <a th:href="@{/a10exception/testException}" target="target">测试运行异常跳转指定页面</a>
+    </body>
+</html>
