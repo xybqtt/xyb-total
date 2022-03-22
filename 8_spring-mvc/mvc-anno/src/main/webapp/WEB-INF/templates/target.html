@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>target</title>
+    </head>
+    <body>
+        <h1>success</h1>
+        <div>
+            <h2>测试request域对象共享数据</h2>
+            <!-- 从request域对象中获取属性名为k的值 -->
+            <p th:text="${k}"></p>
+        </div>
+        <hr/>
+
+        <div>
+            <h2>测试session、application域对象共享数据</h2>
+            <!-- 从request域对象中获取属性名为testScope的值 -->
+            <p th:text="${session.k}"></p><br/>
+            <p th:text="${application.k}"></p><br/>
+        </div>
+        <hr/>
+
+        <div>
+            <h2>测试转发和重定向</h2>
+            <!-- 从request域对象中获取属性名为testScope的值 -->
+            <p th:text="${mes}"></p><br/>
+            <p th:text="${mes}"></p><br/>
+        </div>
+    </body>
+</html>

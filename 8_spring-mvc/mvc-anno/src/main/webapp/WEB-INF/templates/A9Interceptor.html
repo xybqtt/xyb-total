@@ -2,17 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>异常映射</title>
+        <title>拦截器测试</title>
         <!-- link标签用来引入css代码 -->
         <link rel="stylesheet" type="text/css" href="static/css/total.css" />
     </head>
     <body>
         <iframe id="showIFrame" name="target" width="40%" height="100%" class="cls1"></iframe>
         <a th:href="@{/}">返回首页</a>
-        <ol>
-            <li><a th:href="@{/a10exception/testNPEEx}" target="target">空指针异常跳转测试</a></li>
-            <li><a th:href="@{/a10exception/testArithEx}" target="target">算数异常跳转测试</a></li>
-        </ol>
-
+        <a th:href="@{/a9interceptor/testInterceptor}" target="target">测试拦截器</a>
     </body>
 </html>

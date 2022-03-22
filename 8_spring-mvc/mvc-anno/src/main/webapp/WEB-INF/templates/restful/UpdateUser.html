@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>修改User</title>
+    </head>
+    <body>
+        <form id="submitForm" method="post" th:action="@{/restFul/users}">
+            <input name="_method" value="PUT" type="hidden">
+            <input name="id" type="hidden" th:value="${user.id}">
+            username：<input name="username" type="text" th:value="${user.username}">
+            password：<input name="password" type="text" th:value="${user.password}">
+            <input type="submit">
+        </form>
+    </body>
+</html>
+
+
+
+
+
+
+

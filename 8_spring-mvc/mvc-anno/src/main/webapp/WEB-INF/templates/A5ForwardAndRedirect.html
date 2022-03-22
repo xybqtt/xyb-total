@@ -2,17 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>异常映射</title>
+        <title>测试转发和重定向</title>
         <!-- link标签用来引入css代码 -->
         <link rel="stylesheet" type="text/css" href="static/css/total.css" />
     </head>
     <body>
         <iframe id="showIFrame" name="target" width="40%" height="100%" class="cls1"></iframe>
         <a th:href="@{/}">返回首页</a>
+        <h1>测试转发和重定向</h1>
         <ol>
-            <li><a th:href="@{/a10exception/testNPEEx}" target="target">空指针异常跳转测试</a></li>
-            <li><a th:href="@{/a10exception/testArithEx}" target="target">算数异常跳转测试</a></li>
+            <li><a th:href="@{/forwardAndRedirect/forward}" target="target">使用转发来请求</a></li>
+            <li><a th:href="@{/forwardAndRedirect/redirect}" target="target">使用重定向来请求</a></li>
         </ol>
-
     </body>
 </html>

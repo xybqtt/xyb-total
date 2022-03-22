@@ -1,4 +1,4 @@
-package com.atguigu.mvc.controller;
+package com.atguigu.mvc.a2controller;
 
 import com.atguigu.mvc.entity.User;
 import org.springframework.stereotype.Controller;

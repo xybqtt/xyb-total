@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>域对象共享数据</title>
+        <!-- link标签用来引入css代码 -->
+        <link rel="stylesheet" type="text/css" href="static/css/total.css" />
+    </head>
+    <body>
+        <iframe id="showIFrame" name="target" width="40%" height="100%" class="cls1"></iframe>
+        <a th:href="@{/}">返回首页</a>
+        <h1>测试域对象共享数据</h1>
+        <form th:action="@{/scopeData/servletApi}" method="post" target="target">
+            <h1>通过servletApi向Request中设置k-v，在一个请求(多次转发)间共享数据</h1>
+            设置k的值：<input name="k" value="k" readonly><br/>
+            设置v的值：<input name="v" value="hello, servletApi"><br/>
+            <input type="submit">
+        </form>
+        <hr/>
+
+        <form th:action="@{/scopeData/mav}" method="post" target="target">
+            <h1>通过ModelAndView设置k-v，在一个请求(多次转发)间共享数据</h1>
+            设置k的值：<input name="k" value="k" readonly><br/>
+            设置v的值：<input name="v" value="hello, mav"><br/>
+            <input type="submit">
+        </form>
+        <hr/>
+
+        <form th:action="@{/scopeData/model}" method="post" target="target">
+            <h1>通过Model设置k-v，在一个请求(多次转发)间共享数据</h1>
+            设置k的值：<input name="k" value="k" readonly><br/>
+            设置v的值：<input name="v" value="hello, model"><br/>
+            <input type="submit">
+        </form>
+        <hr/>
+
+        <form th:action="@{/scopeData/map}" method="post" target="target">
+            <h1>通过Map设置k-v，在一个请求(多次转发)间共享数据</h1>
+            设置k的值：<input name="k" value="k" readonly><br/>
+            设置v的值：<input name="v" value="hello, map"><br/>
+            <input type="submit">
+        </form>
+        <hr/>
+
+        <form th:action="@{/scopeData/modelMap}" method="post" target="target">
+            <h1>通过ModelMap设置k-v，在一个请求(多次转发)间共享数据</h1>
+            设置k的值：<input name="k" value="k" readonly><br/>
+            设置v的值：<input name="v" value="hello, modelMap"><br/>
+            <input type="submit">
+        </form>
+        <hr/>
+        <hr/>
+
+        <form th:action="@{/scopeData/session}" method="post" target="target">
+            <h1>通过session设置k-v，在一个请求(多次转发)间共享数据</h1>
+            设置k的值：<input name="k" value="k" readonly><br/>
+            设置v的值：<input name="v" value="hello, session"><br/>
+            <input type="submit">
+        </form>
+        <hr/>
+
+        <form th:action="@{/scopeData/application}" method="post" target="target">
+            <h1>通过ServletContext设置k-v，在一个请求(多次转发)间共享数据</h1>
+            设置k的值：<input name="k" value="k" readonly><br/>
+            设置v的值：<input name="v" value="hello, ServletContext"><br/>
+            <input type="submit">
+        </form>
+    </body>
+</html>
