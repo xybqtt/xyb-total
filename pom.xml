@@ -14,5 +14,6 @@
         <module>webservice-3</module>
         <module>parse-combin</module>
         <module>8_spring-mvc</module>
+        <module>9_springbootparent</module>
     </modules>
 </project>

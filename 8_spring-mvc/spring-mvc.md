@@ -718,6 +718,7 @@ public String testRequestEntity(RequestEntity<String> requestEntity){
 
 @ResponseBody用于标识一个控制器方法，可以将该方法的返回值直接作为响应报文的响应体响应到浏览器，即返回值的含义不再是跳转页面，需要使用ModelAndView去跳转页面。
 微服务的交互都是用的json，所以此注解基本上所有的微服务都使用。
+标注在类上，则相当于为类中的每个方法添加@ResponseBody注解。
 ~~~
 @RequestMapping("/testResponseBody")
 @ResponseBody
