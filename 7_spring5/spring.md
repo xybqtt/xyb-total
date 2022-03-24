@@ -668,6 +668,8 @@ spring-test-5.3.15.jar
 @Configuration：
     位置：类；
     作用：被修饰的类，相当于xml文件。
+    属性：
+        proxyBeanMethods：默认为true，本类也是一个组件，如果此属性为true，则获取的是代理对象，否则是普通对象。通过容器获取此bean后，通过bean调用被@Bean修饰的getUser()方法时，返回的是同一个User吗？当此属性为true时，代表通过代理调用，则返回是同一个对象，否则不是。
 
 @ComponentScan：
     位置：类；

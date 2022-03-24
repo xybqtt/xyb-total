@@ -23,6 +23,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!--
+            有无此包不影响运行。使被@ConfigurationProperties注解的类，可以在properties中通过"prefix."的时候，点出属性名。
+            类似"server."的时候，后面自动出现"port"等参数供选择。
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <!-- build插件，可以在右侧clean-package打成jar包，直接在本地java -jar jar包名执行 -->

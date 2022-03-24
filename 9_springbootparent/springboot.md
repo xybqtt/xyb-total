@@ -226,3 +226,184 @@ server.port=8888
 
 
 
+
+
+
+
+# 3 自动配置原理
+## 3.1 SpringBoot特点
+### 3.1.1 依赖管理
+
+父项目做依赖管理：
+~~~
+依赖管理    
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.3.4.RELEASE</version>
+</parent>
+
+他的父项目
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-dependencies</artifactId>
+    <version>2.3.4.RELEASE</version>
+</parent>
+
+几乎声明了所有开发中常用的依赖的版本号,自动版本仲裁机制
+~~~
+
+开发导入starter场景启动器：
+~~~
+见到很多 spring-boot-starter-* ： *就某种场景
+只要引入starter，这个场景的所有常规需要的依赖我们都自动引入
+SpringBoot所有支持的场景
+  https://docs.spring.io/spring-boot/docs/current/reference/html/using-spring-boot.html#using-boot-starter
+见到的  *-spring-boot-starter： 第三方为我们提供的简化开发的场景启动器。
+所有场景启动器最底层的依赖
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+    <version>2.3.4.RELEASE</version>
+    <scope>compile</scope>
+</dependency>
+~~~
+
+无需关注版本号，自动版本仲裁：
+~~~
+引入依赖默认都可以不写版本
+引入非版本仲裁的jar，要写版本号。
+~~~
+
+可以修改默认版本号：
+~~~
+查看spring-boot-dependencies里面规定当前依赖的版本 用的 key。
+在当前项目里面重写配置
+<properties>
+    <mysql.version>5.1.43</mysql.version>
+</properties>
+~~~
+
+### 3.1.2 自动配置
+
+自动配好Tomcat：
+    引入Tomcat依赖。
+    配置Tomcat，在spring-boot-starter-web中。
+~~~
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-tomcat</artifactId>
+    <version>2.3.4.RELEASE</version>
+    <scope>compile</scope>
+</dependency>
+~~~
+
+自动配好SpringMVC
+- 引入SpringMVC全套组件
+- 自动配好SpringMVC常用组件（功能）
+
+自动配好Web常见功能，如：字符编码问题
+- SpringBoot帮我们配置好了所有web开发的常见场景
+
+默认的包结构
+- 主程序所在包及其下面的所有子包里面的组件都会被默认扫描进来
+- 无需以前的包扫描配置
+- 想要改变扫描路径，@SpringBootApplication(scanBasePackages="com.atguigu")
+  - 或者@ComponentScan 指定扫描路径
+~~~
+@SpringBootApplication
+等同于
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan("com.atguigu.boot")
+~~~
+
+各种配置拥有默认值：
+- 默认配置最终都是映射到某个类上，如：MultipartProperties
+- 配置文件的值最终会绑定每个类上，这个类会在容器中创建对象
+
+按需加载所有自动配置项
+- 非常多的starter
+- 引入了哪些场景这个场景的自动配置才会开启
+- SpringBoot所有的自动配置功能都在 spring-boot-autoconfigure 包里面
+
+## 3.2 容器功能
+### 3.2.1 组件添加
+#### 3.2.1.1 @Configuration
+
+用于添加到配置类上，代替spring配置文件。
+proxyBeanMethods属性：
+- Full(proxyBeanMethods = true)全模式，该模式下注入容器中的同一个组件无论被取出多少次都是同一个bean实例，即单实例对象，在该模式下SpringBoot每次启动都会判断检查容器中是否存在该组件。
+- Lite(proxyBeanMethods = false)轻量级模式。该模式下注入容器中的同一个组件无论被取出多少次都是不同的bean实例，即多实例对象，在该模式下SpringBoot每次启动会跳过检查容器中是否存在该组件。
+
+什么时候用Full全模式，什么时候用Lite轻量级模式？
+- 当在你的同一个Configuration配置类中，注入到容器中的bean实例之间有依赖关系时，建议使用Full全模式
+- 当在你的同一个Configuration配置类中，注入到容器中的bean实例之间没有依赖关系时，建议使用Lite轻量级模式，以提高springboot的启动速度和性能。
+
+proxyBeanMethods 属性默认值是 true, 也就是说该配置类会被代理（CGLIB），在同一个配置文件中调用其它被 @Bean 注解标注的方法获取对象时会直接从 IOC 容器之中获取。
+
+#### 3.2.1.2 5个声明组件的注解
+
+@Bean、@Component、@Controller、@Service、@Repository
+
+#### 3.2.1.3 扫包、导入其它类注解
+
+@ComponentScan、@Import
+@Import 高级用法： https://www.bilibili.com/video/BV1gW411W7wy?p=8
+
+#### 3.2.1.4 @Conditional
+
+条件装配：满足Conditional指定的条件，则进行组件注入
+
+必须是@Conditional指定的条件成立，才给容器中添加组件，配置配里面的所有内容才生效。当一个 Bean 被 Conditional 注解修饰时，Spring容器会对数组中所有 Condition 接口的 matches() 方法进行判断，只有当其中所有 Condition 接口的 matches()方法都为 ture 时，才会创建 Bean 。
+
+|注解及派生注解|含义|
+|:--|:--|
+|@Conditional|判断是否满足当前指定条件|
+|@ConditionalOnJava|系统的java版本是否符合要求|
+|@ConditionalOnBean|容器中存在指定Bean；|
+|@ConditionalOnMissingBean|容器中不存在指定Bean；|
+|@ConditionalOnExpression|满足SpEL表达式指定|
+|@ConditionalOnClass|系统中有指定的类|
+|@ConditionalOnMissingClass|系统中没有指定的类|
+|@ConditionalOnSingleCandidate|容器中只有一个指定的Bean，或者这个Bean是首选Bean|
+|@ConditionalOnProperty|系统中指定的属性是否有指定的值|
+|@ConditionalOnResource|类路径下是否存在指定资源文件|
+|@ConditionalOnWebApplication|当前是web环境|
+|@ConditionalOnNotWebApplication|当前不是web环境|
+|@ConditionalOnJndi|JNDI存在指定项|
+
+### 3.2.2 原生配置文件引入
+
+@ImportResource：导入Spring的配置文件，让配置文件里面的内容生效；
+例：@ImportResource("classpath:beans.xml")
+
+### 3.2.3 配置绑定
+
+@ConfigurationProperties：把properties配置文件的信息，读取并根据名称注入到对应的属性中。因为只有被ioc容器管理才能进行这样的操作，所以需要和"@Component、@Bean、@EnableConfigurationProperties"等一起使用。
+
+@EnableConfigurationProperties注解的作用是：使使用 @ConfigurationProperties 注解(因为不是自定义的类，没办法添加@Component注解)的类生效，即使其被ioc容器管理。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
