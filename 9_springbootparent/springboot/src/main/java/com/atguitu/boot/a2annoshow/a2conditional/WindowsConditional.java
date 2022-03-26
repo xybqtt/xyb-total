@@ -1,4 +1,4 @@
-package com.atguitu.boot.a2annoshow.a1conditional;
+package com.atguitu.boot.a2annoshow.a2conditional;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
