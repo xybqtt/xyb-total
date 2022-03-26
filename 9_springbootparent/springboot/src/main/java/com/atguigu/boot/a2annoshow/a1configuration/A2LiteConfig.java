@@ -1,10 +1,10 @@
-package com.atguitu.boot.a2annoshow.a1configuration;
+package com.atguigu.boot.a2annoshow.a1configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Configuration：lite模式测试，该模式下注入容器中的同一个组件无论被取出多少次都是不同的bean实例，
+ * @Configuration：lite模式测试，该模式下注入容器中的同一个组件如果通过"容器获取本类.@Bean注解的方法"无论被取出多少次都是不同的bean实例，
  * 即多实例对象，在该模式下SpringBoot每次启动会跳过检查容器中是否存在该组件。
  */
 @Configuration(proxyBeanMethods = false)

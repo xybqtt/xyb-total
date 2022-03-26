@@ -219,8 +219,17 @@ server.port=8888
 </build>
 ~~~
 
-8、打包后的目录介绍
+8、目录介绍
 
+~~~
+src
+    main
+        java：代码目录
+        resources：资源目录
+            static：静态资源
+            templates：页面
+            application.properties
+~~~
 
 
 # 3 自动配置原理
@@ -350,6 +359,7 @@ proxyBeanMethods 属性默认值是 true, 也就是说该配置类会被代理�
 条件装配：满足Conditional指定的条件，则进行组件注入
 
 必须是@Conditional指定的条件成立，才给容器中添加组件，配置配里面的所有内容才生效。当一个 Bean 被 Conditional 注解修饰时，Spring容器会对数组中所有 Condition 接口的 matches() 方法进行判断，只有当其中所有 Condition 接口的 matches()方法都为 ture 时，才会创建 Bean 。
+所有的派生类注解本质都是：@Conditional(Condition.class)，不过不同的派生注解有不同的Condition实现
 
 |注解及派生注解|含义|
 |:--|:--|
@@ -375,8 +385,10 @@ proxyBeanMethods 属性默认值是 true, 也就是说该配置类会被代理�
 ### 3.2.3 配置绑定
 
 @ConfigurationProperties：把properties配置文件的信息，读取并根据名称注入到对应的属性中。因为只有被ioc容器管理才能进行这样的操作，所以需要和"@Component、@Bean或@EnableConfigurationProperties"等一起使用。
+    prefix：在application.properties中key的前缀
 
-@EnableConfigurationProperties注解的作用是：使使用 @ConfigurationProperties 注解(因为不是自定义的类，没办法添加@Component注解)的类生效，即使其被ioc容器管理。
+@EnableConfigurationProperties注解的作用是：使使用 @ConfigurationProperties 注解(因为不是自定义的类，没办法添加@Component注解)的类生效，即使其被ioc容器管理，当然被@EnableConfigurationProperties注解的类，也必须是组件。
+    value：被@ConfigurationProperties注解了，但没被当作组件的类，beanName为"前缀-类全限定名"。
 
 ## 3.3 自动配置原理入门
 ### 3.3.1 引导加载自动配置类
@@ -528,10 +540,25 @@ SpringBoot先加载所有的自动配置类  xxxxxAutoConfiguration
 @Log：注解用在类上，可以省去从日志工厂生成日志对象这一步，直接进行日志记录，具体注解根据日志工具的不同而不同，同时，可以在注解中使用topic来指定生成log对象时的类名。
 ~~~
 
+### 3.4.2 dev-tools
 
+项目或者页面修改以后：Ctrl+F9；
+~~~
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <optional>true</optional>
+</dependency>
+~~~
 
+### 3.4.3 Spring Initailizr(项目初始化向导)
 
-
+~~~
+File
+new Module
+Spring Initializr，修改右侧内容
+选boot版本，勾选需要的内容，如web、mysql、redis等。
+~~~
 
 
 

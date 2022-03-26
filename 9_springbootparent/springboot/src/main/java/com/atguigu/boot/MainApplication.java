@@ -1,6 +1,6 @@
-package com.atguitu.boot;
+package com.atguigu.boot;
 
-import com.atguitu.boot.utils.SpringUtil;
+import com.atguigu.boot.utils.SpringUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

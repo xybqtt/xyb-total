@@ -1,4 +1,4 @@
-package com.atguitu.boot.a2annoshow.a2conditional;
+package com.atguigu.boot.a2annoshow.a2conditional;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
@@ -15,7 +15,7 @@ public class WindowsConditional implements Condition {
         Environment env = conditionContext.getEnvironment();
 
         String property = env.getProperty("os.name");
-        if(property.contains("window")) {
+        if(property.contains("Windows")) {
             return true;
         }
         return false;

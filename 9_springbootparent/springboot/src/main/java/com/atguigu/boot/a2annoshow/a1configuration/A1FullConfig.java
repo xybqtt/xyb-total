@@ -1,4 +1,4 @@
-package com.atguitu.boot.a2annoshow.a1configuration;
+package com.atguigu.boot.a2annoshow.a1configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -40,6 +40,13 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- 每次修改完后，不用重新启动，重新build(ctrl + F9)就行，感觉不如重启好用 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
     <!-- build插件，可以在右侧clean-package打成jar包，直接在本地java -jar jar包名执行 -->

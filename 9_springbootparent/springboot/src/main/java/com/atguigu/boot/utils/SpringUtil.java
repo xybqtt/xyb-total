@@ -1,4 +1,4 @@
-package com.atguitu.boot.utils;
+package com.atguigu.boot.utils;
 
 import org.springframework.context.ApplicationContext;
 

@@ -1,4 +1,4 @@
-package com.atguitu.boot.entity;
+package com.atguigu.boot.entity;
 
 
 import lombok.*;
