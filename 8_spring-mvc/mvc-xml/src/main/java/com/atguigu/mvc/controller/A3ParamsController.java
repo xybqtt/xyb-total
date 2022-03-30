@@ -64,7 +64,8 @@ public class A3ParamsController {
 
 
     /**
-     * 通过MVC获取参数，在控制器方法的形参位置，设置和请求参数同名的形参，当浏览器发送请求，匹配到请求映射时，在DispatcherServlet中就会将请求参数赋值给相应的形参
+     * 通过MVC获取参数，在控制器方法的形参位置，设置类的属性和请求参数同名的类型形参，当浏览器发送请求，匹配到请求映射时，在DispatcherServlet中就会将请求参数赋值给相应的
+     * 类的属性。
      */
     @RequestMapping(value = "/getByEntity")
     @ResponseBody // 返回值类型为String，则直接返回字符串，而不是跳转页面

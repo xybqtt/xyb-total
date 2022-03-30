@@ -79,7 +79,7 @@ public class A6RestFulController {
      * @return
      */
     @RequestMapping(value = "/users", method = RequestMethod.PUT)
-    public String getUserById(User user) {
+    public String updateUserById(User user) {
         userDao.delete(user.getId());
         userDao.save(user);
         return "redirect:/restFul/users";

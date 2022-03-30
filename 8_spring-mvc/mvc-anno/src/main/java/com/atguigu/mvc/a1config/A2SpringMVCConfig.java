@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartResolver;
@@ -24,6 +27,8 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -33,7 +38,7 @@ import java.util.Properties;
  * 2、视图解析器；
  * 3、view-controller；
  * 4、default-servlet-handler：默认servlet处理器；
- * 5、mvc注解驱动；
+ * 5、mvc注解驱动、及配置<mvc:message-converters>
  * 6、文件上传解析器；
  * 7、异常处理；
  * 8、拦截器。
@@ -46,7 +51,7 @@ import java.util.Properties;
 public class A2SpringMVCConfig implements WebMvcConfigurer {
 
     /**
-     * 3、view-controller；
+     * 3、view-controller配置；
      * @param registry
      */
     @Override
@@ -74,6 +79,23 @@ public class A2SpringMVCConfig implements WebMvcConfigurer {
         configurer.enable();
     }
 
+    /**
+     * 5、配置mvc注解驱动中的 <mvc:message-converters> 部分，处理@ResponseBody返回乱码。
+     * @param converters
+     */
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+
+        StringHttpMessageConverter converter = new StringHttpMessageConverter();
+        converter.setDefaultCharset(Charset.forName("UTF-8"));
+
+        List<MediaType> list = new ArrayList<>();
+        list.add(MediaType.parseMediaType("text/html"));
+        list.add(MediaType.parseMediaType("application/json"));
+        converter.setSupportedMediaTypes(list);
+
+        converters.add(converter);
+    }
 
     /**
      * 6、文件上传解析器；
