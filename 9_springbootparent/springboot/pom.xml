@@ -47,6 +47,13 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- 这样就能在本项目中直接使用jq了 -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+
     </dependencies>
 
     <!-- build插件，可以在右侧clean-package打成jar包，直接在本地java -jar jar包名执行 -->
@@ -55,7 +62,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!-- 不加这个打的jar包，不能进行java -jar 操作 -->
+                <configuration>
+                    <!-- 这个只是为开发方便，打包的时候排除掉，不要把这个jar打到项目中，因为这些类对运行没用，boot2.5以上会自动排除，就不用写了 -->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+                <!-- 必须加这个，不然再出的jar包，不能进行java -jar 操作 -->
                 <executions>
                     <execution>
                         <goals>

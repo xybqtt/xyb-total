@@ -1,0 +1,44 @@
+# 配置资源路径
+spring:
+  mvc:
+    # 前端访问"http://ip:port/res/path"会自动去下面的"static-locations"对应的目录取文件
+    static-path-pattern: /res/**
+    hiddenmethod:
+      filter:
+        # 开启RESTful风格
+        enabled: true
+#  resources:
+#    # 静态资源目录，如果多个目录中有相同文件名的资源，会按数组顺序优先取前面的。这个不建议配置，建议使用默认的4个目录。
+#    static-locations: [classpath:/myResources/]
+#    # false，禁用所有静态资源
+#    add-mappings: false
+
+
+
+
+# 验证yml的使用
+a3:
+  yml:
+    autoconfig:
+      userName: 张三
+      boss: true
+      birth: 2022/01/01
+      age: 1
+      pet:
+        name: p1
+        weight: 5
+      # 数组和集合的设置方式一样，下面2种方式都可以使用
+      interests:
+        - 下棋
+        - 游泳
+        - 18
+      animal: [ a1, a2, a3 ]
+      salarys: [1000, 5.56]
+      # map与对象的配置方式一样。
+      score: { english: 80, math: 90 }
+      # 复杂对象的配置
+      all-pets:
+        sick: [{name: p4, weight: 8}, {name: p5, weight: 9}]
+        health:
+          - {name: p7, weight: 8}
+

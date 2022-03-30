@@ -361,9 +361,16 @@ springMVC.xml
 
 在2.6.1我们对DispatcherServlet使用的"/"去匹配，但是无法访问静态页面，如css、html、js等 。
 因为tomcat/conf/web.xml里面使用了"/"匹配DefaultServlet来处理静态资源数据，但现在"/"被DispatcherServlet使用了，DispatcherServlet不会为任何一个资源页面去配置一个RequestMapping，那么匹配不到就会报404。
-解决方案：需要在SpringMVC.xml加上配置"\<mvc:default-servlet-handler/\>"，当DispatcherServlet无法处理静态资源时，它内部会调用tomcat的DefaultServlet去处理静态页面。
+解决方案：需要在SpringMVC.xml加上配置"\<mvc:default-servlet-handler/\>"，启动时会注册DefaultServletHttpRequestHandler到dispatcherServlet的handlerMapping中，当有访问资源的请求时，被DefaultServletHttpRequestHandler匹配，就可以处理，它内部会调用tomcat的DefaultServlet去处理静态页面。
 
-### 2.6.3 \<mvc:annotation-driven\>作用
+### 2.6.3 <mvc:resources />
+
+也可以设置访问静态资源，<mvc:resources location="/static/" mapping="/resources/**"/>，
+location：静态资源的项目中的位置；
+mapping：请求路径为resources时，都会去location对应的类去查找。
+和<mvc:default-servlet-handler />只使用一个就行，不要同时使用。
+
+### 2.6.4 \<mvc:annotation-driven\>作用
 
 \<mvc:annotation-driven\>会自动注册RequestMappingHandlerMapping与RequestMappingHandlerAdapter两个Bean,这是Spring MVC为@Controller分发请求所必需的，并且提供了数据绑定支持。
 即有了这个注解，mvc就会自动扫描，@Controller和@RequestMapping注解的类和方法，进行请求时，就能根据path访问对应的handler，进而转发到页面。
@@ -517,12 +524,13 @@ public String testParam(String username, String password){
         若设置为true时，则当前请求必须传输value所指定的请求参数，若没有传输该请求参数，且没有设置defaultValue属性，则页面报错400：Required String parameter ‘xxx’ is not present；若设置为false，则当前请求不是必须传输value所指定的请求参数，若没有传输，则注解所标识的形参的值为null
     defaultValue：不管required属性值为true或false，当value所指定的请求参数没有传输或传输的值为""时，则使用默认值为形参赋值
 
-## 4.4 @RequestHeader、@CookieValue
+## 4.4 @RequestHeader、@CookieValue、@RequestAttribute
 
 @RequestHeader是将请求头信息和控制器方法的形参创建映射关系
 @RequestHeader注解一共有三个属性：value、required、defaultValue，用法同@RequestParam
 @CookieValue是将cookie数据和控制器方法的形参创建映射关系
 @CookieValue注解一共有三个属性：value、required、defaultValue，用法同@RequestParam
+@RequestAttribute：req.setAttribute("a", "b")，则进行转发后，在转发后的方法或页面中就可以通过req.getAttribute("a")获取b。
 
 ## 4.5 通过POJO获取请求参数
 

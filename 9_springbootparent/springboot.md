@@ -562,6 +562,384 @@ Spring Initializr，修改右侧内容
 
 
 
+# 4 配置文件
+## 4.1 文件类型
+### 4.1.1 properties
+
+同以前的properties用法
+
+### 4.1.2 yaml
+#### 4.1.2.1 简介
+
+YAML 是 "YAML Ain't Markup Language"（YAML 不是一种标记语言）的递归缩写。在开发的这种语言时，YAML 的意思其实是："Yet Another Markup Language"（仍是一种标记语言）。
+
+非常适合用来做以数据为中心的配置文件。yml可以与properties文件共同使用，相同的配置，谁靠前就用谁。
+
+#### 4.1.2.2 基本语法
+
+key: value；kv之间有空格
+大小写敏感
+使用缩进表示层级关系
+缩进不允许使用tab，只允许空格
+缩进的空格数不重要，只要相同层级的元素左对齐即可
+'#'表示注释
+字符串无需加引号，如果要加，''与""表示字符串内容 会被 转义/不转义
+
+#### 4.1.2.3 数据类型
+
+~~~
+字面量：单个的、不可再分的值。date、boolean、string、number、null，
+    k: v，冒号后面有空格。
+
+对象：键值对的集合。map、hash、object
+    行内写法：k: {k1:v1,k2:v2,k3:v3}
+    或下面这种写法
+    k: 
+      k1: v1
+      k2: v2
+      k3: v3
+
+数组：一组按次序排列的值。array、set、list、queue
+    行内写法：  k: [v1,v2,v3]
+    或
+    k:
+      - v1
+      - v2
+      - v3
+~~~
+
+#### 4.1.2.4 配置提示
+
+自定义的类和配置文件绑定一般没有提示。注意yml文件中按理是不应该出现大写字母的，但现在也允许出现，如果使用下面的自动提示的话，提示出的内容会自动次大写替换为"-小写"。
+~~~
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-configuration-processor</artifactId>
+    <optional>true</optional>
+</dependency>
+
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <!-- 这个只是为开发方便，打包的时候排除掉，不要把这个jar打到项目中，因为这些类对运行没用，boot2.5以上会自动排除，就不用写了 -->
+                <excludes>
+                    <exclude>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-configuration-processor</artifactId>
+                    </exclude>
+                </excludes>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+~~~
+
+
+
+# 5 Web开发
+## 5.1 SpringMVC自动配置概览
+
+## 5.2 简单功能分析
+### 5.2.1 静态资源访问
+
+springboot默认的资静态资源目录，放到这些目录下默认就可以访问：/static、/public、/resources、/META-INF/resources，这4个是在ResourceProperties.class中配置的，查看下面的静态资源配置原理。
+访问方式：http://ip:port/资源名称。springboot会自动从这些目录下寻找资源。
+
+自定义设置资源目录：
+~~~
+# 配置资源路径
+spring:
+  mvc:
+    # 前端访问"http://ip:port/res/资源文件"会自动去下面的"static-locations"对应的目录取文件
+    static-path-pattern: /res/**
+  resources:
+    # 静态资源目录，如果多个目录中有相同文件名的资源，会按数组顺序优先取前面的，如果设置了这个，则会替换默认资源目录。这个不建议配置，建议使用默认的4个目录。
+    static-locations: [classpath:/myResources/]
+    # false，禁用所有静态资源
+    add-mappings: false
+~~~
+
+原理： 静态映射/**。
+请求进来，先去找Controller看能不能处理。不能处理的所有请求又都交给静态资源处理器。静态资源也找不到则响应404页面
+
+webjar
+自动映射 /webjars/**
+https://www.webjars.org/
+~~~
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>jquery</artifactId>
+    <version>3.5.1</version>
+</dependency>
+~~~
+访问地址：http://localhost:8080/webjars/jquery/3.5.1/jquery.js   后面地址要按照依赖里面的包路径。也就是说webjars的静态资源/META-INF/resources可以在static-path-pattern和static-locations配置上，添加自己的资源路径和对应的path。
+
+### 5.2.2 欢迎页支持
+
+静态资源路径下  index.html
+    可以配置静态资源路径，将index.html放入目录下。
+    如果配置静态资源的访问前缀，像下面这样。否则导致 index.html不能被默认访问，因为需要访问"http://ip:port/res/index.html"
+~~~
+spring:
+  mvc:
+    # 前端访问"http://ip:port/res/资源文件"会自动去下面的"static-locations"对应的目录取文件
+    static-path-pattern: /res/**
+~~~
+
+当然controller能处理/index，进行映射/，再转发到index.html。
+
+### 5.2.3 自定义 Favicon
+
+favicon.ico 放在静态资源目录下即可。网页title旁边的小图标。
+
+### 5.2.4 静态资源配置原理
+
+org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration是mvc所有配置的配置类。
+~~~
+@SpringBootApplication
+EnableAutoConfiguration
+@Import(AutoConfigurationImportSelector.class)
+AutoConfigurationImportSelector:
+    selectImports(AnnotationMetadata importingClassMetadata);
+    找到"META-INF/spring.factories"，其中一个是spring-boot-autoconfigure-2.3.4.RELEASE.jar下的。
+其中配置了org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration，是mvc所有配置的配置类。
+~~~
+
+WebMvcAutoConfiguration：会将WebMvcProperties.class(spring.mvc), ResourceProperties.class(spring.resources)引入作为组件
+~~~
+// 会在WebMvcProperties.class, ResourceProperties.class类存在的时候加载这个类
+@Configuration(proxyBeanMethods = false)
+@Import(EnableWebMvcConfiguration.class)
+@EnableConfigurationProperties({ WebMvcProperties.class, ResourceProperties.class })
+@Order(0)
+public static class WebMvcAutoConfigurationAdapter implements WebMvcConfigurer {
+	// 有参构造器所有参数的值都会从容器中确定
+    // ResourceProperties resourceProperties；获取和spring.resources绑定的所有的值的对象
+    // WebMvcProperties mvcProperties 获取和spring.mvc绑定的所有的值的对象
+    // ListableBeanFactory beanFactory Spring的beanFactory
+    // HttpMessageConverters 找到所有的HttpMessageConverters
+    // ResourceHandlerRegistrationCustomizer 找到 资源处理器的自定义器。=========
+    // DispatcherServletPath  
+    // ServletRegistrationBean   给应用注册Servlet、Filter....
+    public WebMvcAutoConfigurationAdapter(ResourceProperties resourceProperties, WebMvcProperties mvcProperties,
+            ListableBeanFactory beanFactory, ObjectProvider<HttpMessageConverters> messageConvertersProvider,
+            ObjectProvider<ResourceHandlerRegistrationCustomizer> resourceHandlerRegistrationCustomizerProvider,
+            ObjectProvider<DispatcherServletPath> dispatcherServletPath,
+            ObjectProvider<ServletRegistrationBean<?>> servletRegistrations) {
+        this.resourceProperties = resourceProperties;
+        this.mvcProperties = mvcProperties;
+        this.beanFactory = beanFactory;
+        this.messageConvertersProvider = messageConvertersProvider;
+        this.resourceHandlerRegistrationCustomizer = resourceHandlerRegistrationCustomizerProvider.getIfAvailable();
+        this.dispatcherServletPath = dispatcherServletPath;
+        this.servletRegistrations = servletRegistrations;
+    }
+    
+    // 对resourceProperties的处理，即前缀为"spring.resources"的配置
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 1、添加"/webjars/**"、"classpath:/META-INF/resources/webjars/"映射；
+        // 2、获取static-path-pattern的内容，如果不是"/**"，则设置配置的static-path-pattern和static-locations。
+    }
+    
+}
+
+// 对欢迎页面的处理
+@Configuration(proxyBeanMethods = false)
+public static class EnableWebMvcConfiguration extends DelegatingWebMvcConfiguration implements ResourceLoaderAware {
+    @Bean
+    public WelcomePageHandlerMapping welcomePageHandlerMapping(ApplicationContext applicationContext,
+            FormattingConversionService mvcConversionService, ResourceUrlProvider mvcResourceUrlProvider) {}
+
+}
+~~~
+
+## 5.3 请求参数处理
+### 5.3.1 请求映射
+#### 5.3.1.1 rest使用与原理
+
+使用和原理查看spring-mvc.md文档。
+需要开启：
+~~~
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        # 开启RESTful风格
+        enabled: true
+~~~
+
+如果是使用postman等工具，则可以直接发送put、delete请求，而不是添加"_method"参数，不须用Filter。
+
+#### 5.3.1.2 请求映射原理
+
+DispatcherServlet的实现，查看spring-mvc.md文档。
+
+**SpringBoot自动配置欢迎页的 WelcomePageHandlerMapping 。访问 /能访问到index.html；**
+SpringBoot自动配置了默认 的 RequestMappingHandlerMapping
+请求进来，挨个尝试所有的HandlerMapping看是否有请求信息。
+    如果有就找到这个请求对应的handler
+    如果没有就是下一个 HandlerMapping
+我们需要一些自定义的映射处理，我们也可以自己给容器中放HandlerMapping。
+
+### 5.3.2 普通参数与基本注解
+#### 5.3.2.1 注解
+
+注解：@PathVariable、@RequestHeader、@RequestParam、@CookieValue、@RequestBody(前面几个注解查看spring-mvc.md文档)、@ModelAttribute、@MatrixVariable
+
+#### 5.3.2.2 Servlet API
+
+
+#### 5.3.2.3 复杂参数
+
+
+
+#### 5.3.2.4 自定义对象参数
+
+
+### 5.3.3 POJO封装过程
+
+ServletModelAttributeMethodProcessor
+
+### 5.3.4 参数处理原理
+
+HandlerMapping中找到能处理请求的Handler（Controller.method()）
+为当前Handler 找一个适配器 HandlerAdapter； RequestMappingHandlerAdapter
+适配器执行目标方法并确定方法参数的每一个值
+
+这部分查看spring-mvc文档，即DispatcherServlet的执行流程
+
+## 5.4 数据响应与内容协商
+### 5.4.1 响应JSON
+#### 5.4.1.1 jackson.jar + @ResponseBody
+
+~~~
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+<!-- web场景自动引入了json场景 -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-json</artifactId>
+    <version>2.3.4.RELEASE</version>
+    <scope>compile</scope>
+</dependency>
+~~~
+
+#### 5.4.1.2 SpringMVC到底支持哪些返回值
+
+ModelAndView
+Model
+View
+ResponseEntity
+ResponseBodyEmitter
+StreamingResponseBody
+HttpEntity
+HttpHeaders
+Callable
+DeferredResult
+ListenableFuture
+CompletionStage
+WebAsyncTask
+有 @ModelAttribute 且为对象类型的
+@ResponseBody 注解 ---> RequestResponseBodyMethodProcessor；
+
+#### 5.4.1.3 HTTPMessageConverter原理
+
+MessageConverter规范：
+    HttpMessageConverter: 看是否支持将 此 Class类型的对象，转为MediaType类型的数据。
+    例子：Person对象转为JSON。或者 JSON转为Person
+
+默认的MessageConverter：
+~~~
+只支持Byte类型的
+String
+String
+Resource
+ResourceRegion
+DOMSource.class \ SAXSource.class) \ StAXSource.class \StreamSource.class \Source.class
+MultiValueMap
+true 
+true
+支持注解方式xml处理的。
+~~~
+
+### 5.4.2 内容协商
+
+根据客户端接收能力不同，返回不同媒体类型的数据。
+
+#### 5.4.2.1 添加依赖：
+
+~~~
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+~~~
+
+#### 5.4.2.2 postman分别测试返回json和xml
+
+只需要改变请求头中Accept字段。Http协议中规定的，告诉服务器本客户端可以接收的数据类型。
+
+postman分别测试返回json和xml
+只需要改变请求头中Accept字段。Http协议中规定的，告诉服务器本客户端可以接收的数据类型。
+~~~
+spring:
+    contentnegotiation:
+      favor-parameter: true  #开启请求参数内容协商模式
+~~~
+发请求： http://localhost:8080/test/person?format=json
+http://localhost:8080/test/person?format=xml
+
+#### 5.4.2.3 内容协商原理
+
+~~~
+判断当前响应头中是否已经有确定的媒体类型。MediaType
+获取客户端（PostMan、浏览器）支持接收的内容类型。（获取客户端Accept请求头字段）【application/xml】
+    contentNegotiationManager 内容协商管理器 默认使用基于请求头的策略
+遍历循环所有当前系统的 MessageConverter，看谁支持操作这个对象（Person）
+找到支持操作Person的converter，把converter支持的媒体类型统计出来。
+客户端需要【application/xml】。服务端能力【10种、json、xml】
+进行内容协商的最佳匹配媒体类型
+用 支持 将对象转为 最佳匹配媒体类型 的converter。调用它进行转化 。
+导入了jackson处理xml的包，xml的converter就会自动进来
+~~~
+
+#### 5.4.2.4 自定义 MessageConverter
+
+实现多协议数据兼容。json、xml、x-guigu
+~~~
+@ResponseBody 响应数据出去 调用 RequestResponseBodyMethodProcessor 处理
+Processor 处理方法返回值。通过 MessageConverter 处理
+所有 MessageConverter 合起来可以支持各种媒体类型数据的操作（读、写）
+内容协商找到最终的 messageConverter；
+~~~
+
+SpringMVC的什么功能。一个入口给容器中添加一个  WebMvcConfigurer
+~~~
+@Bean
+public WebMvcConfigurer webMvcConfigurer(){
+    return new WebMvcConfigurer() {
+
+        @Override
+        public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+
+        }
+    }
+}
+~~~
+
+有可能我们添加的自定义的功能会覆盖默认很多功能，导致一些默认的功能失效。
+大家考虑，上述功能除了我们完全自定义外？SpringBoot有没有为我们提供基于配置文件的快速修改媒体类型功能？怎么配置呢？【提示：参照SpringBoot官方文档web开发内容协商章节】
+
+
+
+
 
 
 

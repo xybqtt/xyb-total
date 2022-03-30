@@ -9,6 +9,7 @@ import com.atguigu.boot.a2annoshow.a2conditional.A2CondiOnBean;
 import com.atguigu.boot.a2annoshow.a2conditional.A3CondiOnJava;
 import com.atguigu.boot.a2annoshow.a3configProp.A1AutoConfigProp;
 import com.atguigu.boot.a2annoshow.a3configProp.A2AutoConfigProp;
+import com.atguigu.boot.a2annoshow.a3configProp.A3YmlAutoConfig;
 import com.atguigu.boot.utils.SpringUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -121,5 +122,19 @@ public class A2AnnoTestController {
 
         System.out.println(sb.toString());
         return sb.toString();
+    }
+
+    /**
+     * 通过yml配置文件给属性赋值
+     * @return
+     */
+    @RequestMapping(value = "/autoConfigYml")
+    public String autoConfigYml() {
+
+        A3YmlAutoConfig a3 = (A3YmlAutoConfig) SpringUtil.context.getBean("a3YmlAutoConfig");
+        String str = "通过yml注入属性：" + a3.toString();
+        System.out.println(str);
+
+        return str;
     }
 }

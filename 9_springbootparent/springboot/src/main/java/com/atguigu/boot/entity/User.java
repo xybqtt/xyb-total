@@ -6,7 +6,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Builder
 public class User {
 
     private String username;
