@@ -2,7 +2,6 @@ package com.atguigu.mvc.a1config;
 
 import com.atguigu.mvc.a4interceptor.FirstInterceptor;
 import com.atguigu.mvc.a4interceptor.SecondInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,7 +14,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
@@ -25,10 +23,9 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -81,11 +78,12 @@ public class A2SpringMVCConfig implements WebMvcConfigurer {
 
     /**
      * 5、配置mvc注解驱动中的 <mvc:message-converters> 部分，处理@ResponseBody返回乱码。
+     * 注意不能使用重写configureMessageConverters方法，因为现在这个方法是在mvc已有的几种转换类上进行扩展1或n种转换类，
+     * configureMessageConverters是重新配置，在方法中写了几个，就只配置哪几个。
      * @param converters
      */
     @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         StringHttpMessageConverter converter = new StringHttpMessageConverter();
         converter.setDefaultCharset(Charset.forName("UTF-8"));
 
@@ -94,8 +92,24 @@ public class A2SpringMVCConfig implements WebMvcConfigurer {
         list.add(MediaType.parseMediaType("application/json"));
         converter.setSupportedMediaTypes(list);
 
-        converters.add(converter);
+        /*
+         因为mvc默认还有一个StringHttpMessageConverter(ISO-8859-1)，并且在list中靠前的位置，如果不把自定义的
+         StringHttpMessageConverter放在前面，就会先使用默认的，会乱码。查看xml配置的源码，就是这样做的。
+         org.springframework.web.servlet.config.AnnotationDrivenBeanDefinitionParser.getMessageConverters(Element element, @Nullable Object source, ParserContext context)
+         */
+        converters.add(0, converter);
+        System.out.println(converters.toArray());
     }
+
+//    /**
+//     *
+//     * @param converters
+//     */
+//    @Override
+//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//
+//
+//    }
 
     /**
      * 6、文件上传解析器；

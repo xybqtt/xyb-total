@@ -1,4 +1,4 @@
-@[TOC](第2章 信息的表示和处理)
+@[TOC](第2章 java-web)
 
 # 0 Html、js、css、servlet、jsp产生的条件
 
@@ -83,6 +83,8 @@ WebLogin：oracle产品，是目前最广泛的web服务器，支持javaEE规范
 |7.0 | 3.0/2.2 | 7.0  | jdk6.0 |
 |8.0 | 3.1/2.3 | 7.0  | jdk7.0 |
 
+
+
 # 2 tomcat介绍
 ## 2.1 目录介绍
 bin：存放tomcat自身的可执行程序；
@@ -141,6 +143,8 @@ idea将编译后的存放tomcat运行时jsp翻译为servlet源码、session钝�
 
 ## 2.8 idea整合本地tomcat
 settings -> Application Servers ->  "+"  -> Tomcat Server -> 选本地tomcat，ok；
+
+
 
 # 3 javaweb工程创建等操作
 ## 3.1 idea的javaweb动态工程的创建
@@ -279,7 +283,7 @@ new module -> Java Enterprise -> 选sdk、java EE version、tomcat、勾选Web A
 9. lis系统的编译输出路径设置为web/classes，打包输出路径设置为web，可以省去.class文件和资源文件的复制；
 10. 如果修改了java文件，不能使用全编，要对文件右键，编译。
 
-   
+
 
 # 4 HTTP协议
 ## 4.1 什么是HTTP协议
@@ -434,6 +438,8 @@ POST：
 | Cookie: Idea-71feb1f0=80b67c67-bcd2-45b5-b7b1-386160294d79 |  |
 | 请求体 |  |
 | hidden1=hdd&hidden2=hdd2 |  |
+
+
 
 # 5 Servlet
 ## 5.1 什么是servlet？
@@ -655,16 +661,83 @@ jsp页面本质是一个HttpServlet的子类，因为Tomcat会将jsp翻译为一
 jsp中的所有html代码在翻译后都会在_jspService()中，用resp.out进行输出，想在service()方法中写代码，需要用"<% 代码脚本 %>"来包围，则其中的代码都会在service()中；
 想在jsp的servlet中写成员变量、静态块、内部类、方法等代码，用"<%! 声明脚本 %>"包围；
 表达式脚本：<%=值 %>，可以输出值。         
-            
+
+
 
 # 7 Listener监听器
 ## 7.1 监听器
 Listener是javaEE规范，就是接口，作用是监听某种事物的变化，通过回调函数，反馈给客户(程序)去做一些相应的处理。
 
-## 7.2 ServletContextListener监听器
+## 7.2 被监听的事件源
+在 Servlet 中定义了多种类型的监听器，他们主要用于监听的事件源分别是：
+ServletContext
+HttpSession
+ServletRequest
+
+## 7.3 ServletContextListener监听器
 可以监听ServletContext对象的创建和销毁；
-ServletContext对象在web工程启动的时候创建，在web工程终止的时候销毁；
-只要实现ServletContextListener接口即可，在web.xml配置监听器；
+
+ServletContext 创建和销毁
+    ServletContext 创建：服务器启动的时候，为每个web应用创建单独的ServletContext 对象；
+    ServletContext 销毁：服务器关闭的时候，或者项目熊web服务器移除的时候；
+
+ServletContextListener 监听器的方法
+    监听 ServletContext 对象创建：contextInitialized(ServletContextEvent sce)；
+    监听 ServletContext 对象销毁：contextDestroyed(ServletContextEvent sce)；
+
+加载框架的配置文件：
+    Spring框架提供了一个核心监听器 ContextLoaderListener；需要配置到web.xml文件中。
+
+## 7.4 HttpSession监听器
+用来监听 HttpSession 对象的创建和销毁；
+
+HttpSession 的创建和销毁
+    创建：服务器端第一次调用 getSession() 方法时创建
+    销毁：
+        Session 过期，默认过期时间为30分钟；
+        非正常关闭服务器；
+        手动调用 session.invalidate()；
+
+HttpSessionListener 监听器的方法
+    监听 HttpSession 对象创建：sessionCreated(HttpSessionEvent se)；
+    监听 HttpSession 对象销毁：sessionDestroyed(HttpSessionEvent se)；
+
+## 7.5 ServletRequest监听器
+用来监听 ServletRequest 对象的创建和销毁；
+
+ServletRequest 的创建和销毁
+    创建：从客户端向服务器发送一次请求，服务器就会创建 request 对象；
+    销毁：服务器做出了响应之后，request 对象就销毁了；
+
+ServletRequestListener 监听器的方法
+    监听 ServletRequest 对象创建：requestInitialized(ServletRequestEvent sre)；
+    监听 ServletRequest 对象销毁：requestDestroyed(ServletRequestEvent sre)；
+
+## 7.6 监听三个域对象的属性变更的监听器
+
+ServletContextAttributeListener
+    监听 ServletContext 对象中的属性变更（属性添加、移除、替换）的监听器；
+
+HttpSessionAttributeListener
+    监听 HttpSession 对象中的属性变更（属性添加、移除、替换）的监听器；
+
+ServletRequestAttributeListener
+    监听 ServletRequest 对象中的属性变更（属性添加、移除、替换）的监听器；
+
+## 7.7 监听HttpSession 中Java类状态改变的监听器
+
+保存在 Session 域中的 Java 类可以有多种状态：
+    从 session 中解除绑定；
+    随 session 对象持久化到一个存储设备中（钝化）；
+    随 session 对象从一个存储设备中恢复（活化）；
+
+Servlet 定义了两个特殊的监听的接口，来帮助 Java 类了解自己在 session 域中的状态：
+    HttpSessionBindingListener 接口：用来监听 Java类 在 HttpSession 中的绑定和解除绑定的监听器；；
+    HttpSessionActivationListener 接口：用来监听 HttpSession 中 Java类 的钝化和活化的监听器；
+
+实现这两个接口的类不需要在 web.xml 中进行配置；
+
+
 
 # 8 Cookie和Session
 ## 8.1 Cookie
@@ -755,6 +828,8 @@ Session技术是基于Cookie技术的，流程如下：
 为什么关闭浏览器后，客户端再次请求就是一个新的Session？
 因为关闭浏览器后，Cookie失效，也就不会给服务器发送JESSIONID，服务器就会重新创建一个Session。
 
+
+
 # 9 Filter过滤器
 ## 9.1 什么是过滤器
 Filter过滤器是JavaWeb的三大组件之一；
@@ -832,6 +907,7 @@ url-pattern的匹配，过滤器匹配只关心请求的url是否与url-pattern�
 注意后缀名匹配不能以/开头。
 
 
+
 # 10 JSON
 ## 10.1 什么是JSON
 JSON(JavaScript Object Notation)是一种轻量级的数据交换格式。易于人阅读和编写。同时也易于机器解析和生成。JSON采用完全独立于语言的文本格式，而且很多语言都提供了对json的支持。使得JSON成为理想的数据交换语言。
@@ -857,6 +933,7 @@ JSON.parse()：把json字符串转换为json对象。
 
 ## 10.3 json在java中的使用(需要gson包)
 查看这个类com.xyb.servlet.JsonServlet12
+
 
 
 # 11 AJAX请求
@@ -886,80 +963,33 @@ $.getJSON(url, data, successFn);因为确定是使用get请求、且返回类型
 ## 11.4 表单序列化
 使用ajax输入data时，我们需要把每个表单项和其值一一写进去，比较麻烦，使用$("表单").serialize()可以自动把所有表单项弄成a=b&c=d的形式，简化操作。
 
+
+
 # 12 i18n国际化(页面上选择语言的那个，以后有需要再看吧)
 p320 - 325
 
 
 
+# 13 web.xml详解
+## 13.1 web.xml加载过程(步骤)
 
+首先简单讲一下，web.xml的加载过程。当启动一个WEB项目时，容器包括（JBoss、Tomcat等）首先会读取项目web.xml配置文件里的配置，当这一步骤没有出错并且完成之后，项目才能正常地被启动起来。下面以tomcat举例
+~~~
+启动WEB项目的时候，tomcat首先会去它的配置文件web.xml读取两个节点：
+    <listener></listener>
+    <context-param></context-param>。
 
+tomcat创建一个ServletContext(Application)，这个WEB项目所有部分都将共享这个上下文。
 
+解析所有<context-param></context-param>，存入ServletContext。
 
+实例化监听器：
+    实例化所有<listener></listener>实例监听。
 
+实例化过滤器：
+    实例化所有<filter></filter>。
 
+以上都是在WEB项目还没有完全启动起来的时候就已经完成了的工作。如果系统中有Servlet，则Servlet是在第一次发起请求的时候被实例化的，而且一般不会被容器销毁，它可以服务于多个用户的请求。所以，Servlet的初始化都要比上面提到的那几个要迟。
+~~~
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+总的来说，web.xml的加载顺序是:(context-param) -> (listener) -> (filter) -> (servlet)。其中，如果web.xml中出现了相同的元素，则按照在配置文件中出现的先后顺序来加载。
