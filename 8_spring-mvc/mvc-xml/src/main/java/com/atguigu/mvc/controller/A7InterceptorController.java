@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 拦截器的测试
  */
 @Controller
-public class A9InterceptorController {
+public class A7InterceptorController {
 
     @RequestMapping(value = "/a9interceptor/testInterceptor")
     @ResponseBody

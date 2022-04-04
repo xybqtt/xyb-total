@@ -17,6 +17,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.util.UrlPathHelper;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -25,7 +26,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -35,7 +35,7 @@ import java.util.Properties;
  * 2、视图解析器；
  * 3、view-controller；
  * 4、default-servlet-handler：默认servlet处理器；
- * 5、mvc注解驱动、及配置<mvc:message-converters>
+ * 5、mvc注解驱动、及配置<mvc:message-converters>、开启矩阵变量
  * 6、文件上传解析器；
  * 7、异常处理；
  * 8、拦截器。
@@ -56,14 +56,12 @@ public class A2SpringMVCConfig implements WebMvcConfigurer {
         // 设置handler对应的RequestMapping，和其对应的请求路径(会自动添加前后缀)
         registry.addViewController("/").setViewName("A1Index");
         registry.addViewController("/restFul/toAdd").setViewName("restful/AddUser");
-        registry.addViewController("/a3ParamGet").setViewName("A3ParamGet");
+        registry.addViewController("/a3ReqAndResp").setViewName("A3ReqAndResp");
         registry.addViewController("/a4ScopeData").setViewName("A4ScopeData");
         registry.addViewController("/a5ForwardAndRedirect").setViewName("A5ForwardAndRedirect");
-        registry.addViewController("/a6RestFulShow").setViewName("A6RestFulShow");
-        registry.addViewController("/a7HttpReqAndResp").setViewName("A7HttpReqAndResp");
-        registry.addViewController("/a8FileUpAndDown").setViewName("A8FileUpAndDownLod");
-        registry.addViewController("/a9Interceptor").setViewName("A9Interceptor");
-        registry.addViewController("/a10Exception").setViewName("A10Exception");
+        registry.addViewController("/a6FileUpAndDown").setViewName("A6FileUpAndDownLod");
+        registry.addViewController("/a7Interceptor").setViewName("A7Interceptor");
+        registry.addViewController("/a8Exception").setViewName("A8Exception");
 
     }
 
@@ -101,15 +99,17 @@ public class A2SpringMVCConfig implements WebMvcConfigurer {
         System.out.println(converters.toArray());
     }
 
-//    /**
-//     *
-//     * @param converters
-//     */
-//    @Override
-//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//
-//
-//    }
+    /**
+     * 5.2 开启矩阵变量
+     * @param configurer
+     */
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        UrlPathHelper helper = new UrlPathHelper();
+        helper.setRemoveSemicolonContent(false); // 不移除分号及其后面到/或url末尾的内容
+        configurer.setUrlPathHelper(helper);
+    }
+
 
     /**
      * 6、文件上传解析器；

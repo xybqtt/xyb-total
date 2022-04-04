@@ -1,4 +1,4 @@
-package com.atguigu.mvc.a2controller;
+package com.atguigu.mvc.controller;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ import java.util.UUID;
  * ResponseEntity完成文件的上载、下载。
  */
 @Controller
-public class A8FileUpAndDowController {
+public class A6FileUpAndDowController {
 
 
     /**

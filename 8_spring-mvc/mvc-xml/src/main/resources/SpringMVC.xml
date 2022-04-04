@@ -38,21 +38,17 @@
     <!-- <mvc:view-controller path="/" view-name="A1Index"></mvc:view-controller>-->
     <mvc:view-controller path="/restFul/toAdd" view-name="restful/AddUser" />
     <!-- 测试 获取 http请求参数 -->
-    <mvc:view-controller path="/a3ParamGet" view-name="A3ParamGet" />
+    <mvc:view-controller path="/a3ReqAndResp" view-name="A3ReqAndResp" />
     <!-- 测试 域对象共享数据 -->
     <mvc:view-controller path="/a4ScopeData" view-name="A4ScopeData" />
     <!-- 测试转发和重定向 -->
     <mvc:view-controller path="/a5ForwardAndRedirect" view-name="A5ForwardAndRedirect" />
-    <!-- 测试RESTful风格 -->
-    <mvc:view-controller path="/a6RestFulShow" view-name="A6RestFulShow" />
-    <!-- 测试@RequestBody、RequestEntity、@ResponseBody、ResponseEntity的使用 -->
-    <mvc:view-controller path="/a7HttpReqAndResp" view-name="A7HttpReqAndResp" />
     <!-- 文件上下载 -->
-    <mvc:view-controller path="/a8FileUpAndDown" view-name="A8FileUpAndDownLod" />
+    <mvc:view-controller path="/a6FileUpAndDown" view-name="A6FileUpAndDownLod" />
     <!-- 拦截器测试 -->
-    <mvc:view-controller path="/a9Interceptor" view-name="A9Interceptor" />
+    <mvc:view-controller path="/a7Interceptor" view-name="A7Interceptor" />
     <!-- 异常跳转测试 -->
-    <mvc:view-controller path="/a10Exception" view-name="A10Exception" />
+    <mvc:view-controller path="/a8Exception" view-name="A8Exception" />
 
     <!--
       3、处理静态资源，例如html、js、css、jpg
@@ -64,8 +60,8 @@
     <!-- 3、处理静态资源，例如html、js、css、jpg -->
 <!--    <mvc:resources location="/static/" mapping="/resources/**"/>-->
 
-    <!-- 4、开启mvc注解驱动 -->
-    <mvc:annotation-driven>
+    <!-- 4、开启mvc注解驱动，开启矩阵变量 -->
+    <mvc:annotation-driven enable-matrix-variables="true">
         <mvc:message-converters>
             <!-- 处理响应中文内容乱码 -->
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">

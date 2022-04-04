@@ -1,4 +1,4 @@
-package com.atguigu.mvc.controller;
+package com.atguigu.mvc.a2controller;
 
 import com.atguigu.mvc.entity.User;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 异常与页面映射
  */
 @Controller
-public class A10ExceptionController {
+public class A8ExceptionController {
 
     @RequestMapping(value = "/a10exception/testNPEEx")
     @ResponseBody

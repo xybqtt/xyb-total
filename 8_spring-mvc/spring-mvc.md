@@ -464,30 +464,81 @@ method属性是一个RequestMethod类型的数组，表示该请求映射能够�
     返回字符串，则进行转发和重定向；
     返回void或null，用一个空白网页展示，想要回显的内容。
 
-## 3.5 @PathVariable注解
 
-对于原始的请求方式：原始方式：/deleteUser?id=1
-对于restful的请求方式：/deleteUser/1
-SpringMVC路径中的占位符常用于RESTful风格中，当请求路径中将某些数据通过路径的方式传输到服务器中，就可以在相应的@RequestMapping注解的value属性中通过占位符{xxx}表示传输的数据，在通过@PathVariable注解，将占位符所表示的数据赋值给控制器方法的形参
+
+# 4 RESTful
+## 4.1 RESTful简介
+
+REST：Representational State Transfer，表现层资源状态转移。
+
+资源：
+资源是一种看待服务器的方式，即，将服务器看作是由很多离散的资源组成。每个资源是服务器上一个可命名的抽象概念。因为资源是一个抽象的概念，所以它不仅仅能代表服务器文件系统中的一个文件、数据库中的一张表等等具体的东西，可以将资源设计的要多抽象有多抽象，只要想象力允许而且客户端应用开发者能够理解。与面向对象设计类似，资源是以名词为核心来组织的，首先关注的是名词。一个资源可以由一个或多个URI来标识。URI既是资源的名称，也是资源在Web上的地址。对某个资源感兴趣的客户端应用，可以通过资源的URI与其进行交互。
+
+资源的表述：
+资源的表述是一段对于资源在某个特定时刻的状态的描述。可以在客户端-服务器端之间转移（交换）。资源的表述可以有多种格式，例如HTML/XML/JSON/纯文本/图片/视频/音频等等。资源的表述格式可以通过协商机制来确定。请求-响应方向的表述通常使用不同的格式。
+
+状态转移：
+状态转移说的是：在客户端和服务器端之间转移（transfer）代表资源状态的表述。通过转移和操作资源的表述，来间接实现操作资源的目的。
+
+## 4.2 RESTful的实现
+
+具体说，就是 HTTP 协议里面，四个表示操作方式的动词：GET、POST、PUT、DELETE。
+它们分别对应四种基本操作：GET 用来获取资源，POST 用来新建资源，PUT 用来更新资源，DELETE 用来删除资源。
+REST 风格提倡 URL 地址使用统一的风格设计，从前到后各个单词使用斜杠分开，不使用问号键值对方式携带请求参数，而是将要发送给服务器的数据作为 URL 地址的一部分，以保证整体风格的一致性。
+
+|操作|传统方式|REST风格|
+|:--|:--|:--|
+|查询|getUserById?id=1|user/1->get请求方式|
+|保存|saveUser|user->post请求方式|
+|删除|deleteUser?id=1|user/1->delete请求方式|
+|更新|updateUser|user->put请求方式|
+
+## 4.3 HiddenHttpMethodFilter
+
+由于浏览器只支持发送get和post方式的请求，那么该如何发送put和delete请求呢？
+SpringMVC 提供了 HiddenHttpMethodFilter 帮助我们将 POST 请求转换为 DELETE 或 PUT 请求
+HiddenHttpMethodFilter 处理put和delete请求的条件：
+a>当前请求的请求方式必须为post
+b>当前请求必须传输请求参数"\_method"
+满足以上条件，HiddenHttpMethodFilter 过滤器就会将当前请求的请求方式转换为请求参数_method的值，因此请求参数_method的值才是最终的请求方式。
+
+在web.xml中注册HiddenHttpMethodFilter
+~~~
+<filter>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+~~~
 
 ~~~
-原始方式"http://localhost:8080/testRest?id=1&username=xuaa"
-请求路径"http://localhost:8080/testRest/1/xuaa"
-@RequestMapping("/testRest/{id}/{username}")
-public String testRest(@PathVariable("id") String id, @PathVariable("username") String username){
-    System.out.println("id:"+id+",username:"+username);
-    return "success";
-}
+注：
+目前为止，SpringMVC中提供了两个过滤器：CharacterEncodingFilter和HiddenHttpMethodFilter
+
+在web.xml中注册时，必须先注册CharacterEncodingFilter，再注册HiddenHttpMethodFilter
+原因：
+    在 CharacterEncodingFilter 中通过 request.setCharacterEncoding(encoding) 方法设置字符集，
+    request.setCharacterEncoding(encoding) 方法要求前面不能有任何获取请求参数的操作
+    而HiddenHttpMethodFilter 恰恰有一个获取请求方式的操作：
+        String paramValue = request.getParameter(this.methodParam);
 ~~~
 
-@PathVariable(value = "id")，这个根据value属性的id找到@RequestMapping对应的{id}的值，就会直接赋值给参数如的String id。
+## 4.4 实现原理
+
+注意http只有get、post请求，为了让DispatcherServlet接收到的req为DELETE请求，必须在拦截器(hiddenHttpMethodFilter为已有实现的拦截器)进行如下操作：
+1、首先请求必须是Post，将Request赋值给另一个自定义的ARequest；
+2、request.getParameter("_method")，获取这个值，如果是DELETE，则将ARequest.method = RequestMethod.DELETE；
+3、将ARequest传给DispatcherServlet，会去匹配method = DELETE的方法，其它同理。
 
 
 
-# 4 SpringMVC获取请求参数
-## 4.1 通过ServletAPI获取
+# 4 SpringMVC获取请求信息
+## 4.1 通过ServletAPI获取Req信息
 
-DispatcherServlet通过handler处理时，会通过反射获取request参数类型，如果是HttpServletRequest，则会将DispatcherServlet.service()中的req参数传进去，resp类似。
+DispatcherServlet通过handler处理时，会通过反射获取request参数类型，如果是HttpServletRequest，则会将DispatcherServlet.service()中的req参数传进去，resp类似。request的操作查看java-web。
 ~~~
 @RequestMapping("/testParam")
 public String testParam(HttpServletRequest request){
@@ -498,15 +549,55 @@ public String testParam(HttpServletRequest request){
 }
 ~~~
 
-## 4.2 通过控制器方法的形参获取请求参数
+## 4.2 通过RequestEntity获取Req信息
+
+在参数位置使用RequestEntity类接收，则会将request信息封装到此类中。
+可获取req的其它信息：entity.getHeaders()、getUrl()、getMethod()、getBody()等。
+~~~
+@RequestMapping(value = "/3restful/reqInfo/RequestEntity", method = RequestMethod.POST)
+public String getReqEntity(RequestEntity<String> requestEntity) {
+    return sb.toString();
+}
+~~~
+
+## 4.3 @RequestHeader获取请求头信息
+
+使用@RequestHeader注解形参，获取请求头信息。
+@RequestHeader Map<String,String> headerMap：将所有请求头信息封装到map中；
+@RequestHeader("HOST") String host：获取某个具体请求头信息。
+~~~
+@RequestMapping(value = "/3restful/reqInfo/RequestHeader", method = RequestMethod.POST)
+public String getReqHeader(@RequestHeader Map<String,String> headerMap, @RequestHeader("HOST") String host) {
+    return sb.toString();
+}
+~~~
+
+## 4.4 @RequestParam
+
+@RequestParam是将请求参数和控制器方法的形参创建映射关系
+@RequestParam注解一共有三个属性：
+value：指定为形参赋值的请求参数的参数名
+required：设置是否必须传输此请求参数，默认值为true
+    若设置为true时，则当前请求必须传输value所指定的请求参数，若没有传输该请求参数，且没有设置defaultValue属性，则页面报错400：Required String parameter ‘xxx’ is not present；若设置为false，则当前请求不是必须传输value所指定的请求参数，若没有传输，则注解所标识的形参的值为null
+defaultValue：不管required属性值为true或false，当value所指定的请求参数没有传输或传输的值为""时，则使用默认值为形参赋值。
+用于get请求或"Content-Type: application/x-www-form-urlencoded"的post请求。
+~~~
+@RequestMapping(value = "/3restful/reqInfo/ParamName", method = RequestMethod.POST)
+public String getParamName(String username, String[] hobby, User user) {
+    return sb.toString();
+}
+~~~
+
+## 4.5 形参或pojo类获取请求参数
 
 在控制器方法的形参位置，设置和请求参数同名的形参，当浏览器发送请求，匹配到请求映射时，在DispatcherServlet中就会将请求参数赋值给相应的形参。
+可以在控制器方法的形参位置设置一个实体类类型的形参，此时若浏览器传输的请求参数的参数名和实体类中的属性名一致，那么请求参数就会为此属性赋值。
+
 ~~~
 http://localhost:8080/testParam?username=admin&password=123456
 
 @RequestMapping("/testParam")
-public String testParam(String username, String password){
-    System.out.println("username:"+username+",password:"+password);
+public String testParam(String username, String[] password, User user){
     return "success";
 }
 ~~~
@@ -515,28 +606,98 @@ public String testParam(String username, String password){
     若使用字符串数组类型的形参，此参数的数组中包含了每一个数据。
     若使用字符串类型的形参，此参数的值为每个数据中间使用逗号拼接的结果。
 
-## 4.3 @RequestParam
+## 4.6 @RequestBody获取请求体
 
-@RequestParam是将请求参数和控制器方法的形参创建映射关系
-@RequestParam注解一共有三个属性：
-    value：指定为形参赋值的请求参数的参数名
-    required：设置是否必须传输此请求参数，默认值为true
-        若设置为true时，则当前请求必须传输value所指定的请求参数，若没有传输该请求参数，且没有设置defaultValue属性，则页面报错400：Required String parameter ‘xxx’ is not present；若设置为false，则当前请求不是必须传输value所指定的请求参数，若没有传输，则注解所标识的形参的值为null
-    defaultValue：不管required属性值为true或false，当value所指定的请求参数没有传输或传输的值为""时，则使用默认值为形参赋值
+@RequestBody可以获取请求体，需要在控制器方法设置一个形参，使用@RequestBody进行标识，当前请求的请求体就会为当前注解所标识的形参赋值。
+@RequestBody接收的是一个字符串。如果"Content-Type: application/x-www-form-urlencoded"，则中文会被转码，所以一般用"Content-Type: application/json"的格式。
+~~~
+@RequestMapping("/testRequestBody")
+public String testRequestBody(@RequestBody String requestBody){
+    System.out.println("requestBody:"+requestBody);
+    return "success";
+}
+~~~
 
-## 4.4 @RequestHeader、@CookieValue、@RequestAttribute
+## 4.7 @CookieValue获取cookie中的值
 
-@RequestHeader是将请求头信息和控制器方法的形参创建映射关系
-@RequestHeader注解一共有三个属性：value、required、defaultValue，用法同@RequestParam
-@CookieValue是将cookie数据和控制器方法的形参创建映射关系
-@CookieValue注解一共有三个属性：value、required、defaultValue，用法同@RequestParam
+@CookieValue是将cookie数据和控制器方法的形参创建映射关系，必须有value值，不能像@RequestParam一样用map接收所有cookie信息。
+~~~
+@RequestMapping(value = "/3restful/reqInfo/CookieValue", method = RequestMethod.POST)
+public String getCookieValue(@CookieValue(value = "JSESSIONID", required = true, defaultValue = "没有cookie") String sessionId) {
+    return sb.toString();
+}
+~~~
+
+## 4.8 @RequestAttribute接收request域信息
+
 @RequestAttribute：req.setAttribute("a", "b")，则进行转发后，在转发后的方法或页面中就可以通过req.getAttribute("a")获取b。
+~~~
+@RequestMapping(value = "/3restful/reqInfo/showReqAttr", method = RequestMethod.POST)
+@ResponseBody
+public String getReqAttr(@RequestAttribute("field") String field) {
+    return sb.toString();
+}
+~~~
 
-## 4.5 通过POJO获取请求参数
+## 4.9 rest风格获取路径参数@PathVariable
 
-可以在控制器方法的形参位置设置一个实体类类型的形参，此时若浏览器传输的请求参数的参数名和实体类中的属性名一致，那么请求参数就会为此属性赋值。
+对于原始的请求方式：原始方式：/deleteUser?id=1
+对于restful的请求方式：/deleteUser/1
+SpringMVC路径中的占位符常用于RESTful风格中，当请求路径中将某些数据通过路径的方式传输到服务器中，就可以在相应的@RequestMapping注解的value属性中通过占位符{xxx}表示传输的数据，在通过@PathVariable注解，将占位符所表示的数据赋值给控制器方法的形参
 
-## 4.6 解决获取请求参数的乱码问题
+~~~
+原始方式"http://localhost:8080/testRest?id=1&username=xuaa"
+请求路径"http://localhost:8080/testRest/1/xuaa"
+@RequestMapping("/testRest/{id}/{username}")
+public String testRest(@PathVariable("id") String id, @PathVariable("username") String username){
+    return "success";
+}
+~~~
+
+@PathVariable(value = "id")，这个根据value属性的id找到@RequestMapping对应的{id}的值，就会直接赋值给参数如的String id。
+
+## 4.10 @MatrixVariable矩阵变量
+
+属性说明：
+~~~
+value：和属性pathVar的别名;
+pathVar：用于指定name-value参数所在的路径片段名称
+name：用于指定name-value参数的参数名
+required：是否为必填值，默认为false
+defaultValue：设置默认值
+~~~
+
+启动矩阵变量：
+~~~
+注解：
+@Configuration                                                                                                              
+public class SpringBootConfig implements WebMvcConfigurer {                                                                 
+   @Override      
+   public void configurePathMatch(PathMatchConfigurer configurer) {     
+      UrlPathHelper urlPathHelper = new UrlPathHelper();
+      urlPathHelper.setRemoveSemicolonContent(false);
+      configurer.setUrlPathHelper(urlPathHelper);
+  }            
+}    
+
+xml版：
+<mvc:annotation-driven enable-matrix-variables="true"></mvc:annotation-driven>
+~~~
+
+/3restful/rest/path1;a=1,2;b=1;b=张三/path2=4;c=1;d=2
+~~~
+path可以=一个值，
+path1的矩阵变量为：a=1,2;b=1;b=张三。如果一个参数对应多个值，也可以"b=1,张三"这样写。
+获取方式：
+@RequestMapping(value = "/3restful/rest/{path1}/{path2}", method = RequestMethod.GET)
+public String getReqAttr(@MatrixVariable(pathVar = "path1") MultiValueMap path1Map,
+                         @MatrixVariable(pathVar = "path1", value = "a") String[] path1aValue
+                         ) {
+    return sb.toString();
+}
+~~~
+
+## 4.11 解决获取请求参数的乱码问题
 
 get请求：Tomcat_HOME/conf/server.xml，为Connector添加属性URIEncoding="UTF-8"，或者用String的转码方法。
 post请求：必须在使用request前进行设置编码格式，但是当进入到@RequestMapping修饰的方法时，request已经被使用了，再设置编码已经来不及了，所以只有在web过滤器中设置(顺序：监听器->过滤器->servlet)，spring有默认的过滤器，配置即可。或者自定义一个过滤器也可以。**SpringMVC中处理编码的过滤器一定要配置到其他过滤器之前，否则无效。**
@@ -559,6 +720,36 @@ post请求：必须在使用request前进行设置编码格式，但是当进入
     <url-pattern>/*</url-pattern>
 </filter-mapping>
 ~~~
+
+
+
+# 5 SpringMVC进行响应
+## 5.1 @ResponseBody
+
+@ResponseBody用于标识一个控制器方法，可以将该方法的返回值直接作为响应报文的响应体响应到浏览器，即返回值的含义不再是跳转页面，需要使用ModelAndView去跳转页面。可以将对象返回，最终在前端变为一个json字符串或json数组。
+微服务的交互都是用的json，所以此注解基本上所有的微服务都使用。
+标注在类上，则相当于为类中的每个方法添加@ResponseBody注解。
+~~~
+@RequestMapping("/testResponseBody")
+@ResponseBody
+public String testResponseBody(){
+    return "success";
+}
+
+@RequestMapping(value = "/3restful/respObject")
+@ResponseBody
+public User testRequestBodyAnno() {
+    return new User(1001, "张三", "123", null);
+}
+~~~
+
+## 5.2 @RestController注解
+
+@RestController注解是springMVC提供的一个复合注解，标识在控制器的类上，就相当于为类添加了@Controller注解，并且为其中的每个方法添加了@ResponseBody注解。
+
+## 5.2 ResponseEntity
+
+ResponseEntity用于控制器方法的返回值类型，该控制器方法的返回值就是响应到浏览器的响应报文。主要作用是用于文件下载。这个相当于自定义了一份响应。
 
 
 
@@ -625,121 +816,13 @@ SpringMVC中默认的重定向视图是RedirectView。
 
 
 
-# 7 RESTful
-## 7.1 RESTful简介
-
-REST：Representational State Transfer，表现层资源状态转移。
-
-资源：
-资源是一种看待服务器的方式，即，将服务器看作是由很多离散的资源组成。每个资源是服务器上一个可命名的抽象概念。因为资源是一个抽象的概念，所以它不仅仅能代表服务器文件系统中的一个文件、数据库中的一张表等等具体的东西，可以将资源设计的要多抽象有多抽象，只要想象力允许而且客户端应用开发者能够理解。与面向对象设计类似，资源是以名词为核心来组织的，首先关注的是名词。一个资源可以由一个或多个URI来标识。URI既是资源的名称，也是资源在Web上的地址。对某个资源感兴趣的客户端应用，可以通过资源的URI与其进行交互。
-
-资源的表述：
-资源的表述是一段对于资源在某个特定时刻的状态的描述。可以在客户端-服务器端之间转移（交换）。资源的表述可以有多种格式，例如HTML/XML/JSON/纯文本/图片/视频/音频等等。资源的表述格式可以通过协商机制来确定。请求-响应方向的表述通常使用不同的格式。
-
-状态转移：
-状态转移说的是：在客户端和服务器端之间转移（transfer）代表资源状态的表述。通过转移和操作资源的表述，来间接实现操作资源的目的。
-
-## 7.2 RESTful的实现
-
-具体说，就是 HTTP 协议里面，四个表示操作方式的动词：GET、POST、PUT、DELETE。
-它们分别对应四种基本操作：GET 用来获取资源，POST 用来新建资源，PUT 用来更新资源，DELETE 用来删除资源。
-REST 风格提倡 URL 地址使用统一的风格设计，从前到后各个单词使用斜杠分开，不使用问号键值对方式携带请求参数，而是将要发送给服务器的数据作为 URL 地址的一部分，以保证整体风格的一致性。
-
-|操作|传统方式|REST风格|
-|:--|:--|:--|
-|查询|getUserById?id=1|user/1->get请求方式|
-|保存|saveUser|user->post请求方式|
-|删除|deleteUser?id=1|user/1->delete请求方式|
-|更新|updateUser|user->put请求方式|
-
-## 7.3 HiddenHttpMethodFilter
-
-由于浏览器只支持发送get和post方式的请求，那么该如何发送put和delete请求呢？
-SpringMVC 提供了 HiddenHttpMethodFilter 帮助我们将 POST 请求转换为 DELETE 或 PUT 请求
-HiddenHttpMethodFilter 处理put和delete请求的条件：
-    a>当前请求的请求方式必须为post
-    b>当前请求必须传输请求参数"\_method"
-    满足以上条件，HiddenHttpMethodFilter 过滤器就会将当前请求的请求方式转换为请求参数_method的值，因此请求参数_method的值才是最终的请求方式。
-
-在web.xml中注册HiddenHttpMethodFilter
-~~~
-<filter>
-    <filter-name>HiddenHttpMethodFilter</filter-name>
-    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
-</filter>
-<filter-mapping>
-    <filter-name>HiddenHttpMethodFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-</filter-mapping>
-~~~
-
-~~~
-注：
-目前为止，SpringMVC中提供了两个过滤器：CharacterEncodingFilter和HiddenHttpMethodFilter
-
-在web.xml中注册时，必须先注册CharacterEncodingFilter，再注册HiddenHttpMethodFilter
-原因：
-    在 CharacterEncodingFilter 中通过 request.setCharacterEncoding(encoding) 方法设置字符集，
-    request.setCharacterEncoding(encoding) 方法要求前面不能有任何获取请求参数的操作
-    而HiddenHttpMethodFilter 恰恰有一个获取请求方式的操作：
-        String paramValue = request.getParameter(this.methodParam);
-~~~
-
-## 7.4 实现原理
-
-注意http只有get、post请求，为了让DispatcherServlet接收到的req为DELETE请求，必须在拦截器(hiddenHttpMethodFilter为已有实现的拦截器)进行如下操作：
-1、首先请求必须是Post，将Request赋值给另一个自定义的ARequest；
-2、request.getParameter("_method")，获取这个值，如果是DELETE，则将ARequest.method = RequestMethod.DELETE；
-3、将ARequest传给DispatcherServlet，会去匹配method = DELETE的方法，其它同理。
-
-
-
 # 8 HttpMessageConverter
 
 HttpMessageConverter，报文信息转换器，将请求报文转换为Java对象，或将Java对象转换为响应报文。
 HttpMessageConverter提供了两个注解和两个类型：@RequestBody、@ResponseBody、RequestEntity、ResponseEntity。
 
-## 8.1 @RequestBody
 
-@RequestBody可以获取请求体，需要在控制器方法设置一个形参，使用@RequestBody进行标识，当前请求的请求体就会为当前注解所标识的形参赋值。
-~~~
-@RequestMapping("/testRequestBody")
-public String testRequestBody(@RequestBody String requestBody){
-    System.out.println("requestBody:"+requestBody);
-    return "success";
-}
-~~~
-
-## 8.2 RequestEntity
-
-RequestEntity封装请求报文的一种类型，需要在控制器方法的形参中设置该类型的形参，当前请求的请求报文就会赋值给该形参，可以通过getHeaders()获取请求头信息，通过getBody()获取请求体信息。
-~~~
-@RequestMapping("/testRequestEntity")
-public String testRequestEntity(RequestEntity<String> requestEntity){
-    System.out.println("requestHeader:"+requestEntity.getHeaders());
-    System.out.println("requestBody:"+requestEntity.getBody());
-    return "success";
-}
-~~~
-
-## 8.3 @ResponseBody(非常重要)
-
-@ResponseBody用于标识一个控制器方法，可以将该方法的返回值直接作为响应报文的响应体响应到浏览器，即返回值的含义不再是跳转页面，需要使用ModelAndView去跳转页面。
-微服务的交互都是用的json，所以此注解基本上所有的微服务都使用。
-标注在类上，则相当于为类中的每个方法添加@ResponseBody注解。
-~~~
-@RequestMapping("/testResponseBody")
-@ResponseBody
-public String testResponseBody(){
-    return "success";
-}
-~~~
-
-## 8.4 ResponseEntity
-
-ResponseEntity用于控制器方法的返回值类型，该控制器方法的返回值就是响应到浏览器的响应报文。主要作用是用于文件下载。这个相当于自定义了一份响应。
-
-## 8.5 SpringMVC处理json
+## 8.1 SpringMVC处理json
 
 @ResponseBody处理json的步骤：
 ~~~
@@ -765,11 +848,7 @@ public User testResponseUser(){
 浏览器的页面中展示的结果：{“id”:1001,“username”:“admin”,“password”:“123456”,“age”:23,“sex”:“男”}
 ~~~
 
-## 8.6 SpringMVC处理ajax
-
-## 8.7 @RestController注解
-
-@RestController注解是springMVC提供的一个复合注解，标识在控制器的类上，就相当于为类添加了@Controller注解，并且为其中的每个方法添加了@ResponseBody注解。
+## 8.2 SpringMVC处理ajax
 
 
 

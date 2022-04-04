@@ -3,6 +3,9 @@ package com.atguigu.mvc.a2controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 /**
  * 首页，除了这2个，其它的在SpringMVC.xml的<mvc:view-controller></mvc:view-controller>进行配置
  */
@@ -17,7 +20,7 @@ public class A1IndexController {
      * @return
      */
     @RequestMapping(value = "/") // 此处的"/"代表："http://localhost:ip/上下文路径/"
-    public String index() {
+    public String index(HttpServletRequest req) {
         // 返回视图名称
         return "A1Index";
     }

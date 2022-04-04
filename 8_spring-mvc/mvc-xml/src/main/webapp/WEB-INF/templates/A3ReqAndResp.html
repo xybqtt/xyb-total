@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>获取请求参数测试</title>
+        <!-- link标签用来引入css代码 -->
+        <link rel="stylesheet" type="text/css" href="static/css/total.css" />
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+        <script type="text/javascript">
+
+            $(function () {
+                // 修改rest的put、delete提交时的"_method"属性。
+                $("#submitForm [type='submit']").click(function (event) {
+                    // 修改"_method"对应的value属性为"submit标签的value值"
+                    $("#method").val($(event.target).val());
+
+                    // get请求，就用get发送。
+                    if($("#method").val() == "get")
+                        $("#submitForm").attr("method", "GET");
+                    else
+                        $("#submitForm").attr("method", "POST");
+
+                });
+
+                // 测试request信息的获取
+                $("#reqInfoForm [type='submit']").click(function (event) {
+
+                    $("#reqInfoForm").attr("method", "POST");
+
+                    var inputValue = $(event.target).val().replaceAll("@", "");
+
+                    $("#reqInfoForm").attr("action", $("#hiddenReqInfoPath").attr("href") + inputValue);
+                    console.log($("#reqInfoForm").attr("action"));
+
+                });
+
+                /**
+                 * jq的get类型、返回为json的ajax请求，是对上面的简化4个参数分别为：url、data、回调函数
+                 */
+                $("#getAjax").click(function (event) {
+                    // 阻止超链接的默认行为
+                    event.target.preventDefault();
+                    $.get(event.target.href, "username=张三", function (data) {
+                        alert(JSON.stringify(data));
+                    }, "json");
+                });
+
+            })
+
+
+        </script>
+    </head>
+    <body>
+        <iframe id="showIFrame" name="target" width="40%" height="100%" class="cls1"></iframe>
+        <a th:href="@{/}">返回首页</a>
+
+        <div id="restTest">
+            <h1>测试RESTful风格</h1>
+            <a th:href="@{/3restful/restTest}" target="target">这是REST-GET提交</a><br/>
+            <form id="submitForm" method="post" th:action="@{/3restful/restTest}" target="target">
+                <input id="method" name="_method" value="POST" type="hidden">
+                <input type="submit" th:value="get">这是REST-GET提交<br/>
+                <input type="submit" th:value="post">这是REST-POST提交<br/>
+                <input type="submit" th:value="put">这是REST-PUT提交<br/>
+                <input type="submit" th:value="delete">这是REST-DELETE提交<br/>
+            </form>
+        </div>
+        <hr/>
+
+
+        <div id="reqInfoDiv">
+            <h1>测试获取请求信息</h1>
+            <form id="reqInfoForm" th:action="@{/3restful/reqInfo}" method="post" target="target">
+
+                <a id="hiddenReqInfoPath" th:href="@{/3restful/reqInfo/}" hidden="hidden"></a>
+                使用ServletApi，参考java-web，此处不做演示。<br/>
+                <table border="1px solid black">
+                    <tr>
+                        <td><input type="submit" value="RequestEntity"></td>
+                        <td>获取请求RequestEntity requestEntity</td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="@RequestHeader"></td>
+                        <td>获取请求头</td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="ParamName"></td>
+                        <td>后台设置"方法形参名、方法类型属性名"与前台一致，可以获取参数值</td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="@RequestParam"></td>
+                        <td>获取请求参数，用于get请求或"Content-Type: application/x-www-form-urlencoded"的post请求。另外后台还可根据参数名与前台保持一致获取参数值。</td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="@RequestBody"></td>
+                        <td>获取POST请求体(如果不想让转码，需要设置content-type: application/json)</td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="@CookieValue"></td>
+                        <td>获取cookie值</td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="@RequestAttribute"></td>
+                        <td>获取request域属性</td>
+                    </tr>
+                </table>
+
+                <input name="_method" value="POST" type="hidden">
+                username：<input type="text" name="username" value="张三"><br/>
+                password：<input type="text" name="password" value="123456"><br/>
+                hobby：
+                <input type="checkbox" name="hobby" value="chess" checked="checked"/>下棋
+                <input type="checkbox" name="hobby" value="swim" checked="checked"/>游泳
+            </form>
+
+        </div>
+        <hr/>
+
+
+        <div id="restDiv">
+            <h1>测试REST风格获取变量及矩阵变量</h1>
+            http://ip:port/context/restful/rest/path1;a=1;b=1/path2;c=1;d=2。path1、path2都被称为路径变量，路径变量后面到下一个"/"或"到url结束"的部分叫"矩阵变量"。<br/>
+            下面以"/3restful/rest/path1;a=1,2;b=1;b=张三/path2=4;c=1;d=2"举例<br/>
+            <a th:href="@{'/3restful/rest/path1;a=1,2;b=1;b=张三/path2=4;c=1;d=2'}" target="target">获取路径变量pathvar及矩阵变量</a>
+        </div>
+
+
+        <div id="respBodyDiv">
+            <h1>测试返回类型</h1>
+            <a th:href="@{/3restful/respObject}" th:target="target">使用"@ResponseBody注解"返回json或json数组对象</a><br/>
+            <a th:href="@{/3restful/respStr}" th:target="target">使用"@ResponseBody注解"返回字符串</a><br/>
+            <a th:href="@{/3restful/respEntity}" th:target="target">使用"ResponseEntity返回类型"返回对象，并转换为json</a><br/>
+        </div>
+        <hr/>
+
+        <a id="getAjax" th:href="@{/3restful/ajax}" th:target="target">测试ajax</a>
+        <hr/>
+
+    </body>
+</html>
