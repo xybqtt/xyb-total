@@ -487,7 +487,7 @@ public class MultipartAutoConfiguration {
 
 ### 3.3.3 2种修改默认配置方式
 
-1、自己注册一个相同类开的bean；
+1、自己注册一个相同类型的bean；
 2、修改application.properties中对应的配置参数。
 
 总结：
@@ -933,9 +933,6 @@ public WebMvcConfigurer webMvcConfigurer(){
     }
 }
 ~~~
-
-有可能我们添加的自定义的功能会覆盖默认很多功能，导致一些默认的功能失效。
-大家考虑，上述功能除了我们完全自定义外？SpringBoot有没有为我们提供基于配置文件的快速修改媒体类型功能？怎么配置呢？【提示：参照SpringBoot官方文档web开发内容协商章节】
 
 
 

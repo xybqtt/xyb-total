@@ -658,6 +658,14 @@ public String testRest(@PathVariable("id") String id, @PathVariable("username") 
 
 ## 4.10 @MatrixVariable矩阵变量
 
+矩阵变量：
+~~~
+应当绑定在路径变量中；
+有多个矩阵变量，应当作用";"进行分割；
+一个矩阵变量有多个值，应当使用","分割，或命名多个重复的key即可；
+
+~~~
+
 属性说明：
 ~~~
 value：和属性pathVar的别名;
