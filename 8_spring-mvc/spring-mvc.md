@@ -381,7 +381,7 @@ mapping：请求路径为resources时，都会去location对应的类去查找�
 
 
 
-# 3 @RequestMapping、@PathVariable注解
+# 3 @RequestMapping
 ## 3.1 功能
 
 从注解名称上我们可以看到，@RequestMapping注解的作用就是将请求和处理请求的控制器方法关联起来，建立映射关系。 SpringMVC 接收到指定的请求，就会来找到在映射关系中对应的控制器方法来处理这个请求。
@@ -535,8 +535,8 @@ b>当前请求必须传输请求参数"\_method"
 
 
 
-# 4 SpringMVC获取请求信息
-## 4.1 通过ServletAPI获取Req信息
+# 5 SpringMVC获取请求信息
+## 5.1 通过ServletAPI获取Req信息
 
 DispatcherServlet通过handler处理时，会通过反射获取request参数类型，如果是HttpServletRequest，则会将DispatcherServlet.service()中的req参数传进去，resp类似。request的操作查看java-web。
 ~~~
@@ -549,7 +549,7 @@ public String testParam(HttpServletRequest request){
 }
 ~~~
 
-## 4.2 通过RequestEntity获取Req信息
+## 5.2 通过RequestEntity获取Req信息
 
 在参数位置使用RequestEntity类接收，则会将request信息封装到此类中。
 可获取req的其它信息：entity.getHeaders()、getUrl()、getMethod()、getBody()等。
@@ -560,7 +560,7 @@ public String getReqEntity(RequestEntity<String> requestEntity) {
 }
 ~~~
 
-## 4.3 @RequestHeader获取请求头信息
+## 5.3 @RequestHeader获取请求头信息
 
 使用@RequestHeader注解形参，获取请求头信息。
 @RequestHeader Map<String,String> headerMap：将所有请求头信息封装到map中；
@@ -572,7 +572,7 @@ public String getReqHeader(@RequestHeader Map<String,String> headerMap, @Request
 }
 ~~~
 
-## 4.4 @RequestParam
+## 5.4 @RequestParam
 
 @RequestParam是将请求参数和控制器方法的形参创建映射关系
 @RequestParam注解一共有三个属性：
@@ -588,11 +588,11 @@ public String getParamName(String username, String[] hobby, User user) {
 }
 ~~~
 
-## 4.5 形参或pojo类获取请求参数
+## 5.5 形参或pojo类获取请求参数
 
 在控制器方法的形参位置，设置和请求参数同名的形参，当浏览器发送请求，匹配到请求映射时，在DispatcherServlet中就会将请求参数赋值给相应的形参。
 可以在控制器方法的形参位置设置一个实体类类型的形参，此时若浏览器传输的请求参数的参数名和实体类中的属性名一致，那么请求参数就会为此属性赋值。
-
+也可以给pojo.field.field赋值。如给User.Pet.name。
 ~~~
 http://localhost:8080/testParam?username=admin&password=123456
 
@@ -606,7 +606,7 @@ public String testParam(String username, String[] password, User user){
     若使用字符串数组类型的形参，此参数的数组中包含了每一个数据。
     若使用字符串类型的形参，此参数的值为每个数据中间使用逗号拼接的结果。
 
-## 4.6 @RequestBody获取请求体
+## 5.6 @RequestBody获取请求体
 
 @RequestBody可以获取请求体，需要在控制器方法设置一个形参，使用@RequestBody进行标识，当前请求的请求体就会为当前注解所标识的形参赋值。
 @RequestBody接收的是一个字符串。如果"Content-Type: application/x-www-form-urlencoded"，则中文会被转码，所以一般用"Content-Type: application/json"的格式。
@@ -618,7 +618,7 @@ public String testRequestBody(@RequestBody String requestBody){
 }
 ~~~
 
-## 4.7 @CookieValue获取cookie中的值
+## 5.7 @CookieValue获取cookie中的值
 
 @CookieValue是将cookie数据和控制器方法的形参创建映射关系，必须有value值，不能像@RequestParam一样用map接收所有cookie信息。
 ~~~
@@ -628,7 +628,7 @@ public String getCookieValue(@CookieValue(value = "JSESSIONID", required = true,
 }
 ~~~
 
-## 4.8 @RequestAttribute接收request域信息
+## 5.8 @RequestAttribute接收request域信息
 
 @RequestAttribute：req.setAttribute("a", "b")，则进行转发后，在转发后的方法或页面中就可以通过req.getAttribute("a")获取b。
 ~~~
@@ -639,7 +639,7 @@ public String getReqAttr(@RequestAttribute("field") String field) {
 }
 ~~~
 
-## 4.9 rest风格获取路径参数@PathVariable
+## 5.9 rest风格获取路径参数@PathVariable
 
 对于原始的请求方式：原始方式：/deleteUser?id=1
 对于restful的请求方式：/deleteUser/1
@@ -656,7 +656,7 @@ public String testRest(@PathVariable("id") String id, @PathVariable("username") 
 
 @PathVariable(value = "id")，这个根据value属性的id找到@RequestMapping对应的{id}的值，就会直接赋值给参数如的String id。
 
-## 4.10 @MatrixVariable矩阵变量
+## 5.10 @MatrixVariable矩阵变量
 
 矩阵变量：
 ~~~
@@ -705,7 +705,7 @@ public String getReqAttr(@MatrixVariable(pathVar = "path1") MultiValueMap path1M
 }
 ~~~
 
-## 4.11 解决获取请求参数的乱码问题
+## 5.11 解决获取请求参数的乱码问题
 
 get请求：Tomcat_HOME/conf/server.xml，为Connector添加属性URIEncoding="UTF-8"，或者用String的转码方法。
 post请求：必须在使用request前进行设置编码格式，但是当进入到@RequestMapping修饰的方法时，request已经被使用了，再设置编码已经来不及了，所以只有在web过滤器中设置(顺序：监听器->过滤器->servlet)，spring有默认的过滤器，配置即可。或者自定义一个过滤器也可以。**SpringMVC中处理编码的过滤器一定要配置到其他过滤器之前，否则无效。**
@@ -731,8 +731,8 @@ post请求：必须在使用request前进行设置编码格式，但是当进入
 
 
 
-# 5 SpringMVC进行响应
-## 5.1 @ResponseBody
+# 6 SpringMVC进行响应
+## 6.1 @ResponseBody
 
 @ResponseBody用于标识一个控制器方法，可以将该方法的返回值直接作为响应报文的响应体响应到浏览器，即返回值的含义不再是跳转页面，需要使用ModelAndView去跳转页面。可以将对象返回，最终在前端变为一个json字符串或json数组。
 微服务的交互都是用的json，所以此注解基本上所有的微服务都使用。
@@ -751,17 +751,17 @@ public User testRequestBodyAnno() {
 }
 ~~~
 
-## 5.2 @RestController注解
+## 6.2 @RestController注解
 
 @RestController注解是springMVC提供的一个复合注解，标识在控制器的类上，就相当于为类添加了@Controller注解，并且为其中的每个方法添加了@ResponseBody注解。
 
-## 5.2 ResponseEntity
+## 6.2 ResponseEntity
 
 ResponseEntity用于控制器方法的返回值类型，该控制器方法的返回值就是响应到浏览器的响应报文。主要作用是用于文件下载。这个相当于自定义了一份响应。
 
 
 
-# 5 域对象共享数据
+# 7 域对象共享数据
 
 查看A4ScopeDataController类。
 Model、ModelMap、Map类型的参数其实本质上都是 BindingAwareModelMap 类型的。
@@ -773,19 +773,19 @@ View主要用于设置视图，实现页面跳转
 
 
 
-# 6 SpringMVC的视图
+# 8 SpringMVC的视图
 
 SpringMVC中的视图是View接口，视图的作用渲染数据，将模型Model中的数据展示给用户。
 SpringMVC视图的种类很多，默认有转发视图和重定向视图。
 当工程引入jstl的依赖，转发视图会自动转换为JstlView。
 若使用的视图技术为Thymeleaf，在SpringMVC的配置文件中配置了Thymeleaf的视图解析器，由此视图解析器解析之后所得到的是ThymeleafView。
 
-## 6.1 常用View
-## 6.1.1 ThymeleafView
+## 8.1 常用View
+## 8.1.1 ThymeleafView
 
 当控制器方法中所设置的视图名称没有任何前缀时，此时的视图名称会被SpringMVC配置文件中所配置的视图解析器解析，视图名称拼接视图前缀和视图后缀所得到的最终路径，会通过转发的方式实现跳转。
 
-## 6.1.2 InternalResourceViewResolver
+## 8.1.2 InternalResourceViewResolver
 
 我们在使用SpringMVC的时候，想必都知道，为了安全性考虑，我们的JSP文件都会放在WEB-INF下，但是我们在外部是不可以直接访问/WEB-INF/目录下的资源对吧，只能通过内部服务器进行转发的形式进行访问，那么InternalResourceViewResolver底层通过转发形式帮我们解决了这个问题！
 ~~~
@@ -797,19 +797,19 @@ SpringMVC视图的种类很多，默认有转发视图和重定向视图。
 ~~~
 
 
-## 6.2 转发视图
+## 8.2 转发视图
 
 SpringMVC中默认的转发视图是InternalResourceView。
 SpringMVC中创建转发视图的情况：
     **当控制器方法中所设置的视图名称以"forward:"为前缀时，创建InternalResourceView视图，**此时的视图名称不会被SpringMVC配置文件中所配置的ThymeleafView视图解析器解析，而是会将前缀"forward:"去掉，剩余部分作为最终路径通过转发的方式实现跳转，例如"forward:/"，“forward:/employee”，注意此处的forward后面的是RequestMapping的value属性，相当于前端http访问。
 
-## 6.3 重定向视图
+## 8.3 重定向视图
 
 SpringMVC中默认的重定向视图是RedirectView。
     **当控制器方法中所设置的视图名称以"redirect:"为前缀时，创建RedirectView视图，**此时的视图名称不会被SpringMVC配置文件中所配置的ThymeleafView视图解析器解析，而是会将前缀"redirect:"去掉，剩余部分作为最终路径通过重定向的方式实现跳转，例如"redirect:/"，“redirect:/employee”。注意此处的redirect后面的是RequestMapping的value属性，相当于前端http访问。
 **注：重定向视图在解析时，会先将redirect:前缀去掉，然后会判断剩余部分是否以/开头，若是则会自动拼接上下文路径。**
 
-## 6.4 视图控制器view-controller
+## 8.4 视图控制器view-controller
 
 当控制器方法中，仅仅用来实现页面跳转，即只需要设置视图名称时，可以将处理器方法使用view-controller标签进行表示。
 ~~~
@@ -824,13 +824,13 @@ SpringMVC中默认的重定向视图是RedirectView。
 
 
 
-# 8 HttpMessageConverter
+# 9 HttpMessageConverter
 
 HttpMessageConverter，报文信息转换器，将请求报文转换为Java对象，或将Java对象转换为响应报文。
 HttpMessageConverter提供了两个注解和两个类型：@RequestBody、@ResponseBody、RequestEntity、ResponseEntity。
 
 
-## 8.1 SpringMVC处理json
+## 9.1 SpringMVC处理json
 
 @ResponseBody处理json的步骤：
 ~~~
@@ -856,16 +856,16 @@ public User testResponseUser(){
 浏览器的页面中展示的结果：{“id”:1001,“username”:“admin”,“password”:“123456”,“age”:23,“sex”:“男”}
 ~~~
 
-## 8.2 SpringMVC处理ajax
+## 9.2 SpringMVC处理ajax
 
 
 
-# 9 文件上载和下载
-## 9.1 文件下载
+# 10 文件上载和下载
+## 10.1 文件下载
 
 使用ResponseEntity实现下载文件的功能。查看A8FileUpAndDowController.java。
 
-## 9.2 文件上载
+## 10.2 文件上载
 
 文件上传要求form表单的请求方式必须为post，并且添加属性enctype=“multipart/form-data”。
 SpringMVC中将上传的文件封装到MultipartFile对象中，通过此对象可以获取文件相关信息。
@@ -908,8 +908,8 @@ SpringMVC中将上传的文件封装到MultipartFile对象中，通过此对象�
 
 
 
-# 10 拦截器
-## 10.1 拦截器的配置
+# 11 拦截器
+## 11.1 拦截器的配置
 
 SpringMVC中的拦截器用于**拦截控制器方法**的执行。
 SpringMVC中的拦截器需要实现HandlerInterceptor。
@@ -934,7 +934,7 @@ SpringMVC的拦截器必须在SpringMVC的配置文件中进行配置：
 </mvc:interceptors>
 ~~~
 
-## 10.2 拦截器的三个抽象方法
+## 11.2 拦截器的三个抽象方法
 
 SpringMVC中的拦截器有三个抽象方法：
 ~~~
@@ -943,7 +943,7 @@ postHandle：控制器方法执行之后执行postHandle()
 afterComplation：处理完视图和模型数据，渲染视图完毕之后执行afterComplation()
 ~~~
 
-## 10.3 多个拦截器的执行顺序
+## 11.3 多个拦截器的执行顺序
 
 若每个拦截器的preHandle()都返回true：
     此时多个拦截器的执行顺序和拦截器在SpringMVC的配置文件的配置顺序有关：
@@ -954,8 +954,8 @@ afterComplation：处理完视图和模型数据，渲染视图完毕之后执�
 
 
 
-# 11 异常处理器
-## 11.1 基于配置的异常处理
+# 12 异常处理器
+## 12.1 基于配置的异常处理
 
 SpringMVC提供了一个处理控制器方法执行过程中所出现的异常的接口：HandlerExceptionResolver
 HandlerExceptionResolver接口的实现类有：DefaultHandlerExceptionResolver和SimpleMappingExceptionResolver
@@ -978,7 +978,7 @@ SpringMVC提供了自定义的异常处理器SimpleMappingExceptionResolver(即�
 </bean>
 ~~~
 
-## 11.2 基于注解的异常处理
+## 12.2 基于注解的异常处理
 
 ~~~
 //@ControllerAdvice将当前类标识为异常处理的组件
@@ -998,11 +998,11 @@ public class ExceptionController {
 
 
 
-# 12 注解配置SpringMVC
+# 13 注解配置SpringMVC
 
 使用配置类和注解代替web.xml和SpringMVC配置文件的功能
 
-## 12.1 创建初始化类，代替web.xml
+## 13.1 创建初始化类，代替web.xml
 
 在**Servlet3.0**环境中，容器会在类路径中查找实现javax.servlet.ServletContainerInitializer接口的类，如果找到的话就用它来配置Servlet容器。
 Spring提供了这个接口的实现，名为SpringServletContainerInitializer，这个类反过来又会查找实现WebApplicationInitializer的类并将配置的任务交给它们来完成。
@@ -1053,7 +1053,7 @@ public class WebInit extends AbstractAnnotationConfigDispatcherServletInitialize
 }
 ~~~
 
-## 12.2 创建SpringConfig配置类，代替spring的配置文件
+## 13.2 创建SpringConfig配置类，代替spring的配置文件
 
 ~~~
 @Configuration
@@ -1062,7 +1062,7 @@ public class SpringConfig {
 }
 ~~~
 
-## 12.3 创建WebConfig配置类，代替SpringMVC的配置文件
+## 13.3 创建WebConfig配置类，代替SpringMVC的配置文件
 
 ~~~
 @Configuration 
@@ -1146,8 +1146,8 @@ public class WebConfig implements WebMvcConfigurer {
 
 
 
-# 13 SpringMVC执行流程
-## 13.1 SpringMVC常用组件
+# 14 SpringMVC执行流程
+## 14.1 SpringMVC常用组件
 
 DispatcherServlet：前端控制器，不需要工程师开发，由框架提供
 作用：统一处理请求和响应，整个流程控制的中心，由它调用其它组件处理用户的请求
@@ -1160,6 +1160,12 @@ Handler：处理器，需要工程师开发
 
 HandlerAdapter：处理器适配器，不需要工程师开发，由框架提供
 作用：通过HandlerAdapter对处理器（控制器方法）进行执行
+~~~
+RequestMappingHandlerAdapter：支持方法上标注@RequestMapping；
+HandlerFunctionAdapter：支持函数式编程；
+HttpRequestHandlerAdapter：
+SimpleControllerHandlerAdapter：
+~~~
 
 ViewResolver：视图解析器，不需要工程师开发，由框架提供
 作用：进行视图解析，得到相应的视图，例如：ThymeleafView、InternalResourceView、RedirectView，视图解析器可以将html、css中的代码解析，比如使用ThymeleafView，会将<a th:href=@{/}>中的th:href=@{/}解析为href=http://ip:port/context/。
@@ -1167,12 +1173,12 @@ ViewResolver：视图解析器，不需要工程师开发，由框架提供
 View：视图
 作用：将模型数据通过页面展示给用户
 
-## 13.2 DispatcherServlet初始化过程
+## 14.2 DispatcherServlet初始化过程
 
 DispatcherServlet 本质上是一个 Servlet，所以天然的遵循 Servlet 的生命周期。所以宏观上是 Servlet 生命周期来进行调度。
 找DispatcherServlet的init()方法一步步看下去就是初始化过程。
 
-## 13.2.1 初始化WebApplicationContext
+## 14.2.1 初始化WebApplicationContext
 
 所在类：org.springframework.web.servlet.FrameworkServlet
 ~~~
@@ -1232,7 +1238,7 @@ protected WebApplicationContext initWebApplicationContext() {
 }
 ~~~
 
-## 13.2.2 创建WebApplicationContext
+## 14.2.2 创建WebApplicationContext
 
 所在类：org.springframework.web.servlet.FrameworkServlet
 ~~~
@@ -1261,7 +1267,7 @@ protected WebApplicationContext createWebApplicationContext(@Nullable Applicatio
 }
 ~~~
 
-## 13.2.3 DispatcherServlet初始化策略
+## 14.2.3 DispatcherServlet初始化策略
 
 FrameworkServlet创建WebApplicationContext后，刷新容器，调用onRefresh(wac)，此方法在DispatcherServlet中进行了重写，调用了initStrategies(context)方法，初始化策略，即初始化DispatcherServlet的各个组件
 
@@ -1280,8 +1286,8 @@ protected void initStrategies(ApplicationContext context) {
 }
 ~~~
 
-## 13.3 DispatcherServlet调用组件处理请求
-### 13.3.1 processRequest()
+## 14.3 DispatcherServlet调用组件处理请求
+### 14.3.1 processRequest()
 
 FrameworkServlet重写HttpServlet中的service()和doXxx()，这些方法中调用了processRequest(request, response)
 
@@ -1328,7 +1334,7 @@ protected final void processRequest(HttpServletRequest request, HttpServletRespo
 }
 ~~~
 
-### 13.3.2 doService()
+### 14.3.2 doService()
 
 所在类：org.springframework.web.servlet.DispatcherServlet
 ~~~
@@ -1388,7 +1394,7 @@ protected void doService(HttpServletRequest request, HttpServletResponse respons
 }
 ~~~
 
-### 13.3.3 doDispatch()
+### 14.3.3 doDispatch()
 
 所在类：org.springframework.web.servlet.DispatcherServlet
 ~~~
@@ -1487,7 +1493,7 @@ protected void doDispatch(HttpServletRequest request, HttpServletResponse respon
 }
 ~~~
 
-### 13.3.4 processDispatchResult()
+### 14.3.4 processDispatchResult()
 
 ~~~
 private void processDispatchResult(HttpServletRequest request, HttpServletResponse response,
@@ -1535,7 +1541,7 @@ private void processDispatchResult(HttpServletRequest request, HttpServletRespon
 }
 ~~~
 
-## 13.4 SpringMVC的执行流程
+## 14.4 SpringMVC的执行流程
 
 ~~~
 用户向服务器发送请求，请求被SpringMVC 前端控制器 DispatcherServlet捕获。

@@ -208,12 +208,14 @@ public class A3ReqAndRespController {
     @ResponseBody
     public String getReqAttr(@PathVariable("path1") String path1,
                              @PathVariable("path2") String path2,
+                             @PathVariable Map<String, String> map,
                              @MatrixVariable(pathVar = "path1") MultiValueMap path1Map,
                              @MatrixVariable(pathVar = "path1", value = "a") String[] path1aValue
                              ) {
         StringBuilder sb = new StringBuilder("");
         sb.append("@PathVariable(\"path1\")：" + path1 + "(没有对应值，仅有路径)<br/><br/>");
         sb.append("@PathVariable(\"path2\")：" + path2 + "(有对应值)<br/><br/>");
+        sb.append("@PathVariable获取所有路径变量map：" + map + "<br/><br/>");
         sb.append("@MatrixVariable(pathVar = \"path1\")(路径分号后的kv对)：" + path1Map + "<br/><br/>");
         sb.append("@MatrixVariable(pathVar = \"path1\", value = \"a\")(路径后的矩阵变量中，k=a对应的value值)：" + Arrays.toString(path1aValue) + "<br/><br/>");
         return sb.toString();

@@ -12,6 +12,8 @@ public class User {
 
     private String[] hobby;
 
+    private Pet pet;
+
     public User() {
     }
 
@@ -20,6 +22,14 @@ public class User {
         this.username = username;
         this.password = password;
         this.hobby = hobby;
+    }
+
+    public User(Integer id, String username, String password, String[] hobby, Pet pet) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.hobby = hobby;
+        this.pet = pet;
     }
 
     public Integer getId() {
@@ -54,6 +64,13 @@ public class User {
         this.hobby = hobby;
     }
 
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
 
     @Override
     public String toString() {
@@ -62,6 +79,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", hobby=" + Arrays.toString(hobby) +
+                ", pet=" + pet +
                 '}';
     }
 }
