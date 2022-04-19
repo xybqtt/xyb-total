@@ -1,4 +1,4 @@
-package com.atguigu.boot.controller;
+package com.atguigu.boot.a3controller;
 
 import com.atguigu.boot.a2annoshow.a1configuration.A1FullConfig;
 import com.atguigu.boot.a2annoshow.a1configuration.A2LiteConfig;

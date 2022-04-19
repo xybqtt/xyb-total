@@ -1,20 +1,22 @@
 # 配置资源路径
 spring:
   mvc:
-    # 前端访问"http://ip:port/res/path"会自动去下面的"static-locations"对应的目录取文件
-    static-path-pattern: /res/**
+    # 前端访问"http://ip:port/res/path"会自动去下面的"static-locations"对应的目录取文件，下面就不配置/res了
+    static-path-pattern: /**
     hiddenmethod:
       filter:
         # 开启RESTful风格
         enabled: true
-#  resources:
-#    # 静态资源目录，如果多个目录中有相同文件名的资源，会按数组顺序优先取前面的。这个不建议配置，建议使用默认的4个目录。
-#    static-locations: [classpath:/myResources/]
-#    # false，禁用所有静态资源
-#    add-mappings: false
-
-
-
+  resources:
+    # 静态资源目录，如果多个目录中有相同文件名的资源，会按数组顺序优先取前面的。这个不建议配置，建议使用默认的4个目录，就是下面这4个
+    static-locations: [classpath:/META-INF/resources/, classpath:/resources/, classpath:/static/, classpath:/public/]
+    # false，禁用所有静态资源
+    add-mappings: true
+  servlet:
+    # 文件上传
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
 
 # 验证yml的使用
 a3:

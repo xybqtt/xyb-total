@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +23,7 @@ import java.util.UUID;
  * ResponseEntity完成文件的上载、下载。
  */
 @Controller
-public class A6FileUpAndDowController {
+public class A6FileUpAndDownController {
 
 
     /**
@@ -60,25 +61,38 @@ public class A6FileUpAndDowController {
      * @param session
      * @return
      */
+    /**
+     * 多文件上传。
+     * @param photos 多文件上传用MultipartFile[]接收，单文件用MultipartFile接收。
+     * @param session
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/fileUpAndDown/fileUp")
     @ResponseBody
-    public String fileUp(MultipartFile photo, HttpSession session) throws IOException {
-        //获取上传的文件的文件名
-        String fileName = photo.getOriginalFilename();
-        //处理文件重名问题
-        String hzName = fileName.substring(fileName.lastIndexOf("."));
-        fileName = UUID.randomUUID().toString() + hzName;
+    public String fileUp(@RequestPart("photos") MultipartFile[] photos, HttpSession session) throws IOException {
+
         //获取服务器中photo目录的路径
         ServletContext servletContext = session.getServletContext();
         String photoPath = servletContext.getRealPath("/static/photo");
-        File file = new File(photoPath);
-        if(!file.exists()){
-            file.mkdir();
+
+        for(MultipartFile photo : photos) {
+            //获取上传的文件的文件名
+            String fileName = photo.getOriginalFilename();
+            //处理文件重名问题
+            String hzName = fileName.substring(fileName.lastIndexOf("."));
+            fileName = UUID.randomUUID().toString() + hzName;
+
+
+            File file = new File(photoPath);
+            if (!file.exists()) {
+                file.mkdir();
+            }
+            String finalPath = photoPath + File.separator + fileName;
+            //实现上传功能
+            photo.transferTo(new File(finalPath));
         }
-        String finalPath = photoPath + File.separator + fileName;
-        //实现上传功能
-        photo.transferTo(new File(finalPath));
-        return "文件上传成功，路径为" + finalPath;
+        return "文件上传成功，路径为" + photoPath;
     }
 
 }

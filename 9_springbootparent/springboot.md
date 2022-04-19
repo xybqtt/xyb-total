@@ -232,6 +232,7 @@ src
 ~~~
 
 
+
 # 3 自动配置原理
 ## 3.1 SpringBoot特点
 ### 3.1.1 依赖管理
@@ -643,6 +644,34 @@ key: value；kv之间有空格
 # 5 Web开发
 ## 5.1 SpringMVC自动配置概览
 
+Spring Boot provides auto-configuration for Spring MVC that works well with most applications.(大多场景我们都无需自定义配置)
+The auto-configuration adds the following features on top of Spring’s defaults:
+~~~
+Inclusion of ContentNegotiatingViewResolver and BeanNameViewResolver beans.
+    内容协商视图解析器和BeanName视图解析器
+Support for serving static resources, including support for WebJars (covered later in this document)).
+    静态资源（包括webjars）
+Automatic registration of Converter, GenericConverter, and Formatter beans.
+    自动注册 Converter，GenericConverter，Formatter
+Support for HttpMessageConverters (covered later in this document).
+    支持 HttpMessageConverters （后来我们配合内容协商理解原理）
+Automatic registration of MessageCodesResolver (covered later in this document).
+    自动注册 MessageCodesResolver （国际化用）
+Static index.html support.
+    静态index.html 页支持
+Custom Favicon support (covered later in this document).
+    自定义 Favicon  
+Automatic use of a ConfigurableWebBindingInitializer bean (covered later in this document).
+    自动使用 ConfigurableWebBindingInitializer ，（DataBinder负责将请求数据绑定到JavaBean上）
+~~~
+
+3种扩展或替换默认mvc配置的方式：
+~~~
+不用@EnableWebMvc注解。使用 @Configuration + WebMvcConfigurer 自定义规则
+声明 WebMvcRegistrations 改变默认底层组件
+使用 @EnableWebMvc+@Configuration+DelegatingWebMvcConfiguration 全面接管SpringMVC
+~~~
+
 ## 5.2 简单功能分析
 ### 5.2.1 静态资源访问
 
@@ -933,6 +962,244 @@ public WebMvcConfigurer webMvcConfigurer(){
     }
 }
 ~~~
+
+
+
+# 6 视图解析与模板引擎
+
+视图解析：SpringBoot默认不支持 JSP，需要引入第三方模板引擎技术实现页面渲染。
+
+## 6.1 视图解析及原理
+
+3种处理方式：转发、重定向、自定义视图。
+
+视图解析原理流程：
+
+## 6.2 模板引擎-Thymeleaf
+### 6.2.1 简介
+
+Thymeleaf is a modern server-side Java template engine for both web and standalone environments, capable of processing HTML, XML, JavaScript, CSS and even plain text.
+现代化、服务端Java模板引擎
+
+### 6.2.2 基本语法
+
+表达式：
+|表达式名字|语法|用途|
+|:--|:--|:--|
+|变量取值|${}|获取请求域、session域、对象等值|
+|选择变量|*{}|获取上下文对象值|
+|消息|#{}|获取国际化等值|
+|链接|@{}|生成链接|
+|片段表达式|~{}|jsp:include 作用，引入公共页面片段|
+|行内写法|[[${}]]|当仅想输出一行文本，且此文本没有标签时|
+
+字面量
+~~~
+文本：'text'；
+数字：0，1，2.0，12.3；
+布尔值：true，false；
+空值：null；
+变量：one，two，.... 变量不能有空格。
+~~~
+
+文本操作：
+~~~
+字符串拼接: +；
+变量替换: |The name is ${name}|。
+~~~
+
+数学运算：+，-，*，/，%。
+
+布尔运算：>，<，>=，<=( gt , lt , ge , le )；==，!= ( eq , ne )。
+
+条件运算：
+~~~
+If-then: (if) ? (then)
+If-then-else: (if) ? (then) : (else)
+Default: (value) ?: (defaultvalue) 
+~~~
+
+无操作符：_
+
+### 6.2.3 设置属性值-th:attr
+
+设置单个值：
+~~~
+<input type="submit" value="Subscribe!" th:attr="value=#{subscribe.submit}"/>
+~~~
+
+设置多个值：
+~~~
+<img src="../../images/gtvglogo.png"  th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}" />
+~~~
+
+以上2个的替代写法：
+~~~
+<input type="submit" value="Subscribe!" th:value="#{subscribe.submit}"/>
+<form action="subscribe.html" th:action="@{/subscribe}">
+~~~
+
+所有h5兼容的标签写法
+https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#setting-value-to-specific-attributes
+
+### 6.2.4 迭代
+
+~~~
+<tr th:each="prod : ${prods}">
+    <td th:text="${prod.name}">Onions</td>
+    <td th:text="${prod.price}">2.41</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+</tr>
+~~~
+
+~~~
+<tr th:each="prod,iterStat : ${prods}" th:class="${iterStat.odd}? 'odd'">
+  <td th:text="${prod.name}">Onions</td>
+  <td th:text="${prod.price}">2.41</td>
+  <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+</tr>
+~~~
+
+### 6.2.5 条件运算
+
+~~~
+<a href="comments.html" th:href="@{/product/comments(prodId=${prod.id})}"
+th:if="${not #lists.isEmpty(prod.comments)}">view</a>
+~~~
+
+类似switch case
+~~~
+<div th:switch="${user.role}">
+  <p th:case="'admin'">User is an administrator</p>
+  <p th:case="#{roles.manager}">User is a manager</p>
+  <p th:case="*">User is some other thing</p>
+</div>
+~~~
+
+### 6.2.6 属性优先级
+
+当同一个标签中有多个th:*属性时，Thymleaf在处理这些属性时有优先级的问题。
+
+Thymleaf中定义的属性优先级，从上到下优先级越来越低：
+|order|Feature|Attributes|
+|:--|:--|:--|
+|1|Fragment inclusion|th:include th:replace|
+|2|Fragment iteration|th:each|
+|3|Conditional evaluation|th:if th:unless th:switch th:case|
+|4|Local variable definition|th:object th:with|
+|5|General attribute modification|th:attr th:attrprepend th:attrappend|
+|6|Specific attribute modification|th:value th:href th:src …|
+|7|Text (tag body modification)|th:text th:utext|
+|8|Fragment specification|th:fragment|
+|9|Fragment removal|th:remove|
+
+### 6.2.7 抽取多个thymeleaf公共部分
+
+templatename：当前引用片段所在文件位置。
+selector：公共片段的选择器。
+fragmentname:公共片段的名字。
+
+先抽取公共部分到一个html中，并给公共部分设置一个唯一代号(2种方式)：
+~~~
+common.html
+<head th:fragment="templatename">内容</head>
+<div th:id="aa"><div>
+~~~
+
+引入时的2种选择方式：
+~~~
+选择器引入：
+    ~{templatename :: selector}
+    templatename :: selector
+模板名引入：
+    ~{templatename :: fragmentname}
+    templatename :: fragmentname
+~{}可以省略
+~~~
+
+其它页面引用，3种方式：
+~~~
+<div th:insert="common(公共页面名) :: fragmentName(片段名)|选择器">
+    将公共片段整个插入到声明引入的元素中。会将引入片段所在的标签全部引入到当前标签中。
+<div th:replace="common(公共页面名) :: fragmentName(片段名)|选择器">
+    将声明引入的元素替换为公共片段。引入标签的 div 会被覆盖掉，最后内容为整个带引入标签内容。
+<div th:include="common(公共页面名) :: fragmentName(片段名)|选择器">
+    将被引入的片段的内容包含进这个标签中。只会将被引入片段其中的内容拿过来，其声明标签不要。
+common公共页面名代表静态资源页面，与访问其它html页面的方式相同。
+~~~
+
+## 6.3 thymeleaf使用
+### 6.3.1 引入Starter
+
+~~~
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+</dependency>
+~~~
+
+### 6.3.2 自动配置好了thymeleaf
+
+~~~
+spring-boot-autoconfigure包下：
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(ThymeleafProperties.class)
+@ConditionalOnClass({ TemplateMode.class, SpringTemplateEngine.class })
+@AutoConfigureAfter({ WebMvcAutoConfiguration.class, WebFluxAutoConfiguration.class })
+public class ThymeleafAutoConfiguration { }
+~~~
+
+自动配置好的策略：
+~~~
+所有thymeleaf的配置值都在 ThymeleafProperties
+配置好了 SpringTemplateEngine 
+配好了 ThymeleafViewResolver 
+我们只需要直接开发页面
+默认位置：
+    public static final String DEFAULT_PREFIX = "classpath:/templates/";
+    public static final String DEFAULT_SUFFIX = ".html";  //xxx.html
+~~~
+
+
+
+# 7 拦截器
+
+与spring-mvc的配置类似。不同的是boot配置拦截所有路径是"/**"，且此路径会拦截资源路径，所以需要对资源路径进行排除。
+
+
+
+# 8 文件上传
+
+与spring-mvc的配置类似。
+
+## 8.1 自动配置原理
+
+~~~
+自动配置原理
+文件上传自动配置类-MultipartAutoConfiguration-MultipartProperties
+    自动配置好了 StandardServletMultipartResolver   【文件上传解析器】
+    原理步骤
+        请求进来使用文件上传解析器判断（isMultipart）并封装（resolveMultipart，返回MultipartHttpServletRequest）文件上传请求
+        参数解析器来解析请求中的文件内容封装成MultipartFile
+        将request中文件信息封装为一个Map；MultiValueMap<String, MultipartFile> FileCopyUtils。实现文件流的拷贝
+~~~
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

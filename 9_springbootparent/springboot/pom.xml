@@ -54,6 +54,13 @@
             <version>3.5.1</version>
         </dependency>
 
+        <!-- 引入thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <!-- build插件，可以在右侧clean-package打成jar包，直接在本地java -jar jar包名执行 -->

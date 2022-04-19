@@ -14,7 +14,8 @@
         <hr/>
         <form th:action="@{/fileUpAndDown/fileUp}" method="post" enctype="multipart/form-data">
             <h1>文件上传</h1>
-            选择文件：<input type="file" name="photo">
+            <!-- 多文件上传添加multiple属性 -->
+            选择文件：<input type="file" name="photos" multiple>
             <input type="submit">
         </form>
     </body>

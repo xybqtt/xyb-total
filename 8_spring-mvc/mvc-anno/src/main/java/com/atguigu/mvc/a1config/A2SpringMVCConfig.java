@@ -59,7 +59,7 @@ public class A2SpringMVCConfig implements WebMvcConfigurer {
         registry.addViewController("/a3ReqAndResp").setViewName("A3ReqAndResp");
         registry.addViewController("/a4ScopeData").setViewName("A4ScopeData");
         registry.addViewController("/a5ForwardAndRedirect").setViewName("A5ForwardAndRedirect");
-        registry.addViewController("/a6FileUpAndDown").setViewName("A6FileUpAndDownLod");
+        registry.addViewController("/a6FileUpAndDown").setViewName("A6FileUpAndDownLoad");
         registry.addViewController("/a7Interceptor").setViewName("A7Interceptor");
         registry.addViewController("/a8Exception").setViewName("A8Exception");
 

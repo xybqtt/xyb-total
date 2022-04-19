@@ -868,6 +868,7 @@ public User testResponseUser(){
 ## 10.2 文件上载
 
 文件上传要求form表单的请求方式必须为post，并且添加属性enctype=“multipart/form-data”。
+多文件上传，在input标签添加multiple属性。
 SpringMVC中将上传的文件封装到MultipartFile对象中，通过此对象可以获取文件相关信息。
 
 步骤：
@@ -951,6 +952,20 @@ afterComplation：处理完视图和模型数据，渲染视图完毕之后执�
 
 若某个拦截器的preHandle()返回了false：
     preHandle()返回false和它之前的拦截器的preHandle()都会执行，postHandle()都不执行(因为handler没执行，执行post没意义)，返回false的拦截器之前的拦截器的afterComplation()会执行。
+
+## 11.4 原理
+
+~~~
+根据当前请求，找到HandlerExecutionChain【可以处理请求的handler以及handler的所有 拦截器】
+先来顺序执行 所有拦截器的 preHandle方法
+    如果当前拦截器prehandler返回为true。则执行下一个拦截器的preHandle
+    如果当前拦截器返回为false。直接    倒序执行所有已经执行了的拦截器的  afterCompletion；
+如果任何一个拦截器返回false。直接跳出不执行目标方法
+所有拦截器都返回True。执行目标方法
+倒序执行所有拦截器的postHandle方法。
+前面的步骤有任何异常都会直接倒序触发 afterCompletion
+页面成功渲染完成以后，也会倒序触发 afterCompletion
+~~~
 
 
 
