@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>文件上下载</title>
+
+    </head>
+    <body>
+        <a th:href="@{/}">返回首页</a>
+
+        <h1>使用ResponseEntity完成文件上下载</h1>
+
+        <a th:href="@{/fileUpAndDown/fileDown}">文件下载</a>
+        <hr/>
+        <form th:action="@{/fileUpAndDown/fileUp}" method="post" enctype="multipart/form-data">
+            <h1>文件上传</h1>
+            <!-- 多文件上传添加multiple属性 -->
+            选择文件：<input type="file" name="photos" multiple>
+            <input type="submit">
+        </form>
+    </body>
+</html>
