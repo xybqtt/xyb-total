@@ -19,6 +19,7 @@
      define subcomponents such as "Valves" at this level.
      Documentation at /docs/config/server.html
  -->
+<!-- server.xml位于$TOMCAT_HOME/conf目录下，是整个配置文件的根元素 -->
 <Server port="8005" shutdown="SHUTDOWN">
   <Listener className="org.apache.catalina.startup.VersionLoggerListener"/>
   <!-- Security listener. Documentation at /docs/config/listeners.html
@@ -49,6 +50,8 @@
        a single "Container" Note:  A "Service" is not itself a "Container",
        so you may not define subcomponents such as "Valves" at this level.
        Documentation at /docs/config/service.html
+
+       Service代表一个Engine元素以及一组与之相连的Connector元素，不是一个Servlet容器。
    -->
   <Service name="Catalina">
 
