@@ -61,7 +61,16 @@
 
             属性：
                 port：客户端可以通过8080访问此tomcat；
-                protocol：交互的协议，如HTTP/1.1、AJP/1.3等；
+                protocol：交互的协议，如HTTP/1.1、AJP/1.3，当然也可以传入具体的处理类的全限定名设置BIO、NIO、APR等，在源码
+                    org.apache.catalina.connector.Connector {
+                        public Connector(String protocol) {
+                            ProtocolHandler p = ProtocolHandler.create(protocol, apr) {
+                                // 可看到如果不是HTTP/1.1、AJP/1.3，且不为空，则会根据此属性配置的全限定名类去处理。
+                                // 有哪些类型可以查看AbstractProtocol的子类，也可以自定义。
+                                Class<?> clazz = Class.forName(protocol);
+                            }
+                        }
+                    }
                 connectionTimeout：超时时间；
                 redirectPort：当用户用http请求某个资源，而该资源本身又被设置了必须要https方式访问，此时Tomcat会自动重定向到这个redirectPort设置的https端口。
 

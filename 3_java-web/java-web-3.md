@@ -287,6 +287,9 @@ new module -> Java Enterprise -> 选sdk、java EE version、tomcat、勾选Web A
 
 # 4 HTTP协议
 ## 4.1 什么是HTTP协议
+
+HTTP协议(超文本传输协议HyperText Transfer Protocol)，它是基于TCP协议的应用层传输协议，简单来说就是客户端和服务端进行数据传输的一种规则。
+应用层协议：就像A程序和B程序约定好了，咱们的报文长这个样子，我按这个传，你按这个样子解析。
 协议是指双方或多方相互约定好，大家都需要遵守的规则；
 HTTP协议是指，客户端和服务端通信时，发送的数据，需要遵守的规则；
 HTTP协议中的数据又叫报文；
