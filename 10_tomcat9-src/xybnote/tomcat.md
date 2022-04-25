@@ -121,143 +121,27 @@ pom.xml文件内容
 启动tomcat即可。
 ~~~
 
+## 1.3 脚本启动分析
 
-
-# 2 Tomcat整体架构和处理请求流程解析
-## 2.1 server.xml文件分析
-
-查看server.xml文件
-![avatar](pictures/1-1tomcat完整架构图.jpg)
-
-## 2.2 tomcat核心组件的关联
-
-整体关系：
-~~~
-Server：代表tomcat容器
-    Service * n：
-        List<Connector>：接收请求，封装req、resp，交给Engine
-        Engine：处理请求
-            Pipeline：Engine接收到数据了，数据的处理流程由Pipeline确定，类似责任链模式，每个的处理节点叫Valve阀门
-                List<Valve>：
-            List<Host>：
-                Pipeline：
-                List<Context>：每个具体的web应用。
-                    Pipeline：
-                        List<Valve>：
-                    List<Wrapper>：包含了所有某种servlet类型的所有实例
-                        Pipeline：
-                            List<Valve>：
-                        List<Servlet>：n个相同Servlet类型的实例。
-                        Servlet：可以这种Servlet类型是单例，就用这个属性。
-~~~
-Engine、Host、Context、Wrapper都是servlet窗口。
-一个engine可包含多个host；
-一个Host可包含多个context(具体应用)；
-一个wrapper可包含**多个同类型**的servlet。
-
-为什么不直接用context包含servlet？
-直接用context管理servlet：相当于一个校长管理所有学生。
-context<Wrapper<Servlet>>：相当于把所有学生分到各自的年级，由各自年级的老师管理，校长只用管理各年级的老师就行。
-context只用管理每种Servlet对应的Wrapper，Wrapper只用管理这种Servlet中的所有实例。
-
-## 2.3 如何确定请求由谁处理？
-
-当请求被发送到Tomcat所在的主机时，如何确定最终哪个Web应用来处理该请求呢？
-http://域名:端口/context/path
-
-**根据协议和端口号选定Service和Engine**
-~~~
-Service中的Connector组件可以接收特定端口的请求，因此，当Tomcat启动时，Service组件就会监听特定的端口。
-根据端口可以确定Connector，再根据Connector确定其所属的Service，找到Service下唯一的Engine。
-通过在Server中配置多个Service，可以实现通过不同的端口号来访问同一台机器上部署的不同应用。
-~~~
-
-**根据域名或IP地址选定Host**
-~~~
-将域名或ip与Engine中所有Host的name进行匹配，就可以确定Host，如果没有匹配成功，则用Engine配置的defaultHost对应的Host处理。
-~~~
-
-**根据URI选定Context/Web应用**
-~~~
-在选定Host后，Tomcat根据应用的 path属性与URI的匹配程度来选择Web应用处理相应请求。
-~~~
-
-举例：以请求http://localhost:8080/app1/index.html为例，首先通过协议和端口号（http和8080）选定Service；然后通过主机名（localhost）选定Host；然后通过uri（/app1/index.html）选定Web应用。
-
-## 2.4 如何配置多个服务
-
-在Server中配置多个Service服务，可以实现通过不同的端口号来访问同一台机器上部署的不同Web应用。就是把上一次Service复制一份，相应的配置改一改。
-
-## 2.5 其它组件
-
-除核心组件外，server.xml中还可以配置很多其他组件。下面只介绍第一部分例子中出现的组件，如果要了解更多内容，可以查看https://tomcat.apache.org/tomcat-8.0-doc/config/index.html。
-
-### 2.5.1 Listener
-
-Listener(即监听器)定义的组件，可以在特定事件发生时执行特定的操作；被监听的事件通常是Tomcat的启动和停止。
-
-监听器可以在Server、Engine、Host或Context中，本例中的监听器都是在Server中。实际上，本例中定义的6个监听器，都只能存在于Server组件中。监听器不允许内嵌其他组件。
-
-监听器需要配置的最重要的属性是className，该属性规定了监听器的具体实现类，该类必须实现了org.apache.catalina.LifecycleListener接口。
-
-下面依次介绍例子中配置的监听器：
-
-VersionLoggerListener：当Tomcat启动时，该监听器记录Tomcat、Java和操作系统的信息。该监听器必须是配置的第一个监听器。
-AprLifecycleListener：Tomcat启动时，检查APR库，如果存在则加载。APR，即Apache Portable Runtime，是Apache可移植运行库，可以实现高可扩展性、高性能，以及与本地服务器技术更好的集成。
-JasperListener：在Web应用启动之前初始化Jasper，Jasper是JSP引擎，把JVM不认识的JSP文件解析成java文件，然后编译成class文件供JVM使用。
-JreMemoryLeakPreventionListener：与类加载器导致的内存泄露有关。
-GlobalResourcesLifecycleListener：通过该监听器，初始化< GlobalNamingResources>标签中定义的全局JNDI资源；如果没有该监听器，任何全局资源都不能使用。< GlobalNamingResources>将在后文介绍。
-ThreadLocalLeakPreventionListener：当Web应用因thread-local导致的内存泄露而要停止时，该监听器会触发线程池中线程的更新。当线程执行完任务被收回线程池时，活跃线程会一个一个的更新。只有当Web应用(即Context元素)的renewThreadsWhenStoppingContext属性设置为true时，该监听器才有效。
-
-### 2.5.2 GlobalNamingResources与Realm
-
-Realm，可以把它理解成“域”；Realm提供了一种用户密码与web应用的映射关系，从而达到角色安全管理的作用。在本例中，Realm的配置使用name为UserDatabase的资源实现。而该资源在Server元素中使用GlobalNamingResources配置：
-
-GlobalNamingResources元素定义了全局资源，通过配置可以看出，该配置是通过读取$TOMCAT_HOME/ conf/tomcat-users.xml实现的。
-
-https://www.cnblogs.com/xing901022/p/4552843.html
-
-### 2.5.3 Valve
-
-单词Valve的意思是“阀门”，在Tomcat中代表了请求处理流水线上的一个组件；Valve可以与Tomcat的容器(Engine、Host或Context)关联。
-
-AccessLogValve的作用是通过日志记录其所在的容器中处理的所有请求，在本例中，Valve放在Host下，便可以记录该Host处理的所有请求。AccessLogValve记录的日志就是访问日志，每天的请求会写到一个日志文件里。AccessLogValve可以与Engine、Host或Context关联；在本例中，只有一个Engine，Engine下只有一个Host，Host下只有一个Context，因此AccessLogValve放在三个容器下的作用其实是类似的。
-
-属性如下：
-~~~
-className：规定了Valve的类型，是最重要的属性；本例中，通过该属性规定了这是一个AccessLogValve。
-directory：指定日志存储的位置，本例中，日志存储在$TOMCAT_HOME/logs目录下。
-prefix：指定了日志文件的前缀。
-suffix：指定了日志文件的后缀。通过directory、prefix和suffix的配置，在$TOMCAT_HOME/logs目录下，可以看到如下所示的日志文件。
-pattern：指定记录日志的格式，本例中各项的含义如下：
-    %h：远程主机名或IP地址；如果有nginx等反向代理服务器进行请求分发，该主机名/IP地址代表的是nginx，否则代表的是客户端。后面远程的含义与之类似，不再解释。
-    %l：远程逻辑用户名，一律是”-”，可以忽略。
-    %u：授权的远程用户名，如果没有，则是”-”。
-    %t：访问的时间。
-    %r：请求的第一行，即请求方法(get/post等)、uri、及协议。
-    %s：响应状态，200,404等等。
-    %b：响应的数据量，不包括请求头，如果为0，则是”-”。
-    %D，含义是请求处理的时间(单位是毫秒)，对于统计分析请求的处理速度帮助很大。
-~~~
-
-开发人员可以充分利用访问日志，来分析问题、优化应用。例如，分析访问日志中各个接口被访问的比例，不仅可以为需求和运营人员提供数据支持，还可以使自己的优化有的放矢；分析访问日志中各个请求的响应状态码，可以知道服务器请求的成功率，并找出有问题的请求；分析访问日志中各个请求的响应时间，可以找出慢请求，并根据需要进行响应时间的优化。
+startup.bat文件实际上就做了一件事情: 启动catalina.bat。
+catalina.bat：以后看TODO。
 
 
 
+# 2 Tomcat目录及启动参数介绍
+## 2.1 Tomcat目录介绍
 
+- /bin：用于Tomcat 的启动，关闭。*.sh 用于linux，*.bat用于windows系统。
+- /conf：用于Tomcat的配置，其中 server.xml是最重要的，它用于配置容器的文件，如配置项目项目的端口号80等。
+- /logs ：是Tomcat默认的日志文件，可以通过它查看Tomcat的系统情况，非常有用。
+- /webapps：是你的web应用放到位置。
 
+## 2.2 启动参数介绍
+### 2.2.1
 
-
-
-
-
-## 2.6 tomcat处理请求流程
-
-服务器A ------> 服务器B
-在A点击提交后，浏览器将http请求转换为字节码，通过socket，调用A的操作系统中的方法，通过TCP协议传送到B。
-B接收到后，也通过socket调用操作系统的方法，获取字节数据。
-
-注意，所有程序不能直接操作操作系统，所以操作系统留了一些接口，程序可以通过这些接口调用操作系统方法，socket就是操作TCP的。类似Java中有一个私有内部类C，其它类无法调用，但是可以在内部类所在的类A写一些方法，里面调用内部类的方法，然后外部类通过A.f1()调用C的方法。
+**CATALINA_HOME**：是Tomcat的安装目录，在windows的环境变量中一般会配置CATALINA_HOME。其他目录主要包括了Tomcat的二进制文件和脚本，CATALINA_HOME就指向这些目录。
+**CATALINA_BASE**：是Tomcat的工作目录。Tomcat每个运行实例需要使用自己的conf、logs、temp、webapps、work和shared目录，因此CATALINA_BASE就指向这些目录。
+默认CATALINA_BASE和CATALINA_HOME指向相同的目录。
 
 
 
@@ -325,6 +209,305 @@ HTTP协议的长连接和短连接，本质上是TCP协议的长连接和短连�
 ~~~
 Connection:keep-alive
 ~~~
+
+
+
+# 4 理解Tomcat架构
+## 4.1 Tomcat作用
+
+一个Servlet主要做下面三件事情：
+- 创建并填充Request对象，包括：URI、参数、method、请求头信息、请求体信息等
+- 创建Response对象
+- 执行业务逻辑，将结果通过Response的输出流输出到客户端
+
+Servlet没有main方法，所以，如果要执行，则需要在一个容器里面才能执行，这个容器就是为了支持Servlet的功能而存在，Tomcat其实就是一个Servlet容器的实现。
+
+![avatar](pictures/1-tomcat完整架构图.jpg)
+
+## 4.1 从组件的角度看
+
+整体关系(具体每个组件作用查看server.xml文件)：
+Server：
+- List\<Service>：
+  - List\<Connector>：
+  - List\<Listener>：
+  - Engine：
+    - Pipeline：
+      - List\<Valve>:
+    - List\<Host>:
+      - Pipeline：
+        - List\<Valve>:
+      - List\<Context>:
+        - Pipeline：
+            - List\<Valve>:
+        - List\<Wrapper>：
+          - Pipeline：
+              - List\<Valve>:
+          - List\<Servlet>：
+
+**Server**
+- 表示服务器，它提供了一种优雅的方式来启动和停止整个系统，不必单独启停连接器和容器；它是Tomcat构成的顶级构成元素，所有一切均包含在Server中；
+
+**Service**
+- 表示服务，Server可以运行多个服务。比如一个Tomcat里面可运行订单服务、支付服务、用户服务等等；Server的实现类StandardServer可以包含一个到多个Services, Service的实现类为StandardService调用了容器(Container)接口，其实是调用了Servlet Engine(引擎)，而且StandardService类中也指明了该Service归属的Server。
+
+**Container**
+- 表示容器，可以看做Servlet容器；引擎(Engine)、主机(Host)、上下文(Context)和Wraper均继承自Container接口，所以它们都是容器。
+  - Engine：引擎
+    - Host：主机
+      - Context：上下文
+        - Wrapper：包装器
+          - Servlet：从Engine都包含了Servlet，所以他们叫容器。
+
+**Connector**
+- 表示连接器, 它将Service和Container连接起来，首先它需要注册到一个Service，它的作用就是把来自客户端的请求转发到Container(容器)，这就是它为什么称作连接器, 它支持的协议如下：
+  - 支持AJP协议
+  - 支持Http协议
+  - 支持Https协议
+
+Engine、Host、Context、Wrapper都是servlet容器。
+一个engine可包含多个host；
+一个Host可包含多个context(具体应用)；
+一个wrapper可包含**多个同类型**的servlet。
+
+为什么不直接用context包含servlet？
+直接用context管理servlet：相当于一个校长管理所有学生。
+context<Wrapper<Servlet>>：相当于把所有学生分到各自的年级，由各自年级的老师管理，校长只用管理各年级的老师就行。
+context只用管理每种Servlet对应的Wrapper，Wrapper只用管理这种Servlet中的所有实例。
+
+
+**Service内部还有各种支撑组件，下面简单罗列一下这些组件**
+- Manager：管理器，用于管理会话Session
+- Logger：日志器，用于管理日志
+- Loader：加载器，和类加载有关，只会开放给Context所使用
+- Pipeline：管道组件，配合Valve实现过滤器功能
+- Valve：阀门组件，配合Pipeline实现过滤器功能
+- Realm：认证授权组件
+
+## 4.2 从一个完整请求的角度来看
+
+假设来自客户的请求为：http://localhost:8080/test/index.jsp 请求被发送到本机端口8080，被在那里侦听的Coyote HTTP/1.1 Connector,然后：
+- Connector把该请求交给它所在的Service的Engine来处理，并等待Engine的回应 Engine获得请求
+- localhost:8080/test/index.jsp，匹配它所有虚拟主机Host
+- Engine匹配到名为localhost的Host(即使匹配不到也把请求交给该Host处理，因为该Host被定义为该Engine的默认主机)
+- localhost Host获得请求/test/index.jsp，匹配它所拥有的所有Context
+- Host匹配到路径为/test的Context(如果匹配不到就把该请求交给路径名为""的Context去处理)
+- path="/test"的Context获得请求/index.jsp，在它的mapping table中寻找对应的servlet
+- Context匹配到URL PATTERN为*.jsp的servlet，对应于JspServlet类，构造HttpServletRequest对象和HttpServletResponse对象，作为参数调用JspServlet的doGet或doPost方法
+- Context把执行完了之后的HttpServletResponse对象返回给Host
+- Host把HttpServletResponse对象返回给Engine
+- Engine把HttpServletResponse对象返回给Connector
+- Connector把HttpServletResponse对象返回给客户browser
+
+## 4.3 从源码的设计角度看
+
+从功能的角度将Tomcat源代码分成5个子模块，分别是:
+**Jasper模块**
+- 这个子模块负责jsp页面的解析、jsp属性的验证，同时也负责将jsp页面动态转换为java代码并编译成class文件。在Tomcat源代码中，凡是属于org.apache.jasper包及其子包中的源代码都属于这个子模块。
+
+**Servlet和Jsp模块**
+- 这个子模块的源代码属于javax.servlet包及其子包，如我们非常熟悉的javax.servlet.Servlet接口、javax.servet.http.HttpServlet类及javax.servlet.jsp.HttpJspPage就位于这个子模块中。
+
+**Catalina模块**
+- 这个子模块包含了所有以org.apache.catalina开头的java源代码。该子模块的任务是规范了Tomcat的总体架构，定义了Server、Service、Host、Connector、Context、Session及Cluster等关键组件及这些组件的实现，这个子模块大量运用了Composite设计模式。同时也规范了Catalina的启动及停止等事件的执行流程。从代码阅读的角度看，这个子模块应该是我们阅读和学习的重点。
+
+**Connector模块**
+- 如果说上面三个子模块实现了Tomcat应用服务器的话，那么这个子模块就是Web服务器的实现。所谓连接器(Connector)就是一个连接客户和应用服务器的桥梁，它接收用户的请求，并把用户请求包装成标准的Http请求(包含协议名称，请求头Head，请求方法是Get还是Post等等)。同时，这个子模块还按照标准的Http协议，负责给客户端发送响应页面，比如在请求页面未发现时，connector就会给客户端浏览器发送标准的Http 404错误响应页面。
+
+**Resource模块**
+- 这个子模块包含一些资源文件，如Server.xml及Web.xml配置文件。严格说来，这个子模块不包含java源代码，但是它还是Tomcat编译运行所必需的。
+
+## 4.4 从后续深入理解的角度
+
+我们看完上述组件结构后，后续应该重点从哪些角度深入理解Tomcat呢？
+**基于组件的架构**
+- 我们知道组成Tomcat的是各种各样的组件，每个组件各司其职，组件与组件之间有明确的职责划分，同时组件与组件之间又通过一定的联系相互通信。Tomcat整体就是一个个组件的堆砌！
+
+**基于JMX**
+- 我们在后续阅读Tomcat源码的时候，会发现代码里充斥着大量的类似于下面的代码。而这实际上就是通过JMX来管理相应对象的代码。
+~~~
+Registry.getRegistry(null, null).invoke(mbeans, "init", false);
+Registry.getRegistry(null, null).invoke(mbeans, "start", false);
+~~~
+
+**基于生命周期**
+- 如果我们查阅各个组件的源代码，会发现绝大多数组件实现了Lifecycle接口，这也就是我们所说的基于生命周期。生命周期的各个阶段的触发又是基于事件的方式。
+
+
+## 4.5 如何确定请求由谁处理？
+
+当请求被发送到Tomcat所在的主机时，如何确定最终哪个Web应用来处理该请求呢？
+http://域名:端口/context/path
+
+**根据协议和端口号选定Service和Engine**
+~~~
+Service中的Connector组件可以接收特定端口的请求，因此，当Tomcat启动时，Service组件就会监听特定的端口。
+根据端口可以确定Connector，再根据Connector确定其所属的Service，找到Service下唯一的Engine。
+通过在Server中配置多个Service，可以实现通过不同的端口号来访问同一台机器上部署的不同应用。
+~~~
+
+**根据域名或IP地址选定Host**
+~~~
+将域名或ip与Engine中所有Host的name进行匹配，就可以确定Host，如果没有匹配成功，则用Engine配置的defaultHost对应的Host处理。
+~~~
+
+**根据URI选定Context/Web应用**
+~~~
+在选定Host后，Tomcat根据应用的 path属性与URI的匹配程度来选择Web应用处理相应请求。
+~~~
+
+举例：以请求http://localhost:8080/app1/index.html为例，首先通过协议和端口号（http和8080）选定Service；然后通过主机名（localhost）选定Host；然后通过uri（/app1/index.html）选定Web应用。
+
+## 4.6 如何配置多个服务
+
+在Server中配置多个Service服务，可以实现通过不同的端口号来访问同一台机器上部署的不同Web应用。就是把上一次Service复制一份，相应的配置改一改。
+
+## 4.7 其它组件
+
+除核心组件外，server.xml中还可以配置很多其他组件。下面只介绍第一部分例子中出现的组件，如果要了解更多内容，可以查看https://tomcat.apache.org/tomcat-8.0-doc/config/index.html。
+
+### 4.7.1 Listener
+
+Listener(即监听器)定义的组件，可以在特定事件发生时执行特定的操作；被监听的事件通常是Tomcat的启动和停止。
+
+监听器可以在Server、Engine、Host或Context中，本例中的监听器都是在Server中。实际上，本例中定义的6个监听器，都只能存在于Server组件中。监听器不允许内嵌其他组件。
+
+监听器需要配置的最重要的属性是className，该属性规定了监听器的具体实现类，该类必须实现了org.apache.catalina.LifecycleListener接口。
+
+**下面依次介绍例子中配置的监听器：**
+- VersionLoggerListener：当Tomcat启动时，该监听器记录Tomcat、Java和操作系统的信息。该监听器必须是配置的第一个监听器。
+- AprLifecycleListener：Tomcat启动时，检查APR库，如果存在则加载。APR，即Apache Portable Runtime，是Apache可移植运行库，可以实现高可扩展性、高性能，以及与本地服务器技术更好的集成。
+- JasperListener：在Web应用启动之前初始化Jasper，Jasper是JSP引擎，把JVM不认识的JSP文件解析成java文件，然后编译成class文件供JVM使用。
+- JreMemoryLeakPreventionListener：与类加载器导致的内存泄露有关。
+- GlobalResourcesLifecycleListener：通过该监听器，初始化< GlobalNamingResources>标签中定义的全局JNDI资源；如果没有该监听器，任何全局资源都不能使用。< GlobalNamingResources>将在后文介绍。
+- ThreadLocalLeakPreventionListener：当Web应用因thread-local导致的内存泄露而要停止时，该监听器会触发线程池中线程的更新。当线程执行完任务被收回线程池时，活跃线程会一个一个的更新。只有当Web应用(即Context元素)的renewThreadsWhenStoppingContext属性设置为true时，该监听器才有效。
+
+### 4.7.2 GlobalNamingResources与Realm
+
+Realm，可以把它理解成“域”；Realm提供了一种用户密码与web应用的映射关系，从而达到角色安全管理的作用。在本例中，Realm的配置使用name为UserDatabase的资源实现。而该资源在Server元素中使用GlobalNamingResources配置：
+
+GlobalNamingResources元素定义了全局资源，通过配置可以看出，该配置是通过读取$TOMCAT_HOME/ conf/tomcat-users.xml实现的。
+
+https://www.cnblogs.com/xing901022/p/4552843.html
+
+### 4.7.3 Valve
+
+单词Valve的意思是“阀门”，在Tomcat中代表了请求处理流水线上的一个组件；Valve可以与Tomcat的容器(Engine、Host或Context)关联。
+
+AccessLogValve的作用是通过日志记录其所在的容器中处理的所有请求，在本例中，Valve放在Host下，便可以记录该Host处理的所有请求。AccessLogValve记录的日志就是访问日志，每天的请求会写到一个日志文件里。AccessLogValve可以与Engine、Host或Context关联；在本例中，只有一个Engine，Engine下只有一个Host，Host下只有一个Context，因此AccessLogValve放在三个容器下的作用其实是类似的。
+
+**属性如下：**
+- className：规定了Valve的类型，是最重要的属性；本例中，通过该属性规定了这是一个AccessLogValve。
+- directory：指定日志存储的位置，本例中，日志存储在$TOMCAT_HOME/logs目录下。
+- prefix：指定了日志文件的前缀。
+- suffix：指定了日志文件的后缀。通过directory、prefix和suffix的配置，在$TOMCAT_HOME/logs目录下，可以看到如下所示的日志文件。
+- pattern：指定记录日志的格式，本例中各项的含义如下：
+  - %h：远程主机名或IP地址；如果有nginx等反向代理服务器进行请求分发，该主机名/IP地址代表的是nginx，否则代表的是客户端。后面远程的含义与之类似，不再解释。
+  - %l：远程逻辑用户名，一律是”-”，可以忽略。
+  - %u：授权的远程用户名，如果没有，则是”-”。
+  - %t：访问的时间。
+  - %r：请求的第一行，即请求方法(get/post等)、uri、及协议。
+  - %s：响应状态，200,404等等。
+  - %b：响应的数据量，不包括请求头，如果为0，则是”-”。
+  - %D，含义是请求处理的时间(单位是毫秒)，对于统计分析请求的处理速度帮助很大。
+
+开发人员可以充分利用访问日志，来分析问题、优化应用。例如，分析访问日志中各个接口被访问的比例，不仅可以为需求和运营人员提供数据支持，还可以使自己的优化有的放矢；分析访问日志中各个请求的响应状态码，可以知道服务器请求的成功率，并找出有问题的请求；分析访问日志中各个请求的响应时间，可以找出慢请求，并根据需要进行响应时间的优化。
+
+
+
+# 5 启动过程：初始化和启动流程
+## 5.1 总体流程
+
+![avatar](pictures/4-初始化和启动流程.png)
+
+## 5.2 程序主入口
+
+org.apache.catalina.startup.Bootstrap.main(String[] args)。
+主要做了以下工作：
+~~~
+main(String[] args) {
+    Bootstrap bootstrap = new Bootstrap();
+    bootstrap.init() {
+        // 初始化 CommonClassLoader、CatalinaClassLoader、SharedClassLoader，并且3个是同一个；
+        initClassLoaders();
+
+        // 设置线程的classLoader为catalinaLoader，即后面加载用tomcat自己的类加载器
+        Thread.currentThread().setContextClassLoader(catalinaLoader);
+
+        // 实例化：org.apache.catalina.startup.Catalina
+        catalinaDaemon = startupInstance(通过反射生成);
+    }
+
+    bootstrap.load(args);
+    bootstrap.start();
+}
+~~~
+
+
+
+# 6 启动过程:类加载机制详解
+## 6.1 双亲委派模型问题是如何解决的？
+
+**双亲委派模型问题**
+A类在使用到另一个未被加载的B类时，首先会使用A类的classLoader加载B类，进行双亲委派加载。如果由核心类A加载其它自定义类B，按理应该由BootstrapClassLoader加载B，但是B无法加载自定义的类，导致类B无法加载。
+在Java核心类里面有SPI（Service Provider Interface），它由Sun编写规范，第三方来负责实现。SPI需要用到第三方实现类。如果使用双亲委派模型，那么第三方实现类也需要放在Java核心类里面才可以，不然的话第三方实现类将不能被加载使用。
+
+**解决方法**
+核心类获取当前线程，直接调用getContextClassLoader()获取AppClassLoder，或调用setContextClassLoader()设置自定义类加载器MyClassLoader，再调用其getContextClassLoader()，获取MyClassLoader，用MyClassLoader或AppClassLoder加载自定义的类。
+
+## 6.2 为什么Tomcat的类加载器也不是双亲委派模型
+
+原因在于一个Tomcat容器允许同时运行多个Web程序，每个Web程序依赖的类又必须是相互隔离的。因此，如果Tomcat使用双亲委派模式来加载类的话，将导致Web程序依赖的类变为共享的。
+例Tomcat中部署了2个web应用，且都有User类，但类结构不一样，当tomcat加载了A.User类时，B使用User时，就不会使用B自己的User，而是A.User，就会出错致命错误。
+
+## 6.3 Tomcat类加载机制是怎么样的呢
+
+![avatar](pictures/5-tomcat类加载图.png)
+
+我们在这张图中看到很多类加载器，除了Jdk自带的类加载器，我们尤其关心Tomcat自身持有的类加载器。仔细一点我们很容易发现：Catalina类加载器、Shared类加载器，他们并不是父子关系，而是兄弟关系。
+**tomcat类加载器的作用**
+- Common类加载器，负责加载Tomcat和Web应用都复用的类
+- Catalina类加载器，负责加载Tomcat专用的类，而这些被加载的类在Web应用中将不可见
+- Shared类加载器，负责加载Tomcat下所有的Web应用程序都复用的类，而这些被加载的类在Tomcat中将不可见
+- WebApp类加载器，负责加载具体的某个Web应用程序所使用到的类，而这些被加载的类在Tomcat和其他的Web应用程序都将不可见
+- Jsp类加载器，每个jsp页面一个类加载器，不同的jsp页面有不同的类加载器，方便实现jsp页面的热插拔
+
+~~~
+org/apache/catalina/startup/Bootstrap
+public void init() throws Exception {
+    ...
+    // tomcat在此设置了其根加载器，后面tomcat加载的所有类最多到此加载器，此加载器也是commonClsLoader
+    Thread.currentThread().setContextClassLoader(catalinaLoader);
+    ...
+}
+~~~
+
+**类加载器被创建位置：**
+- CommonClassLoader、CatalinaClassLoader、SharedClassLoader：BootStrap.init(){initClassLoaders();}
+- WebAppClassLoader：是每个Context的类加载器，所以在Context的标准实现StandardContext中被创建的
+~~~
+StandardContext.startInternal(){
+    ...
+    if (getLoader() == null) {
+        WebappLoader webappLoader = new WebappLoader();
+        webappLoader.setDelegate(getDelegate());
+        setLoader(webappLoader);
+    }
+    ...
+}
+~~~
+
+
+
+# 7 启动过程:Catalina的加载
+## 7.1 Catalina
+
+
+
+
+
+
+
 
 
 

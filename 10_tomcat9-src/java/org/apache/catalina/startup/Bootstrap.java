@@ -128,6 +128,7 @@ public final class Bootstrap {
 
     /**
      * Daemon reference.
+     * org.apache.catalina.startup.Catalina类，在init()中创建。
      */
     private Object catalinaDaemon = null;
 
@@ -138,18 +139,26 @@ public final class Bootstrap {
 
     // -------------------------------------------------------- Private Methods
 
-
+    /**
+     * 初始化tomcat的3个类加载器：
+     * CommonLoader：加载Tomcat所需要的jar包和class文件，可以被Tomcat容器本身以及各个Webapp访问；
+     * CatalinaLoader：Tomcat容器私有的类加载器，加载路径中的class对于Webapp不可见；
+     * SharedLoader：各个Webapp共享的类加载器，加载路径中的class对于所有Webapp可见，对于Tomcat不可见；
+     *
+     */
     private void initClassLoaders() {
         try {
-            // commonLoader初始化
+            // 获取classLoader并加载${catalina.home}/conf/catalina.properties中common.loader对应的类
             commonLoader = createClassLoader("common", null);
             if (commonLoader == null) {
-                // no config file, default to this loader - we might be in a 'single' env.
                 commonLoader = this.getClass().getClassLoader();
             }
-            // catalinaLoader初始化, 父classloader是commonLoader
+            /*
+                catalinaLoader初始化, 由于${catalina.home}/conf/catalina.properties中server.loader值为空，
+                所以返回的还是commonLoader，即commonLoader = catalinaLoader
+             */
             catalinaLoader = createClassLoader("server", commonLoader);
-            // sharedLoader初始化
+            // sharedLoader，同catalinaLoader，其实这3个类加载器是同一个。
             sharedLoader = createClassLoader("shared", commonLoader);
         } catch (Throwable t) {
             handleThrowable(t);
@@ -159,6 +168,16 @@ public final class Bootstrap {
     }
 
 
+    /**
+     * 1、读取${catalina.home}/conf/catalina.properties；
+     * 2、根据name从properties中获取value；
+     * 3、创建classLoader，加载value，并返回classLoader。
+     * 4、如果value = null，则返回 parent。
+     * @param name
+     * @param parent
+     * @return
+     * @throws Exception
+     */
     private ClassLoader createClassLoader(String name, ClassLoader parent)
         throws Exception {
 
@@ -253,15 +272,17 @@ public final class Bootstrap {
      */
     public void init() throws Exception {
 
-        // 初始化classloader（包括catalinaLoader），下文将具体分析
+        // 初始化CommonLoader、CatalinaLoader、SharedLoader
         initClassLoaders();
 
-        // 设置当前的线程的contextClassLoader为catalinaLoader
+        /*
+        * 设置当前的线程的contextClassLoader为catalinaLoader，即后面不用jdk的3个类加载器加载了，
+        * 用tomcat自定义的加载器加载，原因看笔记，tomcat为什么破坏双亲委派。
+        * */
         Thread.currentThread().setContextClassLoader(catalinaLoader);
 
         SecurityClassLoad.securityClassLoad(catalinaLoader);
 
-        // Load our startup class and call its process() method
         // 通过catalinaLoader加载Catalina，并初始化startupInstance 对象
         if (log.isDebugEnabled()) {
             log.debug("Loading startup class");
@@ -269,7 +290,7 @@ public final class Bootstrap {
         Class<?> startupClass = catalinaLoader.loadClass("org.apache.catalina.startup.Catalina");
         Object startupInstance = startupClass.getConstructor().newInstance();
 
-        // Set the shared extensions class loader 通过反射调用了setParentClassLoader 方法
+        // 通过反射调用了setParentClassLoader 方法
         if (log.isDebugEnabled()) {
             log.debug("Setting startup class properties");
         }
@@ -288,6 +309,7 @@ public final class Bootstrap {
 
     /**
      * Load daemon.
+     * 通过反射调用：catalinaDaemon.load()方法
      */
     private void load(String[] arguments) throws Exception {
 
@@ -401,6 +423,7 @@ public final class Bootstrap {
 
     /**
      * Set flag.
+     * 设置 org.apache.catalina.startup.Catalina.setAwait();
      * @param await <code>true</code> if the daemon should block
      * @throws Exception Reflection error
      */

@@ -30,7 +30,10 @@ import org.apache.juli.logging.LogFactory;
 
 /**
  * Utility class to read the bootstrap Catalina configuration.
- *
+ * 读取 ${catalina.home}/conf/catalina.properties：
+ *      common.loader：commonLoader加载的类；
+ *      server.loader：catalinaLoader加载的类，为null；
+ *      shared.loader：sharedLoader加载的类，为null；
  * @author Remy Maucherat
  */
 public class CatalinaProperties {

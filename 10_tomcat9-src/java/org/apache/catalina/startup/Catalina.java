@@ -55,6 +55,7 @@ import org.xml.sax.InputSource;
 
 
 /**
+ * 主要作用是解析 ${CATALINA_BASE}/conf/server.xml 文件
  * Startup/Shutdown shell program for Catalina.  The following command line
  * options are recognized:
  * <ul>
