@@ -88,6 +88,7 @@ public class Catalina {
 
     /**
      * Use await.
+     * 让程序等待，别把Bootstrap的main线程运行完成后就关了。
      */
     protected boolean await = false;
 
@@ -550,6 +551,10 @@ public class Catalina {
     }
 
 
+    /**
+     * 解析${CATALINA_BASE}/conf/server.xml
+     * @param start
+     */
     protected void parseServerXml(boolean start) {
         // Set configuration source
         ConfigFileLoader.setSource(new CatalinaBaseConfigurationSource(Bootstrap.getCatalinaBaseFile(), getConfigFile()));
@@ -573,7 +578,7 @@ public class Catalina {
             }
         }
 
-        // Init source location
+        // 初始化server.xml位置
         File serverXmlLocation = null;
         String xmlClassName = null;
         if (generateCode || useGeneratedCode) {
@@ -596,6 +601,7 @@ public class Catalina {
             }
         }
 
+        // 用 SAXParser 来解析 xml，解析完了之后，xml 里定义的各种标签就有对应的实现类对象了
         ServerXml serverXml = null;
         if (useGeneratedCode) {
             serverXml = (ServerXml) Digester.loadGeneratedClass(xmlClassName);
@@ -691,9 +697,12 @@ public class Catalina {
 
     /**
      * Start a new server instance.
+     * 解析${CATALINA_BASE}/conf/server.xml文件，并封装到对象中；
+     * 初始化Server对象及其中所有对象，Servcie、Connector等；
      */
     public void load() {
 
+        // 如果已加载就退出
         if (loaded) {
             return;
         }
@@ -701,12 +710,13 @@ public class Catalina {
 
         long t1 = System.nanoTime();
 
+        // 没用了
         initDirs();
 
-        // Before digester - it may be needed
+        // 设置额外的系统变量 Before digester - it may be needed
         initNaming();
 
-        // Parse main server.xml
+        // 解析server.xml，就像读取xml报文一样，仅读取并赋值，后面再进行操作
         parseServerXml(true);
         Server s = getServer();
         if (s == null) {
@@ -717,11 +727,12 @@ public class Catalina {
         getServer().setCatalinaHome(Bootstrap.getCatalinaHomeFile());
         getServer().setCatalinaBase(Bootstrap.getCatalinaBaseFile());
 
-        // Stream redirection
+        // 替换掉System.out, System.err为自定义的PrintStream
         initStreams();
 
-        // Start the new server
+        // 启动server
         try {
+            // 初始化Server，及其内部的所有组件
             getServer().init();
         } catch (LifecycleException e) {
             if (Boolean.getBoolean("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE")) {
@@ -754,6 +765,7 @@ public class Catalina {
 
     /**
      * Start a new server instance.
+     * 启动Server
      */
     public void start() {
 
@@ -807,6 +819,7 @@ public class Catalina {
             }
         }
 
+        // 这个await是在Bootstrap.main() {daemon.setAwait(true);}设置的
         if (await) {
             await();
             stop();

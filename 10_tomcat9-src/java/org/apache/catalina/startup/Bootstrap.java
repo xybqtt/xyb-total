@@ -128,7 +128,7 @@ public final class Bootstrap {
 
     /**
      * Daemon reference.
-     * org.apache.catalina.startup.Catalina类，在init()中创建。
+     * org.apache.catalina.startup.Catalina类实例，在init()中创建。
      */
     private Object catalinaDaemon = null;
 
@@ -267,7 +267,10 @@ public final class Bootstrap {
 
     /**
      * Initialize daemon.
-     * 初始化守护进程
+     * 初始化守护进程：
+     *      初始化3个类加载器：CommonLoader、CatalinaLoader、SharedLoader；
+     *      设置当前线程类加载器；
+     *      实例化org.apache.catalina.startup.Catalina。
      * @throws Exception Fatal initialization error
      */
     public void init() throws Exception {
@@ -309,7 +312,7 @@ public final class Bootstrap {
 
     /**
      * Load daemon.
-     * 通过反射调用：catalinaDaemon.load()方法
+     * 在方法中通过反射调用：catalinaDaemon.load()方法
      */
     private void load(String[] arguments) throws Exception {
 
@@ -331,6 +334,7 @@ public final class Bootstrap {
         if (log.isDebugEnabled()) {
             log.debug("Calling startup class " + method);
         }
+        // 通过反射调用
         method.invoke(catalinaDaemon, param);
     }
 
@@ -504,6 +508,7 @@ public final class Bootstrap {
                 daemon.stop();
             } else if (command.equals("start")) {
                 daemon.setAwait(true);
+                // 调用Catalina.load()方法
                 daemon.load(args);
                 daemon.start();
                 if (null == daemon.getServer()) {

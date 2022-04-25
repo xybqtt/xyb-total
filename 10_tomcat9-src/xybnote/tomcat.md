@@ -476,7 +476,7 @@ A类在使用到另一个未被加载的B类时，首先会使用A类的classLoa
 org/apache/catalina/startup/Bootstrap
 public void init() throws Exception {
     ...
-    // tomcat在此设置了其根加载器，后面tomcat加载的所有类最多到此加载器，此加载器也是commonClsLoader
+    // tomcat在此设置了其根加载器，后面tomcat加载的所有类最多到此加载器，此加载器也是commonClsLoader、SharedClsLoader。
     Thread.currentThread().setContextClassLoader(catalinaLoader);
     ...
 }
@@ -500,7 +500,61 @@ StandardContext.startInternal(){
 
 
 # 7 启动过程:Catalina的加载
-## 7.1 Catalina
+## 7.1 Catalina的实例化、启动和关闭
+
+~~~
+Bootstrap.main(String[] args) {
+    init() {
+        // 通过反射生成 Catalina，并赋值给this.catalinaDaemon
+        Class<?> startupClass = catalinaLoader.loadClass("org.apache.catalina.startup.Catalina");
+        Object startupInstance = startupClass.getConstructor().newInstance();
+    }
+
+    load(args) {
+        catalinaDaemon.load() {
+            // 用 SAXParser 来解析 xml，解析完了之后，xml 里定义的各种标签就有对应的实现类对象了
+            parseServerXml(true);
+
+            // 初始化Server对象，及其内部的所有组件Service、Connector、Engine、Host等。
+            getServer().init();
+        }
+    }
+
+    start() {
+        catalinaDaemon.start() {
+            // 调用Server对象的start方法。
+            getServer().start();
+
+            // 通过addShutdownHook添加的线程，会在jvm关闭前并发执行
+            Runtime.getRuntime().addShutdownHook(new CatalinaShutdownHook() {
+                    public void run() {
+                        Catalina.this.stop() {
+                            getServer().stop();
+                        }
+                    }
+                }
+            );
+
+            if (await) {
+                // 一直等SHUTDOWN命令，接收到命令后，往后执行，也是通过Socket进行发送命令，接收到命令后会修改useShutdownHook = true
+                await();
+                // 调用Server.stop()方法，只要求调一次，所以如果是通过
+                stop() {
+                    // 如果是SHUTDOWN命令关闭，则移除钩子方法，不然关闭jvm的时候，又会运行一次server.stop()，此时会报空指针。
+                    if (useShutdownHook) {
+                        Runtime.getRuntime().removeShutdownHook(shutdownHook);
+                    }
+                    getServer().stop();
+                }
+            }
+        }
+    }
+
+
+}
+
+~~~
+
 
 
 
