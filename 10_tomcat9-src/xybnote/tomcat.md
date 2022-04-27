@@ -15,7 +15,6 @@ https://www.cnblogs.com/cndarren/p/14415213.html
 # 6 Tomcat中Session功能的实现
 # 5 Tomcat启动过程
 # 4 Tomcat请求处理详解
-# 3 Tomcat中自定义类加载器的使用与源码实现
 
 
 
@@ -462,7 +461,11 @@ A类在使用到另一个未被加载的B类时，首先会使用A类的classLoa
 
 ## 6.3 Tomcat类加载机制是怎么样的呢
 
+tomcat9之前的类加载器
 ![avatar](pictures/5-tomcat类加载图.png)
+
+tomcat9的类加载器
+![avatar](pictures/6-tomcat9类加载器.png)
 
 我们在这张图中看到很多类加载器，除了Jdk自带的类加载器，我们尤其关心Tomcat自身持有的类加载器。仔细一点我们很容易发现：Catalina类加载器、Shared类加载器，他们并不是父子关系，而是兄弟关系。
 **tomcat类加载器的作用**
@@ -502,60 +505,178 @@ StandardContext.startInternal(){
 # 7 启动过程:Catalina的加载
 ## 7.1 Catalina的实例化、启动和关闭
 
+我们最终的目的是启动Server，Bootstrap引导Catalina的创建和销毁，Catalina对Server进行了解析、创建、销毁。
+
+先看下Bootstrap.main()方法的流程：
 ~~~
-Bootstrap.main(String[] args) {
-    init() {
-        // 通过反射生成 Catalina，并赋值给this.catalinaDaemon
-        Class<?> startupClass = catalinaLoader.loadClass("org.apache.catalina.startup.Catalina");
-        Object startupInstance = startupClass.getConstructor().newInstance();
+new Bootstrap();
+bootstrap.init(); // 创建catalina实例
+daemon.load(args); // 调用catalina.load()
+daemon.start(); // 调用catalina.start()
+~~~
+
+### 7.2 Catalina的实例化
+
+就是根据全限定名，通过反射生成Catalina实例。
+
+### 7.3 Catalina的加载
+
+加载：是加载${CATALINA_BASE}/conf/server.xml文件；
+
+**catalina.load()**
+~~~
+initNaming(); // 设置额外的系统变量
+parseServerXml(); // 使用Digester解析server.xml文件，并生成对应的对象
+~~~
+
+### 7.4 Catalina的启动和关闭
+
+启动：是调用server.xml文件中解析出来的Server对象的start()。
+关闭：是调用Server、及其所有子组件的关闭方法，通过Server.stop()、server.destroy()关闭。
+**catalina.load()**
+~~~
+start(); // 根据解析出的对象，在内部调用server.start()
+await(); // 在此处阻塞线程，直到接收到SHUTDOWN命令
+stop(); // 调用server.stop()、server.destroy()。
+~~~
+
+**但是什么时候调用stop方法？**
+**方法一**：jvm的关闭钩子方式(查看jvm相关文档TODO)，Runtime.getRuntime().addShutdownHook(new CatalinaShutdownHook())。
+- 在start()后、await()前，调用Runtime.getRuntime().addShutdownHook(new CatalinaShutdownHook())，这样在不是通过SHUTDOWN命令关闭jvm时，就会调用CatalinaShutdownHook线程中的run方法。
+
+**方法二**：
+- 调用shutdown.bat，通过socket向tomcat发送SHUTDOWN请求；
+- 接收到请求后，await()不再阻塞，接着运行stop()方法，这个stop()和CatalinaShutdownHook()的run()方法代码一致；
+- 再运行main()的System.exit(1)，注意，这个是jvm退出方法，也会运行Runtime.getRuntime().addShutdownHook()添加的钩子方法，这样会2次调用server.stop()，但是第一次关闭时，已经将Server置为null，第2次调用时会出现NPE。为了不出现这个，当接收到是SHUTDOWN命令时，需要先移除刚才那个钩子方法。Runtime.getRuntime().removeShutdownHook(shutdownHook);
+- 查看catalina.stop()方法。
+
+
+
+# 8 组件生命周期管理:LifeCycle
+
+上节中，我们已经知道Catalina初始化了Server（它调用了 Server 类的 init 和 start 方法来启动 Tomcat）；你会发现Server是Tomcat的配置文件server.xml的顶层元素，那这个阶段其实我们已经进入到Tomcat内部组件的详解；这时候有一个问题，这么多组件是如何管理它的生命周期的呢？
+
+**理解Lifecycle主要有两点：第一是三类接口方法；第二是状态机。**
+
+## 8.1 组件、生命周期图
+
+Server及其它组件
+![avatar](pictures/1-tomcat完整架构图.jpg)
+
+Server后续组件生命周期及初始化
+![avatar](pictures/7-Server后续组件生命周期及初始化.png)
+
+Server的依赖结构
+![avatar](pictures/8-StandardServer的依赖结构.png)
+
+## 8.2 LifecycleState状态
+
+LifeCycle状态机有哪些状态？
+Tomcat 给各个组件定义了一些生命周期中的状态。
+查看org.apache.catalina.Lifecycle可以查看转换流程。具体如下
+![avatar](pictures/9-生命周期状态顺序.jpeg)
+
+**在枚举类org.apache.catalina.LifecycleState里查看各种状态**
+~~~
+public enum LifecycleState {
+    NEW(false, null), // 刚new好的组件
+    INITIALIZING(false, Lifecycle.BEFORE_INIT_EVENT), // 初始化中
+    INITIALIZED(false, Lifecycle.AFTER_INIT_EVENT), // 已完成初始化
+    STARTING_PREP(false, Lifecycle.BEFORE_START_EVENT), // 启动前
+    STARTING(true, Lifecycle.START_EVENT), // 启动中
+    STARTED(true, Lifecycle.AFTER_START_EVENT), // 已启动
+    STOPPING_PREP(true, Lifecycle.BEFORE_STOP_EVENT), // 关闭前
+    STOPPING(false, Lifecycle.STOP_EVENT), // 关闭中
+    STOPPED(false, Lifecycle.AFTER_STOP_EVENT), // 已关闭
+    DESTROYING(false, Lifecycle.BEFORE_DESTROY_EVENT), // 销毁中
+    DESTROYED(false, Lifecycle.AFTER_DESTROY_EVENT), // 已销毁
+    FAILED(false, null); // 失败
+
+    private final boolean available;
+    private final String lifecycleEvent;
+
+    private LifecycleState(boolean available, String lifecycleEvent) {
+        this.available = available;
+        this.lifecycleEvent = lifecycleEvent;
     }
-
-    load(args) {
-        catalinaDaemon.load() {
-            // 用 SAXParser 来解析 xml，解析完了之后，xml 里定义的各种标签就有对应的实现类对象了
-            parseServerXml(true);
-
-            // 初始化Server对象，及其内部的所有组件Service、Connector、Engine、Host等。
-            getServer().init();
-        }
-    }
-
-    start() {
-        catalinaDaemon.start() {
-            // 调用Server对象的start方法。
-            getServer().start();
-
-            // 通过addShutdownHook添加的线程，会在jvm关闭前并发执行
-            Runtime.getRuntime().addShutdownHook(new CatalinaShutdownHook() {
-                    public void run() {
-                        Catalina.this.stop() {
-                            getServer().stop();
-                        }
-                    }
-                }
-            );
-
-            if (await) {
-                // 一直等SHUTDOWN命令，接收到命令后，往后执行，也是通过Socket进行发送命令，接收到命令后会修改useShutdownHook = true
-                await();
-                // 调用Server.stop()方法，只要求调一次，所以如果是通过
-                stop() {
-                    // 如果是SHUTDOWN命令关闭，则移除钩子方法，不然关闭jvm的时候，又会运行一次server.stop()，此时会报空指针。
-                    if (useShutdownHook) {
-                        Runtime.getRuntime().removeShutdownHook(shutdownHook);
-                    }
-                    getServer().stop();
-                }
-            }
-        }
-    }
-
-
+    ……
 }
-
 ~~~
 
+## 8.3 LifeCycle接口
 
+一个标准的LifeCycle有哪些方法？三类方法如下
+~~~
+public interface Lifecycle {
+    /** 第1类：针对监听器 **/
+    // 添加监听器
+    public void addLifecycleListener(LifecycleListener listener);
+    // 获取所以监听器
+    public LifecycleListener[] findLifecycleListeners();
+    // 移除某个监听器
+    public void removeLifecycleListener(LifecycleListener listener);
+
+    /** 第2类：针对控制流程 **/
+    // 初始化方法
+    public void init() throws LifecycleException;
+    // 启动方法
+    public void start() throws LifecycleException;
+    // 停止方法，和start对应
+    public void stop() throws LifecycleException;
+    // 销毁方法，和init对应
+    public void destroy() throws LifecycleException;
+
+    /** 第3类：针对状态 **/
+    // 获取生命周期状态
+    public LifecycleState getState();
+    // 获取字符串类型的生命周期状态
+    public String getStateName();
+}
+~~~
+
+## 8.4 LifecycleBase - LifeCycle的基本实现
+
+LifecycleBase是Lifecycle的基本实现。
+
+### 8.4.1 监听器相关
+
+对监听器的增、删、查询所有都是操作一个**List<LifecycleListener>**成员变量实现的，是CopyOnWriteArrayList(具体查看juc)类型，保证插入的时候线程安全。
+
+### 8.4.2 生命周期相关
+
+**init()**
+查看源代码可知，只有在**LifecycleState.NEW**状态下，才能进行init()。
+此处使用了模板模式，在LifecycleBase的方法中，处理组件的状态变更、状态变更顺序及调用初始化方法，但具体的初始化逻辑由子类完成。
+~~~
+init() {
+    // 初始化逻辑之前，先将状态变更为`INITIALIZING`
+    setStateInternal(LifecycleState.INITIALIZING, null, false);
+    // 初始化，该方法为一个abstract方法，需要组件自行实现
+    initInternal();
+    // 初始化完成之后，状态变更为`INITIALIZED`
+    setStateInternal(LifecycleState.INITIALIZED, null, false);
+}
+~~~
+
+为了状态的可见性，所以state声明为volatile类型的。
+
+**setStateInternal()**
+使用了观察都模式，在设置完状态后，调用listeners.lifecycleEvent(event)，通知前面所有注册的listener，listern会查event的事件是不是需要自己处理的，是的话处理，不是就不处理。
+
+**start()、stop()、destory()**
+这3个的逻辑与init()一致，就是处理的**LifecycleState状态**不同。
+
+从上述源码看得出来，LifecycleBase是使用了状态机+模板模式来实现的。模板方法有下面这几个：
+~~~
+// 初始化方法
+protected abstract void initInternal() throws LifecycleException;
+// 启动方法
+protected abstract void startInternal() throws LifecycleException;
+// 停止方法
+protected abstract void stopInternal() throws LifecycleException;
+// 销毁方法
+protected abstract void destroyInternal() throws LifecycleException;
+~~~
 
 
 
