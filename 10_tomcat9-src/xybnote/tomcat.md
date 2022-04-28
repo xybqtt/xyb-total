@@ -32,7 +32,7 @@ https://www.cnblogs.com/cndarren/p/14415213.html
 根目录创建catalina-home，并将根目录下conf、webapps剪切到此目录下，放在这个目录下好管理。
 
 导入idea：
-    File -> open -> Project from existing sources。
+    File -> Project Structure -> Modules -> + -> Import module ... -> Import module from external model -> maven。
 
 配置main class
     Edit configurations -> + -> application：
@@ -45,12 +45,15 @@ https://www.cnblogs.com/cndarren/p/14415213.html
         -Duser.language=en  解决控制台乱码
         -Duser.region=US
 
+启动即可。
+
 解决问题1：
     org.apache.catalina.startup.ContextConfig#configureStart
     webConfig()下面添加：
     context.addServletContainerInitializer(new JasperInitializer(),null);
+解决问题2：启动时找不到主类
+    tomcat源码、${CATALINA_HOME}、${CATALINA_BASE}及其它所有目录都不要有除了英文、数字之外的字符。
 
-启动即可。
 
 pom.xml文件内容
     <?xml version="1.0" encoding="UTF-8"?>

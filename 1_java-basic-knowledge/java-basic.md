@@ -1,16 +1,13 @@
-@[TOC](第4章 jvm)
+@[TOC](第1章 java基础)
 
-# 0 格式
-## 0.0 格式要求
-html代码后面一定加一行空行；
-标题后面需要添加空行；
-https://www.cnblogs.com/cndarren/p/14415213.html
-视频地址：https://www.bilibili.com/video/BV1Kb411W75N?p=668&spm_id_from=pageDriver
-每个大标题之间空2行，每个小标题之间空1行
-<span style="color: red;"></span>
-<hr style="height: 10px; background: green;"/>
+# 0 文档说明
 
-# 1 lambda表达式
+导入图片：![avatar](pictures/6堆/6-1.png)
+
+# 1 基础知识
+
+# 2 jdk8新特性
+## 2.1 lambda表达式
 
 Lambda 是一个匿名函数，可以把 Lambda 表达式理解为是一段可以传递的代码（将代码像数据一样进行传递）。使用它可以写出更简洁、更灵活的代码。作为一种更紧凑的代码风格，使 Java 的语言表达能力得到了提升。
 Lambda就是给抽象方法编写实现。
@@ -31,9 +28,7 @@ lambda表达式语法总结：
         无返回值：可以省略"{}"。
 ~~~
 
-
-
-# 2 函数式接口
+## 2.2 函数式接口
 
 只包含一个抽象方法的接口，称为函数式接口。
 可以通过 Lambda 表达式来创建该接口的对象。（若 Lambda 表达式抛出一个受检异常（即：非运行时异常），那么该异常需要在目标接口的抽象方法上进行声明）。
@@ -49,15 +44,13 @@ Lambda 表达式的本质：作为函数式接口的实例。
 |Function<T, R>函数型接口|T|R|对类型为T的对象应用操作，并返回R类型结果，R apply(T t)|
 |Predicate<T>断定型接口|T|boolean|确定类型为T的对象是否满足某约束，并返回boolean值，boolean test(T t)|
 
-
-
-# 3 方法引用和构造器引用（Stream API中用到）
-## 3.1 方法引用(Metod References)
+## 2.3 方法引用和构造器引用（Stream API中用到）
+### 2.3.1 方法引用(Metod References)
 
 方法引用可以看做是 Lambda 表达式深层次的表达。换句话说，方法引用就是 Lambda 表达式，也就是函数式接口的一个实例，通过方法的名字来指向一个方法。
 当要传递给 Lambda 体的操作，已经实现的方法了，可以使用方法引用！
 
-## 3.1.1 三种主要使用情况
+### 2.3.1.1 三种主要使用情况
 
 要求接口中的抽象方法的形参列表和返回值类型与方法引用的方法的形参列表和返回值类型相同！（针对于情况1和情况2）
 当函数式接口方法的第一个参数是需要引用方法的调用者，并且第二个参数是需要引用方法的参数(或无参数)时：ClassName::methodName（针对于情况3）
@@ -84,7 +77,7 @@ Lambda 表达式的本质：作为函数式接口的实例。
     }，既然t.f2(r)可以实现相同的功能，那就没有必须再写一个方法签名相同的方法，直接I1 i1 = T::f2;，编译器在发现T没有f2静态方法时，就会将其组装为new T().f2()方法，但是在调用的时候，还是要用对象调，因为本质上还是对象.方法。
 ~~~
 
-## 3.2 构造器引用和数组引用
+### 2.3.2 构造器引用和数组引用
 
 使用格式：
 ~~~
@@ -98,10 +91,8 @@ Lambda 表达式的本质：作为函数式接口的实例。
 方法引用：可以把数组看做是一个特殊的类，则写法与构造器引用一致。
 ~~~
 
-
-
-# 4 Stream API
-## 4.1 概述
+## 2.4 Stream API
+### 2.4.1 概述
 
 Stream 关注的是对数据的运算，与 CPU 打交道;集合关注的是数据的存储，与内存打交道;
 Java 8 提供了一套 api ，使用这套 api 可以对内存中的数据进行过滤、排序、映射、归约等操作。类似于 sql 对数据库中表的相关操作。
@@ -114,7 +105,7 @@ Stream 不会改变源对象。相反，他们会返回一个持有结果的新 
 Stream 操作是延迟执行的。这意味着他们会等到需要结果的时候才执行。
 ~~~
 
-## 4.2 使用流程
+### 2.4.2 使用流程
 
 ~~~
 Stream 的实例化
@@ -127,8 +118,8 @@ Stream 的实例化
 
 **注意，当碰到终止符的时候，才开始进行中间操作链。**
 
-## 4.3 使用方法
-### 4.3.1 步骤一：多种创建方式
+### 2.4.3 使用方法
+#### 2.4.3.1 步骤一：多种创建方式
 
 ~~~
 方式1：通过集合
@@ -156,7 +147,7 @@ Java 8中的 Arrays 的静态方法 stream() 可以获取数组流
     生成: public static <T> Stream<T> generate(Supplier<T> s)
 ~~~
 
-### 4.3.2 步骤2：中间操作
+#### 2.4.3.2 步骤2：中间操作
 
 多个中间操作可以连接起来形成一个流水线，除非流水线上触发终止操作，否则中间操作不会执行任何的处理！而在终止操作时一次性全部处理，称为惰性求值。
 **Stream在进行第一次中间操作前一定要让知道其泛型是什么，并且中间如果要改变泛型的类型，用一个新的stream接受旧stream进行一次中间操作，且中间操作的返回值是要转换后的类型。**
@@ -187,7 +178,7 @@ map与flatMap的区别，map相当于list.add(list1)，flatMap相当于list.addA
 |sorted(Comparator com)|产生一个新流，其中按比较器顺序排序|
 注意，sorted()要求被排序对象的类实现Comparable接口
 
-### 4.3.3 步骤3：终止操作
+#### 2.4.3.3 步骤3：终止操作
 
 终端操作会从流的流水线生成结果。其结果可以是任何不是流的值，例如：List、 Integer，甚至是 void。
 流进行了终止操作后，不能再次使用。
@@ -222,38 +213,162 @@ map与flatMap的区别，map相当于list.add(list1)，flatMap相当于list.addA
 Collector 接口中方法的实现决定了如何对流执行收集的操作（如收集到 List、Set、Map）
 Collectors 实用类提供了很多静态方法，可以方便地创建常见收集器实例具体方法与实例如下表：
 
-
-
-
-# 5 Optional
-## 5.1 概述
+## 2.5 Optional
+### 2.5.1 概述
 
 为了解决 java 中的空指针问题而生！
 Optional<T> 类(java.util.Optional) 是一个容器类，它可以保存类型 T 的值，代表这个值存在。或者仅仅保存 null，表示这个值不存在。原来用 null 表示一个值不存在，现在 Optional 可以更好的表达这个概念。并且可以避免空指针异常。
 一般用于流返回后，对非空数据进行操作。
 
-## 5.2 创建 Optional 类对象的方法
+### 2.5.2 创建 Optional 类对象的方法
 
 Optional.of(T t) : 创建一个 Optional 实例，t 必须非空；
 Optional.empty() : 创建一个空的 Optional 实例
 Optional.ofNullable(T t)：t 可以为 null
 
-## 5.3 判断Optional容器是否包含对象
+### 2.5.3 判断Optional容器是否包含对象
 
 boolean isPresent()：判断是否包含对象
 void ifPresent(Consumer<? super T> consumer)：如果有值，就执行 Consumer 接口的实现代码，并且该值会作为参数传给它。
 
-## 5.4 获取 Optional 容器的对象
+### 2.5.4 获取 Optional 容器的对象
 
 T get()：如果调用对象包含值，返回该值，否则抛异常
 T orElse(T other)：如果有值则将其返回，否则返回指定的 other 对象
 T orElseGet(Supplier<? extends t> other)：如果有值则将其返回，否则返回由 Supplier 接口实现提供的对象。
 T orElseThrow(Supplier<? extends X> exceptionSupplier)：如果有值则将其返回，否则抛出由 Supplier 接口实现提供的异常。
 
-## 5.5 搭配使用
+### 2.5.5 搭配使用
 
 of() 和 get() 方法搭配使用，明确对象非空
 ofNullable() 和 orElse() 搭配使用，不确定对象非空
+
+
+
+
+
+
+
+
+# 3 jmx
+## 3.1 什么是 JMX
+
+JMX 全称为 Java Management Extensions，翻译过来就是 Java 管理扩展，用来管理和监测 Java 程序。最常用到的就是对于 JVM 的监测和管理，比如 JVM 内存、CPU 使用率、线程数、垃圾收集情况等等。另外，还可以用作日志级别的动态修改，比如 log4j 就支持 JMX 方式动态修改线上服务的日志级别。最主要的还是被用来做各种监控工具，比如文章开头提到的 Spring Boot Actuator、JConsole、VisualVM 等。
+
+JMX 既是 Java 管理系统的一个标准，一个规范，也是一个接口，一个框架。有标准、有规范是为了让开发者可以定制开发自己的扩展功能，而且作为一个框架来讲，JDK 已经帮我们实现了常用的功能，尤其是对 JVM 的监控和管理。
+
+## 3.2 JMX架构图及组件说明
+
+![avatar](pictures/a3jmx/1-jmx架构图.jpg)
+
+**MBean**
+MBean(Managed Bean)：
+- JMX是通过MBean各种传递消息的，是特殊Java Bean，称为MBean。
+- 既然是个Bean，外界就可以获取被管理的资源(类的属性)的状态(属性值)和操纵MBean的行为(调用MBean方法)。
+- 有4种类型的MBean，主要在包里面
+  - Standard MBean：就是普通javaBean，它是JMX中最简单、使用最多的一种；
+  - Dynamic MBean：动态Bean，是一种妥协的产物，由于已经存在一些这种MBean，而将其改造成标准MBean比较费力而且不切实际，所以就有了动态MBean，接口在 javax.management.DynamicMBean这里，里面定义一些接口方法，比如动态获取属性、设置属性等。
+  - Open MBean：是动态Bean，与其它动态MBean的唯一区别在于，对其公开接口的参数和返回值有所限制，主要是考虑到管理系统的分布，很可能远端管理系统甚至MBServer层都不具有MBean接口中特殊的类，
+    - 基本类型；
+    - javax.management.openmbean包下：
+      - ArrayType
+      - CompositeType
+      - TarbularType等
+  - Model MBean：是动态Bean，
+  - MXBeans：
+- 以上5个MBean主要在java.lang.management、javax.management中，包中还包括了Memory、Thread相关的，VisualVM数据就是从这里来的。
+
+**MBeanServer**
+- MBeanServer是负责管理MBean的，一般一个JVM只有一个MBeanServer；
+- 所有的MBean想要被外界访问，都要注册到 MBeanServer上，并通过MBeanServer对外提供服务。
+- 一般用ManagementFactory.getPlatformMBeanServer()方法获取当前JVM内的MBeanServer。
+
+**适配器和连接器**
+- MBean注册到MBeanServer上后，就能干活了，但是决定干什么活，还需要外界通知，适配器和连接器就是将这些功能开放出来的方式。
+- 比如HTTP协议适配器，就是将功能以HTTP协议开放出去，这样我们就可以在浏览器使用了。
+- JDK只是提供了适配器的(接口)，没有实现，比较常用的是HtmlAdaptorServer，需要jmxtools.jar包的支持。
+- 连接器是各种客户端最常用的，JDK 提供的默认连接器是 RMI 连接器，JConsole、VisualVM 都是使用它。
+
+## 3.3 JMX的开发流程
+
+**开发流程：**
+- 定义MBean接口和实体类
+  - 实体类名称可任意取，比如叫User；
+  - 接口名称必须为实体类名+MBean，如UserMBean；
+- 将MBean注册到MBeanServer，并启动
+- 本地打开jconsole，本地连接此main方法，MBean就可以调用了。
+
+**定义MBean接口和实体类**
+- 只有接口中定义的方法，才能被外部调用；
+- 如果接口方法去除get或set后，剩余部分是实例体的属性名(不区分大小写)，那么这些方法就会在外界看来就是属性；
+
+**将MBean注册到MBeanServer**
+~~~
+// 获取MBeanServer
+MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+
+/*
+* 创建可以被MBeanServer接受的ObjectName，ObjectName 是 MBean 的唯一标示，一个 MBeanServer 不能有重复。
+* 完整的格式「自定义命名空间:type=自定义类型,name=自定义名称」。当然你可以只声明 type ，不声明 name。
+* */
+ObjectName userName = new ObjectName("com.xyb.a3jmx:type=user,name=userBean");
+
+// 创建资源
+User user = new User("张三", 18);
+
+// 进行注册
+server.registerMBean(user, userName);
+
+
+Thread.sleep(60 * 60 * 1000);
+~~~
+
+## 3.4 监控变化和通知
+
+JMX API定义了一种可以使 MBean 生成通知的机制，可以用于指示状态变更，检测事件或问题。
+
+要生成通知，MBean   接口或扩展 。要发送通知，还需要需要构造一个 javax.management.Notification 类或一个子类（例如 AttributeChangedNotification）的实例，并将该实例传递给NotificationBroadcasterSupport.sendNotification。
+
+**要生成通知，需要以下几个条件：**
+- 实体类支持通知，2种方式：
+  - MBean implements NotificationEmitter
+  - UserMBean extends NotificationBroadcasterSupport
+- 确实实体类支持哪些通知：
+  - 查看jdk已有的通知类型：Notification的子类；
+  - 实体类重写：NotificationBroadcasterSupport.getNotificationInfo()方法，此方法确定此MBean支持哪些类型通知
+~~~
+// 通知类型
+String[] types = new String[]{
+        AttributeChangeNotification.ATTRIBUTE_CHANGE
+};
+
+// 通知全限定名
+String name = AttributeChangeNotification.class.getName();
+
+// 描述
+String desc = "An attribute of this MBean has changed";
+MBeanNotificationInfo info = new MBeanNotificationInfo(types, name, desc);
+// 返回MBean通知信息数组
+return new MBeanNotificationInfo[]{info};
+~~~
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
