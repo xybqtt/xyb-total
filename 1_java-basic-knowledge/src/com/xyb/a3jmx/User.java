@@ -57,7 +57,7 @@ public class User extends NotificationBroadcasterSupport implements UserMBean {
         System.out.println(this.userName + "，hello");
     }
 
-    public int add(int x, int y) {
+    public int add(Integer x, Integer y) {
         return x + y;
     }
 

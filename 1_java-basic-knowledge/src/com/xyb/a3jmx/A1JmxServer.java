@@ -5,9 +5,10 @@ import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 
 /**
- * 将MBean注册到MBeanServer上，阻塞，等待外部程序调用
+ * 将MBean注册到MBeanServer上，阻塞，等待外部程序调用。
+ * JMX的Server端
  */
-public class A1RegisterBean {
+public class A1JmxServer {
 
     public static void main(String[] args) throws Exception {
         // 获取MBeanServer

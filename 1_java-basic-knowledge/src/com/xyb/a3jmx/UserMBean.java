@@ -10,6 +10,5 @@ public interface UserMBean {
 
     public void sayHello();
 
-    public int add(int x, int y);
-
+    public int add(Integer x, Integer y);
 }

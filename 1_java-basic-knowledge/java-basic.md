@@ -302,62 +302,68 @@ MBean(Managed Bean)：
 - 只有接口中定义的方法，才能被外部调用；
 - 如果接口方法去除get或set后，剩余部分是实例体的属性名(不区分大小写)，那么这些方法就会在外界看来就是属性；
 
-**将MBean注册到MBeanServer**
-~~~
-// 获取MBeanServer
-MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-
-/*
-* 创建可以被MBeanServer接受的ObjectName，ObjectName 是 MBean 的唯一标示，一个 MBeanServer 不能有重复。
-* 完整的格式「自定义命名空间:type=自定义类型,name=自定义名称」。当然你可以只声明 type ，不声明 name。
-* */
-ObjectName userName = new ObjectName("com.xyb.a3jmx:type=user,name=userBean");
-
-// 创建资源
-User user = new User("张三", 18);
-
-// 进行注册
-server.registerMBean(user, userName);
-
-
-Thread.sleep(60 * 60 * 1000);
-~~~
+**将MBean注册到MBeanServer(查看com.xyb.a3jmx.A1JmxServer)**
+- 获取MBeanServer；
+- 创建可以被MBeanServer接受的ObjectName，ObjectName 是 MBean 的唯一标示，一个 MBeanServer 不能有重复。完整的格式「自定义命名空间:type=自定义类型,name=自定义名称」。当然你可以只声明 type ，不声明 name。
+- 创建可被控制的资源；
+- 将资源及ObjectName注册到MBeanServer；
+- 进行启动。
 
 ## 3.4 监控变化和通知
 
 JMX API定义了一种可以使 MBean 生成通知的机制，可以用于指示状态变更，检测事件或问题。
 
-要生成通知，MBean   接口或扩展 。要发送通知，还需要需要构造一个 javax.management.Notification 类或一个子类（例如 AttributeChangedNotification）的实例，并将该实例传递给NotificationBroadcasterSupport.sendNotification。
-
-**要生成通知，需要以下几个条件：**
+**要生成通知，需要以下几个条件：(查看com.xyb.a3jmx.User)**
 - 实体类支持通知，2种方式：
   - MBean implements NotificationEmitter
   - UserMBean extends NotificationBroadcasterSupport
 - 确实实体类支持哪些通知：
   - 查看jdk已有的通知类型：Notification的子类；
-  - 实体类重写：NotificationBroadcasterSupport.getNotificationInfo()方法，此方法确定此MBean支持哪些类型通知
+  - 实体类重写：NotificationBroadcasterSupport.getNotificationInfo()方法，此方法确定此MBean支持哪些类型通知。
+- 生成通知：
+  - new Notification，并传入数据源、序号等参数信息
+- 发送通知：
+  - 像观察者模式一样，将通知发送到监听器上去。
+
+## 3.5 使用 JConsole、JVisualVM 查看 JMX 服务
+
+**流程：**
+- 打开本地JConsole、JVisualVM；
+- 连接刚才的main方法；
+- 不安全连接；
+- MBean 找到刚才定义的「自定义命名空间:type=自定义类型,name=自定义名称」，就可以操作资源了；
+- 可以获取属性，通过get方法；修改属性，通过set方法；
+- 可以进行操作，调用实体类的方法；
+- 点击通知，可以进行订阅，会将此client注册到监听列表里面。
+
+在JConsole里面可能看到许多和jvm参数相关的资源信息，其实JConsole观察jvm信息都是通过这些MBean实现的。
+
+## 3.6 远程连接
+
+本地连接只需要通过jps知道jid就可能进行监控了。
+远程连接也一样，但是需要知道远程的ip和jmx监听的端口，ip就是应用程序启动时所在服务器的ip，我们只用指定端口就行。
+
+**远程连接设置：**
+- 设置端口：-Dcom.sun.management.jmxremote.port=9999
+- 不启用认证：-Dcom.sun.management.jmxremote.authenticate=false
+- 不开启ssl验证：-Dcom.sun.management.jmxremote.ssl=false
+- 设置ip对应的域名：-Djava.rmi.server.hostname=www.xyb.com
+
+## 3.7 java代码客户端
+
+具体查看A2JmxClient。
+**流程**：
+- 创建url：
+  - port
+  - ip
+- 根据url建立JMXConnector连接：
+- JMXConnector根据连接获取MBServerConnection
+- 通过ObjectName从MBServerConnection获取MBeanInfo
+- 通过MBeanInfo可以读取属性、进行操作、订阅通知等。
+
 ~~~
-// 通知类型
-String[] types = new String[]{
-        AttributeChangeNotification.ATTRIBUTE_CHANGE
-};
 
-// 通知全限定名
-String name = AttributeChangeNotification.class.getName();
-
-// 描述
-String desc = "An attribute of this MBean has changed";
-MBeanNotificationInfo info = new MBeanNotificationInfo(types, name, desc);
-// 返回MBean通知信息数组
-return new MBeanNotificationInfo[]{info};
 ~~~
-
-
-
-
-
-
-
 
 
 
