@@ -6,21 +6,23 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
 /**
  * 使用java程序开发的jmx客户端。
  * 流程如下：
- *      1、需要知道JMXServer的ip和port，"service:jmx:rmi:///jndi/rmi://" + host + ":" + port + "/jmxrmi"
- *      2、获取JMXConnector连接；
- *      3、从JMXConnector获取MBeanServerConnection连接；
- *      4、可以从MBeanServerConnection获取根据ObjectName(就是在Server端发布时，注册的ObjectName)所有MBeanInfo信息；
- *      5、可以通MBeanInfo操作MBServer端的属性、方法、订阅通知等。
- *          MBeanAttributeInfo : mBeanInfo.getAttributes()获取属性；
- *          MBeanOperationInfo : mBeanInfo.getOperations()操作方法；
- *          MBeanNotificationInfo :  mBeanInfo.getNotifications()，查看可订阅通知。
- *      6、也可以通过JMX代理，用与服务器端MBean接口有相同方法的接口去生成代理，直接调用代理的方法，就可以操作属性和方法了。
+ * 1、需要知道JMXServer的ip和port，"service:jmx:rmi:///jndi/rmi://" + host + ":" + port + "/jmxrmi"
+ * 2、获取JMXConnector连接；
+ * 3、从JMXConnector获取MBeanServerConnection连接；
+ * 4、可以从MBeanServerConnection获取根据ObjectName(就是在Server端发布时，注册的ObjectName)所有MBeanInfo信息；
+ * 5、可以通MBeanInfo操作MBServer端的属性、方法、订阅通知等。
+ * MBeanAttributeInfo : mBeanInfo.getAttributes()获取属性；
+ * MBeanOperationInfo : mBeanInfo.getOperations()操作方法；
+ * MBeanNotificationInfo :  mBeanInfo.getNotifications()，查看可订阅通知。
+ * 6、也可以通过JMX代理，用与服务器端MBean接口有相同方法的接口去生成代理，直接调用代理的方法，就可以操作属性和方法了。
  */
 public class A2JmxClient {
 
@@ -28,13 +30,19 @@ public class A2JmxClient {
 
         String host = "127.0.0.1";
         String port = "9999";
+        String account = "admin";
+        String password = "password";
+
+        Map<String, Object> environment = new HashMap<>();
+        environment.put(JMXConnector.CREDENTIALS, new String[]{account, password});
 
         // 1、获取JMX服务端的连接器
         JMXConnector connector = JMXConnectorFactory.connect(
                 new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + host + ":" + port + "/jmxrmi")
+                , environment // 有服务器端如果设置了账号密码，则需要添加这个参数
         );
 
-        if(connector == null)
+        if (connector == null)
             return;
 
         // 2、获取MBeanServer的连接
@@ -52,7 +60,7 @@ public class A2JmxClient {
 
                 // 1、遍历MBean属性信息
                 sb.append("获取" + objectName + "属性信息：" + "\n");
-                for(MBeanAttributeInfo attrInfo : mBeanInfo.getAttributes()) {
+                for (MBeanAttributeInfo attrInfo : mBeanInfo.getAttributes()) {
                     sb.append("    属性名：" + attrInfo.getName() + "\n");
                     sb.append("        类型：" + attrInfo.getType() + "\n");
                     sb.append("        描述：" + attrInfo.getDescription() + "\n");
@@ -60,23 +68,28 @@ public class A2JmxClient {
                     sb.append("        可读：" + attrInfo.isReadable() + "\n");
                     sb.append("        可写：" + attrInfo.isWritable() + "\n");
                     sb.append("        属性值：" + mbServerConn.getAttribute(objectName, attrInfo.getName()) + "\n");
-                    sb.append("        设置属性值：mbServerConn.setAttribute()就行。" );
+                    if ("Age".equals(attrInfo.getName()) && attrInfo.isWritable()) {
+                        sb.append("        设置属性值：mbServerConn.setAttribute(objectName, new Attribute(attrInfo.getName(), 1))就行。" + "\n");
+                        mbServerConn.setAttribute(objectName, new Attribute(attrInfo.getName(), 1));
+                        sb.append("        修改后的属性值：" + mbServerConn.getAttribute(objectName, attrInfo.getName()) + "\n");
+                    }
+
                 }
 
                 // 2、遍历MBean方法信息
                 sb.append("\n" + "获取" + objectName + "方法(操作)信息：" + "\n");
-                for(MBeanOperationInfo methodInfo : mBeanInfo.getOperations()) {
+                for (MBeanOperationInfo methodInfo : mBeanInfo.getOperations()) {
                     sb.append("    方法名：" + methodInfo.getName() + "\n");
                     sb.append("        返回类型：" + methodInfo.getReturnType() + "\n");
                     sb.append("        参数信息：" + "\n");
                     for (MBeanParameterInfo paramInfo : methodInfo.getSignature())
-                        sb.append("            " + paramInfo.toString()+ "\n");
+                        sb.append("            " + paramInfo.toString() + "\n");
                     sb.append("        方法影响：" + methodInfo.getImpact() + "\n");
 
 
                     // 调用add方法
-                    if("add".equals(methodInfo.getName())) {
-                        int addResult = (int)mbServerConn.invoke(
+                    if ("add".equals(methodInfo.getName())) {
+                        int addResult = (int) mbServerConn.invoke(
                                 objectName,
                                 methodInfo.getName(),
                                 new Integer[]{1, 2},

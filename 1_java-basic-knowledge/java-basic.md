@@ -280,7 +280,7 @@ MBean(Managed Bean)：
 
 **MBeanServer**
 - MBeanServer是负责管理MBean的，一般一个JVM只有一个MBeanServer；
-- 所有的MBean想要被外界访问，都要注册到 MBeanServer上，并通过MBeanServer对外提供服务。
+- 所有的MBean想要被外界访问，都要注册到 MBeanServer上，并通过MBeanServer对外提供服务；
 - 一般用ManagementFactory.getPlatformMBeanServer()方法获取当前JVM内的MBeanServer。
 
 **适配器和连接器**
@@ -289,13 +289,13 @@ MBean(Managed Bean)：
 - JDK只是提供了适配器的(接口)，没有实现，比较常用的是HtmlAdaptorServer，需要jmxtools.jar包的支持。
 - 连接器是各种客户端最常用的，JDK 提供的默认连接器是 RMI 连接器，JConsole、VisualVM 都是使用它。
 
-## 3.3 JMX的开发流程
+## 3.3 JMX服务端开发流程
 
 **开发流程：**
 - 定义MBean接口和实体类
   - 实体类名称可任意取，比如叫User；
-  - 接口名称必须为实体类名+MBean，如UserMBean；
-- 将MBean注册到MBeanServer，并启动
+  - 接口名称必须为实体类名+MBean，如UserMBean
+- 将MBean注册到MBeanServer，并启动；
 - 本地打开jconsole，本地连接此main方法，MBean就可以调用了。
 
 **定义MBean接口和实体类**
@@ -309,7 +309,7 @@ MBean(Managed Bean)：
 - 将资源及ObjectName注册到MBeanServer；
 - 进行启动。
 
-## 3.4 监控变化和通知
+## 3.4 服务端进行通知
 
 JMX API定义了一种可以使 MBean 生成通知的机制，可以用于指示状态变更，检测事件或问题。
 
@@ -347,7 +347,6 @@ JMX API定义了一种可以使 MBean 生成通知的机制，可以用于指示
 - 设置端口：-Dcom.sun.management.jmxremote.port=9999
 - 不启用认证：-Dcom.sun.management.jmxremote.authenticate=false
 - 不开启ssl验证：-Dcom.sun.management.jmxremote.ssl=false
-- 设置ip对应的域名：-Djava.rmi.server.hostname=www.xyb.com
 
 ## 3.7 java代码客户端
 
@@ -357,17 +356,78 @@ JMX API定义了一种可以使 MBean 生成通知的机制，可以用于指示
   - port
   - ip
 - 根据url建立JMXConnector连接：
-- JMXConnector根据连接获取MBServerConnection
-- 通过ObjectName从MBServerConnection获取MBeanInfo
-- 通过MBeanInfo可以读取属性、进行操作、订阅通知等。
-
+- JMXConnector根据连接获取MBeanServerConnection
+- 通过ObjectName从MBeanServerConnection获取MBeanInfo(MBean的所有信息)
+- 通过MBeanInfo可以获得属性、方法、通知的信息：注意只是获取这些东西的信息，比如参数什么类型。
+  - 获取属性集合：MBeanAttributeInfo[] attrs = mBeanInfo.getAttributes()
+    - 属性名：attrInfo.getName()
+    - 类型：attrInfo.getType()
+    - 描述：attrInfo.getDescription()
+    - 可读：attrInfo.isReadable()
+    - 可写：attrInfo.isWritable()
+  - 获取操作集合：MBeanOperationInfo[] opers = mBeanInfo.getOperations()
+    - 操作名：oper.getName()
+    - 返回类型：oper.getReturnType()
+    - 参数信息：MBeanParameterInfo[] params = methodInfo.getSignature()
+      - 参数类型：param.getType()
+    - 操作影响：oper.getImpact()
+  - 获取通知集合：MBeanNotificationInfo[] notis = mBeanInfo.getNotifications()
+    - 通知类型的全限定名：noti.getName()
+    - 通知类型的简称数组：noti.getType()
+- 操作属性值、调用方法、订阅通知：毕竟是远程，需要告诉MBeanServerConnection去获取哪个ObjectName的哪个属性值、操作哪个方法、订阅通知
+  - 属性值：
+    - 获取：mbeanServerConnection.getAttribute(objectName, attrInfo.getName())
+    - 设置：mbServerConn.setAttribute(objectName, new Attribute("需要设置的属性名", "需要设置的属性值"));
+  - 调用方法：mbServerConn.invoke(objectName, 方法名, 参数数组, 参数类型数组)
+  - 订阅通知：因为订阅通知只能订阅一个ObjectName的所有通知，所以只用知道ObjectName，和接收到通知后，客户端的操作就行了。
+~~~
+mbeanServerConnection.addNotificationListener(objectName, new NotificationListener() {
+    // 订阅后客户端发出的消息，在这块处理。notification可以获取通知的源信息、修改前、修改后信息等
+    @Override
+    public void handleNotification(Notification notification, Object handback) {
+    
+    }
+}, null, null);
 ~~~
 
+## 3.8 认证加密
+
+~~~
+java -Dcom.sun.management.jmxremote.port=9999
+     -Dcom.sun.management.jmxremote.authenticate=true
+     -Dcom.sun.management.jmxremote.ssl=false
+     -Dcom.sun.management.jmxremote.access.file=./jmx.access  // 填文件绝对路径
+     -Dcom.sun.management.jmxremote.password.file=./jmx.password // 填文件绝对路径
+     com.example.Main
+~~~
+这里将 authenticate 设置为 true，然后增加了一个访问权限和访问密码的文件。
+**jmx.access内容如下：**
+~~~
+user readonly
+admin readwrite
+
+readonly 只能读取 MBean 的属性和接受通知，表示user用户只读；
+readwrite 还允许设置属性，调用方法，创建和删除 MBean，表示admin用户可读可写
 ~~~
 
+**访问密码 jmx.password：**
+~~~
+user user
+admin password
 
+user用户密码：user；
+admin用户密码：password
+~~~
 
-
+**执行命令出错解决方案：**
+~~~
+错误: 必须限制口令文件读取访问权限: ./jmx.password
+解决方案：赋值权限：
+    windows：cacls jmx.password /P 当前用户:R
+    linux：
+        如果是 linux 系统，可以使用 chown user:user 将文件设置为当前用户
+        然后通过 chmod 400 jmx.password 设置只读权限
+~~~
 
 
 
