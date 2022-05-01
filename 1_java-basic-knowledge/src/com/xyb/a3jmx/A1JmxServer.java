@@ -1,6 +1,7 @@
 package com.xyb.a3jmx;
 
 import javax.management.MBeanServer;
+import javax.management.ObjectInstance;
 import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 
@@ -29,13 +30,20 @@ public class A1JmxServer {
         * 2、创建可以被MBeanServer接受的ObjectName，ObjectName 是 MBean 的唯一标示，一个 MBeanServer 不能有重复。
         * 完整的格式「自定义命名空间:type=自定义类型,name=自定义名称」。当然你可以只声明 type ，不声明 name。
         * */
-        ObjectName userName = new ObjectName("com.xyb.a3jmx:type=user,name=userBean");
+        ObjectName userName = new ObjectName("com.xyb.a3jmx:type=xyb,name=userBean");
 
         // 3、创建资源
         User user = new User("张三", 18);
 
         // 4、进行注册
-        server.registerMBean(user, userName);
+        ObjectInstance objectInstance = server.registerMBean(user, userName);
+
+
+        // 5、注册一个动态MBean
+        ObjectName myObjName = new ObjectName("com.xyb.a3jmx:type=xyb,name=myDynamicBean");
+        MyDynamicMBean mmBean = new MyDynamicMBean(new DynamicEntity());
+        server.registerMBean(mmBean, myObjName);
+
 
         System.out.println("资源已注册");
 

@@ -257,17 +257,30 @@ JMX 全称为 Java Management Extensions，翻译过来就是 Java 管理扩展�
 
 JMX 既是 Java 管理系统的一个标准，一个规范，也是一个接口，一个框架。有标准、有规范是为了让开发者可以定制开发自己的扩展功能，而且作为一个框架来讲，JDK 已经帮我们实现了常用的功能，尤其是对 JVM 的监控和管理。
 
+**JMX本质理解**
+本质是一个client调用另一个server的类和方法，但是client不能像调用本地方法一样进行调用的。就比如程序A是不能直接调用程序B的User实体类的方法、属性。
+- 但是还是可以进行调用的，只要进行以下操作：
+  - server准备一些信息MBeanInfo，它的哪些类、哪些属性、哪些方法可以被外部调用，或哪些通知可以被订阅；
+  - client从server端获取这些MBeanInfo；
+  - client根据MBeanInfo获取一些信息，根据自己的需求向server端发送，要调用哪些类的哪些属性、或方法的信息；
+  - server根据client传送的信息，来调用哪个类的哪个方法、属性等；
+  - client向server发送订阅通知后，当发生改变时，server通过观察者模式向所有订阅了此通知的监听发送通知信息。
+
+
 ## 3.2 JMX架构图及组件说明
 
 ![avatar](pictures/a3jmx/1-jmx架构图.jpg)
+
+
+### 3.2.1 MBean
 
 **MBean**
 MBean(Managed Bean)：
 - JMX是通过MBean各种传递消息的，是特殊Java Bean，称为MBean。
 - 既然是个Bean，外界就可以获取被管理的资源(类的属性)的状态(属性值)和操纵MBean的行为(调用MBean方法)。
-- 有4种类型的MBean，主要在包里面
-  - Standard MBean：就是普通javaBean，它是JMX中最简单、使用最多的一种；
-  - Dynamic MBean：动态Bean，是一种妥协的产物，由于已经存在一些这种MBean，而将其改造成标准MBean比较费力而且不切实际，所以就有了动态MBean，接口在 javax.management.DynamicMBean这里，里面定义一些接口方法，比如动态获取属性、设置属性等。
+- 有5种类型的MBean：
+  - Standard MBean
+  - Dynamic MBean：
   - Open MBean：是动态Bean，与其它动态MBean的唯一区别在于，对其公开接口的参数和返回值有所限制，主要是考虑到管理系统的分布，很可能远端管理系统甚至MBServer层都不具有MBean接口中特殊的类，
     - 基本类型；
     - javax.management.openmbean包下：
@@ -277,6 +290,37 @@ MBean(Managed Bean)：
   - Model MBean：是动态Bean，
   - MXBeans：
 - 以上5个MBean主要在java.lang.management、javax.management中，包中还包括了Memory、Thread相关的，VisualVM数据就是从这里来的。
+
+#### 3.2.1.1 Standard MBean
+
+Standard MBean：就是普通javaBean，它是JMX中最简单、使用最多的一种，假设类名叫User，则必须有接口，且接口名为UserMBean。
+接口中的所有公共方法都会被封装到MBeanInfo中，其中如果方法名以get、set开头，会去查看User实例类是否有对应的属性，如果有，那这些get、set在MBeanInfo中会作为属性。
+
+#### 3.2.1.2 Dynamic MBean
+
+Dynamic MBean：动态Bean，是一种妥协的产物，由于已经存在一些这种MBean，而将其改造成标准MBean比较费力而且不切实际，所以就有了动态MBean，接口在 javax.management.DynamicMBean这里，里面定义一些接口方法，比如动态获取属性、设置属性等。动态MBeans在运行期间暴露它们的管理接口，因此更为灵活；
+
+什么是运行期间？
+非运行期间是指类似StandardMBean，其可对外界展示的属性、方法，已经写在它实现的接口中了。运行期间是指，在运行的时候通过getMBeanInfo()动态获取的MBeanInfo，且这个MBeanInfo还可以在运行过程中进行更改。
+
+举例：有一个100个字段的A.class，如果想要将其转为StandardMBean，需要写一个MBean接口，并写100个get方法、100个set方法，还要把A的所有方法加到此接口中，改造起来很麻烦，所以需要使用动态Bean。
+
+**动态Bean开发流程：**
+- A extends NotificationBroadcasterSupport implements DynamicMBean；
+- 重写以下方法：
+  - getAttribute(String attr)：根据属性名获取属性值
+  - setAttribute(Attribute)：新增属性
+  - getAttributes(String[])：根据属性名列表获取属性列表
+  - setAttributes(AttributeList attributes)：添加属性列表
+  - invoke(String methodName, Object[] params, String[] signature)：根据方法名、方法参数、方法参数类型调用方法
+  - getMBeanInfo()：获取MBeanInfo，需要自己决定哪些方法、属性可被外界调用
+
+
+
+
+
+
+
 
 **MBeanServer**
 - MBeanServer是负责管理MBean的，一般一个JVM只有一个MBeanServer；

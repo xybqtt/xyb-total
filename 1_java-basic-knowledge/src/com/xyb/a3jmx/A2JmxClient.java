@@ -67,9 +67,11 @@ public class A2JmxClient {
                     sb.append("        isIs：" + attrInfo.isIs() + "\n");
                     sb.append("        可读：" + attrInfo.isReadable() + "\n");
                     sb.append("        可写：" + attrInfo.isWritable() + "\n");
-                    sb.append("        属性值：" + mbServerConn.getAttribute(objectName, attrInfo.getName()) + "\n");
+                    // 获取属性值
+                    sb.append("        获取属性值：" + mbServerConn.getAttribute(objectName, attrInfo.getName()) + "\n");
                     if ("Age".equals(attrInfo.getName()) && attrInfo.isWritable()) {
                         sb.append("        设置属性值：mbServerConn.setAttribute(objectName, new Attribute(attrInfo.getName(), 1))就行。" + "\n");
+                        // 设置属性值
                         mbServerConn.setAttribute(objectName, new Attribute(attrInfo.getName(), 1));
                         sb.append("        修改后的属性值：" + mbServerConn.getAttribute(objectName, attrInfo.getName()) + "\n");
                     }

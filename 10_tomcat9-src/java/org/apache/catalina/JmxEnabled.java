@@ -20,6 +20,9 @@ import javax.management.MBeanRegistration;
 import javax.management.ObjectName;
 
 /**
+ * 此接口由组件实现，这些组件在创建时需要被注册到MBeanServer上，在销毁时，需要从MBeanServer上取消注册。
+ * 主要由实现 {@link Lifecycle} 的组件实现，但并非专心针对它们。
+ *
  * This interface is implemented by components that will be registered with an
  * MBean server when they are created and unregistered when they are destroyed.
  * It is primarily intended to be implemented by components that implement

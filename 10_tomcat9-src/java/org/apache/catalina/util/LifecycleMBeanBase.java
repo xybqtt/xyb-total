@@ -46,6 +46,8 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
      * Sub-classes wishing to perform additional initialization should override
      * this method, ensuring that super.initInternal() is the first call in the
      * overriding method.
+     * 将此tomcat组件注册到MBServer上：
+     *      1、
      */
     @Override
     protected void initInternal() throws LifecycleException {
@@ -118,6 +120,8 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
 
 
     /**
+     * 获取组件的域，对于Server来说即ObjectName中"com.xyb:type=server,name=user"中的type=server部分，
+     *
      * Allow sub-classes to specify the key properties component of the
      * {@link ObjectName} that will be used to register this component.
      *
@@ -128,14 +132,18 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
 
 
     /**
+     * 使未实现 {@link JmxEnabled} 接口的子类能轻松注册到MBeanServer的实用方法。
+     * 注意：此方法只能在{@link #initInternal()}中调用，且必须在{@link #destroyInternal()}之前调用。
+     *
      * Utility method to enable sub-classes to easily register additional
      * components that don't implement {@link JmxEnabled} with an MBean server.
      * <br>
      * Note: This method should only be used once {@link #initInternal()} has
      * been called and before {@link #destroyInternal()} has been called.
      *
-     * @param obj                       The object the register
-     * @param objectNameKeyProperties   The key properties component of the
+     * @param obj                       被注册的组件The object the register
+     * @param objectNameKeyProperties   JMX的objectName的 "type=sss"部分。
+     *                                  The key properties component of the
      *                                  object name to use to register the
      *                                  object
      *
@@ -144,7 +152,7 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
     protected final ObjectName register(Object obj,
             String objectNameKeyProperties) {
 
-        // Construct an object name with the right domain
+        // 组装组件的域，如Server的域为"type=Server"
         StringBuilder name = new StringBuilder(getDomain());
         name.append(':');
         name.append(objectNameKeyProperties);

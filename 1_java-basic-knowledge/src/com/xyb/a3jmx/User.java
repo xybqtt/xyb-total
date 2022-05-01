@@ -1,10 +1,15 @@
 package com.xyb.a3jmx;
 
 import javax.management.AttributeChangeNotification;
-import javax.management.MBeanNotificationInfo;
 import javax.management.Notification;
 import javax.management.NotificationBroadcasterSupport;
 
+/**
+ * 动态MBean的通知不需要继承NotificationBroadcasterSupport，
+ * 因为自定义MBeanInfo时，就可以把通知写进去。
+ *
+ * 动态MBean
+ */
 public class User extends NotificationBroadcasterSupport implements UserMBean {
 
 
@@ -20,19 +25,6 @@ public class User extends NotificationBroadcasterSupport implements UserMBean {
     public User(String userName, int age) {
         this.userName = userName;
         this.age = age;
-    }
-
-    @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        String[] types = new String[]{
-                AttributeChangeNotification.ATTRIBUTE_CHANGE
-        };
-
-        String name = AttributeChangeNotification.class.getName();
-        String desc = "An attribute of this MBean has changed";
-        MBeanNotificationInfo info = new MBeanNotificationInfo(types, name, desc);
-
-        return new MBeanNotificationInfo[]{info};
     }
 
     public String getUserName() {
