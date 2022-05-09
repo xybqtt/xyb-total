@@ -35,27 +35,49 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
     private static final StringManager sm =
         StringManager.getManager("org.apache.catalina.util");
 
-
-    /* Cache components of the MBean registration. */
+    /**
+     * 域名，"domain:type=a,name=b"，domain就是域名。
+     * 获取objectName的域名，优先server.xml中Engine.name，如果没有则使用Service.name
+     * 默认的server.xml文件中是Catalina。
+     * Cache components of the MBean registration.
+     */
     private String domain = null;
+
+    /**
+     * 子类组件注册后的ObjectName，类似："Catalina:type=Server"、"Catalina:type=Service"等。
+     */
     private ObjectName oname = null;
+
     @Deprecated
     protected MBeanServer mserver = null;
 
     /**
+     * 如果子类想将其(组件)注册到MBeanServer上，则应该重写这个方法，并首先调用super.initInternal()。
+     * 本类的此方法功能是注册组件到MBeanServer上。
+     *
      * Sub-classes wishing to perform additional initialization should override
      * this method, ensuring that super.initInternal() is the first call in the
      * overriding method.
-     * 将此tomcat组件注册到MBServer上：
-     *      1、
      */
     @Override
     protected void initInternal() throws LifecycleException {
-        // If oname is not null then registration has already happened via
-        // preRegister().
+        // preRegister();
+        /**
+         * If oname is not null then registration has already happened via
+         * 如果此组件的 this.oname(objectName) != null，证明已经注册到MBeanServer上了。
+         * 如果 this.oname = null，则进行注册
+         */
         if (oname == null) {
+            // 给this.mserver赋值，记录下子类组件是到哪个MBeanServer注册的，实际注册是在Registry实现的。
             mserver = Registry.getRegistry(null, null).getMBeanServer();
 
+            /**
+             * 注册此组件，第2个参数是objectName的type，各个组件实现有各自的type，如
+             *  type=Server、type=Service等。
+             *  并返回objectName：类似
+             *      Catalina:type=Server
+             *      Catalina:type=Service等
+             */
             oname = register(this, getObjectNameKeyProperties());
         }
     }
@@ -84,6 +106,12 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
 
 
     /**
+     * 获取域名，"domain:type=a,name=b"，domain就是域名。
+     * 获取objectName的域名，优先使用Engine.name，如果没有则使用Service.name
+     *      <Service name="Catalina">
+     *          <Engine name="Catalina"></Engine>
+     *      </Service>
+     *
      * Obtain the domain under which this component will be / has been
      * registered.
      */
@@ -132,8 +160,6 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
 
 
     /**
-     * 使未实现 {@link JmxEnabled} 接口的子类能轻松注册到MBeanServer的实用方法。
-     * 注意：此方法只能在{@link #initInternal()}中调用，且必须在{@link #destroyInternal()}之前调用。
      *
      * Utility method to enable sub-classes to easily register additional
      * components that don't implement {@link JmxEnabled} with an MBean server.
@@ -152,7 +178,13 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
     protected final ObjectName register(Object obj,
             String objectNameKeyProperties) {
 
-        // 组装组件的域，如Server的域为"type=Server"
+        // 组装objectname = "domain:type=Server"、
+        /**
+         * 组装objectName ：
+         *      其中domain的取值规，优先取 Engine.name属性，没有则取Service.name
+         *      type：是根据组件标准实现类来的，如Server、Service
+         * name最终格式举例："Catalina:type=Server"
+         */
         StringBuilder name = new StringBuilder(getDomain());
         name.append(':');
         name.append(objectNameKeyProperties);
@@ -161,6 +193,7 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
 
         try {
             on = new ObjectName(name.toString());
+            // 注册子类组件
             Registry.getRegistry(null, null).registerComponent(obj, on, null);
         } catch (Exception e) {
             log.warn(sm.getString("lifecycleMBeanBase.registerFail", obj, name), e);

@@ -36,12 +36,16 @@ public interface Service extends Lifecycle {
     // ------------------------------------------------------------- Properties
 
     /**
+     * 返回处理Service中所有Connector接收的请求的Engine
+     *
      * @return the <code>Engine</code> that handles requests for all
      * <code>Connectors</code> associated with this Service.
      */
     public Engine getContainer();
 
     /**
+     * 设置处理Service中所有Connector接收的请求的Engine
+     *
      * Set the <code>Engine</code> that handles requests for all
      * <code>Connectors</code> associated with this Service.
      *
@@ -50,11 +54,13 @@ public interface Service extends Lifecycle {
     public void setContainer(Engine engine);
 
     /**
+     * 获取service.name属性，默认取server.xml的service标签name属性
      * @return the name of this Service.
      */
     public String getName();
 
     /**
+     * 设置Service的name，默认取server.xml的service标签name属性
      * Set the name of this Service.
      *
      * @param name The new service name
@@ -62,11 +68,15 @@ public interface Service extends Lifecycle {
     public void setName(String name);
 
     /**
+     * 返回Service所在的Server，一个Server.xml只有一个Server。
+     *
      * @return the <code>Server</code> with which we are associated (if any).
      */
     public Server getServer();
 
     /**
+     * 设置Service所属的Server。一个Service只能属于一个Server
+     *
      * Set the <code>Server</code> with which we are associated (if any).
      *
      * @param server The server that owns this Service
@@ -74,6 +84,9 @@ public interface Service extends Lifecycle {
     public void setServer(Server server);
 
     /**
+     * 返回本类的类加载器。如果没有设置，返回本类Server属性的clsLoad。如果还没有设置
+     * Server，则返回 appClsLoader
+     *
      * @return the parent class loader for this component. If not set, return
      * {@link #getServer()} {@link Server#getParentClassLoader()}. If no server
      * has been set, return the system class loader.
@@ -81,6 +94,9 @@ public interface Service extends Lifecycle {
     public ClassLoader getParentClassLoader();
 
     /**
+     *
+     * 设置本类的类加载器
+     *
      * Set the parent class loader for this service.
      *
      * @param parent The new parent class loader
@@ -88,6 +104,10 @@ public interface Service extends Lifecycle {
     public void setParentClassLoader(ClassLoader parent);
 
     /**
+     * 获取域，默认从server.xml的Service的子标签Engine的name，
+     * 如果没有，则取Service标签的name属性，
+     * 如果还没有，代码中设置了默认domain：Catalina
+     *
      * @return the domain under which this container will be / has been
      * registered.
      */
@@ -97,6 +117,8 @@ public interface Service extends Lifecycle {
     // --------------------------------------------------------- Public Methods
 
     /**
+     * 添加此与此Service关联的Connector
+     *
      * Add a new Connector to the set of defined Connectors, and associate it
      * with this Service's Container.
      *
@@ -105,6 +127,8 @@ public interface Service extends Lifecycle {
     public void addConnector(Connector connector);
 
     /**
+     * 获取与此Service相关的所有Connector
+     *
      * Find and return the set of Connectors associated with this Service.
      *
      * @return the set of associated Connectors
@@ -112,6 +136,8 @@ public interface Service extends Lifecycle {
     public Connector[] findConnectors();
 
     /**
+     * 移除参数中的Connector
+     *
      * Remove the specified Connector from the set associated from this
      * Service.  The removed Connector will also be disassociated from our
      * Container.
@@ -121,18 +147,24 @@ public interface Service extends Lifecycle {
     public void removeConnector(Connector connector);
 
     /**
+     * 向此Service添加一个 executor(执行器)
+     *
      * Adds a named executor to the service
      * @param ex Executor
      */
     public void addExecutor(Executor ex);
 
     /**
+     * 返回所有 executor
+     *
      * Retrieves all executors
      * @return Executor[]
      */
     public Executor[] findExecutors();
 
     /**
+     * 返回name为参数的执行器
+     *
      * Retrieves executor by name, null if not found
      * @param name String
      * @return Executor
@@ -140,6 +172,8 @@ public interface Service extends Lifecycle {
     public Executor getExecutor(String name);
 
     /**
+     * 移除参数中对应的执行器
+     *
      * Removes an executor from the service
      * @param ex Executor
      */

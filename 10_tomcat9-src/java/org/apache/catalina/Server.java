@@ -207,6 +207,8 @@ public interface Server extends Lifecycle {
 
 
     /**
+     * 设置Server中线程池核心数量大小，会与当前类中的utilityThreads比较，谁
+     * 大取谁作为核心数量。
      * Set the utility thread count.
      * @param utilityThreads the new thread count
      */
@@ -261,6 +263,7 @@ public interface Server extends Lifecycle {
     public Object getNamingToken();
 
     /**
+     * 返回
      * @return the utility executor managed by the Service.
      */
     public ScheduledExecutorService getUtilityExecutor();

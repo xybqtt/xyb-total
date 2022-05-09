@@ -469,11 +469,11 @@ public class HostConfig implements LifecycleListener {
         File appBase = host.getAppBaseFile();
         File configBase = host.getConfigBaseFile();
         String[] filteredAppPaths = filterAppPaths(appBase.list());
-        // Deploy XML descriptors from configBase
+        // 通过server.xml中的Context标签进行发布 Deploy XML descriptors from configBase
         deployDescriptors(configBase, configBase.list());
-        // Deploy WARs
+        // 通过${CATALINA_BASE}/webapps/下的war包进行发布 Deploy WARs
         deployWARs(appBase, filteredAppPaths);
-        // Deploy expanded folders
+        // 通过${CATALINA_BASE}/webapps/下的war包解压后的目录进行发布  Deploy expanded folders
         deployDirectories(appBase, filteredAppPaths);
     }
 
@@ -1059,6 +1059,9 @@ public class HostConfig implements LifecycleListener {
 
 
     /**
+     * 发布展开的webapps项目，如tomcat自带的 docs、examples、host-manager等。
+     * 注意刚进此方法时，host并没有context信息，而是在发布context的时候，
+     * context把自己添加到host中。
      * Deploy exploded webapps.
      * @param appBase The base path for applications
      * @param files The exploded webapps that should be deployed
@@ -1072,6 +1075,7 @@ public class HostConfig implements LifecycleListener {
         ExecutorService es = host.getStartStopExecutor();
         List<Future<?>> results = new ArrayList<>();
 
+        // 使用多线程去发布所有的web项目
         for (String file : files) {
             if (file.equalsIgnoreCase("META-INF")) {
                 continue;
@@ -1182,6 +1186,7 @@ public class HostConfig implements LifecycleListener {
             context.setPath(cn.getPath());
             context.setWebappVersion(cn.getVersion());
             context.setDocBase(cn.getBaseName());
+            // host在此时才添加了 context，并且context在此方法中将其余信息补充完成
             host.addChild(context);
         } catch (Throwable t) {
             ExceptionUtils.handleThrowable(t);
@@ -1614,6 +1619,7 @@ public class HostConfig implements LifecycleListener {
             host.setAutoDeploy(false);
         }
 
+        // 发布${CATALINA_BASE}/webapps/所有应用
         if (host.getDeployOnStartup()) {
             deployApps();
         }

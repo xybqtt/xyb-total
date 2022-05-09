@@ -41,6 +41,8 @@ import org.apache.tomcat.util.res.StringManager;
 
 
 /**
+ * 记录一个MBean的信息，类似MBeanInfo。
+ *
  * <p>Internal configuration information for a managed bean (MBean)
  * descriptor.</p>
  *

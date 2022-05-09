@@ -670,6 +670,8 @@ public class StandardHost extends ContainerBase implements Host {
 
 
     /**
+     * 添加子servlet容器，Host的子容器是Context
+     *
      * Add a child Container, only if the proposed child is an implementation
      * of Context.
      *

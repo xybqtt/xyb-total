@@ -79,7 +79,10 @@ public class Connector extends LifecycleMBeanBase  {
         this("HTTP/1.1");
     }
 
-
+    /**
+     * 创建连接器
+     * @param protocol
+     */
     public Connector(String protocol) {
         boolean apr = AprStatus.getUseAprConnector() && AprStatus.isInstanceCreated()
                 && AprLifecycleListener.isAprAvailable();
@@ -248,6 +251,13 @@ public class Connector extends LifecycleMBeanBase  {
 
 
     /**
+     * 构造方法赋值，赋值的结果是根据server.xml中
+     * <Connector protocol="Http/1.1"/> 的protocol设置的，
+     * 根据此属性，来决定选择不同的ProtocolHandler实现类，如
+     * Http11NioProtocol：http1.1的nio方式等；
+     *
+     *
+     *
      * Coyote protocol handler.
      */
     protected final ProtocolHandler protocolHandler;
@@ -1011,7 +1021,7 @@ public class Connector extends LifecycleMBeanBase  {
                     sm.getString("coyoteConnector.protocolHandlerInstantiationFailed"));
         }
 
-        // Initialize adapter
+        // 初始化adapter，并和protocolHandler关联起来  Initialize adapter
         adapter = new CoyoteAdapter(this);
         protocolHandler.setAdapter(adapter);
         if (service != null) {
@@ -1043,6 +1053,7 @@ public class Connector extends LifecycleMBeanBase  {
         }
 
         try {
+            // protocolHandler的初始化，主要是其内部的Endpoint的初始化
             protocolHandler.init();
         } catch (Exception e) {
             throw new LifecycleException(

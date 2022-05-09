@@ -85,6 +85,8 @@ public class Registry implements RegistryMBean, MBeanRegistration {
     // Per registry fields
 
     /**
+     * MBeanServer实例，tomcat中所有的MBean都会注册到这儿
+     *
      * The <code>MBeanServer</code> instance that we will use to register
      * management beans.
      */
@@ -92,17 +94,52 @@ public class Registry implements RegistryMBean, MBeanRegistration {
     private final Object serverLock = new Object();
 
     /**
+     * 注意是存入组件信息，不是组件。组件信息是MBean可被读写属性、操作方法、可被订阅通知等。
+     * 存入ManagedBean及其对应的k；
+     *      k：name自定义的一个值；
+     *      v：对应的ManagedBean。
+     *
+     *  存入此Map的ManagedBean有2种，
+     *      一、由 MbeansDescriptorsDigesterSource 解析"mbeans-descriptors.xml"的
+     *          <mbean name="mbeanname" type="org.apache.catalina.core.ApplicationFilterConfig"></mbean>
+     *          k：name属性的值；
+     *          value：解析<mbean>标签后，生成的ManagedBean。
+     *      二、由 MbeansDescriptorsIntrospectionSource 解析的自定义的类
+     *          k：；
+     *          value：生成ManagedBean
+     *
      * The set of ManagedBean instances for the beans this registry knows about,
      * keyed by name.
      */
     private Map<String, ManagedBean> descriptors = new HashMap<>();
 
     /**
+     * 注意是存入组件信息，不是组件。组件信息是MBean可被读写属性、操作方法、可被订阅通知等。
+     * 存入ManagedBean及其对应的k；
+     *      k：className；
+     *      v：对应的ManagedBean。
+     *
+     *  存入此Map的ManagedBean有2种，
+     *      一、由 MbeansDescriptorsDigesterSource 解析"mbeans-descriptors.xml"的
+     *          <mbean name="mbeanname" type="org.apache.catalina.core.ApplicationFilterConfig"></mbean>
+     *          k：type属性的值；
+     *          value：解析<mbean>标签后，生成的ManagedBean。
+     *      二、由 MbeansDescriptorsIntrospectionSource 解析的自定义的类
+     *          k：className；
+     *          value：生成ManagedBean
+     *
      * List of managed beans, keyed by class name
      */
     private Map<String, ManagedBean> descriptorsByClass = new HashMap<>();
 
-    // map to avoid duplicated searching or loading descriptors
+    /**
+     * tomcat会加载"mbeans-descriptors.xml"文件定义的MBeanInfo信息，在多个包下面都有这个文件，为了
+     * 让已经加载过的不再被加载，所以存放在map中，每次加载前判断下是否已经存在。
+     * 所以写个map，
+     *      k：包名，如org/apache/catalina/core/
+     *      v：k表示包内的"mbeans-descriptors.xml"绝对路径信息，如org/apache/catalina/core/mbeans-descriptors.xml
+     *  map to avoid duplicated searching or loading descriptors
+     */
     private Map<String, URL> searchedPaths = new HashMap<>();
 
     private Object guard;
@@ -322,6 +359,8 @@ public class Registry implements RegistryMBean, MBeanRegistration {
 
 
     /**
+     * 从this.descriptors、this.descriptorsByClass查看有无ManagedBean信息。
+     *
      * Find and return the managed bean definition for the specified bean name,
      * if any; otherwise return <code>null</code>.
      *
@@ -444,6 +483,14 @@ public class Registry implements RegistryMBean, MBeanRegistration {
 
 
     /**
+     * 根据agentId查询对应的MBeanServer，
+     *      如果agentId = null，查询所有MBeanServer；
+     *      如果agentId != null，则查询agentId = 下面2个条件的MBeanServer
+     *          objectName = "JMImplementation:type=MBeanServerDelegate"下
+     *          attribute = "MBeanServerId"的值。
+     *  如果没查到，ManagementFactory.getPlatformMBeanServer()获取一个MBeanServer，
+     *  并赋值给this.server
+     *
      * Factory method to create (if necessary) and return our
      * <code>MBeanServer</code> instance.
      *
@@ -473,10 +520,14 @@ public class Registry implements RegistryMBean, MBeanRegistration {
 
 
     /**
+     * 根据bean、bean.getClass()、bean.getClass().getName()获取
+     * ManagedBean，此实例类似MBeanInfo，记录了属性、方法、通知。
+     * 本方法会加载、解析tomcat自定义的"mbeans-descriptors.xml"文件。
+     *
      * Find or load metadata.
      *
-     * @param bean The bean
-     * @param beanClass The bean class
+     * @param bean The bean 被注册的Mbean
+     * @param beanClass The bean class   mbean.getClass()
      * @param type The registry type
      * @return the managed bean
      * @throws Exception An error occurred
@@ -492,21 +543,24 @@ public class Registry implements RegistryMBean, MBeanRegistration {
             type = beanClass.getName();
         }
 
-        // first look for existing descriptor
+        // 查看this.descriptors、this.descriptorsByClass有无对应类型的ManagedBean信息
         ManagedBean managed = findManagedBean(type);
 
         // Search for a descriptor in the same package
+        // 如果managed = null，证明没有，没有则加载"mbeans-descriptors.xml"配置文件中的ManagedBean
         if (managed == null) {
             // check package and parent packages
             if (log.isDebugEnabled()) {
                 log.debug("Looking for descriptor ");
             }
+            // 加载、解析"mbeans-descriptors.xml"
             findDescriptor(beanClass, type);
 
+            // 再次从this.descriptors、this.descriptorsByClass查看能否找到
             managed = findManagedBean(type);
         }
 
-        // Still not found - use introspection
+        // 如果依然没有找到，即这些ManagedBean不是tomcat预定义的信息。可能是自定义的信息，进行组件信息的注册
         if (managed == null) {
             if (log.isDebugEnabled()) {
                 log.debug("Introspecting ");
@@ -560,6 +614,8 @@ public class Registry implements RegistryMBean, MBeanRegistration {
 
 
     /**
+     * 根据source的不同形式，调用不同的类去加载、解析"mbeans-descriptors.xml"文件。
+     *
      * Experimental. Load descriptors.
      *
      * @param sourceType The source type
@@ -614,11 +670,13 @@ public class Registry implements RegistryMBean, MBeanRegistration {
 
 
     /**
+     * 注册组件，会加载"mbeans-descriptors.xml"预定义的组件信息(不是组件，是组件的属性、操作、通知等信息)。
+     *
      * Register a component
      *
-     * @param bean The bean
-     * @param oname The object name
-     * @param type The registry type
+     * @param bean The bean 被注册的组件
+     * @param oname The object name 组件ObjectName
+     * @param type The registry type 被注册组件类型
      * @throws Exception Error registering component
      */
     public void registerComponent(Object bean, ObjectName oname, String type) throws Exception {
@@ -636,11 +694,13 @@ public class Registry implements RegistryMBean, MBeanRegistration {
                 type = bean.getClass().getName();
             }
 
+            // 从this.descriptors、this.descriptorsByClass获取组件信息
             ManagedBean managed = findManagedBean(null, bean.getClass(), type);
 
-            // The real mbean is created and registered
+            // 根据组件信息创建动态MBean
             DynamicMBean mbean = managed.createMBean(bean);
 
+            // 如果已注册，则取消注册，并再次注册
             if (getMBeanServer().isRegistered(oname)) {
                 if (log.isDebugEnabled()) {
                     log.debug("Unregistering existing component " + oname);
@@ -657,6 +717,9 @@ public class Registry implements RegistryMBean, MBeanRegistration {
 
 
     /**
+     * 根据packageNames查找包下的"mbeans-descriptors.xml"配置文件，
+     * 交给MbeansDescriptorsDigesterSource处理。
+     *
      * Lookup the component descriptor in the package and in the parent
      * packages.
      *
@@ -682,6 +745,7 @@ public class Registry implements RegistryMBean, MBeanRegistration {
         }
 
         log.debug("Found " + dURL);
+        // 把包名放入map，表示这个包下的配置文件解析过了
         searchedPaths.put(packageName, dURL);
         try {
             load("MbeansDescriptorsDigesterSource", dURL, null);
@@ -690,10 +754,16 @@ public class Registry implements RegistryMBean, MBeanRegistration {
         }
     }
 
-
     /**
+     * 1、查找class所在包及其父包下所有的"mbeans-descriptors.xml"配置文件。
+     * 2、将其中的信息解析、加载为ManagedBean。
+     * 3、存入this.descriptors、this.descriptorsByClass。
+     * 4、如果本包及父包下的此文件已被解析，则将包名及对应配置文件作为k-v，防止下次重复加载。
+     *
      * Lookup the component descriptor in the package and in the parent
      * packages.
+     * @param beanClass 被注册MBean的class
+     * @param type beanClass.className
      */
     private void findDescriptor(Class<?> beanClass, String type) {
         if (type == null) {
@@ -712,6 +782,7 @@ public class Registry implements RegistryMBean, MBeanRegistration {
 
         String className = type;
         String pkg = className;
+        // org.apache.catalina.startup，依次处理每个包下的配置文件。
         while (pkg.indexOf('.') > 0) {
             int lastComp = pkg.lastIndexOf('.');
             if (lastComp <= 0) {
@@ -721,6 +792,7 @@ public class Registry implements RegistryMBean, MBeanRegistration {
             if (searchedPaths.get(pkg) != null) {
                 return;
             }
+            // 加载pkg对应的"mbeans-descriptors.xml"配置文件
             loadDescriptors(pkg, classLoader);
         }
     }

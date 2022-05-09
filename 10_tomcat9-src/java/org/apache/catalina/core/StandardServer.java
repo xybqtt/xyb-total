@@ -63,6 +63,11 @@ import org.apache.tomcat.util.threads.TaskThreadFactory;
 
 
 /**
+ * Server接口的标准实现，配合server.xml文件的Server标签来看代码。
+ * 本类的大部分属性，都可以在server.xml文件的Server标签的属性中配置。
+ *
+ *
+ *
  * Standard implementation of the <b>Server</b> interface, available for use
  * (but not required) when deploying and starting Catalina.
  *
@@ -106,6 +111,10 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
 
 
     /**
+     * 查看server.xml文件的"GlobalNamingResources"标签，pathname属性代表了
+     * 文件所在位置。
+     * 此属性应该是保存了解析后的文件属性等。
+     *
      * Global naming resources.
      */
     private NamingResourcesImpl globalNamingResources = null;
@@ -118,13 +127,24 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
 
 
     /**
+     * 等接收 shutdown 命令的端口。
+     * 该服务器等待关闭命令的TCP / IP端口号。设置为-1禁用关闭端口。
+     * 注意：当使用Apache Commons Daemon启动Tomcat （在Windows上作为服务运行，或者在un * xes上使用jsvc运行）时，
+     * 禁用关闭端口非常有效。
+     * 但是，当使用标准shell脚本运行Tomcat时，不能使用它，因为它将阻止shutdown.bat
+     *
      * The port number on which we wait for shutdown commands.
      */
     private int port = 8005;
 
+    /**
+     * 应用于port和嵌套到任何嵌套连接器的端口的偏移量。它必须是一个非负整数。如果未指定，0则使用默认值
+     */
     private int portOffset = 0;
 
     /**
+     * 该服务器等待关闭命令的TCP / IP地址。如果未指定地址，localhost则使用。
+     *
      * The address on which we wait for shutdown commands.
      */
     private String address = "localhost";
@@ -145,6 +165,9 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
 
 
     /**
+     * 当tomcat在 http://this.address:this.port 通过TCP / IP接收到此属性的属性值
+     * 内容时，关闭tomcat。
+     *
      * The shutdown command string we are looking for.
      */
     private String shutdown = "SHUTDOWN";
@@ -178,6 +201,10 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
     private final Object namingToken = new Object();
 
     /**
+     * 此server中用于各种实用程序任务（包括重复执行的线程）的线程数。
+     * 特殊值0将导致使用该值 Runtime.getRuntime().availableProcessors()。Runtime.getRuntime().availableProcessors() + value，
+     * 除非小于1，否则将使用负值，在这种情况下将使用1个线程。预设值是2。
+     *
      * The number of threads available to process utility tasks in this service.
      */
     protected int utilityThreads = 2;
@@ -188,6 +215,10 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
     protected boolean utilityThreadsAsDaemon = false;
 
     /**
+     * 线程池，在initInternal()方法中初始化，其包装类this.utilityExecutorWrapper在多个地方被使用。
+     *      1、StandardEngine.startStopExecutor；
+     *      2、Connector.protocolHandler.endpoint.utilityExecutor；
+     *
      * Utility executor with scheduling capabilities.
      */
     private ScheduledThreadPoolExecutor utilityExecutor = null;
@@ -420,7 +451,10 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
         return result;
     }
 
-
+    /**
+     * 取utilityThreads与this.utilityThreads的较大值，作为线程池的核心数量
+     * @param utilityThreads the new thread count
+     */
     @Override
     public void setUtilityThreads(int utilityThreads) {
         // Use local copies to ensure thread safety
@@ -435,6 +469,11 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
     }
 
 
+    /**
+     * 初始化线程池，这个线程池是用来在start()方法启动
+     *      Server下的Service下的Engine下的Host时使用的，因为一个Engine可以有多个Host。
+     * @param threads 线程池大小
+     */
     private synchronized void reconfigureUtilityExecutor(int threads) {
         // The ScheduledThreadPoolExecutor doesn't use MaximumPoolSize, only CorePoolSize is available
         if (utilityExecutor != null) {
@@ -993,8 +1032,9 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
 
         super.initInternal();
 
-        // Initialize utility executor
+        // 初始化线程池Initialize utility executor
         reconfigureUtilityExecutor(getUtilityThreadsInternal(utilityThreads));
+        // 线程池注册到MBeanServer上
         register(utilityExecutor, "type=UtilityExecutor");
 
         // Register global String cache
@@ -1037,7 +1077,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
                 cl = cl.getParent();
             }
         }
-        // Initialize our defined Services
+        // 初始化Server下的Service标签，一个Server会有多个Service Initialize our defined Services
         for (Service service : services) {
             service.init();
         }
@@ -1097,6 +1137,11 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
     private ObjectName onameMBeanFactory;
 
     /**
+     * 获取objectName的域名，优先使用Engine.name，如果没有则使用Service.name
+     *      <Service name="Catalina">
+     *          <Engine name="Catalina"></Engine>
+     *      </Service>
+     *
      * Obtain the MBean domain for this server. The domain is obtained using
      * the following search order:
      * <ol>

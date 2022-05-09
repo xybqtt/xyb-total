@@ -5003,7 +5003,7 @@ public class StandardContext extends ContainerBase
             namingResources.start();
         }
 
-        // Post work directory
+        // 创建work目录，存放启动tomcat时，编译产生的jsp对应的class文件。Post work directory
         postWorkDirectory();
 
         // Add missing components as necessary
@@ -5131,7 +5131,7 @@ public class StandardContext extends ContainerBase
                     context.setAttribute(Globals.CREDENTIAL_HANDLER, safeHandler);
                 }
 
-                // Notify our interested LifecycleListeners
+                // 触发生命周期事件，调度了ContextConfig，读取当前web应用的web.xml文件 Notify our interested LifecycleListeners
                 fireLifecycleEvent(Lifecycle.CONFIGURE_START_EVENT, null);
 
                 // Start our child containers, if not already started

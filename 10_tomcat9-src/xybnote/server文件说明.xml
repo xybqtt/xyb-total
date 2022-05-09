@@ -36,7 +36,7 @@
     <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener"/>
 
     <!--
-        GlobalNamingResources元素定义了全局资源，通过配置可以看出，该配置是通过读取$TOMCAT_HOME/ conf/tomcat-users.xml实现的。
+        GlobalNamingResources元素定义了全局资源，通过配置可以看出，该配置是通过读取{$TOMCAT_HOME}/conf/tomcat-users.xml实现的。
     -->
     <GlobalNamingResources>
         <Resource name="UserDatabase" auth="Container"
@@ -53,6 +53,35 @@
          Tomcat可以提供多个Service，不同的Service监听不同的端口。
      -->
     <Service name="Catalina">
+
+        <!--
+            执行器定义tomcat各组件之间共享的线程池。
+            在以前，每个connector都会独自创建自己的线程池.
+            但现在，可以定义一个线程池，各组件都可以共享该线程池，不过主要是为各connector之间提供共享。
+            注意，executor创建的是共享线程池，如果某个connector不引用executor创建的线程池，那么该connector仍会根据自己指定的属性创建它们自己的线程池。
+            连接器必须要实现org.apache.catalina.Executor接口，它是一个嵌套在service组件中的元素，为了挑选所使用的connector，该元素还必须定义在connector元素之前。
+
+            组件属性：
+                其中该组件的属性有：
+                    className：用于实现此组件的java类的名称，这个类必须实现接口org.apache.catalina.Executor。不给定该属性时将采用默认的标准类org.apache.catalina.core.StandardThreadExecutor；
+                    name：该线程池的名称，其他组件需要使用该名称引用该线程池。
+
+                标准类的属性包括：
+                    threadPriority：线程优先级，默认值为5。
+                    daemon：线程是否以daemon的方式运行，默认值为true。
+                    namePrefix：执行器创建每个线程时的名称前缀，最终线程的名称为:namePrefix+threadNumber。
+                    maxThreads：线程池激活的最大线程数量。默认值为200。
+                    minSpareThreads：线程池中最少空闲的线程数量。默认值为25。
+                    maxIdleTime：在空闲线程关闭前的毫秒数。除非激活的线程数量小于或等于minSpareThreads的值，否则会有空闲线程的出现。默认值为60000，即空闲线程需要保留1分钟的空闲时间才被杀掉。
+                    maxQueueSize：可执行任务的最大队列数，达到队列上限时的连接请求将被拒绝。
+                    prestartminSpareThreads：在启动executor时是否立即创建minSpareThreads个线程数，默认为false，即在需要时才创建线程。
+        -->
+        <Executor name="tomcatThreadPool"
+                  className="org.apache.catalina.core.StandardThreadExecutor"
+                  namePrefix="catalina-exec-"
+                  maxThreads="150"
+                  minSpareThreads="4"/>
+
 
         <!--
             代表了外部客户端发送请求到特定Service的接口；同时也是外部客户端从特定Service接收响应的接口。
@@ -73,11 +102,13 @@
                     }
                 connectionTimeout：超时时间；
                 redirectPort：当用户用http请求某个资源，而该资源本身又被设置了必须要https方式访问，此时Tomcat会自动重定向到这个redirectPort设置的https端口。
+                executor：表示此连接器自己不创建线程池，而使用name = "tomcatThreadPool"的Executor程池，这样多个connector可以使用同一个连接池，如果没配置此属性，则此连接器会创建自己连接池。
 
         -->
         <Connector port="8080" protocol="HTTP/1.1"
                    connectionTimeout="20000"
-                   redirectPort="8443"/>
+                   redirectPort="8443"
+                   executor="tomcatThreadPool"/>
 
         <!--
             Engine、Host和Context都是容器，容器的功能是处理Connector接收进来的请求，并产生相应的响应。但它们不是平行的关系，而是父子关系：

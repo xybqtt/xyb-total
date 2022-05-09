@@ -11,11 +11,8 @@ https://www.cnblogs.com/cndarren/p/14415213.html
 <span style="color: red;"></span>
 <hr style="height: 10px; background: green;"/>
 
-# 7 Tomcat中jsp功能的实现
-# 6 Tomcat中Session功能的实现
-# 5 Tomcat启动过程
-# 4 Tomcat请求处理详解
-
+# 0 Tomcat的init()初始化分析
+# 1 Tomcat的start()启动阶段分析
 
 
 # 1 idea导入tomcat9源码及运行
@@ -137,6 +134,7 @@ catalina.bat：以后看TODO。
 - /conf：用于Tomcat的配置，其中 server.xml是最重要的，它用于配置容器的文件，如配置项目项目的端口号80等。
 - /logs ：是Tomcat默认的日志文件，可以通过它查看Tomcat的系统情况，非常有用。
 - /webapps：是你的web应用放到位置。
+- /work：tomcat启动web应用时，会将jsp(本质需要转成servlet.java文件)等文件，编译为java文件，就是在此目录下存入。
 
 ## 2.2 启动参数介绍
 ### 2.2.1
@@ -147,136 +145,61 @@ catalina.bat：以后看TODO。
 
 
 
-# 3 Tomcat中关于长连接的底层原理与源码实现
-## 3.1 应用程序间的通信
+# 3 Tomcat架构设计
 
-服务器(浏览器)A ------> 服务器B
-~~~
-浏览器点击提交，对http信息的字节数组通过socket调用操作系统的方法；
-操作系统A通过ip:port和TCP协议和服务器B建立连接；
-A将字节通过网络传输给B；
-B上的应用程序通过socket监听port消息，并通过IO进行字节读取。
-~~~
-
-![avatar](pictures/3-数据从Client到Server.png)
-
-## 3.2 长连接和短连接
-### 3.2.1 定义
-长连接(long connnection)：指在一个连接上可以连续发送多个数据包，在连接保持期间，如果没有数据包发送，需要双方发链路检测包。
-短连接(short connnection)：是相对于长连接而言的概念，指的是在数据传送过程中，只在需要发送数据时才去建立一个连接，数据发送完成后则断开此连接，即每次连接只完成一项业务的发送。
-
-通俗一点：
-长连接：连接->传输数据->保持连接 -> 传输数据-> …->直到一方关闭连接，客户端关闭连接。长连接指建立SOCKET连接后无论使用与否都要保持连接。
-短连接：连接->传输数据->关闭连接。下次一次需要传输数据需要再次连接。
-
-![avatar](pictures/2长短连接.png)
-
-### 3.2.3 应用场景
-
-长连接
-长连接多用于操作频繁，点对点的通讯，而且连接数不能太多情况。每个TCP连接都需要三步握手，这需要时间，如果每个操作都是先连接，再操作的话那么处理速度会降低很多，所以每个操作完后都不断开，次处理时直接发送数据包就OK了，不用新建立TCP连接。
-例如：数据库的连接用长连接， 如果用短连接频繁的通信会造成socket错误，而且频繁的socket 创建也是对资源的浪费。
-
-短连接
-而像WEB网站的http服务一般都用短链接，因为长连接对于服务端来说会耗费一定的资源，而像WEB网站这么频繁的成千上万甚至上亿客户端的连接用短连接会更省一些资源，如果用长连接，而且同时有成千上万的用户，如果每个用户都占用一个连接的话，那可想而知。
-所以并发量大，但每个用户无需频繁操作情况下需用短连好。
-
-### 3.2.4 TCP长短连接的优势
-
-**TCP短连接**
-模拟一下TCP短连接的情况，client向server发起连接请求，server接到请求，然后双方建立连接。client向server发送消息，server回应client，然后一次读写就完成了，这时候双方任何一个都可以发起close操作，不过一般都是client先发起close操作。
-从上面的描述看，短连接一般只会在client/server间传递一次读写操作。
-短连接优点：管理起来方便，存在的连接都是有效的连接，不需要额外的控制手段。
-
-**TCP长连接**
-接下来我们再模拟一下长连接的情况，client向server发起连接，server接受client连接，双方建立连接。Client与server完成一次读写之后，它们之间的连接并不会主动关闭，后续的读写操作会继续使用这个连接。**注意永远是一个请求、响应结束了，client才会发另一个请求**。下面介绍一下TCP的保活功能。
-
-**TCP的保活功能**主要为服务器应用提供。如果客户端已经消失而连接未断开，则会使得服务器上保留一个半开放的连接，而服务器又在等待来自客户端的数据，此时服务器将永远等待客户端的数据。保活功能就是试图在服务端器端检测到这种半开放的连接。就像2个人微信聊天，B过了一会不说话，A就得问下还在不，问了好几次B没答话，A就下线了。
-
-**如果一个给定的连接在两小时内没有任何的动作，则服务器就向客户发一个探测报文段，客户主机必须处于以下4个状态之一：**
-~~~~
-客户主机依然正常运行，并从服务器可达。客户的TCP响应正常，而服务器也知道对方是正常的，服务器在两小时后将保证定时器复位。
-客户主机已经崩溃，并且关闭或者正在重新启动。在任何一种情况下，客户的TCP都没有响应。服务端将不能收到对探测的响应，并在75秒后超时。服务器总共发送10个这样的探测 ，每个间隔75秒。如果服务器没有收到一个响应，它就认为客户主机已经关闭并终止连接。
-客户主机崩溃并已经重新启动。服务器将收到一个对其保证探测的响应，这个响应是一个复位，使得服务器终止这个连接。
-客户机正常运行，但是服务器不可达，这种情况与2类似，TCP能发现的就是没有收到探查的响应。
-~~~~
-
-### 3.2.5 HTTP协议与TCP/IP协议的关系
-
-HTTP协议的长连接和短连接，本质上是TCP协议的长连接和短连接。HTTP属于应用层协议，在传输层使用TCP协议，在网络层使用IP协议。 IP协议主要解决网络路由和寻址问题，TCP协议主要解决如何在IP层之上可靠地传递数据包，使得网络上接收端收到发送端所发出的所有包，并且接受顺序与发送顺序一致。TCP协议是可靠的、面向连接的。TCP才负责连接，只有负责传输的这一层才需要建立连接
-
-在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。
-
-而从HTTP/1.1起，默认使用长连接，用以保持连接特性。使用长连接的HTTP协议，会在响应头加入这行代码（但要服务器和客户端都设置）：
-~~~
-Connection:keep-alive
-~~~
-
-
-
-# 4 理解Tomcat架构
-## 4.1 Tomcat作用
-
-一个Servlet主要做下面三件事情：
-- 创建并填充Request对象，包括：URI、参数、method、请求头信息、请求体信息等
-- 创建Response对象
-- 执行业务逻辑，将结果通过Response的输出流输出到客户端
-
-Servlet没有main方法，所以，如果要执行，则需要在一个容器里面才能执行，这个容器就是为了支持Servlet的功能而存在，Tomcat其实就是一个Servlet容器的实现。
-
+架构属于设计层次，源码是对设计的实现，tomcat属于套娃式设计。
 ![avatar](pictures/1-tomcat完整架构图.jpg)
 
-## 4.1 从组件的角度看
+## 3.1 tomcat的功能(即需求)
 
-整体关系(具体每个组件作用查看server.xml文件)：
-Server：
-- List\<Service>：
-  - List\<Connector>：
-  - List\<Listener>：
-  - Engine：
-    - Pipeline：
-      - List\<Valve>:
-    - List\<Host>:
-      - Pipeline：
-        - List\<Valve>:
-      - List\<Context>:
-        - Pipeline：
-            - List\<Valve>:
-        - List\<Wrapper>：
-          - Pipeline：
-              - List\<Valve>:
-          - List\<Servlet>：
+有2个重要的功能：
+- Http服务器功能：Socket通信(TCP/IP)、解析Http报文；
+- Servlet容器功能：有很多Servlet(tomcat自带 + 自定义servlet)，servlet处理具体业务逻辑。
 
+## 3.2 tomcat架构是怎样的(架构是为了完成功能需求做的设计)
+
+除了Connector和Container组件，tomcat还定义了很多其它组件来工作(Server-Service-Connector/Container-Engine-Host-Context-Wrapper)。这些组件采用一层套一层的设计方式(套娃式)，其中自Engine及以下的包含Servlet的组件的都称为容器，即Servlet容器。
+**主要组件如下：**
 **Server**
 - 表示服务器，它提供了一种优雅的方式来启动和停止整个系统，不必单独启停连接器和容器；它是Tomcat构成的顶级构成元素，所有一切均包含在Server中；
 
 **Service**
-- 表示服务，Server可以运行多个服务。比如一个Tomcat里面可运行订单服务、支付服务、用户服务等等；Server的实现类StandardServer可以包含一个到多个Services, Service的实现类为StandardService调用了容器(Container)接口，其实是调用了Servlet Engine(引擎)，而且StandardService类中也指明了该Service归属的Server。
-
-**Container**
-- 表示容器，可以看做Servlet容器；引擎(Engine)、主机(Host)、上下文(Context)和Wraper均继承自Container接口，所以它们都是容器。
-  - Engine：引擎
-    - Host：主机
-      - Context：上下文
-        - Wrapper：包装器
-          - Servlet：从Engine都包含了Servlet，所以他们叫容器。
+- 表示服务，Server可以运行多个服务。比如一个Tomcat里面可运行订单服务、支付服务、用户服务等等；Server的实现类StandardServer可以包含一个到多个Services。
+- 一个Service会包含n个Connector和一个Engine，表示多个端口的连接最终都会交给此Container(实际是Engine)处理。
 
 **Connector**
 - 表示连接器, 它将Service和Container连接起来，首先它需要注册到一个Service，它的作用就是把来自客户端的请求转发到Container(容器)，这就是它为什么称作连接器, 它支持的协议如下：
   - 支持AJP协议
   - 支持Http协议
   - 支持Https协议
+- ProtocolHandler：协议处理器，包含2部分
+  - EndPoint：此组件进行Socket通信，处理TCP/IP协议，有以下几种处理模型：
+    - BIO
+    - NIO
+    - NIO2
+    - APR
+  - Processor：此组件解析处理Http报文，处理Http协议，组装成req、resp
+- adapter：将协议处理器组装的req、resp对象进行封装，变成ServletRequest、ServletResponse，交给Servlet容器处理。
 
-Engine、Host、Context、Wrapper都是servlet容器。
-一个engine可包含多个host；
-一个Host可包含多个context(具体应用)；
-一个wrapper可包含**多个同类型**的servlet。
+**Container**
+- 表示容器，可以看做Servlet容器；引擎(Engine)、主机(Host)、上下文(Context)和Wraper均继承自Container接口，所以它们都是容器。
+    - Engine：引擎
+        - Host：主机
+            - Context：上下文
+                - Wrapper：包装器
+                    - Servlet：从Engine都包含了Servlet，所以他们叫容器。
 
-为什么不直接用context包含servlet？
-直接用context管理servlet：相当于一个校长管理所有学生。
-context<Wrapper<Servlet>>：相当于把所有学生分到各自的年级，由各自年级的老师管理，校长只用管理各年级的老师就行。
-context只用管理每种Servlet对应的Wrapper，Wrapper只用管理这种Servlet中的所有实例。
+**Engine**
+- 是Catalina的核心，支持在其下定义多个虚拟主机(Host)。
 
+**Host**
+- 允许Engine在一台机器上配置多个域名，如：www.baidu.com、www.bat.com。
+
+**Context**
+- 每个Host支持多个webapp部署在它下边，这个Context就是我们在开发web应用时的上下文对象，上下文是使用由Servlet规范中指定的web应用程序格式来表示，不论是war包、还是目录形式。
+
+**Wrapper**
+- 在Context中可以部署多个Servlet，且**类型相同**的Servlet会放到一个包装组件中(Wrapper)，方便管理。
 
 **Service内部还有各种支撑组件，下面简单罗列一下这些组件**
 - Manager：管理器，用于管理会话Session
@@ -286,7 +209,343 @@ context只用管理每种Servlet对应的Wrapper，Wrapper只用管理这种Serv
 - Valve：阀门组件，配合Pipeline实现过滤器功能
 - Realm：认证授权组件
 
-## 4.2 从一个完整请求的角度来看
+## 3.3 tomcat套娃式组件的好处
+
+好处：
+- 组件关系清晰，也便于后期生命周期管理；
+- 架构设计正好与server.xml中标签对应上，后续在解析xml时封装对象容易对应；
+- 便于子组件继承父组件的一些配置。
+
+
+
+# 4 组件生命周期管理:LifeCycle
+
+Catalina初始化了Server（它调用了 Server 类的 init 和 start 方法来启动 Tomcat）；你会发现Server是Tomcat的配置文件server.xml的顶层元素，那这个阶段其实我们已经进入到Tomcat内部组件的详解；这时候有一个问题，这么多组件是如何管理它的生命周期的呢？
+
+**为什么要使用生命周期？**
+- 因为便于管理，当server.xml解析完成后，再进行开始工作，要是不分开的话，都写一起会很乱、很麻烦。
+- 而且有一些工作必须在另一些工作完成后，才能进行，所以需要使用生命周期。
+- 接口方法规定了有init()、start()、stop()、destroy()方法，这样我们在每个方法内部写对应的工作就可以。
+
+**为什么要使用状态**
+- 用生产手机的流水线做个比喻，比如有6道程序，分别用程序p1到pb表示。
+- p5想要做成成品手机，需要进行以下操作：
+    - 检查p1 - p4所有的组件是否安装完成，前面如果不完成后面工作可能会出错；
+    - 进行p5工序
+- 但是检查p1 - p4的工作量巨大，如果有一百道工序不是更麻烦？
+    - 所以领导说，每一个工序接收到的手机，不用检查前面是否做好，只需要检查状态是不是前一个工序的已完成状态(就)，那现在就需要给每个工序分状态了：
+        - pna：表示开始本工序前；
+        - pnb：表示正在进行本工序；
+        - pnc：表示本工序已结束。
+- 所以现在p5需要进行的操作是：
+    - 查看手机状态是否是p4c，
+        - 不是，查看手机状态为pn，就交给n，结束；
+        - 是，将状态转为p5a，表示进行准备工作，如准备零件等;
+    - 进行本工序，将状态置为p5b，表示正在将零件装到手机上；
+    - 本工序完成后，将状态转为p5c，并交给下一个工序
+
+**理解Lifecycle主要有两点：第一是三类接口方法；第二是状态机。主要运用的模板方法**
+- 接口方法：
+    - 比如所有的手机都有6道工序，那么对于不同的手机，其每道工序的操作是不同的，所以就使用模板方式，规定了工序的流程(即接口A调用顺序)，在进行具体的手机装配时，调用具体的操作(即实现)。
+- 状态机：
+    - 在每道工序中，都有a、b、c三种状态，那是否可以用一个抽象类absA实现接口A，再实现其中所有的接口方法，在此方法内部实现状态a、状态c的转换，并在a、c中间调用抽象方法b。
+    - 再由具体的实现类extends absA，实现抽象方法，在实现方法内，进行状态的转换。
+
+**下面其实就是tomcat对组件生命周期的做法：**
+~~~
+main() {
+    A a = new AImpl();
+    a.p1();
+    a.p2();
+    a.p3();
+}
+
+interface A {
+    p1();
+    p2();
+    p3();
+}
+
+abstract AbsA implement A {
+    protected String state;
+    p1() {
+        this.state = "p1a";
+        setp1B();
+        this.state = "p1c";
+    }
+
+    p2() {...}
+
+    p3() {...}
+
+    abstract setp1B();
+}
+
+AImpl extends AbsA {
+    void setp1B()() {
+        super.state = "p1b";
+    }
+    // 其它类似
+}
+
+
+~~~
+
+## 4.1 组件、生命周期图
+
+Server及其它组件
+![avatar](pictures/1-tomcat完整架构图.jpg)
+
+Server后续组件生命周期及初始化
+![avatar](pictures/7-Server后续组件生命周期及初始化.png)
+
+Server的依赖结构
+![avatar](pictures/8-StandardServer的依赖结构.png)
+
+生命周期涉及的子类有：Container、Executor、Service、Server、Host、Context、Wrapper等。
+
+## 4.2 LifecycleState状态
+
+LifeCycle状态机有哪些状态？
+Tomcat 给各个组件定义了一些生命周期中的状态。
+查看org.apache.catalina.Lifecycle可以查看转换流程。具体如下
+![avatar](pictures/9-生命周期状态顺序.jpeg)
+
+**在枚举类org.apache.catalina.LifecycleState里查看各种状态**
+~~~
+public enum LifecycleState {
+    NEW(false, null), // 刚new好的组件
+
+    INITIALIZING(false, Lifecycle.BEFORE_INIT_EVENT), // 初始化中
+    INITIALIZED(false, Lifecycle.AFTER_INIT_EVENT), // 已完成初始化
+
+    STARTING_PREP(false, Lifecycle.BEFORE_START_EVENT), // 启动前
+    STARTING(true, Lifecycle.START_EVENT), // 启动中
+    STARTED(true, Lifecycle.AFTER_START_EVENT), // 已启动
+
+    STOPPING_PREP(true, Lifecycle.BEFORE_STOP_EVENT), // 关闭前
+    STOPPING(false, Lifecycle.STOP_EVENT), // 关闭中
+    STOPPED(false, Lifecycle.AFTER_STOP_EVENT), // 已关闭
+
+    DESTROYING(false, Lifecycle.BEFORE_DESTROY_EVENT), // 销毁中
+    DESTROYED(false, Lifecycle.AFTER_DESTROY_EVENT), // 已销毁
+
+    FAILED(false, null); // 失败
+
+    private final boolean available;
+    private final String lifecycleEvent;
+
+    private LifecycleState(boolean available, String lifecycleEvent) {
+        this.available = available;
+        this.lifecycleEvent = lifecycleEvent;
+    }
+    ……
+}
+~~~
+
+
+
+## 4.3 LifeCycle接口
+
+LifeCycle接口其实就是上面举的例子中的接口A，声明了哪些方法，类似于工序。
+
+一个标准的LifeCycle有哪些方法？三类方法如下
+~~~
+public interface Lifecycle {
+    /** 第1类：针对监听器 **/
+    // 添加监听器
+    public void addLifecycleListener(LifecycleListener listener);
+    // 获取所以监听器
+    public LifecycleListener[] findLifecycleListeners();
+    // 移除某个监听器
+    public void removeLifecycleListener(LifecycleListener listener);
+
+
+
+    /** 第2类：针对控制流程 **/
+    // 初始化方法
+    public void init() throws LifecycleException;
+    // 启动方法
+    public void start() throws LifecycleException;
+    // 停止方法，和start对应
+    public void stop() throws LifecycleException;
+    // 销毁方法，和init对应
+    public void destroy() throws LifecycleException;
+
+
+
+    /** 第3类：针对状态 **/
+    // 获取生命周期状态
+    public LifecycleState getState();
+    // 获取字符串类型的生命周期状态
+    public String getStateName();
+}
+~~~
+
+## 4.4 LifecycleBase - LifeCycle的基本实现
+
+**LifecycleBase是Lifecycle的基本实现，为什么要有个基本实现？直接用一个实现类实现此接口不行吗？**
+
+还是以上面手机加工p5进行举例，现在每个人加工手机需要进行3步操作：
+- 查看手机状态是否p4c，并修改为p5a；
+- 进行本工序操作；
+- 修改状态p5c。
+
+**添加功能1**，现在某个领导要加一个功能，**必须**记录每个工序每天接收多少个手机，转出多少个手机，则需要进行如下操作：
+- 查看是否为p4c，是修改状态为p5a，且发送通知"接收数量1"到领导处；
+- 进行本工序操作；
+- 修改状态p5c，且发送通知"转出数量1"到领导处。
+
+那如果直接实现接口，但是忘写了发送通知的功能，就不能记录每天的接收和转出数量，所以为了有这个功能，添加了此抽象类AbsA。具体的实现类，不要直接实现接口，而需要实现这个抽象类，抽象类的会进行消息的发送，工人只用操心此工序的内容是什么了。
+
+**添加功能2**，那现在如果**多个领导**都想知道，每天每个人的工作量是多少怎么办(观察者模式)？
+- 在抽象类维护一个List集合，哪个领导想知道数据量，在里面注册下；
+- 发出通知的时候遍历集合，给每一个领导发送消息。
+
+**此抽象类有2个主要作用：**
+- 根据当前状态，来决定调用不同的方法，或修改不同的状态，即具体实现类，这部分是公共的，所以可以抽象出来如：
+    - 当进入init()方法时，发现状态不是new，那就修改状态为Failed；
+    - 当进入start()方法时，发现此时状态是刚new好，还没有初始化，那么就可以在start()方法中调用init()，之后再进行start()；
+    - 即具体实现类只用设置好状态为进行中，做好具体的工作就行，此抽象类会将其它工作做好。
+- 每当设置组件的生命状态时，需要给所有的监听器发送消息，比如组件正在启动、组件已启动、组件已销毁等。当然子实现类也可调用通知观察者的方法。
+
+### 4.4.1 监听器相关
+
+对监听器的增、删、查询所有都是操作一个**List\<LifecycleListener\>**成员变量实现的，是CopyOnWriteArrayList(具体查看juc)类型，保证插入的时候线程安全。
+
+**setStateInternal()**
+使用了观察都模式，在设置完状态后，调用listeners.lifecycleEvent(event)，通知前面所有注册的listener，listern会查event的事件是不是需要自己处理的，是的话处理，不是就不处理。
+
+### 4.4.2 生命周期相关
+
+**init()**
+查看源代码可知，只有在**LifecycleState.NEW**状态下，才能进行init()。
+此处使用了模板模式，在LifecycleBase的方法中，处理组件的状态变更、状态变更顺序及调用初始化方法，但具体的初始化逻辑由子类完成。
+~~~
+init() {
+    // 初始化逻辑之前，先将状态变更为`INITIALIZING`
+    setStateInternal(LifecycleState.INITIALIZING, null, false);
+    // 初始化，该方法为一个abstract方法，需要组件自行实现
+    initInternal();
+    // 初始化完成之后，状态变更为`INITIALIZED`
+    setStateInternal(LifecycleState.INITIALIZED, null, false);
+}
+~~~
+
+为了状态的可见性，所以state声明为volatile类型的。
+
+**start()、stop()、destory()**
+这3个的逻辑与init()一致，就是处理的**LifecycleState状态**不同。
+
+从上述源码看得出来，LifecycleBase是使用了状态机+模板模式来实现的。模板方法有下面这几个：
+~~~
+// 初始化方法
+protected abstract void initInternal() throws LifecycleException;
+// 启动方法
+protected abstract void startInternal() throws LifecycleException;
+// 停止方法
+protected abstract void stopInternal() throws LifecycleException;
+// 销毁方法
+protected abstract void destroyInternal() throws LifecycleException;
+~~~
+
+## 4.5 LifecycleMBeanBase - LifecycleBase的抽象子类
+
+此处使用了JMX技术(具体查看java基础)。
+
+还以手机举例，现在本公司的人可以随意获取手机数量等当前信息，但是总公司是没办法获取的，需要本公司通过JMX技术将一些MBean注册到MBeanServer上，总公司通过JMX技术去查询当前数据量。
+
+**那现在有1个难点**：
+- 如何保证保存当前手机数量信息的类被注册到MBeanServer上(具体到tomcat就是如何将Server、Service等组件实例注册到MBeanServer上)。
+- 但是你不能保证每个程序员每次都会记得在new 完这个类后，将它的实例注册到MBeanServer上。
+- 那就在init()的过程中把这个实例注册上。
+
+**解决方案**：
+- 在调用init()方法的时候，直接将当前对象注册到MBeanServer上。
+- 那如何让每个程序员都记着在生成Server等组件的时候，把这个MBean注册到MBeanServer上呢？
+    - tomcat是这样实现的，再写一个抽象类AbsAbsA extends AbsA；
+        - AbsA中init()方法中调用了init1()抽象方法；
+        - init1()方法是让子实现类写实际操作的方法，即本工序真正要干的活；
+        - 再写一个抽象类AbsAbsA中实现了此方法，init1()中将此组件注册到了MBeanServer，
+~~~
+abstract class AbsA {
+    p1() {
+        this.state = "p1a";
+        setp1B();
+        this.state = "p1c";
+    }
+
+    abstract void setp1B();
+}
+
+abstract class AbsAbsA extends AbsA{
+    setp1B() {
+        // 就在第一道工序就把这个this注册上，这样就不会忘注册了
+        server.registerMBean(this, objectName);
+    }
+}
+
+class AImpl {
+    setp1B() {
+        // 先调用父类AbsAbsA.setp1B()，就样就能注册上了
+        // 虽然也可能忘记，但最起码忘记的概率小一点
+        super().setp1B();
+        // 后面再写自己的实际操作方法。
+    }
+}
+~~~
+
+## 4.6 JmxEnabled - LifecycleMBeanBase的接口
+
+接口，主要是让组件实现获取objectName的域、和type值。
+域名首先通过server.xml的service标签的name获取，没有则从Engine.name获取。
+type：不同的组件有不同的实现，如type=Server、type=Service等。
+
+## 4.7 MBeanRegistration - JmxEnabled的接口
+
+有4个方法，在注册前、后干什么，在销毁注册前后干什么，按理说应该在注册或销毁的前后调用，但是在LifecycleMBeanBase.initInternal()方法发现此方法被注释掉了，可能觉得这4个方法没用了吧。
+而且这4个在LifecycleMBeanBase实现中除了preRegister()都是空实现，且在LifecycleMBeanBase.initInternal()中调用preRegister()时，还被注释掉了。
+
+
+
+# 5 Tomcat启动分析
+
+源码入口：org.apache.catalina.startup.Bootstrap.main(String[]) 方法。
+主要进行了3个操作。
+
+## 5.1 bootstrap.init()
+
+创建Catalina实例；
+
+## 5.2 daemon.load(args)
+
+调用Catalina实例的load()方法，主要有以下作用：
+- parseServerXml()：使用Digester解析${CATALINA_BASE}/conf/server.xml文件(注意server.xml文件里面有什么才会解析什么，此时不会有Context)，并根据文件生成对应的组件实例：
+  - StandardServer
+    - StandardThreadExecutor：线程池
+    - StandardService
+      - Connector
+      - StandardEngine
+        - StandardHost
+- getServer().init()：调用上一步解析的StandardServer.init()方法，因为从Server到Host都是LifeCycle的子类，所以就在此方法内依次调用子容器的init()方法，实际如下
+  - 初始化线程池；
+  - Services.init()：n个Service的init()
+    - Engine.init()：引擎初始化；
+      - 初始化线程池，设置了startStopThreads，则会与Server的线程池是同一个实例。
+    - mapperListener.init()：mapper初始化；
+    - Connector.init()：连接器初始化：
+      - adapter：new CoyoteAdapter()；
+      - protocolHandler.init()：协议处理器初始化：
+        - endpoint.init()：绑定端口，但是还未进行accept()接收消息；
+
+## 5.3 daemon.start()
+
+调用Catalina实例的start()方法；
+
+
+
+# 9 理解Tomcat架构
+## 9.2 从一个完整请求的角度来看
 
 假设来自客户的请求为：http://localhost:8080/test/index.jsp 请求被发送到本机端口8080，被在那里侦听的Coyote HTTP/1.1 Connector,然后：
 - Connector把该请求交给它所在的Service的Engine来处理，并等待Engine的回应 Engine获得请求
@@ -301,42 +560,7 @@ context只用管理每种Servlet对应的Wrapper，Wrapper只用管理这种Serv
 - Engine把HttpServletResponse对象返回给Connector
 - Connector把HttpServletResponse对象返回给客户browser
 
-## 4.3 从源码的设计角度看
-
-从功能的角度将Tomcat源代码分成5个子模块，分别是:
-**Jasper模块**
-- 这个子模块负责jsp页面的解析、jsp属性的验证，同时也负责将jsp页面动态转换为java代码并编译成class文件。在Tomcat源代码中，凡是属于org.apache.jasper包及其子包中的源代码都属于这个子模块。
-
-**Servlet和Jsp模块**
-- 这个子模块的源代码属于javax.servlet包及其子包，如我们非常熟悉的javax.servlet.Servlet接口、javax.servet.http.HttpServlet类及javax.servlet.jsp.HttpJspPage就位于这个子模块中。
-
-**Catalina模块**
-- 这个子模块包含了所有以org.apache.catalina开头的java源代码。该子模块的任务是规范了Tomcat的总体架构，定义了Server、Service、Host、Connector、Context、Session及Cluster等关键组件及这些组件的实现，这个子模块大量运用了Composite设计模式。同时也规范了Catalina的启动及停止等事件的执行流程。从代码阅读的角度看，这个子模块应该是我们阅读和学习的重点。
-
-**Connector模块**
-- 如果说上面三个子模块实现了Tomcat应用服务器的话，那么这个子模块就是Web服务器的实现。所谓连接器(Connector)就是一个连接客户和应用服务器的桥梁，它接收用户的请求，并把用户请求包装成标准的Http请求(包含协议名称，请求头Head，请求方法是Get还是Post等等)。同时，这个子模块还按照标准的Http协议，负责给客户端发送响应页面，比如在请求页面未发现时，connector就会给客户端浏览器发送标准的Http 404错误响应页面。
-
-**Resource模块**
-- 这个子模块包含一些资源文件，如Server.xml及Web.xml配置文件。严格说来，这个子模块不包含java源代码，但是它还是Tomcat编译运行所必需的。
-
-## 4.4 从后续深入理解的角度
-
-我们看完上述组件结构后，后续应该重点从哪些角度深入理解Tomcat呢？
-**基于组件的架构**
-- 我们知道组成Tomcat的是各种各样的组件，每个组件各司其职，组件与组件之间有明确的职责划分，同时组件与组件之间又通过一定的联系相互通信。Tomcat整体就是一个个组件的堆砌！
-
-**基于JMX**
-- 我们在后续阅读Tomcat源码的时候，会发现代码里充斥着大量的类似于下面的代码。而这实际上就是通过JMX来管理相应对象的代码。
-~~~
-Registry.getRegistry(null, null).invoke(mbeans, "init", false);
-Registry.getRegistry(null, null).invoke(mbeans, "start", false);
-~~~
-
-**基于生命周期**
-- 如果我们查阅各个组件的源代码，会发现绝大多数组件实现了Lifecycle接口，这也就是我们所说的基于生命周期。生命周期的各个阶段的触发又是基于事件的方式。
-
-
-## 4.5 如何确定请求由谁处理？
+## 9.5 如何确定请求由谁处理？
 
 当请求被发送到Tomcat所在的主机时，如何确定最终哪个Web应用来处理该请求呢？
 http://域名:端口/context/path
@@ -360,15 +584,15 @@ Service中的Connector组件可以接收特定端口的请求，因此，当Tomc
 
 举例：以请求http://localhost:8080/app1/index.html为例，首先通过协议和端口号（http和8080）选定Service；然后通过主机名（localhost）选定Host；然后通过uri（/app1/index.html）选定Web应用。
 
-## 4.6 如何配置多个服务
+## 9.6 如何配置多个服务
 
 在Server中配置多个Service服务，可以实现通过不同的端口号来访问同一台机器上部署的不同Web应用。就是把上一次Service复制一份，相应的配置改一改。
 
-## 4.7 其它组件
+## 9.7 其它组件
 
 除核心组件外，server.xml中还可以配置很多其他组件。下面只介绍第一部分例子中出现的组件，如果要了解更多内容，可以查看https://tomcat.apache.org/tomcat-8.0-doc/config/index.html。
 
-### 4.7.1 Listener
+### 9.7.1 Listener
 
 Listener(即监听器)定义的组件，可以在特定事件发生时执行特定的操作；被监听的事件通常是Tomcat的启动和停止。
 
@@ -384,7 +608,7 @@ Listener(即监听器)定义的组件，可以在特定事件发生时执行特�
 - GlobalResourcesLifecycleListener：通过该监听器，初始化< GlobalNamingResources>标签中定义的全局JNDI资源；如果没有该监听器，任何全局资源都不能使用。< GlobalNamingResources>将在后文介绍。
 - ThreadLocalLeakPreventionListener：当Web应用因thread-local导致的内存泄露而要停止时，该监听器会触发线程池中线程的更新。当线程执行完任务被收回线程池时，活跃线程会一个一个的更新。只有当Web应用(即Context元素)的renewThreadsWhenStoppingContext属性设置为true时，该监听器才有效。
 
-### 4.7.2 GlobalNamingResources与Realm
+### 9.7.2 GlobalNamingResources与Realm
 
 Realm，可以把它理解成“域”；Realm提供了一种用户密码与web应用的映射关系，从而达到角色安全管理的作用。在本例中，Realm的配置使用name为UserDatabase的资源实现。而该资源在Server元素中使用GlobalNamingResources配置：
 
@@ -392,7 +616,7 @@ GlobalNamingResources元素定义了全局资源，通过配置可以看出，�
 
 https://www.cnblogs.com/xing901022/p/4552843.html
 
-### 4.7.3 Valve
+### 9.7.3 Valve
 
 单词Valve的意思是“阀门”，在Tomcat中代表了请求处理流水线上的一个组件；Valve可以与Tomcat的容器(Engine、Host或Context)关联。
 
@@ -518,11 +742,11 @@ daemon.load(args); // 调用catalina.load()
 daemon.start(); // 调用catalina.start()
 ~~~
 
-### 7.2 Catalina的实例化
+## 7.2 Catalina的实例化
 
 就是根据全限定名，通过反射生成Catalina实例。
 
-### 7.3 Catalina的加载
+## 7.3 Catalina的加载
 
 加载：是加载${CATALINA_BASE}/conf/server.xml文件；
 
@@ -530,9 +754,14 @@ daemon.start(); // 调用catalina.start()
 ~~~
 initNaming(); // 设置额外的系统变量
 parseServerXml(); // 使用Digester解析server.xml文件，并生成对应的对象
+getServer().init(); // 将解析生成的对象进行相关初始化，只会初始化到Engine和Connector，因为无法初始化server.xml中没有配置的Host及以下内容。
 ~~~
 
-### 7.4 Catalina的启动和关闭
+### 7.3.1 server.init()初始化内容
+
+线程池初始化、使用的哪种协议初始化等。
+
+## 7.4 Catalina的启动和关闭
 
 启动：是调用server.xml文件中解析出来的Server对象的start()。
 关闭：是调用Server、及其所有子组件的关闭方法，通过Server.stop()、server.destroy()关闭。
@@ -552,144 +781,5 @@ stop(); // 调用server.stop()、server.destroy()。
 - 接收到请求后，await()不再阻塞，接着运行stop()方法，这个stop()和CatalinaShutdownHook()的run()方法代码一致；
 - 再运行main()的System.exit(1)，注意，这个是jvm退出方法，也会运行Runtime.getRuntime().addShutdownHook()添加的钩子方法，这样会2次调用server.stop()，但是第一次关闭时，已经将Server置为null，第2次调用时会出现NPE。为了不出现这个，当接收到是SHUTDOWN命令时，需要先移除刚才那个钩子方法。Runtime.getRuntime().removeShutdownHook(shutdownHook);
 - 查看catalina.stop()方法。
-
-
-
-# 8 组件生命周期管理:LifeCycle
-
-上节中，我们已经知道Catalina初始化了Server（它调用了 Server 类的 init 和 start 方法来启动 Tomcat）；你会发现Server是Tomcat的配置文件server.xml的顶层元素，那这个阶段其实我们已经进入到Tomcat内部组件的详解；这时候有一个问题，这么多组件是如何管理它的生命周期的呢？
-
-**理解Lifecycle主要有两点：第一是三类接口方法；第二是状态机。**
-
-## 8.1 组件、生命周期图
-
-Server及其它组件
-![avatar](pictures/1-tomcat完整架构图.jpg)
-
-Server后续组件生命周期及初始化
-![avatar](pictures/7-Server后续组件生命周期及初始化.png)
-
-Server的依赖结构
-![avatar](pictures/8-StandardServer的依赖结构.png)
-
-## 8.2 LifecycleState状态
-
-LifeCycle状态机有哪些状态？
-Tomcat 给各个组件定义了一些生命周期中的状态。
-查看org.apache.catalina.Lifecycle可以查看转换流程。具体如下
-![avatar](pictures/9-生命周期状态顺序.jpeg)
-
-**在枚举类org.apache.catalina.LifecycleState里查看各种状态**
-~~~
-public enum LifecycleState {
-    NEW(false, null), // 刚new好的组件
-    INITIALIZING(false, Lifecycle.BEFORE_INIT_EVENT), // 初始化中
-    INITIALIZED(false, Lifecycle.AFTER_INIT_EVENT), // 已完成初始化
-    STARTING_PREP(false, Lifecycle.BEFORE_START_EVENT), // 启动前
-    STARTING(true, Lifecycle.START_EVENT), // 启动中
-    STARTED(true, Lifecycle.AFTER_START_EVENT), // 已启动
-    STOPPING_PREP(true, Lifecycle.BEFORE_STOP_EVENT), // 关闭前
-    STOPPING(false, Lifecycle.STOP_EVENT), // 关闭中
-    STOPPED(false, Lifecycle.AFTER_STOP_EVENT), // 已关闭
-    DESTROYING(false, Lifecycle.BEFORE_DESTROY_EVENT), // 销毁中
-    DESTROYED(false, Lifecycle.AFTER_DESTROY_EVENT), // 已销毁
-    FAILED(false, null); // 失败
-
-    private final boolean available;
-    private final String lifecycleEvent;
-
-    private LifecycleState(boolean available, String lifecycleEvent) {
-        this.available = available;
-        this.lifecycleEvent = lifecycleEvent;
-    }
-    ……
-}
-~~~
-
-## 8.3 LifeCycle接口
-
-一个标准的LifeCycle有哪些方法？三类方法如下
-~~~
-public interface Lifecycle {
-    /** 第1类：针对监听器 **/
-    // 添加监听器
-    public void addLifecycleListener(LifecycleListener listener);
-    // 获取所以监听器
-    public LifecycleListener[] findLifecycleListeners();
-    // 移除某个监听器
-    public void removeLifecycleListener(LifecycleListener listener);
-
-    /** 第2类：针对控制流程 **/
-    // 初始化方法
-    public void init() throws LifecycleException;
-    // 启动方法
-    public void start() throws LifecycleException;
-    // 停止方法，和start对应
-    public void stop() throws LifecycleException;
-    // 销毁方法，和init对应
-    public void destroy() throws LifecycleException;
-
-    /** 第3类：针对状态 **/
-    // 获取生命周期状态
-    public LifecycleState getState();
-    // 获取字符串类型的生命周期状态
-    public String getStateName();
-}
-~~~
-
-## 8.4 LifecycleBase - LifeCycle的基本实现
-
-LifecycleBase是Lifecycle的基本实现。
-
-### 8.4.1 监听器相关
-
-对监听器的增、删、查询所有都是操作一个**List<LifecycleListener>**成员变量实现的，是CopyOnWriteArrayList(具体查看juc)类型，保证插入的时候线程安全。
-
-### 8.4.2 生命周期相关
-
-**init()**
-查看源代码可知，只有在**LifecycleState.NEW**状态下，才能进行init()。
-此处使用了模板模式，在LifecycleBase的方法中，处理组件的状态变更、状态变更顺序及调用初始化方法，但具体的初始化逻辑由子类完成。
-~~~
-init() {
-    // 初始化逻辑之前，先将状态变更为`INITIALIZING`
-    setStateInternal(LifecycleState.INITIALIZING, null, false);
-    // 初始化，该方法为一个abstract方法，需要组件自行实现
-    initInternal();
-    // 初始化完成之后，状态变更为`INITIALIZED`
-    setStateInternal(LifecycleState.INITIALIZED, null, false);
-}
-~~~
-
-为了状态的可见性，所以state声明为volatile类型的。
-
-**setStateInternal()**
-使用了观察都模式，在设置完状态后，调用listeners.lifecycleEvent(event)，通知前面所有注册的listener，listern会查event的事件是不是需要自己处理的，是的话处理，不是就不处理。
-
-**start()、stop()、destory()**
-这3个的逻辑与init()一致，就是处理的**LifecycleState状态**不同。
-
-从上述源码看得出来，LifecycleBase是使用了状态机+模板模式来实现的。模板方法有下面这几个：
-~~~
-// 初始化方法
-protected abstract void initInternal() throws LifecycleException;
-// 启动方法
-protected abstract void startInternal() throws LifecycleException;
-// 停止方法
-protected abstract void stopInternal() throws LifecycleException;
-// 销毁方法
-protected abstract void destroyInternal() throws LifecycleException;
-~~~
-
-
-
-
-
-
-
-
-
-
-
 
 

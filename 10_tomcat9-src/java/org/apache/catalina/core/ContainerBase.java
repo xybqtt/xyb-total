@@ -264,6 +264,17 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
 
 
     /**
+     * 每个容器的线程池，对于Server、Engine、Host、Context来说，如果
+     * Server.utilityThreads、Engine.startStopThreads、Host.startStopThreads、
+     * Context.startStopThreads来说
+     * 有任何一个被设置，则Server会设置一个线程池，Engine、Host、Context谁设置了startStopThreads，则
+     * 其本身的线程池就是Server中设置的那一个。如果没有设置startStopThreads，则会new InlineExecutorService()，
+     * 且仅供自己使用。
+     *
+     * 另外，线程池的核心数量由3个中的最大值决定。
+     *      1、对于Engine来说，在start()阶段并行实例化多个host；
+     *      2、对于Host来说，来发布多个webapps下的war包；
+     *
      * The number of threads available to process start and stop events for any
      * children associated with this container.
      */
@@ -868,13 +879,26 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
     }
 
 
+    /**
+     * 在init()阶段，只有Engine调用了此方法，作用是获取StandardServer.utilityExecutor
+     * @throws LifecycleException
+     */
     @Override
     protected void initInternal() throws LifecycleException {
         reconfigureStartStopExecutor(getStartStopThreads());
         super.initInternal();
     }
 
-
+    /**
+     * 配置this.startStopExecutor线程池，
+     *      当参数为1时，
+     *          当startStopExecutor还未初始化，则返回new InlineExecutorService()；
+     *      当参数不为1时，
+     *          获取当前容器的Service，再获取Server，再获取Server中的线程池包装类utilityExecutorWrapper。
+     *
+     * @param threads 核心线程数，实际是配置在server.xml中<Engine startStopThreads="核心线程数"/>
+     *                如果不配置，根据this.startStopThreads属性，默认是1。
+     */
     private void reconfigureStartStopExecutor(int threads) {
         if (threads == 1) {
             // Use a fake executor
@@ -912,7 +936,15 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
             ((Lifecycle) realm).start();
         }
 
-        // Start our child containers, if any
+        /**
+         * 调用Engine所有Host的start()方法，此处使用了JUC的Future，可以获取线程执行后的结果。
+         * 注意此处，只会调用Host.start()方法，因为server.xml配置文件中没有配置Context，如果
+         * 配置了，也会执行context.star()方法。
+         *
+         * Host的自己本身的启动是在下面的setState(LifecycleState.STARTING);
+         *
+         * Start our child containers, if any
+         */
         Container children[] = findChildren();
         List<Future<Void>> results = new ArrayList<>();
         for (Container child : children) {
@@ -943,6 +975,10 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
             ((Lifecycle) pipeline).start();
         }
 
+        /**
+         * 当是本类是StandardHost时，host才真正在此处启动，并通过
+         * 观察者模式，将事件交给其中的HostConfig监听器去处理。
+         */
         setState(LifecycleState.STARTING);
 
         // Start our thread

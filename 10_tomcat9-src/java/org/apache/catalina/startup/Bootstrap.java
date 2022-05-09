@@ -508,8 +508,9 @@ public final class Bootstrap {
                 daemon.stop();
             } else if (command.equals("start")) {
                 daemon.setAwait(true);
-                // 调用Catalina.load()方法
+                // 调用Catalina.load()方法：调用初始化
                 daemon.load(args);
+                // 调用Catalina.start()方法：调用启动
                 daemon.start();
                 if (null == daemon.getServer()) {
                     System.exit(1);

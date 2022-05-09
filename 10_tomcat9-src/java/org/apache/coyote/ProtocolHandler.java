@@ -23,6 +23,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import org.apache.tomcat.util.net.SSLHostConfig;
 
 /**
+ * 协议处理器，即根据传入的协议，决定调用哪个具体处理类。
+ *
  * Abstract the protocol implementation, including threading, etc.
  *
  * This is the main interface to be implemented by a coyote protocol.
@@ -218,6 +220,8 @@ public interface ProtocolHandler {
 
 
     /**
+     * 根据参数的协议类型，决定调用用哪个类处理，如NIO、BIO等。
+     *
      * Create a new ProtocolHandler for the given protocol.
      * @param protocol the protocol
      * @param apr if <code>true</code> the APR protcol handler will be used

@@ -383,6 +383,13 @@ public abstract class LifecycleBase implements Lifecycle {
     }
 
 
+    /**
+     * 设置生命周期状态，及当修改状态后，进行事件的发送
+     * @param state
+     * @param data
+     * @param check
+     * @throws LifecycleException
+     */
     private synchronized void setStateInternal(LifecycleState state, Object data, boolean check)
             throws LifecycleException {
 
@@ -405,6 +412,10 @@ public abstract class LifecycleBase implements Lifecycle {
             // startInternal() permits STARTING_PREP to STARTING
             // stopInternal() permits STOPPING_PREP to STOPPING and FAILED to
             // STOPPING
+            /**
+             * 对生命周期的状态进行校验，就是状态变换的时候，有要求，现在的状态和将要修改的状态之前
+             * 必须是可修改的。类似a、b、c、d 4个状态，可以从a -> b，b -> c，但不能直接从a -> c。
+             */
             if (!(state == LifecycleState.FAILED ||
                     (this.state == LifecycleState.STARTING_PREP &&
                             state == LifecycleState.STARTING) ||
@@ -418,6 +429,7 @@ public abstract class LifecycleBase implements Lifecycle {
         }
 
         this.state = state;
+        // 观察都模式发送事件。
         String lifecycleEvent = state.getLifecycleEvent();
         if (lifecycleEvent != null) {
             fireLifecycleEvent(lifecycleEvent, data);

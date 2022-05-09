@@ -57,6 +57,8 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     // ----------------------------------------------------- Instance Variables
 
     /**
+     * Service的name，
+     *
      * The name of this service.
      */
     private String name = null;
@@ -80,6 +82,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     private final Object connectorsLock = new Object();
 
     /**
+     * 解析的server.xml中本Service下的Executor标签。
      * The list of executors held by the service.
      */
     protected final ArrayList<Executor> executors = new ArrayList<>();
@@ -535,6 +538,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
 
         super.initInternal();
 
+        // 初始化Service下的唯一一个Engine
         if (engine != null) {
             engine.init();
         }
@@ -550,7 +554,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         // Initialize mapper listener
         mapperListener.init();
 
-        // Initialize our defined Connectors
+        // 初始化所有在Service中定义的Connector Initialize our defined Connectors
         synchronized (connectorsLock) {
             for (Connector connector : connectors) {
                 connector.init();
@@ -612,6 +616,13 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     }
 
 
+    /**
+     * 获取objectName的域名，优先使用Engine.name，如果没有则使用Service.name
+     *      <Service name="Catalina">
+     *          <Engine name="Catalina"></Engine>
+     *      </Service>
+     * @return
+     */
     @Override
     protected String getDomainInternal() {
         String domain = null;
