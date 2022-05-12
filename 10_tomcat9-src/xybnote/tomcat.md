@@ -506,12 +506,58 @@ type：不同的组件有不同的实现，如type=Server、type=Service等。
 有4个方法，在注册前、后干什么，在销毁注册前后干什么，按理说应该在注册或销毁的前后调用，但是在LifecycleMBeanBase.initInternal()方法发现此方法被注释掉了，可能觉得这4个方法没用了吧。
 而且这4个在LifecycleMBeanBase实现中除了preRegister()都是空实现，且在LifecycleMBeanBase.initInternal()中调用preRegister()时，还被注释掉了。
 
+## 4.8 生命周期实际代码解析
+
+以StandardServer举例：
+~~~
+interface Lifecycle {
+    void init();
+    void start();
+    void stop();
+    void destory();
+}
+
+abstract class LifecycleBase {
+
+    // 4个流程方法每个都配备了一个对应的Internal()方法，方便具体子类实现
+    abstract void initInternal();
+    abstract void startInternal();
+
+    // 以init()、start()举例
+    void init() {
+        // 每一步都在本方法内，设置状态，并发送通知
+        setStateInternal(LifecycleState.INITIALIZING, null, false)
+        initInternal();
+        setStateInternal(LifecycleState.INITIALIZED, null, false)
+    }
+
+    void start() {
+        // 查看如果是NEW状态，则调用init()方法，所以有的类虽然只没有显式调用init()，但实际会在此方法中调用init()
+        if(new)
+            init();
+
+        // 依次修改状态，发送通知，并在中间进行start()操作。
+        setStateInternal(LifecycleState.STARTING_PREP, null, false);
+        startInternal();
+        setStateInternal(LifecycleState.STARTED, null, false);
+    }
+}
+
+class StandardEngine extends LifecycleBase {
+    // 重写
+    void initInternal() {
+        // 调用super.initInternal
+        super.initInternal();
+        // 实现自己的逻辑并
+    }
+}
+~~~
 
 
 # 5 Tomcat启动分析
 
 源码入口：org.apache.catalina.startup.Bootstrap.main(String[]) 方法。
-主要进行了3个操作。
+主要进行了3个操作，下面的代码的流程都符合Lifecycle，所以只展示，每个功能做的重要的事，不显示在哪个方法中被调用的。
 
 ## 5.1 bootstrap.init()
 
@@ -519,14 +565,14 @@ type：不同的组件有不同的实现，如type=Server、type=Service等。
 
 ## 5.2 daemon.load(args)
 
-调用Catalina实例的load()方法，主要有以下作用：
+调用Catalina实例的load()方法，主要作用是调用Server等组件的init()：
 - parseServerXml()：使用Digester解析${CATALINA_BASE}/conf/server.xml文件(注意server.xml文件里面有什么才会解析什么，此时不会有Context)，并根据文件生成对应的组件实例：
   - StandardServer
     - StandardThreadExecutor：线程池
     - StandardService
       - Connector
-      - StandardEngine
-        - StandardHost
+      - StandardEngine：会设置basic阀门
+        - StandardHost：会设置basic阀门
 - getServer().init()：调用上一步解析的StandardServer.init()方法，因为从Server到Host都是LifeCycle的子类，所以就在此方法内依次调用子容器的init()方法，实际如下
   - 初始化线程池；
   - Services.init()：n个Service的init()
@@ -540,7 +586,40 @@ type：不同的组件有不同的实现，如type=Server、type=Service等。
 
 ## 5.3 daemon.start()
 
-调用Catalina实例的start()方法；
+调用Catalina实例的start()方法，主要是调用Server等的start()方法：
+**Catalina.load()**
+- getServer().start()：调用standardServer.start()方法
+  - Service[].start()：调用所有Service.start()方法
+    - Engine.start()：从这开始才是Servelt容器，才是Container的实现
+      - Host[].start()：通过线程池，调用Engine所有host.start()
+        - this.pipeline.addValve()：添加Host预定义阀门
+        - Context[].start()：此处实际没运行，此时还没有解析webapps包下的应用，所以此时children为空数组。
+        - pipeline.start()：Host管道启动
+          - init()：管道init()
+          - Valve[].start()：调用所有阀门的start()，责任链模式，每个阀门调用next()
+            - init()：阀门init()；
+            - start()：阀门start()：
+              - open()：阀门打开
+        - setState(LifecycleState.STARTING)：HostConfig接收到Host.STARTING通知，开始启动webapps要发布的应用
+          - this.lifecycleListeners.hostConfig.lifecycleEvent()：处理
+            - hostConfig.start()：
+              - deployDirectories()：以发布目录形式举例，会以多线程去启动
+                - deployDirectory()：发布具体webapp
+                  - context = new Context();
+                  - context.addLifecycleListener(new ContextConifg);
+                  - this.host.addChild(context)：host此时才将具体的Context加入作为子类
+                    - StandardContext[].start()即StandardContext.start()：
+                      - 此时standardContext的主要任务是发出各种生命周期状态，具体的发布动作是监听器ContextConfig去执行。
+                      - contextConfig.configureStart()：是实际发布具体Context的代码。
+      - this.pipeline.start()：Engine管道启动
+        - init()：管道init()
+        - Valves.start()：调用所有阀门的start()
+          - init()：阀门init()；
+          - start()：阀门start()：
+            - open()：阀门打开
+    - mapperListener.start();
+    - connector.start();
+
 
 
 

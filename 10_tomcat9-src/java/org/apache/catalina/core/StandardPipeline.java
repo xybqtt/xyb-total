@@ -85,6 +85,7 @@ public class StandardPipeline extends LifecycleBase implements Pipeline {
 
 
     /**
+     * basic阀门是每个容器管道中的最后一个阀门，如果添加了其它阀门，被添加的阀门就在basic前，其它阀门之后
      * The basic Valve (if any) associated with this Pipeline.
      */
     protected Valve basic = null;

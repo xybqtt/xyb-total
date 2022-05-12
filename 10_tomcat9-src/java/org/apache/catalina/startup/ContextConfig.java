@@ -934,7 +934,6 @@ public class ContextConfig implements LifecycleListener {
      */
     protected synchronized void init() {
         // Called from StandardContext.init()
-
         Digester contextDigester = null;
         if (!getUseGeneratedCode()) {
             contextDigester = createContextDigester();

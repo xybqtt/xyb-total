@@ -107,6 +107,8 @@ public class StandardHost extends ContainerBase implements Host {
 
 
     /**
+     * 最终用来发布Context的类，是个监听器，监听到"addChild"事件后，开始解析事件源Context
+     *
      * The Java class name of the default context configuration class
      * for deployed web applications.
      */
@@ -800,6 +802,8 @@ public class StandardHost extends ContainerBase implements Host {
 
 
     /**
+     * 为当前组件的管道添加阀门
+     *
      * Start this component and implement the requirements
      * of {@link org.apache.catalina.util.LifecycleBase#startInternal()}.
      *
@@ -809,7 +813,7 @@ public class StandardHost extends ContainerBase implements Host {
     @Override
     protected synchronized void startInternal() throws LifecycleException {
 
-        // Set error report valve
+        // 设置此阀门，下面代码就是看有这个阀门就算了，没有就加上 Set error report valve
         String errorValve = getErrorReportValveClass();
         if ((errorValve != null) && (!errorValve.equals(""))) {
             try {

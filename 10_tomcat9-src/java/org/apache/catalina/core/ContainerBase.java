@@ -727,7 +727,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
 
         fireContainerEvent(ADD_CHILD_EVENT, child);
 
-        // Start child
+        // 在addChild的过程中，启动Start child，
         // Don't do this inside sync block - start can be a slow process and
         // locking the children object can cause problems elsewhere
         try {
@@ -939,7 +939,9 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
         /**
          * 调用Engine所有Host的start()方法，此处使用了JUC的Future，可以获取线程执行后的结果。
          * 注意此处，只会调用Host.start()方法，因为server.xml配置文件中没有配置Context，如果
-         * 配置了，也会执行context.star()方法。
+         * 配置了，也会执行context.start()方法。
+         * 一般来说，此处只有Engine有子容器，因为此时还没有解析webapps下的应用，所以此时Host
+         * 是没有子容器的。
          *
          * Host的自己本身的启动是在下面的setState(LifecycleState.STARTING);
          *
@@ -947,6 +949,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
          */
         Container children[] = findChildren();
         List<Future<Void>> results = new ArrayList<>();
+        // 获取所有的子容器，并使用线程池调用其start()方法
         for (Container child : children) {
             results.add(startStopExecutor.submit(new StartChild(child)));
         }

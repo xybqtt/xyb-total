@@ -245,6 +245,8 @@ public class StandardEngine extends ContainerBase implements Engine {
 
 
     /**
+     * 为当前管道添加阀门
+     *
      * Start this component and implement the requirements
      * of {@link org.apache.catalina.util.LifecycleBase#startInternal()}.
      *

@@ -1,0 +1,99 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+autoactivate on
+
+actor Actor
+participant Bootstrap
+participant Catalina
+
+Actor -> Bootstrap: main()
+    Bootstrap -> Bootstrap: init()
+        Bootstrap -> Catalina ** : 调用Catalina()构造\n方法，创建Catalina
+    return init()结束
+
+    Bootstrap -> Bootstrap: load()
+        Bootstrap -> Catalina: catalina.load()
+            Catalina -> Catalina : parseServerXml()\n解析server.xml文\n件
+                Catalina -> Server ** : 创建\nStandardServer
+                    Server -> Service ** : 根据server.xml文件\n创建多个\nStandardService
+                        Service -> Engine ** : 根据server.xml文件\n创建一个\nStandardEngine
+                        Service -> MapperListener ** : 创建MapperListener
+                        Service -> Connector ** : 根据server.xml文件\n创建多个\Connector
+                            Connector -> ProtocolHandler ** : 创建protocolHandler
+                                ProtocolHandler -> Endpoint ** : 创建Endpoint
+                return parseServerXml()\n结束
+
+                Catalina -> Server: server.init()\n后期所有生命周期组件的\n流程类似，碰到后仅会列\n出关键步骤，包括其它3\n个方法start()、stop()、\ndestroy()的流程与init()\n类似。
+                    Server -> Server: setStateInternal\n(before_init)\n发送befor_init通知
+                    return
+
+                    Server -> Server: initInternal()
+                        Server -> Server: super.initInternal()\n注册Server到Jmx上
+                        return 注册完成
+                    return initInternal()结束
+
+                    Server -> Service: service[].foreach.init()
+                        Service -> Engine: standardEngine.init()
+                            Engine -> Engine: reconfigureStartStopExecutor()\n配置线程池
+                            return
+                        return standardEngine.init()结束
+                        Service -> MapperListener: mapperListener.init()
+                        return
+                        Service -> Connector: connector[].foreach.init()
+                            Connector -> adapter ** : new CoyoteAdapter()
+                            Connector -> ProtocolHandler: protocolHandler.init()
+                                ProtocolHandler -> Endpoint : endpoint.init()
+                                return
+                            return
+                        return connector[].foreach.init()结束
+                    return service[].foreach.init()结束
+
+                    Server -> Server: setStateInternal\n(after_init)\n发送after_init通知
+                    return
+
+                return server.init()结束
+            return
+        return catalina.load()结束
+
+    Bootstrap -> Bootstrap: bootstrap.start()
+        Bootstrap -> Catalina: catalina.start()
+            Catalina -> Server: server.start()
+                alt Server生命状态为new\n证明未进行init()\n则先进行init()，\n其它生命周期组件类似
+                    Server -> Server: server.init()
+                    return server.init()结束
+                end
+                Server -> Server: server.startInternal()
+                    Server -> Service: service[].foreach.start()
+                        Service -> Engine: engine.start()
+                            Engine -> Engine: engine.setStateInternal(before_start)
+                                Engine -> Engine: engine.fireLifecycleEvent()
+                                    Engine -> EngineConfig: TODO
+                                    return TODO
+                                return engine.fireLifecycleEvent()结束
+                            return engine.setStateInternal(before_start)结束
+                            Engine -> Engine: engine.startInternal()
+                                Engine -> Host: host.start()
+                                return host.start()结束
+                            return engine.startInternal()结束
+                        return engine.start()结束
+                    return service[].foreach.start()结束
+                return server.startInternal()结束
+            return server.start()结束
+        return catalina.start()结束
+    return bootstrap.start()结束
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml

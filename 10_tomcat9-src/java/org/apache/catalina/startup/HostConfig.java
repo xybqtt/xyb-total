@@ -1177,7 +1177,7 @@ public class HostConfig implements LifecycleListener {
             } else {
                 context = (Context) Class.forName(contextClass).getConstructor().newInstance();
             }
-
+            // 此处为每个Context添加了 全限定名为StandardHost.configClass的监听器ContextConfig，使用这个去发布webapp
             Class<?> clazz = Class.forName(host.getConfigClass());
             LifecycleListener listener = (LifecycleListener) clazz.getConstructor().newInstance();
             context.addLifecycleListener(listener);
