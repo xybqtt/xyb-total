@@ -5022,7 +5022,7 @@ public class StandardContext extends ContainerBase
         if (ok) {
             resourcesStart();
         }
-
+        // 设置每个webapp的类加载器
         if (getLoader() == null) {
             WebappLoader webappLoader = new WebappLoader();
             webappLoader.setDelegate(getDelegate());
@@ -5131,7 +5131,7 @@ public class StandardContext extends ContainerBase
                     context.setAttribute(Globals.CREDENTIAL_HANDLER, safeHandler);
                 }
 
-                // 触发生命周期事件，调度了ContextConfig，读取当前web应用的web.xml文件 Notify our interested LifecycleListeners
+                // 触发生命周期事件，调度了ContextConfig，读取当前web应用的web.xml文件，但是没处理完毕 Notify our interested LifecycleListeners
                 fireLifecycleEvent(Lifecycle.CONFIGURE_START_EVENT, null);
 
                 // Start our child containers, if not already started
@@ -5259,7 +5259,7 @@ public class StandardContext extends ContainerBase
                 }
             }
 
-            // Load and initialize all "load on startup" servlets
+            // 读取当前webapp的web.xml中所有配置了loadOnStartup配置的servlet，并加载其wrapper Load and initialize all "load on startup" servlets
             if (ok) {
                 if (!loadOnStartup(findChildren())){
                     log.error(sm.getString("standardContext.servletFail"));

@@ -1504,6 +1504,7 @@ public class ContextConfig implements LifecycleListener {
         for (ContextService service : webxml.getServiceRefs().values()) {
             context.getNamingResources().addService(service);
         }
+        // 遍历所有web.xml(app的和tomcat的)获取到的Servlet信息，创建对应的wrapper。servlet包括2个默认的Servelt：DefaultServlet、JspServlet
         for (ServletDef servlet : webxml.getServlets().values()) {
             Wrapper wrapper = context.createWrapper();
             // Description is ignored
@@ -1591,7 +1592,7 @@ public class ContextConfig implements LifecycleListener {
         }
 
         // Context doesn't use version directly
-
+        // 添加欢迎界面
         for (String welcomeFile : webxml.getWelcomeFiles()) {
             /*
              * The following will result in a welcome file of "" so don't add

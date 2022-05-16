@@ -34,6 +34,8 @@
             <!-- 是参数值 -->
             <param-value>value2</param-value>
         </init-param>
+        <!-- 在tomcat部署项目时就对此类实例化，优先级越小越优先，只能放在servlet标签最下面 -->
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <!-- servlet-mapping标签给servlet程序配置访问地址 -->
     <servlet-mapping>

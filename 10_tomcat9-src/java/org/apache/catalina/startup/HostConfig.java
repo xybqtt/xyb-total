@@ -1175,6 +1175,7 @@ public class HostConfig implements LifecycleListener {
                 log.error(sm.getString("hostConfig.deployDescriptor.blocked", cn.getPath(), xml, xmlCopy));
                 context = new FailedContext();
             } else {
+                // 根据className去创建standardContext
                 context = (Context) Class.forName(contextClass).getConstructor().newInstance();
             }
             // 此处为每个Context添加了 全限定名为StandardHost.configClass的监听器ContextConfig，使用这个去发布webapp
@@ -1186,7 +1187,7 @@ public class HostConfig implements LifecycleListener {
             context.setPath(cn.getPath());
             context.setWebappVersion(cn.getVersion());
             context.setDocBase(cn.getBaseName());
-            // host在此时才添加了 context，并且context在此方法中将其余信息补充完成
+            // host在此时才添加了 context，并且context在此方法中将其余信息补充完成，如wrapper
             host.addChild(context);
         } catch (Throwable t) {
             ExceptionUtils.handleThrowable(t);

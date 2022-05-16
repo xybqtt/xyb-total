@@ -10,33 +10,35 @@ participant Catalina
 
 Actor -> Bootstrap: main()
     Bootstrap -> Bootstrap: init()
-        Bootstrap -> Catalina ** : 调用Catalina()构造\n方法，创建Catalina
+        Bootstrap -> Catalina ** : new Catalina()
     return init()结束
-
     Bootstrap -> Bootstrap: load()
         Bootstrap -> Catalina: catalina.load()
-            Catalina -> Catalina : parseServerXml()\n解析server.xml文\n件
-                Catalina -> Server ** : 创建\nStandardServer
-                    Server -> Service ** : 根据server.xml文件\n创建多个\nStandardService
-                        Service -> Engine ** : 根据server.xml文件\n创建一个\nStandardEngine
+            Catalina -> Catalina : parseServerXml()解析server.xml文件
+                Catalina -> Server ** : 创建StandardServer
+                    Server -> Service ** : 根据server.xml文件创建多个StandardService
+                        Service -> Engine ** : 根据server.xml文件创建一个StandardEngine
+                            Engine -> EngineConfig ** : digester通过反射生成并添加到Engine生命周期监听数组中
+                            Engine -> Host ** : digester实例化多个StandardHost
+                                Host -> HostConfig ** : digester为每个Host创建HostConifg监听器
                         Service -> MapperListener ** : 创建MapperListener
-                        Service -> Connector ** : 根据server.xml文件\n创建多个\Connector
+                        Service -> Connector ** : 根据server.xml文件创建多个\Connector
                             Connector -> ProtocolHandler ** : 创建protocolHandler
                                 ProtocolHandler -> Endpoint ** : 创建Endpoint
-                return parseServerXml()\n结束
+                return parseServerXml()结束
 
-                Catalina -> Server: server.init()\n后期所有生命周期组件的\n流程类似，碰到后仅会列\n出关键步骤，包括其它3\n个方法start()、stop()、\ndestroy()的流程与init()\n类似。
-                    Server -> Server: setStateInternal\n(before_init)\n发送befor_init通知
+                Catalina -> Server: server.init()后期所有生命周期组件的流程类似，碰到后仅会列出关键步骤，包括其它3个方法start()、stop()、destroy()的流程与init()类似。
+                    Server -> Server: setStateInternal(before_init)发送befor_init通知
                     return
 
                     Server -> Server: initInternal()
-                        Server -> Server: super.initInternal()\n注册Server到Jmx上
+                        Server -> Server: super.initInternal()注册Server到Jmx上
                         return 注册完成
                     return initInternal()结束
 
                     Server -> Service: service[].foreach.init()
                         Service -> Engine: standardEngine.init()
-                            Engine -> Engine: reconfigureStartStopExecutor()\n配置线程池
+                            Engine -> Engine: reconfigureStartStopExecutor()配置线程池
                             return
                         return standardEngine.init()结束
                         Service -> MapperListener: mapperListener.init()
@@ -50,7 +52,7 @@ Actor -> Bootstrap: main()
                         return connector[].foreach.init()结束
                     return service[].foreach.init()结束
 
-                    Server -> Server: setStateInternal\n(after_init)\n发送after_init通知
+                    Server -> Server: setStateInternal(after_init)发送after_init通知
                     return
 
                 return server.init()结束
@@ -60,27 +62,122 @@ Actor -> Bootstrap: main()
     Bootstrap -> Bootstrap: bootstrap.start()
         Bootstrap -> Catalina: catalina.start()
             Catalina -> Server: server.start()
-                alt Server生命状态为new\n证明未进行init()\n则先进行init()，\n其它生命周期组件类似
+                alt Server生命状态为new证明未进行init()则先进行init()，其它生命周期组件类似
                     Server -> Server: server.init()
                     return server.init()结束
                 end
                 Server -> Server: server.startInternal()
                     Server -> Service: service[].foreach.start()
                         Service -> Engine: engine.start()
-                            Engine -> Engine: engine.setStateInternal(before_start)
-                                Engine -> Engine: engine.fireLifecycleEvent()
-                                    Engine -> EngineConfig: TODO
-                                    return TODO
-                                return engine.fireLifecycleEvent()结束
-                            return engine.setStateInternal(before_start)结束
                             Engine -> Engine: engine.startInternal()
-                                Engine -> Host: host.start()
+
+                                Engine -> Host: host.start()多线程启动
+
+                                    Host -> Host : host.init()
+                                    note right: 在Server.init()阶段只是生成了Host对象，Host真正的init()在Server.start()阶段，但是init()阶段就配置了一个线程池
+                                    return host.init()结束
+
+                                    Host -> Host : host.startInternal()
+                                    note right:  在host.pipeline添加了一个ErrorReportValve阀门
+
+                                        Host -> Pipeline: pipeline.start()
+
+                                            Pipeline -> Valve: valve.start()
+                                            note right: 按顺序调用每个阀门的start()
+                                            return valve.start()
+                                        return pipeline.start()结束
+                                        Host -> Host: setState(LifecycleState.STARTING)
+                                        note right: 此处是StandardHost真正初始化及启动StandardContext的地方。
+                                            Host -> HostConfig: hostConfig.lifecycleEvent(STARTING)
+                                                HostConfig -> HostConfig: hostConfig.start()
+                                                    HostConfig -> HostConfig: hostConfig.deployApps()
+                                                        HostConfig -> HostConfig: hostConfig.deployDirectories()
+                                                        note right: 多线程发布${CATALINA_BASE}/conf/webapps下所有的解压后的war TODO
+                                                            HostConfig -> HostConfig: hostConfig.deployDirectory()
+                                                                HostConfig -> Context ** : 创建StandardContext
+                                                                HostConfig -> ContextConfig ** : 创建Context监听器监听Context此监听器是真正干活的
+                                                                HostConfig -> HostConfig: host.addChild(context)
+                                                                note right: host此时才将context，添加到子容器数组中
+                                                                    HostConfig -> Context: child.start()
+                                                                    note right: 即在此处调用StandardContext.start()，在此过程中会向ContextConfig发送消息，具体进行Context属性的赋值。
+                                                                        Context -> Context: Context.fireLifecycleEvent(Lifecycle.CONFIGURE_START_EVENT, null);
+                                                                        note right: 重要--向ContextConfig发送configure_start消息，让监听器读取当前app应用web.xml文件并进行处理，但实际没有处理完成，下面还有处理的部分
+                                                                            Context -> ContextConfig: ContextConfig.configureStart()
+                                                                                ContextConfig -> ContextConfig: ContextConfig.webConfig()
+                                                                                    ContextConfig -> WebXml ** : ContextConfig.createWebXml()
+                                                                                    note right: 将本应用的web.xml、tomcat的web.xml整合后的web.xml解析，获取其中webXml对象，可获取所有的Servlet信息。
+                                                                                    ContextConfig -> ContextConfig: ContextConfig.configureContext(webXml)
+                                                                                        note right: 这个方法配置了大部分的配置
+                                                                                        loop ContextConfig -> webXml.getServlets().values()
+                                                                                            ContextConfig -> Wrapper ** : this.context.createWrapper()
+                                                                                            ContextConfig -> ContextConfig: this.context.addChild(wrapper);
+                                                                                            return this.context.addChild(wrapper);
+                                                                                        end
+                                                                                        note right
+                                                                                            根据合并后web.xml解析出的servlet创建对应的wrapper；
+                                                                                            为wrapper设置属性：web.xml中servlet标签中的属性都
+                                                                                            会赋值给此wrapper相关属性。
+                                                                                            并将wrapper添加到this.context.children中。
+                                                                                            但此时并没有wrapper中并没有servlet实例。
+                                                                                        end note
+                                                                                    return ContextConfig.configureContext(webXml)结束
+                                                                                return ContextConfig.webConfig()结束
+                                                                            return ContextConfig.configureStart()结束
+                                                                        return Context.fireLifecycleEvent(Lifecycle.CONFIGURE_START_EVENT, null)结束
+                                                                        Context -> Context: this(Context).pipeline.start()
+                                                                        return this(Context).pipeline.start()结束
+                                                                        Context -> Context: Context.loadOnStartup(findChildren())
+                                                                        note right: 将所有loadonstart属性不为null的按顺序进行实例化，会调用init()方法。
+                                                                            Context -> Wrapper: wrapper.load()
+                                                                            note right: 将有loadonstart属性的wrapper，通过反射生成对应servlet实例赋值给instance属性，并调用servlet.init()方法
+                                                                            return wrapper.load()结束
+                                                                        return Context.loadOnStartup(findChildren())结束
+                                                                    return child.start()结束
+                                                                return host.addChild(context)
+                                                            return hostConfig.deployDirectory()结束
+                                                        return hostConfig.deployDirectories
+                                                    return hostConfig.deployApps()结束
+                                                return hostConfig.start()结束
+                                            return hostConfig.lifecycleEvent()
+                                        return setState(LifecycleState.STARTING)结束
+                                    return host.startInternal()结束
                                 return host.start()结束
+                                Engine -> Pipeline: pipeline.start()
+                                return pipeline.start()结束
+                                Engine -> MapperListener: mapperListener.start()
+                                return mapperListener.start()结束
+                                loop engine.connectors.length
+                                    Engine -> Connector: connector.start()
+                                        Connector -> ProtocolHandler: protocolHandler.start()
+                                            ProtocolHandler -> Endpoint: endpoint.start()
+                                                Endpoint -> Endpoint: endpoint.startAcceptorThread()
+                                                    Endpoint -> Acceptor ** : Endpoint.new Acceptor()是个线程
+                                                    Endpoint -> Acceptor: acceptor.start() 启动线程，调用run方法
+                                                        Acceptor -> Acceptor: acceptor.serverSocketAccept()
+                                                        note right: 在这个方法内，serverSock.accept()，进行消息的接收。
+                                                        return acceptor.serverSocketAccept()结束
+                                                    return acceptor.start()结束
+                                                return endpoint.startAcceptorThread()结束
+                                            return endpoint.start()
+                                        return protocolHandler.start()结束
+                                    return connector.start()结束
+                                end
                             return engine.startInternal()结束
                         return engine.start()结束
                     return service[].foreach.start()结束
                 return server.startInternal()结束
             return server.start()结束
+            Catalina -> CatalinaShutdownHook ** : catalina.new CatalinaShutdownHook()
+            note right
+                创建一个CatalinaShutdownHook在jvm关闭时调用。
+                里面会在jvm关闭时调用server.stop()和destroy()方法
+            end note
+            Catalina -> Catalina: catalina.await()
+            note right
+                里面会启动一个线程去用serversocket接收shutdown命令，
+                在接收到命令时，执行关闭动作。
+            end note
+            return catalina.await()结束
         return catalina.start()结束
     return bootstrap.start()结束
 

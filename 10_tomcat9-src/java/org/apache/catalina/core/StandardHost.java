@@ -813,7 +813,7 @@ public class StandardHost extends ContainerBase implements Host {
     @Override
     protected synchronized void startInternal() throws LifecycleException {
 
-        // 设置此阀门，下面代码就是看有这个阀门就算了，没有就加上 Set error report valve
+        // 设置此阀门，下面代码就是看有这个阀门就算了，没有就加上，放在最后一个阀门之前 Set error report valve
         String errorValve = getErrorReportValveClass();
         if ((errorValve != null) && (!errorValve.equals(""))) {
             try {

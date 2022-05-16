@@ -727,7 +727,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
 
         fireContainerEvent(ADD_CHILD_EVENT, child);
 
-        // 在addChild的过程中，启动Start child，
+        // 在addChild的过程中，启动Start child，如本类是Host，则child是context。本类是context，则child是wrapper
         // Don't do this inside sync block - start can be a slow process and
         // locking the children object can cause problems elsewhere
         try {
