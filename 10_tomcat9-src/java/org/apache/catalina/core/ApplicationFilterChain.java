@@ -159,10 +159,18 @@ public final class ApplicationFilterChain implements FilterChain {
                 }
             }
         } else {
+            // 过滤器链执行的核心方法
             internalDoFilter(request,response);
         }
     }
 
+    /**
+     * 执行Servlet的核心方法
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     private void internalDoFilter(ServletRequest request,
                                   ServletResponse response)
         throws IOException, ServletException {
@@ -224,6 +232,7 @@ public final class ApplicationFilterChain implements FilterChain {
                                            args,
                                            principal);
             } else {
+                // 调用Servlet的service()方法
                 servlet.service(request, response);
             }
         } catch (IOException | ServletException | RuntimeException e) {

@@ -1326,7 +1326,7 @@ public class ContextConfig implements LifecycleListener {
                 convertJsps(webXml);
             }
 
-            // Step 9. Apply merged web.xml to Context
+            // Step 9. 根据合并后的webxml生成wrapper Apply merged web.xml to Context
             if (ok) {
                 configureContext(webXml);
             }
@@ -1504,7 +1504,7 @@ public class ContextConfig implements LifecycleListener {
         for (ContextService service : webxml.getServiceRefs().values()) {
             context.getNamingResources().addService(service);
         }
-        // 遍历所有web.xml(app的和tomcat的)获取到的Servlet信息，创建对应的wrapper。servlet包括2个默认的Servelt：DefaultServlet、JspServlet
+        // TODO 遍历所有web.xml(app的和tomcat的)获取到的Servlet信息，创建对应的wrapper。servlet包括2个默认的Servelt：DefaultServlet、JspServlet
         for (ServletDef servlet : webxml.getServlets().values()) {
             Wrapper wrapper = context.createWrapper();
             // Description is ignored
@@ -1558,6 +1558,7 @@ public class ContextConfig implements LifecycleListener {
                         servlet.getAsyncSupported().booleanValue());
             }
             wrapper.setOverridable(servlet.isOverridable());
+            // TODO 将wrapper添加到Context的children中
             context.addChild(wrapper);
         }
         for (Entry<String, String> entry :

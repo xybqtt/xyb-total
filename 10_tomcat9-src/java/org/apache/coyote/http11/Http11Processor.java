@@ -246,7 +246,13 @@ public class Http11Processor extends AbstractProcessor {
         }
     }
 
-
+    /**
+     * 应用层处理器Http11Processor对请求进行处理
+     * @param socketWrapper The connection to process
+     *
+     * @return
+     * @throws IOException
+     */
     @Override
     public SocketState service(SocketWrapperBase<?> socketWrapper)
         throws IOException {
@@ -266,7 +272,7 @@ public class Http11Processor extends AbstractProcessor {
         while (!getErrorState().isError() && keepAlive && !isAsync() && upgradeToken == null &&
                 sendfileState == SendfileState.DONE && !protocol.isPaused()) {
 
-            // Parsing the request header
+            // 解析请求头 Parsing the request header
             try {
                 if (!inputBuffer.parseRequestLine(keptAlive, protocol.getConnectionTimeout(),
                         protocol.getKeepAliveTimeout())) {
@@ -280,6 +286,7 @@ public class Http11Processor extends AbstractProcessor {
                 // Process the Protocol component of the request line
                 // Need to know if this is an HTTP 0.9 request before trying to
                 // parse headers.
+                // 解析请求行
                 prepareRequestProtocol();
 
                 if (protocol.isPaused()) {
@@ -392,10 +399,13 @@ public class Http11Processor extends AbstractProcessor {
                 keepAlive = false;
             }
 
+            // ===========End，主要在解析封装原生的Request、及Response对象，后续要传入Adapter适配==============
+
             // Process the request in the adapter
             if (getErrorState().isIoAllowed()) {
                 try {
                     rp.setStage(org.apache.coyote.Constants.STAGE_SERVICE);
+                    // TODO Processor正式把原生req、resp交给Adapter处理，由其继续处理req、resp
                     getAdapter().service(request, response);
                     // Handle when the response was committed before a serious
                     // error occurred.  Throwing a ServletException should both

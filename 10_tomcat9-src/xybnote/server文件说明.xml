@@ -107,8 +107,7 @@
         -->
         <Connector port="8080" protocol="HTTP/1.1"
                    connectionTimeout="20000"
-                   redirectPort="8443"
-                   executor="tomcatThreadPool"/>
+                   redirectPort="8443"/>
 
         <!--
             Engine、Host和Context都是容器，容器的功能是处理Connector接收进来的请求，并产生相应的响应。但它们不是平行的关系，而是父子关系：

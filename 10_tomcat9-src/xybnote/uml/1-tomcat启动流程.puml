@@ -1,0 +1,259 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+autoactivate on
+
+actor Actor
+participant Bootstrap
+participant Catalina
+
+Actor -> Bootstrap: main()
+    Bootstrap -> Bootstrap: init()
+        Bootstrap -> Catalina ** : new Catalina()
+    return init()结束
+    Bootstrap -> Bootstrap: Bootstrap.load()
+        Bootstrap -> Catalina: catalina.load()
+            Catalina -> Catalina : Catalina.parseS\nerverXml()
+            note right
+                解析server.xml文件
+            end note
+                Catalina -> Server ** : Catalina.new St\nandardServer()
+                    Server -> Service ** : Server.new Stan\ndardService()
+                    note right: 根据server.xml文件创建多个StandardService
+                        Service -> Engine ** : Service.new Sta\nndardEngine()
+                        note right: 根据server.xml文件创建一个StandardEngine
+                            Engine -> EngineConfig ** : Engine.new Engi\nneConfig()
+                            note right: digester通过反射生成并添加到Engine生命周期监听数组中
+                            Engine -> Host ** : Engine.new Host\n()
+                            note right: digester实例化多个StandardHost
+                                Host -> HostConfig ** : Host.new HostCo\nnfig()
+                                note right: digester为每个Host创建HostConifg监听器
+                        Service -> MapperListener ** : Service.new Map\nperListener()
+                        Service -> Connector ** : Service.new Con\nnector()
+                        note right: 根据server.xml文件创建多个Connector
+                            Connector -> ProtocolHandler ** : Connector.new P\nrotocolHandler()
+                            note right: 根据server.xml中Connector的protocol决定使用哪种ProtocolHandler
+                                ProtocolHandler -> Endpoint ** : ProtocolHandler\n.new Endpoint()
+                                note right: ProtocolHandler确定了，Endpoint的类型也确定了。
+            return Catalina.parseS\nerverXml()结束
+
+            Catalina -> Server: Server.init()
+            note right
+                init()、start()、stop()、destroy()的流程大致如下：
+                1、设置要进行步骤的before状态，发送通知；
+                2、调用对应的Internal()方法：
+                    设置ing状态，发送通知；
+                3、设置after状态，发送通知。
+
+                以server.init()举例：
+                如：
+                1、server.setState(before_init)：
+                    发送server准备init通知；
+                2、server.initInternal():
+                    干自己的事
+                    server.setState(initing)：
+                        发送server正在init通知；
+                3、server.setState(after_init)：
+                    发送server已经init通知；
+                后面所有父类方法都按做本类方法处理，
+                不再写setState()这些固定的流程了，
+                只写上面这些流程中的具体重要的工作，
+                比如server.setState(before_init)方法里面其实没做
+                什么工作，对应的监听器也没做什么工作，就不具体写了。
+
+                发送before_init通知；
+                server.initInternal()
+                    super.initInternal()：会注册Jmx，以下所有组件都有
+                    这个操作，就不写了
+            end note
+                Server -> Server: Server.setState\nInternal(before\n_init)
+                note right: 发送before_init通知
+                return Server.setState\nInternal(before\n_init)结束
+                Server -> Server: Server.initInte\nrnal()
+                    loop Server.Service[].length
+                        Server -> Service: Service.init()
+                            Service -> Engine: Engine.init()
+                            note right: 配置线程池
+                            return Engine.init()结束
+                            Service -> MapperListener: MapperListener.\ninit()
+                            note right: TODO MapperListener.init()做了什么
+                            return MapperListener.\ninit()结束
+                            loop Service.Connector[].length
+                                Service -> Connector: Connector.init()
+                                    Connector -> adapter ** : new CoyoteAdapter()
+                                    Connector -> ProtocolHandler: ProtocolHandler\n.init()
+                                        ProtocolHandler -> Endpoint : Endpoint.init()
+                                        return Endpoint.init()结束
+                                    return ProtocolHandler\n.init()结束
+                                return Connector.init()结束
+                            end
+                        return Service.init()结束
+                    end
+                return Server.initInte\nrnal()结束
+                Server -> Server: Server.setState\nInternal(after\n_init)
+                note right: 发送before_init通知
+                return Server.setState\nInternal(after\n_init)结束
+            return Server.init()结束
+        return catalina.load()结束
+    return Bootstrap.load()结束
+
+== 初始化结束 ==
+
+    Bootstrap -> Bootstrap: Bootstrap.start()
+        Bootstrap -> Catalina: Catalina.start()
+            Catalina -> Server: Server.start()
+                alt Server生命状态为new证明未进行init()则先进行init()，其它生命周期组件类似
+                    Server -> Server: Server.init()
+                    return Server.init()结束
+                end
+                Server -> Server: Server.startInt\nernal()
+                    loop Server.Service[].length
+                        Server -> Service: Service.start()
+                            Service -> Engine: Engine.start()
+                                Engine -> Engine: Engine.startInt\nernal()
+                                    loop Engine.children.length(即Host[].length)
+                                        Engine -> Host: Host.start()
+                                        note right: 此处是通过多线程启动
+                                            Host -> Host : Host.init()
+                                            note right
+                                                在Server.init()阶段只是生成了Host对象，
+                                                Host真正的init()在Server.start()阶段，
+                                                但是其init()阶段就配置了一个线程池。
+                                            end note
+                                            return Host.init()结束
+                                            Host -> Host : Host.startInter\nnal()
+                                            note right:  在host.pipeline添加了一个ErrorReportValve阀门
+                                                Host -> Pipeline: Pipeline.start()
+                                                    Pipeline -> Valve: Valve.start()
+                                                    note right: 按顺序调用每个阀门的start()
+                                                    return Valve.start()结束
+                                                return Pipeline.start()结束
+                                                Host -> Host: Host.setState(L\nifecycleState.S\nTARTING)
+                                                note right: 此处是StandardHost真正初始化及启动StandardContext的地方。
+                                                    Host -> HostConfig: HostConfig.life\ncycleEvent(STAR\nTING)
+                                                        HostConfig -> HostConfig: HostConfig.start()
+                                                            HostConfig -> HostConfig: HostConfig.depl\noyApps()
+                                                                HostConfig -> HostConfig: HostConfig.depl\noyDirectories()
+                                                                note right: 多线程发布${CATALINA_BASE}/conf/webapps下所有的解压后的war
+                                                                    HostConfig -> HostConfig: HostConfig.depl\noyDirectory()
+                                                                        HostConfig -> Context ** : HostConfig.new \nStandardContext()
+                                                                        HostConfig -> ContextConfig ** : HostConfig.new \nContextConfig()
+                                                                        note right: 创建Context监听器监听Context此监听器是真正干活的
+                                                                        HostConfig -> HostConfig: HostConfig.Host\n.addChild(Context)
+                                                                        note right: Host此时才将Context，添加到子容器数组中
+                                                                            HostConfig -> Context: Context.start()
+                                                                            note right
+                                                                                即在此处调用StandardContext.start()，
+                                                                                在此过程中会向ContextConfig发送消息，
+                                                                                具体进行Context属性的赋值。
+                                                                            end note
+                                                                                Context -> Context: Context.fireLif\necycleEvent(Lif\necycle.CONFIGUR\nE_START_EVENT, \nnull);
+                                                                                note right
+                                                                                    重要--向ContextConfig发送configure_start消息，
+                                                                                    让监听器读取当前app应用web.xml文件并进行处理，
+                                                                                    但实际没有处理完成，下面还有处理的部分
+                                                                                end note
+                                                                                    Context -> ContextConfig: ContextConfig.c\nonfigureStart()
+                                                                                        ContextConfig -> ContextConfig: ContextConfig.w\nebConfig()
+                                                                                            ContextConfig -> WebXml ** : ContextConfig.c\nreateWebXml()
+                                                                                            note right
+                                                                                                将本应用的web.xml、tomcat的web.xml整合后的web.xml解析，
+                                                                                                获取其中webXml对象，可获取所有的Servlet信息。
+                                                                                            end note
+                                                                                            ContextConfig -> ContextConfig: ContextConfig.c\nonfigureContext\n(webXml)
+                                                                                            note right: 这个方法配置了大部分的配置
+                                                                                                loop webXml.getServlets().values()
+                                                                                                    ContextConfig -> Wrapper ** : ContextConfig.C\nontext.createWr\napper()
+                                                                                                    ContextConfig -> ContextConfig: ContextConfig.C\nontext.addChild\n(wrapper)
+                                                                                                    return ContextConfig.C\nontext.addChild\n(wrapper)结束
+                                                                                                end
+                                                                                                note right
+                                                                                                    根据合并后web.xml解析出的servlet创建对应的wrapper；
+                                                                                                    为wrapper设置属性：web.xml中servlet标签中的属性都
+                                                                                                    会赋值给此wrapper相关属性。
+                                                                                                    并将wrapper添加到this.context.children中。
+                                                                                                    但此时并没有wrapper中并没有servlet实例。
+                                                                                                end note
+                                                                                            return ContextConfig.c\nonfigureContext\n(webXml)结束
+                                                                                        return ContextConfig.w\nebConfig()结束
+                                                                                    return ContextConfig.c\nonfigureStart()结束
+                                                                                return Context.fireLif\necycleEvent(Lif\necycle.CONFIGUR\nE_START_EVENT, \nnull);结束
+                                                                                Context -> Context: Context.Pipelin\ne.start()
+                                                                                return Context.Pipelin\ne.start()结束
+                                                                                Context -> Context: Context.loadOnS\ntartup(findChil\ndren())
+                                                                                note right: 将所有loadonstart属性不为null的按顺序进行实例化，会调用init()方法。
+                                                                                    Context -> Wrapper: Wrapper.load()
+                                                                                    note right: 将有loadonstart属性的wrapper，通过反射生成对应servlet实例赋值给instance属性，并调用servlet.init()方法
+                                                                                    return Wrapper.load()结束
+                                                                                return Context.loadOnS\ntartup(findChil\ndren())结束
+                                                                            return Context.start()结束
+                                                                        return Host.addChild(context)
+                                                                    return HostConfig.depl\noyDirectory()结束
+                                                                return HostConfig.depl\noyDirectories()结束
+                                                            return HostConfig.depl\noyApps()结束
+                                                        return HostConfig.start()结束
+                                                    return HostConfig.life\ncycleEvent(STAR\nTING)结束
+                                                return Host.setState(L\nifecycleState.S\nTARTING)结束
+                                            return Host.startInter\nnal()结束
+                                        return Host.start()结束
+                                    end
+                                    Engine -> Pipeline: Pipeline.start()
+                                    return Pipeline.start()结束
+                                    Engine -> MapperListener: MapperListener\n.start()
+                                    return MapperListener\n.start()结束
+                                    loop Engine.Connector[].length
+                                        Engine -> Connector: Connector.start()
+                                            Connector -> ProtocolHandler: ProtocolHandler\n.start()
+                                                ProtocolHandler -> Endpoint: Endpoint.start()
+                                                    Endpoint -> Poller ** : Endpoint.new Po\nller()
+                                                    note right: 创建Poller线程
+
+                                                    Endpoint -> Poller: Poller.start()
+                                                    note right
+                                                        启动Poller线程，此线程作用是不断查看Acceptor线程是否有
+                                                        消息进入，如果有就处理，所以此线程的run()方法是外界请求
+                                                        的入口。
+                                                    end note
+                                                    return Poller.start()结束
+                                                    Endpoint -> Endpoint: Endpoint.startA\ncceptorThread()
+                                                        Endpoint -> Acceptor ** : Endpoint.new Acceptor()
+                                                        note right: 是个线程，后面专用来监听其关联端口消息
+                                                        Endpoint -> Acceptor: Acceptor.start()
+                                                        note right: 启动线程，调用run方法
+                                                            Acceptor -> Acceptor: Acceptor.server\nSocketAccept()
+                                                            note right
+                                                                在这个方法内，serverSock.accept()，进行消息的接收。
+                                                                接收到消息后，Poller就会查看到，然后去处理。
+                                                            end note
+                                                            return Acceptor.server\nSocketAccept()结束
+                                                        return Acceptor.start()结束
+                                                    return Endpoint.startA\ncceptorThread()结束
+                                                return Endpoint.start()
+                                            return ProtocolHandler\n.start()结束
+                                        return Connector.start()结束
+                                    end
+                                return Engine.startInt\nernal()结束
+                            return Engine.start()结束
+                        return Service.start()结束
+                    end
+                return Server.startInt\nernal()结束
+            return Server.start()结束
+
+== start()结束 ==
+
+            Catalina -> CatalinaShutdownHook ** : Catalina.new Ca\ntalinaShutdownH\nook()
+            note right
+                创建一个CatalinaShutdownHook在jvm关闭时调用。
+                里面会在jvm关闭时调用server.stop()和destroy()方法
+            end note
+            Catalina -> Catalina: Catalina.await()
+            note right
+                里面会启动一个线程去用serversocket接收shutdown命令，
+                在接收到命令时，执行关闭动作。
+            end note
+            return Catalina.await()结束
+        return Catalina.start()结束
+    return Bootstrap.start()结束
+
+@enduml

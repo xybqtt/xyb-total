@@ -311,16 +311,22 @@ public class CoyoteAdapter implements Adapter {
         return success;
     }
 
-
+    /**
+     * CoyoteAdapter需要将Req、Resp进行进一步封装为HttpServletRequest、HttpServletResponse
+     * @param req The request object
+     * @param res The response object
+     *
+     * @throws Exception
+     */
     @Override
     public void service(org.apache.coyote.Request req, org.apache.coyote.Response res)
             throws Exception {
-
+        // TODO 查看request(HttpServletRequest)、response(HttpServletResponse)是否为空，为空就需要转换原生的req、resp了。
         Request request = (Request) req.getNote(ADAPTER_NOTES);
         Response response = (Response) res.getNote(ADAPTER_NOTES);
 
         if (request == null) {
-            // Create objects
+            // 将原生Request、Response包装进去 Create objects
             request = connector.createRequest();
             request.setCoyoteRequest(req);
             response = connector.createResponse();
@@ -351,12 +357,13 @@ public class CoyoteAdapter implements Adapter {
         try {
             // Parse and set Catalina and configuration specific
             // request parameters
+            // TODO 需要找到对应的Host、Context、Wrapper来处理此请求，通过Mapper机制。
             postParseSuccess = postParseRequest(req, request, res, response);
             if (postParseSuccess) {
                 //check valves if we support async
                 request.setAsyncSupported(
                         connector.getService().getContainer().getPipeline().isAsyncSupported());
-                // Calling the container
+                // TODO 上面匹配出能够处理当前请求的容器后，开始一层层深入，最后取出servlet执行。Calling the container
                 connector.getService().getContainer().getPipeline().getFirst().invoke(
                         request, response);
             }
@@ -711,6 +718,7 @@ public class CoyoteAdapter implements Adapter {
 
         while (mapRequired) {
             // This will map the the latest version by default
+            // 在这一步会根据请求的uri，匹配出能够处理当前请求的Host -> Context -> Wrapper -> Servlet
             connector.getService().getMapper().map(serverName, decodedURI,
                     version, request.getMappingData());
 

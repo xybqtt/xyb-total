@@ -11,8 +11,6 @@ https://www.cnblogs.com/cndarren/p/14415213.html
 <span style="color: red;"></span>
 <hr style="height: 10px; background: green;"/>
 
-# 0 Tomcat的init()初始化分析
-# 1 Tomcat的start()启动阶段分析
 
 
 # 1 idea导入tomcat9源码及运行
@@ -558,67 +556,36 @@ class StandardEngine extends LifecycleBase {
 
 源码入口：org.apache.catalina.startup.Bootstrap.main(String[]) 方法。
 主要进行了3个操作，下面的代码的流程都符合Lifecycle，所以只展示，每个功能做的重要的事，不显示在哪个方法中被调用的。
+具体查看1-tomcat启动流程.puml
 
-## 5.1 bootstrap.init()
+主要注意以下几点：
+- Host、Context的start()工作主要不是StandardHost、StandardContext来做，而是由在Catalina.load()阶段的parseServerXml()解析server.xml过程中为这2个实例添加的HostConfig、ContextConfig来做的。
+- mapperListener.start()：主要工作是把host、context、servlet对应的名与实例对应起来；
+- connector.start()：2个作用
+  - 启动Acceptor线程：用Socket接收外界消息；
+  - 启动poller线程，去监听channel，看哪个有channel有消息，就处理哪个。
 
-创建Catalina实例；
 
-## 5.2 daemon.load(args)
 
-调用Catalina实例的load()方法，主要作用是调用Server等组件的init()：
-- parseServerXml()：使用Digester解析${CATALINA_BASE}/conf/server.xml文件(注意server.xml文件里面有什么才会解析什么，此时不会有Context)，并根据文件生成对应的组件实例：
-  - StandardServer
-    - StandardThreadExecutor：线程池
-    - StandardService
-      - Connector
-      - StandardEngine：会设置basic阀门
-        - StandardHost：会设置basic阀门
-- getServer().init()：调用上一步解析的StandardServer.init()方法，因为从Server到Host都是LifeCycle的子类，所以就在此方法内依次调用子容器的init()方法，实际如下
-  - 初始化线程池；
-  - Services.init()：n个Service的init()
-    - Engine.init()：引擎初始化；
-      - 初始化线程池，设置了startStopThreads，则会与Server的线程池是同一个实例。
-    - mapperListener.init()：mapper初始化；
-    - Connector.init()：连接器初始化：
-      - adapter：new CoyoteAdapter()；
-      - protocolHandler.init()：协议处理器初始化：
-        - endpoint.init()：绑定端口，但是还未进行accept()接收消息；
+# 6 Servlet请求处理链路
 
-## 5.3 daemon.start()
+tomcat启动后，在有请求访问Servlet时，tomcat的处理流程是什么样的？
+- Endpoint.Poller线程查看有无数据的channel；
+-
 
-调用Catalina实例的start()方法，主要是调用Server等的start()方法：
-**Catalina.load()**
-- getServer().start()：调用standardServer.start()方法
-  - Service[].start()：调用所有Service.start()方法
-    - Engine.start()：从这开始才是Servelt容器，才是Container的实现
-      - Host[].start()：通过线程池，调用Engine所有host.start()
-        - this.pipeline.addValve()：添加Host预定义阀门
-        - Context[].start()：此处实际没运行，此时还没有解析webapps包下的应用，所以此时children为空数组。
-        - pipeline.start()：Host管道启动
-          - init()：管道init()
-          - Valve[].start()：调用所有阀门的start()，责任链模式，每个阀门调用next()
-            - init()：阀门init()；
-            - start()：阀门start()：
-              - open()：阀门打开
-        - setState(LifecycleState.STARTING)：HostConfig接收到Host.STARTING通知，开始启动webapps要发布的应用
-          - this.lifecycleListeners.hostConfig.lifecycleEvent()：处理
-            - hostConfig.start()：
-              - deployDirectories()：以发布目录形式举例，会以多线程去启动
-                - deployDirectory()：发布具体webapp
-                  - context = new Context();
-                  - context.addLifecycleListener(new ContextConifg);
-                  - this.host.addChild(context)：host此时才将具体的Context加入作为子类
-                    - StandardContext[].start()即StandardContext.start()：
-                      - 此时standardContext的主要任务是发出各种生命周期状态，具体的发布动作是监听器ContextConfig去执行。
-                      - contextConfig.configureStart()：是实际发布具体Context的代码。
-      - this.pipeline.start()：Engine管道启动
-        - init()：管道init()
-        - Valves.start()：调用所有阀门的start()
-          - init()：阀门init()；
-          - start()：阀门start()：
-            - open()：阀门打开
-    - mapperListener.start();
-    - connector.start();
+
+
+
+
+# 7 Mapper组件
+
+主要是在StandardService.startInternal()的mapperListener.start()中添加所有name。
+即依次遍历所有的子容器，将其name与对应实例，设置进去。
+
+
+
+
+
 
 
 

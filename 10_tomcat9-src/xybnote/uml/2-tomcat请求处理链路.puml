@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+autoactivate on
+
+actor Actor
+Actor -> Endpoint: Endpoint.run()
+note right
+    外界发送请求，Endpoint.Poller线程
+    在进行监听，所以入口在Poller.run()
+    方法中。
+end note
+    Endpoint -> Endpoint: Endpoint.proces\nsKey(sk, socket\nWrapper)
+        Endpoint -> Endpoint: Endpoint.proces\nsSocket(socketW\nrapper, \nOPEN_READ, true)
+            Endpoint -> SocketProcessorBase ** : Endpoint.create\nSocketProcessor\n(socketWrapper, event)
+            note right: 创建SocketProcessorBase线程，由此线程去处理Socket
+
+            Endpoint -> SocketProcessorBase: SocketProcessor\nBase.run()
+                SocketProcessorBase -> Endpoint: Endpoint.getHan\ndler().process(\nsocketWrapper, \nevent)
+
+                return Endpoint.getHan\ndler().process(\nsocketWrapper, \nevent)结束
+            return SocketProcessor\nBase.run()结束
+
+
+
+        return Endpoint.proces\nsSocket(socketW\nrapper, \nOPEN_READ, true)结束
+    return Endpoint.proces\nsKey(sk, socket\nWrapper)结束
+
+@enduml

@@ -34,7 +34,7 @@ class C1 {
 
 }
 
-C4 +-- C5:: C5作为C4内部类
+C4 +-- C5 : C5作为C4内部类
 
 newpage
 

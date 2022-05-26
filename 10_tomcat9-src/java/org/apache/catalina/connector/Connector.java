@@ -1021,7 +1021,7 @@ public class Connector extends LifecycleMBeanBase  {
                     sm.getString("coyoteConnector.protocolHandlerInstantiationFailed"));
         }
 
-        // 初始化adapter，并和protocolHandler关联起来  Initialize adapter
+        // TODO 初始化adapter，并和protocolHandler关联起来  Initialize adapter
         adapter = new CoyoteAdapter(this);
         protocolHandler.setAdapter(adapter);
         if (service != null) {
@@ -1053,7 +1053,7 @@ public class Connector extends LifecycleMBeanBase  {
         }
 
         try {
-            // protocolHandler的初始化，主要是其内部的Endpoint的初始化
+            // TODO protocolHandler的初始化，主要是其内部的Endpoint的初始化
             protocolHandler.init();
         } catch (Exception e) {
             throw new LifecycleException(

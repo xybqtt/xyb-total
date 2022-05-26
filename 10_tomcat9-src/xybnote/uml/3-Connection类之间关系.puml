@@ -1,0 +1,246 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+title 简易版
+
+'连接层
+class Connector {
+    protocolHandler : ProtocolHandler
+    adapter : Adapter
+    Connector(protocol : String)
+    initInternal() : void
+}
+
+class CoyoteAdapter {
+    connector : Connector
+    CoyoteAdapter(Connector)
+}
+Connector -left-> CoyoteAdapter
+
+class Http11NioProtocol <<Nio类型的Http1.1协议处理器>> {
+    endpoint : AbstractEndpoint
+    handler : Handler
+    adapter : Adapter
+    createProcessor() : Processor
+    Http11NioProtocol(NioEndpoint)
+}
+Connector --> Http11NioProtocol
+
+class ConnectionHandler {
+    proto : AbstractProtocol
+    recycledProcessors : RecycledProcessors
+}
+Http11NioProtocol +-- ConnectionHandler
+
+class Http11Processor <<具体处理Socket的类>> {
+    protocol : AbstractHttp11Protocol
+    Http11Processor(AbstractHttp11Protocol, Adapter)
+    process(SocketWrapperBase, SocketEvent) : SocketState
+    service(SocketWrapperBase) : SocketState
+}
+Http11NioProtocol -left-> Http11Processor
+
+class NioEndpoint {
+    handler : Handler
+    processSocket(SocketWrapperBase, SocketEvent, boolean)
+}
+Http11NioProtocol -right-> NioEndpoint
+
+interface Handler {
+
+}
+NioEndpoint +-- Handler
+ConnectionHandler .|> Handler
+
+
+
+
+
+
+
+
+
+
+
+newpage
+title 完全版
+
+'连接层
+class Connector
+
+
+'转换层
+interface Adapter
+class CoyoteAdapter
+
+'协议层
+interface ProtocolHandler <<协议处理器>>
+abstract class AbstractProtocol
+class ConnectionHandler
+abstract class AbstractHttp11Protocol
+abstract class AbstractHttp11JsseProtocol
+class Http11NioProtocol <<Nio类型的Http1.1协议处理器>>
+
+'具体处理协议层
+interface Processor
+abstract class AbstractProcessorLight
+abstract class AbstractProcessor
+class Http11Processor <<具体处理Socket的类>>
+
+'端口层
+abstract class AbstractEndpoint
+interface Handler
+class AbstractJsseEndpoint
+interface Runnable
+together {
+    class NioEndpoint
+    class Poller
+    abstract class SocketProcessorBase
+    class SocketProcessor
+}
+
+
+
+class Connector {
+    protocolHandler : ProtocolHandler
+    adapter : Adapter
+    Connector(protocol : String)
+    initInternal() : void
+}
+
+class CoyoteAdapter {
+    connector : Connector
+    CoyoteAdapter(Connector)
+}
+
+
+abstract class AbstractProtocol {
+    endpoint : AbstractEndpoint
+    handler : Handler
+    adapter : Adapter
+    {abstract} createProcessor() : Processor
+}
+
+abstract class AbstractHttp11Protocol {
+    createProcessor() : Processor
+}
+
+class ConnectionHandler {
+    proto : AbstractProtocol
+    recycledProcessors : RecycledProcessors
+}
+
+class Http11NioProtocol {
+    Http11NioProtocol(NioEndpoint)
+}
+
+
+interface Processor {
+    {abstract} process(SocketWrapperBase, SocketEvent) : SocketState
+}
+
+abstract class AbstractProcessorLight {
+    process(SocketWrapperBase, SocketEvent) : SocketState
+    {abstract} service(SocketWrapperBase) : SocketState
+}
+
+abstract class AbstractProcessor {
+    adapter : Adapter
+}
+
+class Http11Processor {
+    protocol : AbstractHttp11Protocol
+    Http11Processor(AbstractHttp11Protocol, Adapter)
+    service(SocketWrapperBase) : SocketState
+}
+
+abstract class AbstractEndpoint {
+    handler : Handler
+    processSocket(SocketWrapperBase, SocketEvent, boolean)
+}
+
+class Poller {
+    run() : void
+    processKey(SelectionKey, NioSocketWrapper) : void
+}
+
+class SocketProcessorBase {
+    run() : void
+    {abstract} doRun() : void
+}
+
+class SocketProcessor {
+    dorun() : void
+}
+
+
+
+
+
+Connector --> ProtocolHandler
+Connector -> Adapter
+
+Adapter <|.. CoyoteAdapter
+
+
+ProtocolHandler  <|.. AbstractProtocol
+AbstractProtocol +-- ConnectionHandler
+AbstractProtocol -> AbstractEndpoint
+AbstractHttp11Protocol -|> AbstractProtocol
+AbstractHttp11Protocol <|-- AbstractHttp11JsseProtocol
+Processor <. AbstractHttp11Protocol
+AbstractEndpoint +-- Handler
+ConnectionHandler .|> Handler
+AbstractHttp11JsseProtocol <|-- Http11NioProtocol
+AbstractEndpoint <|- AbstractJsseEndpoint
+AbstractJsseEndpoint <|-- NioEndpoint
+SocketProcessorBase .|> Runnable
+Poller ..|> Runnable
+SocketProcessor --|> SocketProcessorBase
+NioEndpoint +- SocketProcessor
+NioEndpoint +-- Poller
+
+'处理层关系
+Processor <|.. AbstractProcessorLight
+AbstractProcessorLight <|-- AbstractProcessor
+AbstractProcessor <|-- Http11Processor
+
+
+note AS N1
+    构造方法中，子类如果调用了super.构造方法，
+    则仅在子类中展示相关操作，不具体展示是调用
+    的哪层的父类构造，属性同理。
+
+    AbstractProtocol类：
+        endpoint：监听Connector配置的端口，
+            在创建具体的协议处理器对象时由构
+            造方法中的参数传入。
+        handler：处理Endpoint接收到的Socket。
+        adapter: 适配器，在Connector.start()
+            过程中被实例化，固定是
+            new CoyoteAdapter(this)，用于处
+            理将原生Req、Resp转换为HttpServ
+            letRequest和Response交给Engine
+            处理。
+
+    AbstractHttp11Protocol类：
+        方法：
+            Processor createProcessor() {
+                return Http11Processor processor = new Http11Processor(this, adapter);
+            }
+
+    Http11NioProtocol类：
+        构造方法：
+            Http11NioProtocol(AbstractEndpoint) {
+                endpoint = new NioEndpoint();
+                ConnectionHandler<S> cHandler = new ConnectionHandler<>(this);
+                setHandler(cHandler);
+                endpoint.setHandler(cHandler);
+            }
+end note
+
+
+
+
+
+@enduml
