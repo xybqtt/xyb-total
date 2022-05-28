@@ -14,10 +14,8 @@ public class A5QuickSort {
     public static void main(String[] args) {
         int[] arr = Utils.createRandomIntArr(7, 20);
         System.out.println("原数组打印：" + Utils.printlnArr(arr));
-//        arr = new int[]{3, 9, 1, 18, 18, 1, 17};
         quickSort(arr);
         System.out.println("排序后结果：\n" + Utils.printlnArr(arr));
-
     }
 
     private static void quickSort(int[] a) {

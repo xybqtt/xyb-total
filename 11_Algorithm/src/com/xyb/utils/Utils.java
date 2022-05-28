@@ -1,5 +1,6 @@
 package com.xyb.utils;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Utils {
@@ -25,6 +26,31 @@ public class Utils {
         arr[b] = arr[a] ^ arr[b];
         arr[a] = arr[a] ^ arr[b];
     }
+
+    /**
+     *
+     * @param a 排序后的数组
+     * @param b 排序后的数组
+     * @param c 排序前的数组
+     */
+    public static boolean compareTwoArr(int[] a, int[] b, int[] c) {
+        if(a.length != b.length) {
+            System.out.println("数组长度不同");
+            return false;
+        }
+
+        for (int i = 0; i < a.length; i++) {
+            if(a[i] == b[i])
+                continue;
+
+            System.out.println("有值不同：\n    原数组：" + printlnArr(c) + "；\n"
+                    + "    排序1：" + printlnArr(a) + "；\n"
+                    + "    排序2：" + printlnArr(b) + "。");
+            return false;
+        }
+        return true;
+    }
+
 
     public static int[] createRandomIntArr(int arrLength, int numRange) {
 

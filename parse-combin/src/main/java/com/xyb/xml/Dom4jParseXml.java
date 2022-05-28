@@ -17,7 +17,7 @@ public class Dom4jParseXml {
     }
 
 
-    public static List<Book>  parseXml(String path) throws DocumentException {
+    public static List<Book> parseXml(String path) throws DocumentException {
 
         // 1、创建saxReader输入流，去读取xml文件，生成document对象
         SAXReader reader = new SAXReader();
