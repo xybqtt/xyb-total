@@ -1,7 +1,6 @@
 package com.xyb.utils;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class Utils {
 
@@ -51,7 +50,12 @@ public class Utils {
         return true;
     }
 
-
+    /**
+     * 创建长度为 arrLength，每个元素范围在 numRange的数组。
+     * @param arrLength
+     * @param numRange
+     * @return
+     */
     public static int[] createRandomIntArr(int arrLength, int numRange) {
 
         int[] arr = new int[arrLength];
@@ -65,6 +69,30 @@ public class Utils {
         return createRandomIntArr(random.nextInt(100), 100);
     }
 
+    /**
+     * 创建不重复的int数组
+     * @param arrLength 数组长度
+     * @param numRange 元素范围
+     * @return
+     */
+    public static int[] createNoRepeatArr(int arrLength, int numRange) {
+        if(arrLength > numRange)
+            numRange = arrLength;
+
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < numRange; i++) {
+            list.add(i);
+        }
+        int[] arr = new int[arrLength];
+        int tmp;
+        for(int i = 0; i < arr.length; i++) {
+            tmp = random.nextInt(numRange) % list.size();
+            arr[i] = list.get(tmp);
+            list.remove(tmp);
+        }
+        return arr;
+    }
+
     public static String printlnArr(int[] arr) {
         StringBuilder sb = new StringBuilder("");
         for(int i = 0; i < arr.length; i++) {
@@ -75,4 +103,9 @@ public class Utils {
         return sb.toString();
     }
 
+
+
+
+
 }
+
