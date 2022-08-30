@@ -10,17 +10,17 @@ public class A1RecursiveTraversal {
 
         Node node = Node.createByHigh(4, 20);
 
-        System.out.println("宽度优先遍历：");
+        // 宽度优先遍历
         Node.widthTraversal(node);
 
-        System.out.println("\n前序遍历：");
-        Node.recursiveTraversal(node, 1);
+        // 前序遍历(递归)
+        Node.recursiveTraversals(node, 1);
 
-        System.out.println("\n中序遍历：");
-        Node.recursiveTraversal(node, 2);
+        // 中序遍历(递归)
+        Node.recursiveTraversals(node, 2);
 
-        System.out.println("\n后序遍历：");
-        Node.recursiveTraversal(node, 3);
+        // 后序遍历(递归)
+        Node.recursiveTraversals(node, 3);
     }
 
 }

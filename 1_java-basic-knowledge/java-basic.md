@@ -245,11 +245,6 @@ ofNullable() 和 orElse() 搭配使用，不确定对象非空
 
 
 
-
-
-
-
-
 # 3 jmx
 ## 3.1 什么是 JMX
 
@@ -265,8 +260,7 @@ JMX 既是 Java 管理系统的一个标准，一个规范，也是一个接口�
   - client根据MBeanInfo获取一些信息，根据自己的需求向server端发送，要调用哪些类的哪些属性、或方法的信息；
   - server根据client传送的信息，来调用哪个类的哪个方法、属性等；
   - client向server发送订阅通知后，当发生改变时，server通过观察者模式向所有订阅了此通知的监听发送通知信息。
-
-
+  
 ## 3.2 JMX架构图及组件说明
 
 ![avatar](pictures/a3jmx/1-jmx架构图.jpg)
@@ -475,7 +469,28 @@ admin用户密码：password
 
 
 
+# 4 IO
+## 4.1 IO流原理及流分类
 
+流分类：
+- 按操作数据单位不同：字节流(处理字节，8bit，通常用于处理二进制文件，如音频、视频等)、字符流(按字符处理，如处理文本文件)。
+- 按数据流向分为：输入流、输出流。
+- 按流的角色：节点流、处理流/包装流。
+
+|(抽象基类)|字节流|字符流|
+|:--|:--|:--|
+|输入流|InputStream|Reader|
+|输出流|OutputStream|Writer|
+
+javar的IO流涉及40多个类，都是从上面这4个抽象类派生出来的。
+
+## 4.2 InputStream
+
+InputStream是所有字节类输入流的基类。
+常用的子类：
+- FileInputStream：文件输入流。
+- BufferedInputSream：缓冲字节输入流。
+- ObjectInputStream：对象字节输入流。
 
 
 
